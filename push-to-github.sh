@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJ_NAME="3nweb-client-ui-lib"
+PROJ_NAME="3n-client-lib"
 ITEMS_TO_PUSH=".browserslistrc .editorconfig .eslintignore .eslintrc.js .gitignore .stylelint.config.js .stylelintignore index.html LICENSE package.json README.md src tsconfig.json @types vite.config.js yarn.lock"
 
 GITHUB_REPO="https://github.com/PrivacySafe/${PROJ_NAME}.git"
