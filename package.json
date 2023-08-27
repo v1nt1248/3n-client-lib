@@ -1,7 +1,10 @@
 {
   "name": "3nclient-lib",
   "private": false,
+  "license": "AGPL-3.0-or-later",
+  "author": "v1nt1248",
   "version": "0.0.1",
+  "description": "UI library for 3NWeb clients",
   "type": "module",
   "files": [
     "dist"
