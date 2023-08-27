@@ -1,0 +1,36 @@
+{
+  "name": "3nclient-lib",
+  "private": false,
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/ui-3n-lib.umd.cjs",
+  "module": "./dist/ui-3n-lib.js",
+  "types": "./dist/types.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/ui-3n-lib.js",
+      "require": "./dist/ui-3n-lib.umd.cjs"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "generate:types": "vue-tsc --declaration --emitDeclarationOnly --outdir ./dist",
+    "build": "vite build && yarn generate:types",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.6",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "^1.66.1",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.5",
+    "vue-tsc": "^1.8.5"
+  }
+}

@@ -1,0 +1,159 @@
+@font-face {
+  font-family: OpenSans;
+  src: url("../fonts/OpenSans-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: OpenSans;
+  src: url("../fonts/OpenSans-LightItalic.woff") format("woff");
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: OpenSans;
+  src: url("../fonts/OpenSans-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: OpenSans;
+  src: url("../fonts/OpenSans-Italic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: OpenSans;
+  src: url("../fonts/OpenSans-SemiBold.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: OpenSans;
+  src: url("../fonts/OpenSans-SemiBoldItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: OpenSans;
+  src: url("../fonts/OpenSans-Bold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: OpenSans;
+  src: url("../fonts/OpenSans-BoldItalic.woff") format("woff");
+  font-weight: 600;
+  font-style: italic;
+}
+
+:root {
+  --menu-bacgground-color: transparent;
+  --dialog-border-radius: 8px !important;
+  --dialog-title-padding: 0 !important;
+  --dialog-message-padding: 0 !important;
+  --dialog-actions-padding: 0 !important;
+  
+  --system-white: #fff;
+  --system-black: #000;
+  --black-30: #b3b3b3;
+  --black-90: #212121;
+  --blue-10: #fafdff;
+  --blue-60: #6ca1cc;
+  --blue-main: #0090ec;
+  --blue-main-20: #d8edfd;
+  --blue-main-30: #b0dafc;
+  --blue-main-120: #0065b3;
+  --gray-50: #f2f2f2;
+  --gray-90: #444;
+  --green-160: #0a2811;
+  --green-grass-30: #bef2c1;
+  --green-grass-100: #33c653;
+  --magenta-30: #f0b8ea;
+  --magenta-100: #b22ca5;
+  --pear-30: #ffcfc8;
+  --pear-100: #f75d53;
+  --pear-160: #311311;
+  --purple-30: #bab9f9;
+  --purple-100: #4744e4;
+  --yellow-100: #ffc765;
+  --yellow-160: #403013;
+  
+  --half-size: 4px;
+  --base-size: 8px;
+  --column-size: 95px;
+  --font-8: 8px;
+  --font-9: 9px;
+  --font-10: 10px;
+  --font-11: 11px;
+  --font-12: 12px;
+  --font-13: 13px;
+  --font-14: 14px;
+  --font-16: 16px;
+  --font-18: 18px;
+  --font-20: 20px;
+  --font-24: 24px;
+  --font-32: 32px;
+}
+
+html {
+  overflow: hidden;
+  font-family: OpenSans, sans-serif;
+}
+
+section,
+div {
+  box-sizing: border-box;
+}
+
+#ui3nLib {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--system-white, #fff);
+}
+
+::-webkit-scrollbar-button {
+  background-image: url("");
+  background-repeat: no-repeat;
+  width: 4px;
+  height: 0;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--black-30, #b3b3b3);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  height: 50px;
+  background-color: var(--gray-90, #444);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--black-90, #212121);
+}
+
+::-webkit-resizer {
+  background-image: url("");
+  background-repeat: no-repeat;
+  width: 4px;
+  height: 0;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* other CSS style classes */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
