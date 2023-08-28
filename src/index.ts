@@ -1,2 +1,15 @@
-export { default as Ui3nButton } from './components/ui3n-button.vue'
+export { default as Ui3nIcon } from './components/ui3n-icon.vue'
 export { default as Ui3nEmoji } from './components/ui3n-emoji.vue'
+export { default as Ui3nButton } from './components/ui3n-button.vue'
+export { default as Ui3nInput } from './components/ui3n-input.vue'
+export { default as Ui3nText } from './components/ui3n-text.vue'
+export { default as Ui3nDropFiles } from './components/ui3n-drop-files.vue'
+
+export { mailReg, colorsMap } from './constants/general'
+export { emoticons } from './constants/emoticons'
+
+export { useIcons } from './plugins/icons'
+export { i18n } from './plugins/i18n'
+export { storeI18n } from './plugins/store-i18n'
+export { vueBus } from './plugins/vue-bus'
+export { storeVueBus } from './plugins/store-vue-bus'

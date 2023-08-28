@@ -48,12 +48,6 @@
 }
 
 :root {
-  --menu-bacgground-color: transparent;
-  --dialog-border-radius: 8px !important;
-  --dialog-title-padding: 0 !important;
-  --dialog-message-padding: 0 !important;
-  --dialog-actions-padding: 0 !important;
-  
   --system-white: #fff;
   --system-black: #000;
   --black-30: #b3b3b3;
