@@ -4,7 +4,7 @@
   import Ui3nIcon from './ui3n-icon.vue'
   import Ui3nButton from './ui3n-button.vue'
 
-  const props = defineProps<{
+  export interface Ui3nInputProps {
     value: string;
     label?: string;
     placeholder?: string;
@@ -14,8 +14,9 @@
     disabled?: boolean;
     icon?: string;
     iconColor?: string;
-  }>()
-  const emit = defineEmits<{
+  }
+
+  export interface Ui3nInputEmits {
     (ev: 'input', value: string): void;
     (ev: 'focus', value: Event): void;
     (ev: 'blur', value: Event): void;
@@ -23,7 +24,10 @@
     (ev: 'change', value: string): void;
     (ev: 'update:value', value: string): void;
     (ev: 'update:valid', value: boolean): void;
-  }>()
+  }
+
+  const props = defineProps<Ui3nInputProps>()
+  const emit = defineEmits<Ui3nInputEmits>()
 
   const inputElement = ref<HTMLInputElement|null>(null)
   const text = ref<string>('')
