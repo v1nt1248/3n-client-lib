@@ -4,7 +4,7 @@
   import { patchTextareaMaxRowsSupport } from '../helpers/textarea-max-rows'
 
   const props = defineProps<{
-    text: string | undefined;
+    text: string;
     rows?: number;
     maxRows?: number;
     label?: string;

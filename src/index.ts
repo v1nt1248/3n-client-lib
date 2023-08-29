@@ -4,11 +4,17 @@ export { default as Ui3nButton } from './components/ui3n-button.vue'
 export { default as Ui3nInput } from './components/ui3n-input.vue'
 export { default as Ui3nText } from './components/ui3n-text.vue'
 export { default as Ui3nDropFiles } from './components/ui3n-drop-files.vue'
+export { default as Ui3nNotification } from './components/ui3n-notification.vue'
+export { default as Ui3nTableSortIcon } from './components/ui3n-table-sort-icon.vue'
+export { default as Ui3nTable } from './components/ui3n-table.vue'
+
+export { default as Ui3nHtml } from './directives/ui3n-html'
 
 export { mailReg, colorsMap } from './constants/general'
 export { emoticons } from './constants/emoticons'
 
 export { useIcons } from './plugins/icons'
+export { notifications } from './plugins/notifications'
 export { i18n } from './plugins/i18n'
 export { storeI18n } from './plugins/store-i18n'
 export { vueBus } from './plugins/vue-bus'

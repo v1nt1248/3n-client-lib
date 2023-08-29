@@ -1,8 +1,37 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import Ui3nText from './components/ui3n-text.vue'
+  import { inject } from 'vue'
+  import Ui3nButton from './components/ui3n-button.vue'
 
-  const text = ref('')
+
+  const { $createNotice } = inject<any>('notifications')!
+
+  const openNotice = () => {
+    $createNotice({
+      type: 'success',
+      content: 'Success',
+    })
+
+    setTimeout(() => {
+      $createNotice({
+        type: 'warning',
+        content: 'Warning',
+      })
+    }, 300)
+
+    setTimeout(() => {
+      $createNotice({
+        type: 'info',
+        content: 'Info',
+      })
+    }, 600)
+
+    setTimeout(() => {
+      $createNotice({
+        type: 'error',
+        content: 'Error',
+      })
+    }, 900)
+  }
 </script>
 
 <template>
@@ -10,12 +39,11 @@
     <h3>Components</h3>
 
     <div class="app-block">
-      <ui3n-text
-        v-model:value="text"
-      />
-
-      <br>
-      <p>{{ text }}</p>
+      <ui3n-button
+        @click="openNotice"
+      >
+        Click
+      </ui3n-button>
     </div>
   </div>
 </template>

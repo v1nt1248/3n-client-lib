@@ -1,10 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import 'pinia'
+
 import type Ui3nIcon from './components/ui3n-icon.vue'
 import type Ui3nButton from './components/ui3n-button.vue'
 import type Ui3nEmoji from './components/ui3n-emoji.vue'
 import type Ui3nDropFiles from './components/ui3n-drop-files.vue'
 import type Ui3nInput from './components/ui3n-input.vue'
 import type Ui3nText from './components/ui3n-text.vue'
+import type Ui3nNotification from './components/ui3n-notification.vue'
+import type Ui3nTableSortIcon from './components/ui3n-table-sort-icon.vue'
+import type Ui3nTable from './components/ui3n-table.vue'
+import type Ui3nHtml from './directives/ui3n-html'
 
 export * from "./index"
 
@@ -16,9 +22,17 @@ declare module 'vue' {
     Ui3nDropFiles: typeof Ui3nDropFiles;
     Ui3nInput: typeof Ui3nInput;
     Ui3nText: typeof Ui3nText;
+    Ui3nNotification: typeof Ui3nNotification;
+    Ui3nTableSortIcon: typeof Ui3nTableSortIcon;
+    Ui3nTable: typeof Ui3nTable;
+  }
+
+  interface GlobalDirectives {
+    Ui3nHtml: typeof Ui3nHtml;
   }
 
   interface ComponentCustomProperties {
+    $createNotice: (params: Ui3nNotificationProps) => void;
     $locale: string;
     $tr: (key: string, placeholders?: Record<string, string>) => string;
     $changeLocale: (lang: string) => void;
@@ -29,5 +43,22 @@ declare module 'vue' {
       once: (type: string|symbol, handler: Function) => void;
       clear: () => void;
     },
+  }
+}
+
+declare module 'pinia' {
+  export interface PiniaCustomProperties {
+    $emitter: {
+      on: (type: string|symbol, handler: Function) => void;
+      off: (type: string|symbol, handler?: Function) => void;
+      emit:(type: string|symbol, arguments?: any) => void;
+      once: (type: string|symbol, handler: Function) => void;
+      clear: () => void;
+    }
+    $i18n: {
+      locale: string;
+      changeLocale: (lang: string) => void;
+      tr: (key: string, placeholders?: Record<string, string>) => string;
+    }
   }
 }

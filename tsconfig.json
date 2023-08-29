@@ -22,12 +22,17 @@
     }],
 
     /* Linting */
+    "types": [
+      "vite/client",
+      "@types/node",
+      "@types/lodash"
+    ],
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "@types/**/*"],
   "exclude": ["src/App.vue", "src/main.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
