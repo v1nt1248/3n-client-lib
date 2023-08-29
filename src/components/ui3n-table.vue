@@ -185,7 +185,7 @@
 </template>
 
 <style lang="scss" scoped>
-  @import "../../assets/styles/mixins";
+  @import "../assets/styles/mixins";
 
   .ui3n-table {
     --table-header-height: 36px;
