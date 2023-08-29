@@ -2,7 +2,9 @@
 import 'pinia'
 
 import type Ui3nIcon from './components/ui3n-icon.vue'
-import type Ui3nButton from './components/ui3n-button.vue'
+// import type Ui3nButton from './components/ui3n-button.vue'
+import { Ui3nButtonProps, Ui3nButtonEmits } from './components/ui3n-button.vue'
+
 import type Ui3nEmoji from './components/ui3n-emoji.vue'
 import type Ui3nDropFiles from './components/ui3n-drop-files.vue'
 import type Ui3nInput from './components/ui3n-input.vue'
@@ -17,7 +19,10 @@ export * from "./index"
 declare module 'vue' {
   interface GlobalComponents {
     Ui3nIcon: typeof Ui3nIcon;
-    Ui3nButton: typeof Ui3nButton;
+    Ui3nButton: {
+      $props: Ui3nButtonProps;
+      $emits: Ui3nButtonEmits;
+    }
     Ui3nEmoji: typeof Ui3nEmoji;
     Ui3nDropFiles: typeof Ui3nDropFiles;
     Ui3nInput: typeof Ui3nInput;

@@ -3,8 +3,7 @@
   import { hasSlotContent } from '../helpers/ui.helpers'
   import Ui3nIcon from './ui3n-icon.vue'
 
-  const slots = useSlots()
-  const props = defineProps<{
+  export interface Ui3nButtonProps {
     textColor?: string;
     color?: string;
     round?: boolean;
@@ -13,12 +12,17 @@
     iconSize?: string | number;
     iconColor?: string;
     disabled?: boolean;
-  }>()
-  const emit = defineEmits<{
+  }
+
+  export interface Ui3nButtonEmits {
     (ev: 'click', value: Event): void;
     (ev: 'focus', value: Event): void;
     (ev: 'blur', value: Event): void;
-  }>()
+  }
+
+  const slots = useSlots()
+  const props = defineProps<Ui3nButtonProps>()
+  const emit = defineEmits<Ui3nButtonEmits>()
 
   const buttonEl = ref<HTMLButtonElement | null>(null)
   const isSlotEmpty = computed(() => !hasSlotContent(slots['default']))
