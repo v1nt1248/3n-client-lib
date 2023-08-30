@@ -1,6 +1,11 @@
 import { App, Plugin, createApp } from 'vue'
 import Ui3nNotification from '../components/ui3n-notification.vue'
-import { getRandomId } from '../helpers/common.helpers'
+import { getRandomId } from '../tools/common.helpers'
+import { Ui3nNotificationProps } from '../constants'
+
+export interface NotificationsPlugin {
+  $createNotice: (params: Ui3nNotificationProps) => void;
+}
 
 export const notifications: Plugin = {
   install: (app: App) => {
@@ -42,7 +47,7 @@ export const notifications: Plugin = {
       }
     }
 
-    app.provide('notifications', { $createNotice })
+    app.provide<NotificationsPlugin>('notifications', { $createNotice })
   },
 }
 

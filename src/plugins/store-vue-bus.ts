@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-interface EventBus {
-  on: (type: string|symbol, handler: Function) => void;
-  off: (type: string|symbol, handler?: Function) => void;
-  emit:(type: string|symbol, args?: any) => void;
-  once: (type: string|symbol, handler: Function) => void;
-  clear: () => void;
-}
+import type { VueEventBus } from '../constants'
 
-export function storeVueBus(context: any): { $emitter: EventBus } {
+export function storeVueBus(context: any): { $emitter: VueEventBus } {
   const { app = {} } = context
   const { config = {} } = app
   const { globalProperties = {} } = config

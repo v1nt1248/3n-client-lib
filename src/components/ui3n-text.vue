@@ -178,3 +178,4 @@
     }
   }
 </style>
+../tools/textarea-max-rows

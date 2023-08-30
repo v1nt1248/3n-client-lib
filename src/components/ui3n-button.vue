@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { computed, onMounted, ref, useSlots } from 'vue'
-  import { hasSlotContent } from '../helpers/ui.helpers'
+  import { hasSlotContent } from '../tools/ui.helpers'
   import Ui3nIcon from './ui3n-icon.vue'
 
   export interface Ui3nButtonProps {
@@ -153,3 +153,4 @@
     }
   }
 </style>
+../tools/ui.helpers

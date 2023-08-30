@@ -47,7 +47,7 @@ export const i18n: Plugin = {
 
     app.config.globalProperties.$changeLocale = $changeLocale
 
-    app.provide('i18n', { $locale: lang, $tr, $changeLocale })
+    app.provide<I18nPlugin>('i18n', { $locale: lang, $tr, $changeLocale })
   },
 }
 

@@ -2,7 +2,7 @@
   /* eslint-disable @typescript-eslint/no-explicit-any */
   import { Icon } from '@iconify/vue'
 
-  const props = defineProps<{
+  export interface Ui3nIconProps {
     icon: string;
     title?: string;
     inline?: boolean;
@@ -14,10 +14,14 @@
     rotate?: number;
     color?: string;
     onLoad?: Function;
-  }>()
-  const emit = defineEmits<{
+  }
+
+  export interface Ui3nIconEmits {
     (ev: 'click', value: Event): void;
-  }>()
+  }
+
+  const props = defineProps<Ui3nIconProps>()
+  const emit = defineEmits<Ui3nIconEmits>()
 
   const onLoad = (value: any) => {
     if (props.onLoad) {

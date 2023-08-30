@@ -1,6 +1,38 @@
 <script setup lang="ts">
-  import { Ui3nButton } from '../dist/ui-3n-lib'
+  import { inject } from 'vue'
+  import type { NotificationsPlugin } from './plugins'
+  import Ui3nButton from './components/ui3n-button.vue'
 
+
+  const { $createNotice } = inject<NotificationsPlugin>('notifications')!
+
+  const openNotice = () => {
+    $createNotice({
+      type: 'success',
+      content: 'Success',
+    })
+
+    setTimeout(() => {
+      $createNotice({
+        type: 'warning',
+        content: 'Warning',
+      })
+    }, 300)
+
+    setTimeout(() => {
+      $createNotice({
+        type: 'info',
+        content: 'Info',
+      })
+    }, 600)
+
+    setTimeout(() => {
+      $createNotice({
+        type: 'error',
+        content: 'Error',
+      })
+    }, 900)
+  }
 </script>
 
 <template>
@@ -8,7 +40,9 @@
     <h3>Components</h3>
 
     <div class="app-block">
-      <ui3n-button>
+      <ui3n-button
+        @click="openNotice"
+      >
         Click
       </ui3n-button>
     </div>

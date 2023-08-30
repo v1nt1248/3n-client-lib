@@ -12,10 +12,6 @@ interface Ui3nNotificationProps {
   onClose?: () => void;
 }
 
-interface NotificationsPlugin {
-  $createNotice: (params: Ui3nNotificationProps) => void;
-}
-
 interface ListingEntryTypeExtended extends web3n.files.Stats {
   id: string | undefined;
   name: string;

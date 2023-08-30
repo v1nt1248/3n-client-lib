@@ -1,21 +1,32 @@
-export { default as Ui3nIcon } from './components/ui3n-icon.vue'
-export { default as Ui3nEmoji } from './components/ui3n-emoji.vue'
-export { default as Ui3nButton } from './components/ui3n-button.vue'
-export { default as Ui3nInput } from './components/ui3n-input.vue'
-export { default as Ui3nText } from './components/ui3n-text.vue'
-export { default as Ui3nDropFiles } from './components/ui3n-drop-files.vue'
-export { default as Ui3nNotification } from './components/ui3n-notification.vue'
-export { default as Ui3nTableSortIcon } from './components/ui3n-table-sort-icon.vue'
-export { default as Ui3nTable } from './components/ui3n-table.vue'
+// import type { Ui3nNotificationProps, VueEventBus } from './constants'
+// export * from './constants'
+// export * from './tools'
+// export * from './plugins'
+// export * from './directives'
+// export * from './components'
 
-export { default as Ui3nHtml } from './directives/ui3n-html'
 
-export { mailReg, colorsMap } from './constants/general'
-export { emoticons } from './constants/emoticons'
+import Ui3nIcon from './components/ui3n-icon.vue'
+import type { Ui3nIconProps, Ui3nIconEmits } from './components/ui3n-icon.vue'
+import Ui3nButton from './components/ui3n-button.vue'
+import type { Ui3nButtonProps, Ui3nButtonEmits } from './components/ui3n-button.vue'
 
-export { useIcons } from './plugins/icons'
-export { notifications } from './plugins/notifications'
-export { i18n } from './plugins/i18n'
-export { storeI18n } from './plugins/store-i18n'
-export { vueBus } from './plugins/vue-bus'
-export { storeVueBus } from './plugins/store-vue-bus'
+export {
+  Ui3nIcon,
+  Ui3nIconProps,
+  Ui3nIconEmits,
+  Ui3nButton,
+  Ui3nButtonProps,
+  Ui3nButtonEmits,
+}
+
+
+// declare module '@vue/runtime-core' {
+//   export interface ComponentCustomProperties {
+//     $createNotice: (params: Ui3nNotificationProps) => void;
+//     $locale: string;
+//     $tr: (key: string, placeholders?: Record<string, string>) => string;
+//     $changeLocale: (lang: string) => void;
+//     $emitter: VueEventBus;
+//   }
+// }
