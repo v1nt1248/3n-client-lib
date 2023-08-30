@@ -19,10 +19,11 @@ export default defineConfig({
       fileName: 'ui-3n-lib',
     },
     rollupOptions: {
-      external: ['vue'],
+      external: ['vue', 'pinia'],
       output: {
         globals: {
           vue: 'Vue',
+          pinia: 'Pinia',
         }
       }
     }

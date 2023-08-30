@@ -2,15 +2,20 @@
   import { computed, ref } from 'vue'
   import { Icon } from '@iconify/vue'
   import Ui3nTableSortIcon from './ui3n-table-sort-icon.vue'
+  import type { ListingEntryTypeExtended, EntityAction, SortField } from '../constants'
 
-  const props = defineProps<{
+  export interface Ui3nTableProps {
     items: ListingEntryTypeExtended[];
     textIfEmpty?: string;
-  }>()
-  const emit = defineEmits<{
+  }
+
+  export interface Ui3nTableEmits {
     (ev: 'go', name: string): void;
     (ev: 'action', value: { action: EntityAction, entity: ListingEntryTypeExtended }): void;
-  }>()
+  }
+
+  const props = defineProps<Ui3nTableProps>()
+  const emit = defineEmits<Ui3nTableEmits>()
 
   const sortField = ref<SortField>('name')
   const sortDirection = ref<'asc'|'desc'>('asc')

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
   /* eslint-disable @typescript-eslint/no-explicit-any */
   import { computed, onMounted, ref, watch } from 'vue'
-  import { patchTextareaMaxRowsSupport } from '../helpers/textarea-max-rows'
+  import { patchTextareaMaxRowsSupport } from '../tools'
 
-  const props = defineProps<{
+  export interface Ui3nTextProps {
     text: string;
     rows?: number;
     maxRows?: number;
@@ -11,15 +11,19 @@
     placeholder?: string;
     rules?: Array<(v: string) => any>;
     disabled?: boolean;
-  }>()
-  const emit = defineEmits<{
+  }
+
+  export interface Ui3nTextEmits {
     (ev: 'init', value: HTMLTextAreaElement): void;
     (ev: 'input', value: string): void;
     (ev: 'focus', value: Event): void;
     (ev: 'blur', value: Event): void;
     (ev: 'update:text', value: string): void;
     (ev: 'update:valid', value: boolean): void;
-  }>()
+  }
+
+  const props = defineProps<Ui3nTextProps>()
+  const emit = defineEmits<Ui3nTextEmits>()
 
   const textareaElement = ref<HTMLTextAreaElement | null>(null)
   const isFocused = ref(false)

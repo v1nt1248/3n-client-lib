@@ -1,14 +1,18 @@
 <script lang="ts" setup>
   import { computed, ref } from 'vue'
 
-  const props = defineProps<{
+  export interface Ui3nDropFilesProps {
     title?: string;
     text?: string;
     additionalText?: string;
-  }>()
-  const emit = defineEmits<{
+  }
+
+  export interface Ui3nDropFilesEmits {
     (e: 'select', fileList: FileList): void;
-  }>()
+  }
+
+  const props = defineProps<Ui3nDropFilesProps>()
+  const emit = defineEmits<Ui3nDropFilesEmits>()
 
   const isOverDropPlace = ref(false)
   const isOverDropZone = ref(false)

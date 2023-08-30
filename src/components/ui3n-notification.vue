@@ -2,20 +2,9 @@ ui<script lang="ts" setup>
   import { computed  } from 'vue'
   import Ui3nIcon from './ui3n-icon.vue'
   import Ui3nButton from './ui3n-button.vue'
+  import type { Ui3nNotificationProps } from '../constants'
 
-  const props = defineProps<{
-    id?: string;
-    type?: 'success' | 'warning' | 'info' | 'error';
-    content: string;
-    icon?: string;
-    iconSize?: string | number;
-    iconColor?: string;
-    position?: 'left' | 'center' | 'right';
-    duration?: number;
-    teleport?: string;
-    onOpen?: () => void;
-    onClose?: () => void;
-  }>()
+  const props = defineProps<Ui3nNotificationProps>()
   const params = computed(() => {
     const {
       id,

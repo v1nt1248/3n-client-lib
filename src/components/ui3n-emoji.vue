@@ -1,14 +1,18 @@
 <script lang="ts" setup>
   import { computed, onMounted, ref } from 'vue'
 
-  const props = defineProps<{
+  export interface Ui3nEmojiProps {
     emoji: string;
     size?: string | number;
     readonly?: boolean;
-  }>()
-  const emit = defineEmits<{
+  }
+
+  export interface Ui3nEmojiEmits {
     (ev: 'click', value: Event): void;
-  }>()
+  }
+
+  const props = defineProps<Ui3nEmojiProps>()
+  const emit = defineEmits<Ui3nEmojiEmits>()
 
   const emojiElement = ref<HTMLDivElement | null>(null)
   const params = computed(() => {
