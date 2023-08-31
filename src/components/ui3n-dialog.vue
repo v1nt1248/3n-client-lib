@@ -3,13 +3,12 @@
   import { computed, onMounted, ref } from 'vue'
   import type { Component } from 'vue'
   import { getRandomId } from '../tools'
-  import Ui3nIcon from './ui3n-icon.vue'
   import Ui3nButton from './ui3n-button.vue'
 
   export type Ui3nDialogEvent = 'open' | 'opened' | 'before-close' | 'close' | 'closed' | 'confirm' | 'cancel' | 'click-overlay'
 
   export interface Ui3nDialogProps {
-    teleport: string;
+    teleport?: string;
     title?: string;
     width?: string | number;
     cssClass?: string;
@@ -31,16 +30,14 @@
     
   export interface Ui3nDialogComponentProps {
     component: Component;
-    componentProps: Record<string, any>;
+    componentProps?: Record<string, any>;
     dialogProps?: Ui3nDialogProps;
   }
 
   export interface Ui3nDialogComponentEmits {
     (ev: 'open', value?: any): void;
-    (ev: 'opened', value?: any): void;
     (ev: 'before-close', value?: any): void;
     (ev: 'close', value?: any): void;
-    (ev: 'closed', value?: any): void;
     (ev: 'confirm', value?: any): void;
     (ev: 'cancel', value?: any): void;
     (ev: 'click-overlay', value?: any): void;
@@ -52,7 +49,7 @@
 
   const dialogProps = computed(() => {
     const {
-      teleport = '#main',
+      teleport = 'body',
       title = '',
       width = 380,
       cssClass = '',
@@ -135,7 +132,7 @@
     }
     show.value = false
     if (withAction) {
-      emit('closed')
+      emit('close')
     }
   }
 
@@ -163,6 +160,7 @@
 <template>
   <teleport :to="dialogProps.teleport">
     <div
+      v-if="show"
       class="ui3n-dialog__overlay"
       v-on="dialogProps.closeOnClickOverlay
         ? { 'click': (ev: Event) => closeDialog({ ev, withAction: true }) }
@@ -179,6 +177,14 @@
           class="ui3n-dialog__title"
         >
           <span>{{ dialogProps.title }}</span>
+          <ui3n-button
+            round
+            color="transparent"
+            icon="close"
+            icon-size="12"
+            icon-color="var(--gray-90, #444)"
+            class="ui3n-dialog__close"
+          />
         </div>
 
         <div
@@ -196,12 +202,13 @@
             @cancel="startEmit('cancel')"
           />
         </div>
-      </div>
-      <div
-        v-if="dialogProps.confirmButton || dialogProps.cancelButton"
-        class="ui3n-dialog__actions"
-      >
-        ACTIONS
+
+        <div
+          v-if="dialogProps.confirmButton || dialogProps.cancelButton"
+          class="ui3n-dialog__actions"
+        >
+          ACTIONS
+        </div>
       </div>
     </div>
   </teleport>
@@ -217,10 +224,48 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.4);
   }
 
   .ui3n-dialog {
-    // TODO
+    --dialog-border-radius: 8px;
+    --dialog-title-padding: 16px 24px 16px;
+    --dialog-title-font-size: 14px;
+    --dialog-actions-padding: 16px;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    max-height: 95%;
+    background-color: var(--system-white, #fff);
+    border-radius: var(--dialog-border-radius);
+
+    &__title {
+      padding: var(--dialog-title-padding);
+      font-size: var(--dialog-title-font-size);
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--black-90, #212121);
+      border-bottom: 1px solid var(--grey-50, #f2f2f2);
+
+      @include text-overflow-ellipsis();
+    }
+
+    &__close {
+      position: absolute;
+      right: 4px;
+      top: 4px;
+    }
+
+    &__content {
+      flex-grow: 2;
+      overflow-y: auto;
+    }
+
+    &__actions {
+      padding: var(--dialog-actions-padding);
+      display: flex;
+    }
   }
 </style>

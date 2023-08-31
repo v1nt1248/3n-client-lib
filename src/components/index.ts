@@ -15,6 +15,8 @@ import Ui3nTableSortIcon from './ui3n-table-sort-icon.vue'
 import type { Ui3nTableSortIconProps } from './ui3n-table-sort-icon.vue'
 import Ui3nTable from './ui3n-table.vue'
 import type { Ui3nTableProps, Ui3nTableEmits } from './ui3n-table.vue'
+import Ui3nDialog from './ui3n-dialog.vue'
+import type { Ui3nDialogComponentProps, Ui3nDialogComponentEmits, Ui3nDialogProps, Ui3nDialogEvent } from './ui3n-dialog.vue'
 
 export {
   Ui3nIcon,
@@ -41,4 +43,9 @@ export {
   Ui3nTable,
   Ui3nTableProps,
   Ui3nTableEmits,
+  Ui3nDialog,
+  Ui3nDialogComponentProps,
+  Ui3nDialogComponentEmits,
+  Ui3nDialogProps,
+  Ui3nDialogEvent,
 }

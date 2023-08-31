@@ -1,37 +1,38 @@
 <script setup lang="ts">
-  import { inject } from 'vue'
-  import type { NotificationsPlugin } from './plugins'
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  import { Component, defineAsyncComponent, ref, shallowRef } from 'vue'
   import Ui3nButton from './components/ui3n-button.vue'
+  import Ui3nDialog, { type Ui3nDialogProps } from './components/ui3n-dialog.vue'
 
+  const isOpen = ref(false)
+  const test = ref<{
+    componentProps: any;
+    dialogProps: Ui3nDialogProps;
+  }>({
+    componentProps: {
+      dialogText: '',
+      additionalDialogText: '',
+    },
+    dialogProps: {} as Ui3nDialogProps,
+  })
+  const testComponent = shallowRef<Component|null>(null)
 
-  const { $createNotice } = inject<NotificationsPlugin>('notifications')!
-
-  const openNotice = () => {
-    $createNotice({
-      type: 'success',
-      content: 'Success',
-    })
-
-    setTimeout(() => {
-      $createNotice({
-        type: 'warning',
-        content: 'Warning',
-      })
-    }, 300)
-
-    setTimeout(() => {
-      $createNotice({
-        type: 'info',
-        content: 'Info',
-      })
-    }, 600)
-
-    setTimeout(() => {
-      $createNotice({
-        type: 'error',
-        content: 'Error',
-      })
-    }, 900)
+  const openDialog = async () => {
+    testComponent.value = defineAsyncComponent(() => import('./Dialog.vue'))
+    test.value = {
+      componentProps: {
+        dialogText: 'Any text',
+        additionalDialogText: 'Additional text',
+      },
+      dialogProps: {
+        title: 'Confirmation dialog',
+        width: 400,
+      },
+    }
+    isOpen.value = true
+  }
+  const closeDialog = () => {
+    isOpen.value = false
   }
 </script>
 
@@ -41,11 +42,19 @@
 
     <div class="app-block">
       <ui3n-button
-        @click="openNotice"
+        @click="openDialog"
       >
         Click
       </ui3n-button>
     </div>
+
+    <ui3n-dialog
+      v-if="isOpen && testComponent"
+      :component="testComponent"
+      :component-props="test.componentProps"
+      :dialog-props="test.dialogProps"
+      @close="closeDialog"
+    />
   </div>
 </template>
 
