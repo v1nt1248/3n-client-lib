@@ -8,5 +8,10 @@ export const useAppStore = defineStore(
         mode: 'test',
       }
     },
+    actions: {
+      start: () => {
+        console.log('ACTION START!')
+      },
+    },
   },
 )

@@ -1,9 +1,11 @@
 <script setup lang="ts">
   /* eslint-disable @typescript-eslint/no-explicit-any */
   import { Component, defineAsyncComponent, ref, shallowRef } from 'vue'
+  import { useAppStore } from './store/app.store'
   import Ui3nButton from './components/ui3n-button.vue'
   import Ui3nDialog, { type Ui3nDialogProps } from './components/ui3n-dialog.vue'
 
+  const store = useAppStore()
   const isOpen = ref(false)
   const test = ref<{
     componentProps: any;
