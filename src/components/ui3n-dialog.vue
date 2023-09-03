@@ -5,7 +5,7 @@
   import { getRandomId } from '../tools'
   import Ui3nButton from './ui3n-button.vue'
 
-  export type Ui3nDialogEvent = 'open' | 'opened' | 'before-close' | 'close' | 'closed' | 'confirm' | 'cancel' | 'click-overlay'
+  export type Ui3nDialogEvent = 'open' | 'before-close' | 'close' | 'confirm' | 'cancel' | 'click-overlay'
 
   export interface Ui3nDialogProps {
     teleport?: string;
@@ -115,13 +115,6 @@
 
   const validate = (value: boolean) => {
     isValid.value = value
-    // if (dialogConfirmButtonElement.value) {
-    //   if (value) {
-    //     dialogConfirmButtonElement.value!.classList.remove('dialog-button__disabled')
-    //   } else {
-    //     dialogConfirmButtonElement.value!.classList.add('dialog-button__disabled')
-    //   }
-    // }
   }
 
   const closeDialog = (arg?: { ev?: Event, withAction?: boolean }) => {
@@ -137,6 +130,11 @@
   }
 
   const startEmit = (event: Ui3nDialogEvent) => {
+    if (event === 'click-overlay') {
+      emit(event)
+      closeDialog()
+    }
+
     if (event === 'confirm' && props.dialogProps?.onConfirm) {
       props.dialogProps.onConfirm(data.value)
       closeDialog()
@@ -155,6 +153,12 @@
       emit(event)
     }
   }
+
+  const handleEvent = (event: Event, eventName: Ui3nDialogEvent) => {
+    event.stopImmediatePropagation()
+    event.preventDefault()
+    startEmit(eventName)
+  }
 </script>
 
 <template>
@@ -162,9 +166,9 @@
     <div
       v-if="show"
       class="ui3n-dialog__overlay"
-      v-on="dialogProps.closeOnClickOverlay
-        ? { 'click': (ev: Event) => closeDialog({ ev, withAction: true }) }
-        : {}
+      @click="dialogProps.closeOnClickOverlay
+        ? closeDialog({ ev: $event, withAction: true })
+        : startEmit('click-overlay')
       "
     >
       <div
@@ -175,6 +179,7 @@
         <div
           v-if="dialogProps.title"
           class="ui3n-dialog__title"
+          @click.stop
         >
           <span>{{ dialogProps.title }}</span>
           <ui3n-button
@@ -184,6 +189,7 @@
             icon-size="12"
             icon-color="var(--gray-90, #444)"
             class="ui3n-dialog__close"
+            @click="closeDialog({ ev: $event, withAction: true })"
           />
         </div>
 
@@ -191,6 +197,7 @@
           v-if="props.component"
           :class="dialogProps.contentCssClass"
           :style="dialogProps.contentCssStyle"
+          @click.stop
         >
           <component
             :is="props.component"
@@ -205,9 +212,30 @@
 
         <div
           v-if="dialogProps.confirmButton || dialogProps.cancelButton"
-          class="ui3n-dialog__actions"
+          :class="[
+            'ui3n-dialog__actions',
+            { 'ui3n-dialog__actions--both': dialogProps.confirmButton && dialogProps.cancelButton },
+          ]"
+          @click.stop
         >
-          ACTIONS
+          <ui3n-button
+            v-if="dialogProps.cancelButton"
+            :color="dialogProps.cancelButtonBackground"
+            :text-color="dialogProps.cancelButtonColor"
+            @click="handleEvent($event, 'cancel')"
+          >
+            {{ dialogProps.cancelButtonText }}
+          </ui3n-button>
+
+          <ui3n-button
+            v-if="dialogProps.confirmButton"
+            :color="dialogProps.confirmButtonBackground"
+            :text-color="dialogProps.confirmButtonColor"
+            :disabled="!isValid"
+            @click="handleEvent($event, 'confirm')"
+          >
+            {{ dialogProps.confirmButtonText }}
+          </ui3n-button>
         </div>
       </div>
     </div>
@@ -232,6 +260,10 @@
     --dialog-title-padding: 16px 24px 16px;
     --dialog-title-font-size: 14px;
     --dialog-actions-padding: 16px;
+    --dialog-confirm-button-color: var(--system-white, #fff);
+    --dialog-cancel-button-color: var(--blue-main, #0090ec);
+    --dialog-confirm-background-color: var(--blue-main, #0090ec);
+    --dialog-cancel-background-color: var(--system-white, #fff);
 
     position: relative;
     display: flex;
@@ -240,6 +272,10 @@
     max-height: 95%;
     background-color: var(--system-white, #fff);
     border-radius: var(--dialog-border-radius);
+    box-shadow:
+      0 2px 1px -1px var(--shadow-key-umbra-opacity),
+      0 1px 1px 0 var(--shadow-key-penumbra-opacity),
+      0 1px 3px 0 var(--shadow-key-ambient-opacity);
 
     &__title {
       padding: var(--dialog-title-padding);
@@ -248,7 +284,6 @@
       line-height: 1.3;
       color: var(--black-90, #212121);
       border-bottom: 1px solid var(--grey-50, #f2f2f2);
-
       @include text-overflow-ellipsis();
     }
 
@@ -266,6 +301,14 @@
     &__actions {
       padding: var(--dialog-actions-padding);
       display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      &--both {
+        .ui3n-button {
+          margin-left: 8px;
+        }
+      }
     }
   }
 </style>

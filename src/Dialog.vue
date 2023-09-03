@@ -20,5 +20,6 @@
     font-weight: 400;
     color: var(--black-90);
     text-align: center;
+    padding: var(--base-size);
   }
 </style>

@@ -103,9 +103,9 @@
 
     &--elevation {
       box-shadow:
-        rgba(0, 0, 0, 0.2) 0px 3px 1px -2px
-        rgba(0, 0, 0, 0.14) 0px 2px 2px 0px
-        rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+        0 2px 1px -2px var(--shadow-key-umbra-opacity),
+        0 2px 2px 0 var(--shadow-key-penumbra-opacity),
+        0 1px 5px 0 var(--shadow-key-ambient-opacity);
     }
 
     &:not([disabled]) {
@@ -127,7 +127,7 @@
 
       &:active {
         opacity: 1;
-        background-color: var(--gray-90, #444);
+        background-color: var(--black-30, #b3b3b3);
         background-size: 100%;
         transition: background 0s;
       }
