@@ -31,6 +31,10 @@
       },
     })
   }
+
+  const onClick = (ev: MouseEvent) => {
+    console.log('CLICK OUTSIDE ELEMENT: ', ev)
+  }
 </script>
 
 <template>
@@ -39,6 +43,7 @@
 
     <div class="app-block">
       <ui3n-button
+        v-ui3n-click-outside="onClick"
         @click="openDialog"
       >
         Click
@@ -49,6 +54,11 @@
 
 <style lang="scss" scoped>
   .app {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     padding: 8px;
 
     &-block {
