@@ -272,10 +272,7 @@
     max-height: 95%;
     background-color: var(--system-white, #fff);
     border-radius: var(--dialog-border-radius);
-    box-shadow:
-      0 2px 1px -1px var(--shadow-key-umbra-opacity),
-      0 1px 1px 0 var(--shadow-key-penumbra-opacity),
-      0 1px 3px 0 var(--shadow-key-ambient-opacity);
+    @include elevation();
 
     &__title {
       padding: var(--dialog-title-padding);

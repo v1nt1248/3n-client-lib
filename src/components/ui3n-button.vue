@@ -72,6 +72,8 @@
 </template>
 
 <style lang="scss" scoped>
+  @import "../assets/styles/mixins";
+
   .ui3n-button {
     --ui3n-button-text-size: 12px;
     --ui3n-button-text-height: 16px;
@@ -102,10 +104,7 @@
     }
 
     &--elevation {
-      box-shadow:
-        0 2px 1px -2px var(--shadow-key-umbra-opacity),
-        0 2px 2px 0 var(--shadow-key-penumbra-opacity),
-        0 1px 5px 0 var(--shadow-key-ambient-opacity);
+      @include elevation();
     }
 
     &:not([disabled]) {
