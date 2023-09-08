@@ -34,12 +34,17 @@
       <slot />
     </div>
 
-    <div
-      v-if="isShow"
-      class="ui3n-menu__content"
+    <transition
+      name="menu"
+      :duration="400"
     >
-      <slot name="menu" />
-    </div>
+      <div
+        v-if="isShow"
+        class="ui3n-menu__content"
+      >
+        <slot name="menu" />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -49,6 +54,16 @@
   .ui3n-menu {
     position: relative;
     overflow: visible;
+
+    .menu-enter-active,
+    .menu-leave-active {
+      transition: opacity 0.4s;
+    }
+
+    .menu-enter-from,
+    .menu-leave-to {
+      opacity: 0;
+    }
 
     &__trigger {
       position: relative;

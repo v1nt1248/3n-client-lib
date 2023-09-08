@@ -1,4 +1,5 @@
 import { App, Plugin } from 'vue'
+import type { InjectionKey } from 'vue'
 
 export interface I18nOptions {
   lang: string;
@@ -10,6 +11,8 @@ export interface I18nPlugin {
   $tr: (key: string, placeholders?: Record<string, string>) => string;
   $changeLocale: (lang: string) => void;
 }
+
+export const I18N_KEY = Symbol() as InjectionKey<I18nPlugin>
 
 export const i18n: Plugin = {
   install: (app: App, options: I18nOptions) => {

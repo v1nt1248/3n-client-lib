@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { App, Plugin, createApp } from 'vue'
+import type { InjectionKey } from 'vue'
 import { isEmpty, values } from 'lodash'
 import { getRandomId } from '../tools/common.helpers'
 import Ui3nDialog from '../components/ui3n-dialog.vue'
@@ -13,6 +14,8 @@ export type DialogInstance = {
 export interface DialogsPlugin {
   $openDialog: (params: Ui3nDialogComponentProps) => DialogInstance | undefined;
 }
+
+export const DIALOGS_KEY = Symbol() as InjectionKey<DialogsPlugin>
 
 export const dialogs: Plugin = {
   install: (app: App) => {

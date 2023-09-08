@@ -3,12 +3,13 @@
   import { inject, defineAsyncComponent, ref } from 'vue'
   import { useAppStore } from './store/app.store'
   import Ui3nButton from './components/ui3n-button.vue'
-  import type { DialogsPlugin, DialogInstance } from './plugins/dialogs'
+  import { DIALOGS_KEY } from './plugins/dialogs.ts'
+  import type { DialogsPlugin, DialogInstance } from './plugins/dialogs.ts'
   import Ui3nMenu from './components/ui3n-menu.vue'
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const store = useAppStore()
-  const { $openDialog } = inject<DialogsPlugin>('dialogs')!
+  const { $openDialog } = inject<DialogsPlugin>(DIALOGS_KEY)!
 
   const dialog = ref<DialogInstance|undefined>()
 

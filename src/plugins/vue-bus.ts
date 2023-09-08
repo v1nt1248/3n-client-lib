@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types */
 import { App, Plugin } from 'vue'
+import type { InjectionKey } from 'vue'
 import mitt from 'mitt'
 import type { CbFunction, VueEventBus } from '../constants'
 
@@ -24,6 +25,8 @@ const $emitter = {
   emit: emitter.emit.bind(emitter),
   clear: emitter.all.clear.bind(emitter),
 }
+
+export const VUEBUS_KEY = Symbol() as InjectionKey<VueBusPlugin>
 
 export const vueBus: Plugin = {
   install: (app: App) => {

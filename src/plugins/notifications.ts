@@ -1,4 +1,5 @@
 import { App, Plugin, createApp } from 'vue'
+import type { InjectionKey } from 'vue'
 import Ui3nNotification from '../components/ui3n-notification.vue'
 import { getRandomId } from '../tools/common.helpers'
 import { Ui3nNotificationProps } from '../constants'
@@ -6,6 +7,8 @@ import { Ui3nNotificationProps } from '../constants'
 export interface NotificationsPlugin {
   $createNotice: (params: Ui3nNotificationProps) => void;
 }
+
+export const NOTIFICATIONS_KEY = Symbol() as InjectionKey<NotificationsPlugin>
 
 export const notifications: Plugin = {
   install: (app: App) => {
