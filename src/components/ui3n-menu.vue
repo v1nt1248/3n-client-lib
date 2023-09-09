@@ -50,7 +50,6 @@
 
   onMounted(() => {
     menuElement.value!.style.setProperty('--menu-animation-duration', `${defaultAnimationDuration}ms`)
-    console.log(menuTriggerElement.value!.clientHeight)
   })
 
   const toggleMenu = () => {
@@ -129,7 +128,7 @@
       position: absolute;
       border-radius: 4px;
       background-color: var(--system-white, #fff);
-      @include menu-body-shadow;
+      @include elevation(3);
     }
   }
 </style>

@@ -9,7 +9,12 @@
   text-overflow: ellipsis;
 }
 @mixin elevation($number: 1) {
-  @if $number == 2 {
+  @if $number == 3 {
+    box-shadow:
+      0 3px 3px -2px var(--shadow-key-umbra-opacity),
+      0 3px 4px 0 var(--shadow-key-penumbra-opacity),
+      0 1px 8px 0 var(--shadow-key-ambient-opacity);
+  } @else if $number == 2 {
     box-shadow:
       0 2px 1px -2px var(--shadow-key-umbra-opacity),
       0 2px 2px 0 var(--shadow-key-penumbra-opacity),
@@ -20,10 +25,4 @@
       0 1px 1px 0 var(--shadow-key-penumbra-opacity),
       0 1px 3px 0 var(--shadow-key-ambient-opacity);
   }
-}
-@mixin menu-body-shadow {
-  box-shadow:
-    0 3px 3px -2px var(--shadow-key-umbra-opacity),
-    0 3px 4px 0 var(--shadow-key-penumbra-opacity),
-    0 1px 8px 0 var(--shadow-key-ambient-opacity);
 }

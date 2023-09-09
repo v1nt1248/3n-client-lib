@@ -1,38 +1,22 @@
 <script setup lang="ts">
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  import { inject, defineAsyncComponent, ref } from 'vue'
+  import { ref } from 'vue'
   import { useAppStore } from './store/app.store'
-  import Ui3nButton from './components/ui3n-button.vue'
-  import { DIALOGS_KEY } from './plugins/dialogs.ts'
-  import type { DialogsPlugin, DialogInstance } from './plugins/dialogs.ts'
-  import Ui3nMenu from './components/ui3n-menu.vue'
+  import Ui3nList from './components/ui3n-list.vue'
+  import Ui3nListAnchor from './components/ui3n-list-anchor.vue'
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const store = useAppStore()
-  const { $openDialog } = inject<DialogsPlugin>(DIALOGS_KEY)!
 
-  const dialog = ref<DialogInstance|undefined>()
-
-  const openDialog = async () => {
-    const component = defineAsyncComponent(() => import('./Dialog.vue'))
-    dialog.value = $openDialog({
-      component,
-      componentProps: {
-        dialogText: 'Any text',
-        additionalDialogText: 'Additional text',
-      },
-      dialogProps: {
-        title: 'Confirmation dialog',
-        width: 400,
-        onConfirm: data => {
-          console.log('CONFIRM: ', data)
-        },
-        onCancel: () => {
-          console.log('CANCEL')
-        },
-      },
-    })
+  const prepareList = () => {
+    const res = []
+    for (let i = 0; i < 26; i++) {
+      res.push(String.fromCharCode(65 + i))
+    }
+    return res
   }
+
+  const list = ref(prepareList())
 </script>
 
 <template>
@@ -40,32 +24,59 @@
     <h3>Components</h3>
 
     <div class="app-block">
-      <ui3n-button
-        @click="openDialog"
-      >
-        Click
-      </ui3n-button>
-    </div>
+      <ui3n-list
+        sticky
+        title="LIST TITLE"
+        :items="list"
+      />
 
-    <ui3n-menu>
-      <ui3n-button>
-        Menu
-      </ui3n-button>
+      <!-- <ui3n-list>
+        <div
+          v-for="item in list"
+          :key="item"
+        >
+          <ui3n-list-anchor
+            :sticky="false"
+            class="list__header"
+          >
+            {{ item }}
+          </ui3n-list-anchor>
 
-      <template #menu>
-        <div class="app-menu-content">
-          <div class="app-menu-content__item">
-            Item 1
+          <div class="list__item">
+            {{ item }} item
           </div>
-          <div class="app-menu-content__item">
-            Item 2
+          <div class="list__item">
+            {{ item }} item
           </div>
-          <div class="app-menu-content__item">
-            Item 3
+          <div class="list__item">
+            {{ item }} item
           </div>
         </div>
-      </template>
-    </ui3n-menu>
+      </ui3n-list> -->
+
+      <!-- <ui3n-list virtual>
+        <ui3n-list
+          v-for="item in list"
+          :key="item"
+        >
+          <template #title>
+            <div class="list__header">
+              {{ item }}
+            </div>
+          </template>
+
+          <div class="list__item">
+            {{ item }} item
+          </div>
+          <div class="list__item">
+            {{ item }} item
+          </div>
+          <div class="list__item">
+            {{ item }} item
+          </div>
+        </ui3n-list>
+      </ui3n-list> -->
+    </div>
   </div>
 </template>
 
@@ -78,28 +89,31 @@
     &-block {
       position: relative;
       width: 250px;
+      height: 500px;
       margin-bottom: 20px;
+      overflow-y: auto;
     }
 
-    &-menu-content {
+    .list__header {
+      width: 100%;
+      height: 28px;
+      display: flex;
+      padding: 0 16px;
+      justify-content: flex-start;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 600;
+      background-color: #b0dafc;
+      color: #4744e4;
+    }
+
+    .list__item {
       position: relative;
-      width: 200px;
-
-      &__item {
-        display: flex;
-        padding: 0 8px;
-        width: 100%;
-        height: 28px;
-        cursor: pointer;
-        justify-content: flex-start;
-        align-items: center;
-        font-size: 12px;
-        font-weight: 400;
-
-        &:hover {
-          background-color: rgba(0, 0, 0, 0.2);
-        }
-      }
+      height: 24px;
+      display: flex;
+      padding: 0 8px;
+      font-size: 14px;
+      font-weight: 400;
     }
   }
 </style>
