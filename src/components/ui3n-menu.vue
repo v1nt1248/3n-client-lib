@@ -129,7 +129,6 @@
       position: absolute;
       border-radius: 4px;
       background-color: var(--system-white, #fff);
-
       @include menu-body-shadow;
     }
   }
