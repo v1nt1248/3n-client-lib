@@ -21,3 +21,9 @@
       0 1px 3px 0 var(--shadow-key-ambient-opacity);
   }
 }
+@mixin menu-body-shadow {
+  box-shadow:
+    0 3px 3px -2px var(--shadow-key-umbra-opacity),
+    0 3px 4px 0 var(--shadow-key-penumbra-opacity),
+    0 1px 8px 0 var(--shadow-key-ambient-opacity);
+}

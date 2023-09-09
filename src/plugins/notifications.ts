@@ -51,7 +51,7 @@ export const notifications: Plugin = {
     }
 
     app.config.globalProperties.$createNotice = $createNotice
-    app.provide<NotificationsPlugin>('notifications', { $createNotice })
+    app.provide<NotificationsPlugin>(NOTIFICATIONS_KEY, { $createNotice })
   },
 }
 

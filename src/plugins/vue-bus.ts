@@ -31,7 +31,7 @@ export const VUEBUS_KEY = Symbol() as InjectionKey<VueBusPlugin>
 export const vueBus: Plugin = {
   install: (app: App) => {
     app.config.globalProperties.$emitter = $emitter
-    app.provide<VueBusPlugin>('event-bus', { $emitter })
+    app.provide<VueBusPlugin>(VUEBUS_KEY, { $emitter })
   },
 }
 

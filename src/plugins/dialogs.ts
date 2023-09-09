@@ -70,7 +70,7 @@ export const dialogs: Plugin = {
     }
 
     app.config.globalProperties.$openDialog = $openDialog
-    app.provide<DialogsPlugin>('dialogs', { $openDialog })
+    app.provide<DialogsPlugin>(DIALOGS_KEY, { $openDialog })
   }
 }
 
