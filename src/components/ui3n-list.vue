@@ -1,31 +1,33 @@
-<script lang="ts" setup generic="T">
-  import { onMounted, ref, useSlots } from 'vue'
-
-  const props = withDefaults(defineProps<{
-    virtual?: boolean;
+<script lang="ts" setup generic="T extends { id?: string }">
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  export interface Ui3nListProps<T> {
     title?: string;
     sticky?: boolean;
     items: T[];
-  }>(), {
-    virtual: false,
+    disabled?: boolean;
+  }
+
+  export interface Ui3nListEmits<T> {
+    (ev: 'select', value: { value: T, index: number }): void;
+  }
+
+  export interface Ui3nListSlots<T> {
+    title?: () => any;
+    item?: ({ item, index }: { item: T, index: number }) => any;
+  }
+
+  const props = withDefaults(defineProps<Ui3nListProps<T>>(), {
     title: '',
     sticky: true,
+    disabled: false,
   })
 
-  const emits = defineEmits(['select'])
 
-  const slots = useSlots()
-  const listElement = ref<HTMLDivElement | null>(null)
-
-  onMounted(() => {
-    if (props.virtual) {
-      console.log('SLOTS: ', slots.default!()[0].children)
-    }
-  })
+  const emits = defineEmits<Ui3nListEmits<T>>()
+  defineSlots<Ui3nListSlots<T>>()
 </script>
 
 <template>
-  <!-- eslint-disable vue/no-v-for-template-key -->
   <div
     ref="listElement"
     class="ui3n-list"
@@ -37,44 +39,57 @@
       ]"
     >
       <slot name="title">
-        <div class="ui3n-list-title">
+        <div
+          v-if="props.title"
+          class="ui3n-list__title-content"
+        >
           {{ props.title }}
         </div>
       </slot>
     </div>
 
-    <template
-      v-for="(item, index) in props.items"
-    >
-      <slot
-        name="item"
-        :index="index"
-        :item="item"
+    <div class="ui3n-list__content">
+      <div
+        v-for="(item, index) in props.items"
+        :key="item.id ?? index"
+        class="ui3n-list__item"
       >
-        <div
-          :key="item.id ?? index"
-          class="ui3n-list-item"
-          @click.stop="emits('select', { item, index })"
+        <slot
+          name="item"
+          :item="item"
+          :index="index"
         >
-          {{ item }}
-        </div>
-      </slot>
-    </template>
+          <div
+            :class="[
+              'ui3n-list__item-content',
+              { 'ui3n-list__item-content--disables': props.disabled },
+            ]"
+            @click.stop="emits('select', { value: item, index })"
+          >
+            {{ item }}
+          </div>
+        </slot>
+      </div>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
   .ui3n-list {
-    --ui3n-list-item-height: 24px;
+    --ui3n-list-item-height: 28px;
     --ui3n-list-bg-color: var(--system-white, #fff);
 
     position: relative;
     width: 100%;
+    height: 100%;
     background-color: var(--ui3n-list-bg-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
 
     &__title {
       position: relative;
-      width: 100%;
       top: 0;
       z-index: 1;
 
@@ -83,29 +98,38 @@
       }
     }
 
-    &-title,
-    &-item {
+    &__content {
+      position: relative;
+      flex-grow: 1;
+    }
+
+    &__title-content,
+    &__item {
       position: relative;
       width: 100%;
-      height: var(--ui3n-list-item-height);
+      min-height: var(--ui3n-list-item-height);
+      padding: 4px 0;
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      font-size: 16px;
-      font-weight: 600;
     }
 
-    &-title {
+    &__title-content {
       z-index: 1;
       font-size: 16px;
       font-weight: 600;
       background-color: var(--ui3n-list-bg-color);
     }
 
-    &-item {
+    &__item-content {
       font-size: 14px;
       font-weight: 400;
       cursor: pointer;
+
+      &--disabled {
+        pointer-events: none;
+        cursor: default;
+      }
     }
   }
 </style>

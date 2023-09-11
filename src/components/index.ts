@@ -17,6 +17,10 @@ import Ui3nTable from './ui3n-table.vue'
 import type { Ui3nTableProps, Ui3nTableEmits } from './ui3n-table.vue'
 import Ui3nDialog from './ui3n-dialog.vue'
 import type { Ui3nDialogComponentProps, Ui3nDialogComponentEmits, Ui3nDialogProps, Ui3nDialogEvent } from './ui3n-dialog.vue'
+import Ui3nMenu from './ui3n-menu.vue'
+import type { Ui3nMenuProps, Ui3nMenuEmits, Ui3nMenuSlots } from './ui3n-menu.vue'
+import Ui3nList from './ui3n-list.vue'
+import type { Ui3nListProps, Ui3nListEmits, Ui3nListSlots } from './ui3n-list.vue'
 
 export {
   Ui3nIcon,
@@ -48,4 +52,12 @@ export {
   Ui3nDialogComponentEmits,
   Ui3nDialogProps,
   Ui3nDialogEvent,
+  Ui3nMenu,
+  Ui3nMenuProps,
+  Ui3nMenuEmits,
+  Ui3nMenuSlots,
+  Ui3nList,
+  Ui3nListProps,
+  Ui3nListEmits,
+  Ui3nListSlots,
 }

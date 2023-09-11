@@ -21,7 +21,7 @@
 
   export interface Ui3nMenuSlots {
     default: () => any;
-    menu: () => any;
+    menu?: () => any;
   }
 
   const props = withDefaults(defineProps<Ui3nMenuProps>(), {

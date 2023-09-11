@@ -3,7 +3,6 @@
   import { ref } from 'vue'
   import { useAppStore } from './store/app.store'
   import Ui3nList from './components/ui3n-list.vue'
-  import Ui3nListAnchor from './components/ui3n-list-anchor.vue'
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const store = useAppStore()
@@ -11,7 +10,16 @@
   const prepareList = () => {
     const res = []
     for (let i = 0; i < 26; i++) {
-      res.push(String.fromCharCode(65 + i))
+      const char = String.fromCharCode(65 + i)
+      res.push({
+        id: char,
+        title: `${char} title`,
+        children: [
+          { id: `${char}-01`, title: `01 ${char} item` },
+          { id: `${char}-02`, title: `02 ${char} item` },
+          { id: `${char}-03`, title: `03 ${char} item` },
+        ],
+      })
     }
     return res
   }
@@ -25,57 +33,20 @@
 
     <div class="app-block">
       <ui3n-list
-        sticky
-        title="LIST TITLE"
+        :sticky="false"
         :items="list"
-      />
-
-      <!-- <ui3n-list>
-        <div
-          v-for="item in list"
-          :key="item"
-        >
-          <ui3n-list-anchor
-            :sticky="false"
-            class="list__header"
+      >
+        <template #item="{ item }">
+          <ui3n-list
+            :title="item.title"
+            :items="item.children"
           >
-            {{ item }}
-          </ui3n-list-anchor>
-
-          <div class="list__item">
-            {{ item }} item
-          </div>
-          <div class="list__item">
-            {{ item }} item
-          </div>
-          <div class="list__item">
-            {{ item }} item
-          </div>
-        </div>
-      </ui3n-list> -->
-
-      <!-- <ui3n-list virtual>
-        <ui3n-list
-          v-for="item in list"
-          :key="item"
-        >
-          <template #title>
-            <div class="list__header">
-              {{ item }}
-            </div>
-          </template>
-
-          <div class="list__item">
-            {{ item }} item
-          </div>
-          <div class="list__item">
-            {{ item }} item
-          </div>
-          <div class="list__item">
-            {{ item }} item
-          </div>
-        </ui3n-list>
-      </ui3n-list> -->
+            <template #item="{ item: children }">
+              <div>{{ children.title }}</div>
+            </template>
+          </ui3n-list>
+        </template>
+      </ui3n-list>
     </div>
   </div>
 </template>
