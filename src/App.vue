@@ -3,12 +3,14 @@
   import { ref } from 'vue'
   import { useAppStore } from './store/app.store'
   import Ui3nList from './components/ui3n-list.vue'
+  // import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue.old'
+  import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const store = useAppStore()
 
   const prepareList = () => {
-    const res = []
+    const res: any[] = []
     for (let i = 0; i < 26; i++) {
       const char = String.fromCharCode(65 + i)
       res.push({
@@ -24,7 +26,14 @@
     return res
   }
 
-  const list = ref(prepareList())
+  const prepareVList = () => Array
+    .from({ length: 1000 }, (_, i) => ({
+      id: `${i}i`,
+      title: `Item ${i}`,
+    }))
+
+  const list = ref(prepareList()) 
+  const listV = ref(prepareVList())
 </script>
 
 <template>
@@ -48,6 +57,32 @@
         </template>
       </ui3n-list>
     </div>
+    <br><br>
+    <!-- <div class="app-block">
+      <ui3n-virtual-scroll-old :items="listV">
+        <template #item="{ item, index }">
+          <div
+            class="list__item"
+            :style="{ height: `${24 + (index % 3) * 8}px` }"
+          >
+            {{ item }}
+          </div>
+        </template>
+      </ui3n-virtual-scroll-old>
+    </div> -->
+
+    <div class="app-block">
+      <ui3n-virtual-scroll
+        :items="listV"
+        :child-height="24"
+      >
+        <template #item="{ item }">
+          <div class="list__item">
+            {{ item }}
+          </div>
+        </template>
+      </ui3n-virtual-scroll>
+    </div>
   </div>
 </template>
 
@@ -60,7 +95,7 @@
     &-block {
       position: relative;
       width: 250px;
-      height: 500px;
+      height: 400px;
       margin-bottom: 20px;
       overflow-y: auto;
     }
@@ -82,9 +117,13 @@
       position: relative;
       height: 24px;
       display: flex;
+      justify-content: flex-start;
+      align-items: center;
       padding: 0 8px;
       font-size: 14px;
       font-weight: 400;
+      border-left: 1px solid #bbb;
+      border-bottom: 1px solid #bbb;
     }
   }
 </style>

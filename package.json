@@ -37,7 +37,8 @@
     "dayjs": "^1.11.9",
     "lodash": "^4.17.21",
     "mitt": "^3.0.1",
-    "sanitize-html": "^2.11.0"
+    "sanitize-html": "^2.11.0",
+    "vscroll": "^1.5.5"
   },
   "peerDependencies": {
     "pinia": "^2.1.6",

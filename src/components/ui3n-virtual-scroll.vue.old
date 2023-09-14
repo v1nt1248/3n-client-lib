@@ -1,0 +1,81 @@
+<script lang="ts" setup generic="T extends { id?: string }">
+  import { onMounted, onUnmounted, ref } from 'vue'
+  import { Workflow, Item, makeDatasource, SizeStrategy, IDatasource } from 'vscroll'
+
+  const props = defineProps<{
+    items: T[];
+  }>()
+
+
+  const workflow = ref<Workflow<unknown>>()
+  const datasource = ref<IDatasource<unknown>>({} as IDatasource<unknown>)
+
+  const vListElement = ref<HTMLDivElement | null>(null)
+  const dataItems = ref<Item[]>([])
+
+  onMounted(() => {
+    // const Datasource = makeDatasource()
+
+    datasource.value = {
+      get: (index: number, count: number, success: Function) => {
+        console.log('GET: ', index, count)
+        success(props.items.slice(index, index + count))
+      },
+      settings: {
+        bufferSize: 40,
+        startIndex: 0,
+        minIndex: 0,
+        maxIndex: props.items.length - 1,
+        // viewportElement: vListElement.value,
+        sizeStrategy: SizeStrategy.Average,
+      },
+    };
+
+    workflow.value = new Workflow({
+      consumer: {
+        name: 'ui3n-virtual-scroll',
+        version: 'v1.0.0',
+      },
+      element: vListElement.value!,
+      datasource: datasource.value,
+      run: (items: Item[]) => {
+        if (!items.length && !dataItems.value.length) {
+          return
+        }
+        dataItems.value = items
+      },
+    })
+
+  })
+
+  onUnmounted(() => {
+    workflow.value?.dispose()
+  })
+</script>
+
+<template>
+  <div
+    ref="vListElement"
+    class="ui3n-virtual-scroll"
+  >
+    <div data-padding-backward />
+
+    <div
+      v-for="item in dataItems"
+      :key="`${workflow?.scroller.adapter.reloadId}.${item.nodeId}`"
+      :data-sid="item.nodeId"
+      :style="{
+        position: item.invisible ? 'fixed' : null,
+        left: item.invisible ? '-99999px' : null,
+      }"
+    >
+      <slot
+        name="item"
+        :item="item.data"
+        :index="item.$index"
+      />
+    </div>
+
+    <div data-padding-forward />
+  </div>
+</template>
