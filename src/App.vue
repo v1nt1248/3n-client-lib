@@ -3,7 +3,6 @@
   import { ref } from 'vue'
   import { useAppStore } from './store/app.store'
   import Ui3nList from './components/ui3n-list.vue'
-  // import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue.old'
   import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,7 +26,7 @@
   }
 
   const prepareVList = () => Array
-    .from({ length: 1000 }, (_, i) => ({
+    .from({ length: 5000 }, (_, i) => ({
       id: `${i}i`,
       title: `Item ${i}`,
     }))
@@ -58,27 +57,14 @@
       </ui3n-list>
     </div>
     <br><br>
-    <!-- <div class="app-block">
-      <ui3n-virtual-scroll-old :items="listV">
-        <template #item="{ item, index }">
-          <div
-            class="list__item"
-            :style="{ height: `${24 + (index % 3) * 8}px` }"
-          >
-            {{ item }}
-          </div>
-        </template>
-      </ui3n-virtual-scroll-old>
-    </div> -->
-
     <div class="app-block">
       <ui3n-virtual-scroll
         :items="listV"
-        :child-height="24"
+        :min-child-height="24"
       >
-        <template #item="{ item }">
+        <template #item="{ item, index }">
           <div class="list__item">
-            {{ item }}
+            {{ item }} | {{ index }}
           </div>
         </template>
       </ui3n-virtual-scroll>
@@ -94,7 +80,7 @@
 
     &-block {
       position: relative;
-      width: 250px;
+      width: 320px;
       height: 400px;
       margin-bottom: 20px;
       overflow-y: auto;
@@ -115,7 +101,7 @@
 
     .list__item {
       position: relative;
-      height: 24px;
+      min-height: 24px;
       display: flex;
       justify-content: flex-start;
       align-items: center;

@@ -21,6 +21,8 @@ import Ui3nMenu from './ui3n-menu.vue'
 import type { Ui3nMenuProps, Ui3nMenuEmits, Ui3nMenuSlots } from './ui3n-menu.vue'
 import Ui3nList from './ui3n-list.vue'
 import type { Ui3nListProps, Ui3nListEmits, Ui3nListSlots } from './ui3n-list.vue'
+import Ui3nVirtualScroll from './ui3n-virtual-scroll.vue'
+import type { Ui3nVirtualScrollProps, Ui3nVirtualScrollSlots } from './ui3n-virtual-scroll.vue'
 
 export {
   Ui3nIcon,
@@ -60,4 +62,7 @@ export {
   Ui3nListProps,
   Ui3nListEmits,
   Ui3nListSlots,
+  Ui3nVirtualScroll,
+  Ui3nVirtualScrollProps,
+  Ui3nVirtualScrollSlots,
 }

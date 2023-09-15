@@ -3,13 +3,10 @@ import {
   Text,
   Slot,
   VNode,
-  // createApp,
 } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { colorsMap } from '../constants/general'
-// import { getRandomId } from './common.helpers'
-// import Ui3nNotification from '@/ui/components/ui-3n-notification.vue'
 
 export function hasSlotContent(slot?: Slot, slotProps = {} ) {
   if (!slot) return false
@@ -77,41 +74,3 @@ export function prepareDateAsSting(ts: number): string {
 
   return dateValue.format('YYYY-MM-DD')
 }
-
-// export function createNotification(params: Ui3nNotificationProps) {
-//   const div = document.createElement('div')
-//   const parentElement = !params.teleport || params.teleport === 'body'
-//     ? document.body
-//     : document.querySelector(params.teleport)
-//   const duration = params.duration ?? 1500
-
-//   if (parentElement) {
-//     const componentInstance = createApp(
-//       Ui3nNotification,
-//       {
-//         id: getRandomId(6),
-//         content: params.content,
-//         ...(params.type && { type: params.type }),
-//         ...(params.icon && { icon: params.icon }),
-//         ...(params.iconSize && { iconSize: params.iconSize }),
-//         ...(params.iconColor && { iconColor: params.iconColor }),
-//         ...(params.position && { position: params.position }),
-//         ...(params.onOpen && { onOpen: params.onOpen }),
-//         duration,
-//         onClose: () => {
-//           parentElement.removeChild(component.$el)
-//           componentInstance && componentInstance.unmount && componentInstance.unmount()
-//         },
-//       },
-//     )
-//     const component = componentInstance.mount(div)
-//     parentElement.appendChild(component.$el)
-
-//     if (duration) {
-//       setTimeout(() => {
-//         parentElement.removeChild(component.$el)
-//         componentInstance && componentInstance.unmount && componentInstance.unmount()
-//       }, duration)
-//     }
-//   }
-// }
