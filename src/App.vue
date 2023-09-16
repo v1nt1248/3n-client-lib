@@ -1,12 +1,8 @@
 <script setup lang="ts">
   /* eslint-disable @typescript-eslint/no-explicit-any */
   import { ref } from 'vue'
-  import { useAppStore } from './store/app.store'
   import Ui3nList from './components/ui3n-list.vue'
   import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const store = useAppStore()
 
   const prepareList = () => {
     const res: any[] = []

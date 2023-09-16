@@ -3,7 +3,7 @@
   "private": false,
   "license": "AGPL-3.0-or-later",
   "author": "v1nt1248",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Library for 3NWeb clients",
   "type": "module",
   "files": [
@@ -22,7 +22,8 @@
     "dev": "vite",
     "generate:types": "vue-tsc --declaration --emitDeclarationOnly --outdir ./dist",
     "copy:dts": "cp ./src/types.d.ts ./dist",
-    "build": "vite build",
+    "copy:libs": "cp -r ./src/libs ./dist",
+    "build": "vite build && yarn copy:libs",
     "preview": "vite preview",
     "stylelint": "stylelint --config .stylelint.config.cjs 'src/**/*.{vue,scss}'",
     "stylelint:fix": "stylelint --config .stylelint.config.cjs --fix 'src/**/*.{vue,scss}'",
