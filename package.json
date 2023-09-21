@@ -3,12 +3,13 @@
   "private": false,
   "license": "AGPL-3.0-or-later",
   "author": "v1nt1248",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Library for 3NWeb clients",
   "type": "module",
   "files": [
     "dist",
-    "src/components/"
+    "src/components/",
+    "src/libs"
   ],
   "module": "./dist/ui-3n-lib.js",
   "types": "./dist/index.d.ts",

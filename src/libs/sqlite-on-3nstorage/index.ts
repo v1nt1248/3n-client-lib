@@ -15,8 +15,8 @@
  this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import initSqlJs, { Database as DBClass, BindParams as QueryParams, QueryExecResult as QueryResult, SqlValue } from './sqljs.js';
-import { SingleProc, Action } from './synced.js';
+import initSqlJs, { Database as DBClass, BindParams as QueryParams, QueryExecResult as QueryResult } from './sqljs';
+import { SingleProc, Action } from './synced';
 
 export type Database = DBClass;
 export type BindParams = QueryParams;
