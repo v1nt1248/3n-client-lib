@@ -6,6 +6,7 @@ import type { DialogInstance } from './plugins/dialogs'
 
 export * from './constants'
 export * from './tools'
+export * from './libs'
 export * from './plugins'
 export * from './directives'
 export * from './components'

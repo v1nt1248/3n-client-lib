@@ -3,7 +3,7 @@
   "private": false,
   "license": "AGPL-3.0-or-later",
   "author": "v1nt1248",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Library for 3NWeb clients",
   "type": "module",
   "files": [
@@ -22,8 +22,7 @@
     "dev": "vite",
     "generate:types": "vue-tsc --declaration --emitDeclarationOnly --outdir ./dist",
     "copy:dts": "cp ./src/types.d.ts ./dist",
-    "copy:libs": "cp -r ./src/libs ./dist",
-    "build": "vite build && yarn copy:libs",
+    "build": "vite build",
     "preview": "vite preview",
     "stylelint": "stylelint --config .stylelint.config.cjs 'src/**/*.{vue,scss}'",
     "stylelint:fix": "stylelint --config .stylelint.config.cjs --fix 'src/**/*.{vue,scss}'",
@@ -38,7 +37,9 @@
     "dayjs": "^1.11.9",
     "lodash": "^4.17.21",
     "mitt": "^3.0.1",
-    "sanitize-html": "^2.11.0"
+    "protobufjs": "^7.2.5",
+    "sanitize-html": "^2.11.0",
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
     "pinia": "^2.1.6",
@@ -69,6 +70,7 @@
     "stylelint-scss": "^5.1.0",
     "typescript": "^5.2.2",
     "vite": "^4.4.5",
+    "vite-plugin-commonjs": "^0.9.0",
     "vite-plugin-css-injected-by-js": "^3.3.0",
     "vite-plugin-dts": "^3.5.3",
     "vue": "^3.3.4",

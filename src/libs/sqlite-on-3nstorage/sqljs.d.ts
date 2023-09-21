@@ -1,5 +1,5 @@
-// Type definitions for sql 1.4
-// Project: https://github.com/sql-js/sql
+// Type definitions for sql.js 1.4
+// Project: https://github.com/sql-js/sql.js
 // Definitions by: Florian Imdahl <https://github.com/ffflorian>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.3
@@ -31,7 +31,7 @@ export interface SqlJsStatic {
 export declare class Database {
     /**
      * Represents an SQLite database
-     * @see [https://sql.org/documentation/Database.html#Database](https://sql.js.org/documentation/Database.html#Database)
+     * @see [https://sql.js.org/documentation/Database.html#Database](https://sql.js.org/documentation/Database.html#Database)
      *
      * @param data An array of bytes representing an SQLite database file
      */
@@ -47,13 +47,13 @@ export declare class Database {
      *
      * Databases must be closed when you're finished with them, or the
      * memory consumption will grow forever
-     * @see [https://sql.org/documentation/Database.html#["close"]](https://sql.js.org/documentation/Database.html#%5B%22close%22%5D)
+     * @see [https://sql.js.org/documentation/Database.html#["close"]](https://sql.js.org/documentation/Database.html#%5B%22close%22%5D)
      */
     close(): void;
 
     /**
      * Register a custom function with SQLite
-     * @see [https://sql.org/documentation/Database.html#["create_function"]](https://sql.js.org/documentation/Database.html#%5B%22create_function%22%5D)
+     * @see [https://sql.js.org/documentation/Database.html#["create_function"]](https://sql.js.org/documentation/Database.html#%5B%22create_function%22%5D)
      *
      * @param name the name of the function as referenced in SQL statements.
      * @param func the actual function to be executed.
@@ -66,7 +66,7 @@ export declare class Database {
      * Currently this method is synchronous, it will not return until the
      * callback has been called on every row of the result. But this might
      * change.
-     * @see [https://sql.org/documentation/Database.html#["each"]](https://sql.js.org/documentation/Database.html#%5B%22each%22%5D)
+     * @see [https://sql.js.org/documentation/Database.html#["each"]](https://sql.js.org/documentation/Database.html#%5B%22each%22%5D)
      *
      * @param sql A string of SQL text. Can contain placeholders that will
      * be bound to the parameters given as the second argument
@@ -84,7 +84,7 @@ export declare class Database {
      * This is a wrapper against `Database.prepare`, `Statement.bind`, `Statement.step`, `Statement.get`, and `Statement.free`.
      *
      * The result is an array of result elements. There are as many result elements as the number of statements in your sql string (statements are separated by a semicolon)
-     * @see [https://sql.org/documentation/Database.html#["exec"]](https://sql.js.org/documentation/Database.html#%5B%22exec%22%5D)
+     * @see [https://sql.js.org/documentation/Database.html#["exec"]](https://sql.js.org/documentation/Database.html#%5B%22exec%22%5D)
      *
      * @param sql a string containing some SQL text to execute
      * @param params When the SQL statement contains placeholders, you can
@@ -97,7 +97,7 @@ export declare class Database {
 
     /**
      * Exports the contents of the database to a binary array
-     * @see [https://sql.org/documentation/Database.html#["export"]](https://sql.js.org/documentation/Database.html#%5B%22export%22%5D)
+     * @see [https://sql.js.org/documentation/Database.html#["export"]](https://sql.js.org/documentation/Database.html#%5B%22export%22%5D)
      */
     export(): Uint8Array;
 
@@ -106,14 +106,14 @@ export declare class Database {
      * the latest completed `INSERT`, `UPDATE` or `DELETE` statement on the
      * database. Executing any other type of SQL statement does not modify
      * the value returned by this function.
-     * @see [https://sql.org/documentation/Database.html#["getRowsModified"]](https://sql.js.org/documentation/Database.html#%5B%22getRowsModified%22%5D)
+     * @see [https://sql.js.org/documentation/Database.html#["getRowsModified"]](https://sql.js.org/documentation/Database.html#%5B%22getRowsModified%22%5D)
      */
     getRowsModified(): number;
 
     /**
      * Analyze a result code, return null if no error occured, and throw an
      * error with a descriptive message otherwise
-     * @see [https://sql.org/documentation/Database.html#["handleError"]](https://sql.js.org/documentation/Database.html#%5B%22handleError%22%5D)
+     * @see [https://sql.js.org/documentation/Database.html#["handleError"]](https://sql.js.org/documentation/Database.html#%5B%22handleError%22%5D)
      */
     handleError(): null | never;
 
@@ -121,7 +121,7 @@ export declare class Database {
      * Iterate over multiple SQL statements in a SQL string. This function
      * returns an iterator over Statement objects. You can use a `for..of`
      * loop to execute the returned statements one by one.
-     * @see [https://sql.org/documentation/Database.html#["iterateStatements"]](https://sql.js.org/documentation/Database.html#%5B%22iterateStatements%22%5D)
+     * @see [https://sql.js.org/documentation/Database.html#["iterateStatements"]](https://sql.js.org/documentation/Database.html#%5B%22iterateStatements%22%5D)
      *
      * @param sql a string of SQL that can contain multiple statements
      */
@@ -129,7 +129,7 @@ export declare class Database {
 
     /**
      * Prepare an SQL statement
-     * @see [https://sql.org/documentation/Database.html#["prepare"]](https://sql.js.org/documentation/Database.html#%5B%22prepare%22%5D)
+     * @see [https://sql.js.org/documentation/Database.html#["prepare"]](https://sql.js.org/documentation/Database.html#%5B%22prepare%22%5D)
      *
      * @param sql a string of SQL, that can contain placeholders (`?`, `:VVV`, `:AAA`, `@AAA`)
      * @param params values to bind to placeholders
@@ -138,7 +138,7 @@ export declare class Database {
 
     /**
      * Execute an SQL query, ignoring the rows it returns.
-     * @see [https://sql.org/documentation/Database.html#["run"]](https://sql.js.org/documentation/Database.html#%5B%22run%22%5D)
+     * @see [https://sql.js.org/documentation/Database.html#["run"]](https://sql.js.org/documentation/Database.html#%5B%22run%22%5D)
      *
      * @param sql a string containing some SQL text to execute
      * @param params When the SQL statement contains placeholders, you can
@@ -170,7 +170,7 @@ export declare class Statement {
      * |string|TEXT|
      * |Array, Uint8Array|BLOB|
      * |null|NULL|
-     * @see [https://sql.org/documentation/Statement.html#["bind"]](https://sql.js.org/documentation/Statement.html#%5B%22bind%22%5D)
+     * @see [https://sql.js.org/documentation/Statement.html#["bind"]](https://sql.js.org/documentation/Statement.html#%5B%22bind%22%5D)
      *
      * @param values The values to bind
      */
@@ -178,20 +178,20 @@ export declare class Statement {
 
     /**
      * Free the memory used by the statement
-     * @see [https://sql.org/documentation/Statement.html#["free"]](https://sql.js.org/documentation/Statement.html#%5B%22free%22%5D)
+     * @see [https://sql.js.org/documentation/Statement.html#["free"]](https://sql.js.org/documentation/Statement.html#%5B%22free%22%5D)
      */
     free(): boolean;
 
     /**
      * Free the memory allocated during parameter binding
-     * @see [https://sql.org/documentation/Statement.html#["freemem"]](https://sql.js.org/documentation/Statement.html#%5B%22freemem%22%5D)
+     * @see [https://sql.js.org/documentation/Statement.html#["freemem"]](https://sql.js.org/documentation/Statement.html#%5B%22freemem%22%5D)
      */
     freemem(): void;
 
     /**
      * Get one row of results of a statement. If the first parameter is not
      * provided, step must have been called before.
-     * @see [https://sql.org/documentation/Statement.html#["get"]](https://sql.js.org/documentation/Statement.html#%5B%22get%22%5D)
+     * @see [https://sql.js.org/documentation/Statement.html#["get"]](https://sql.js.org/documentation/Statement.html#%5B%22get%22%5D)
      *
      * @param params If set, the values will be bound to the statement
      * before it is executed
@@ -201,7 +201,7 @@ export declare class Statement {
     /**
      * Get one row of result as a javascript object, associating column
      * names with their value in the current row
-     * @see [https://sql.org/documentation/Statement.html#["getAsObject"]](https://sql.js.org/documentation/Statement.html#%5B%22getAsObject%22%5D)
+     * @see [https://sql.js.org/documentation/Statement.html#["getAsObject"]](https://sql.js.org/documentation/Statement.html#%5B%22getAsObject%22%5D)
      *
      * @param params If set, the values will be bound to the statement, and
      * it will be executed
@@ -210,7 +210,7 @@ export declare class Statement {
 
     /**
      * Get the list of column names of a row of result of a statement.
-     * @see [https://sql.org/documentation/Statement.html#["getColumnNames"]](https://sql.js.org/documentation/Statement.html#%5B%22getColumnNames%22%5D)
+     * @see [https://sql.js.org/documentation/Statement.html#["getColumnNames"]](https://sql.js.org/documentation/Statement.html#%5B%22getColumnNames%22%5D)
      */
     getColumnNames(): string[];
 
@@ -219,13 +219,13 @@ export declare class Statement {
      * preparing this statement. The meaning of "normalized" is not
      * well-defined: see
      * [the SQLite documentation](https://sqlite.org/c3ref/expanded_sql.html).
-     * @see [https://sql.org/documentation/Statement.html#["getNormalizedSQL"]](https://sql.js.org/documentation/Statement.html#%5B%22getNormalizedSQL%22%5D)
+     * @see [https://sql.js.org/documentation/Statement.html#["getNormalizedSQL"]](https://sql.js.org/documentation/Statement.html#%5B%22getNormalizedSQL%22%5D)
      */
     getNormalizedSQL(): string;
 
     /**
      * Get the SQL string used in preparing this statement.
-     * @see [https://sql.org/documentation/Statement.html#["getSQL"]](https://sql.js.org/documentation/Statement.html#%5B%22getSQL%22%5D)
+     * @see [https://sql.js.org/documentation/Statement.html#["getSQL"]](https://sql.js.org/documentation/Statement.html#%5B%22getSQL%22%5D)
      */
     getSQL(): string;
 
@@ -233,7 +233,7 @@ export declare class Statement {
      * Reset a statement, so that it's parameters can be bound to new
      * values. It also clears all previous bindings, freeing the memory used
      * by bound parameters.
-     * @see [https://sql.org/documentation/Statement.html#["reset"]](https://sql.js.org/documentation/Statement.html#%5B%22reset%22%5D)
+     * @see [https://sql.js.org/documentation/Statement.html#["reset"]](https://sql.js.org/documentation/Statement.html#%5B%22reset%22%5D)
      */
     reset(): void;
 
@@ -247,7 +247,7 @@ export declare class Statement {
     /**
      * Execute the statement, fetching the the next line of result, that can
      * be retrieved with `Statement.get`.
-     * @see [https://sql.org/documentation/Statement.html#["step"]](https://sql.js.org/documentation/Statement.html#%5B%22step%22%5D)
+     * @see [https://sql.js.org/documentation/Statement.html#["step"]](https://sql.js.org/documentation/Statement.html#%5B%22step%22%5D)
      */
     step(): boolean;
 }
@@ -259,19 +259,19 @@ export declare class Statement {
  *
  * You can't instantiate this class directly, you have to use a Database
  * object in order to create a statement iterator
- * @see [https://sql.org/documentation/StatementIterator.html#StatementIterator](https://sql.js.org/documentation/StatementIterator.html#StatementIterator)
+ * @see [https://sql.js.org/documentation/StatementIterator.html#StatementIterator](https://sql.js.org/documentation/StatementIterator.html#StatementIterator)
  */
 export declare class StatementIterator implements Iterator<Statement>, Iterable<Statement> {
     [Symbol.iterator](): Iterator<Statement>;
     /**
      * Get any un-executed portions remaining of the original SQL string
-     * @see [https://sql.org/documentation/StatementIterator.html#["getRemainingSQL"]](https://sql.js.org/documentation/StatementIterator.html#%5B%22getRemainingSQL%22%5D)
+     * @see [https://sql.js.org/documentation/StatementIterator.html#["getRemainingSQL"]](https://sql.js.org/documentation/StatementIterator.html#%5B%22getRemainingSQL%22%5D)
      */
     getRemainingSql(): string;
 
     /**
      * Prepare the next available SQL statement
-     * @see [https://sql.org/documentation/StatementIterator.html#["next"]](https://sql.js.org/documentation/StatementIterator.html#%5B%22next%22%5D)
+     * @see [https://sql.js.org/documentation/StatementIterator.html#["next"]](https://sql.js.org/documentation/StatementIterator.html#%5B%22next%22%5D)
      */
     next(): StatementIteratorResult;
 }
