@@ -14,8 +14,9 @@
  You should have received a copy of the GNU General Public License along with
  this program. If not, see <http://www.gnu.org/licenses/>.
 */
-
-import initSqlJs, { Database as DBClass, BindParams as QueryParams, QueryExecResult as QueryResult } from './sqljs';
+// @ts-ignore
+import initSqlJs from './sqljs';
+import { Database as DBClass, BindParams as QueryParams, QueryExecResult as QueryResult } from './types'
 import { SingleProc, Action } from './synced';
 
 export type Database = DBClass;
@@ -30,7 +31,6 @@ export interface SaveOpts {
 	skipUpload?: boolean;
 }
 
-
 export abstract class SQLiteOn3NStorage {
 
 	protected readonly syncProc = new SingleProc();
@@ -41,9 +41,10 @@ export abstract class SQLiteOn3NStorage {
 	) {}
 
 	static async makeAndStart(file: WritableFile): Promise<SQLiteOn3NStorage> {
+		// @ts-ignore
 		const SQL = await initSqlJs(true);
 		const fileContent = await readFileContent(file);
-		const db = new SQL.Database(fileContent);
+		const db = new SQL.Database(fileContent) as Database;
 		let sqlite: SQLiteOn3NStorage;
 		if (file.v?.sync) {
 			sqlite = new SQLiteOnSyncedFS(db, file);
