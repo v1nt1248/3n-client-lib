@@ -14,8 +14,7 @@
  You should have received a copy of the GNU General Public License along with
  this program. If not, see <http://www.gnu.org/licenses/>.
 */
-// @ts-ignore
-import initSqlJs from './sqljs';
+import initSqljs from './sqljs';
 import { Database as DBClass, BindParams as QueryParams, QueryExecResult as QueryResult } from './types'
 import { SingleProc, Action } from './synced';
 
@@ -41,8 +40,7 @@ export abstract class SQLiteOn3NStorage {
 	) {}
 
 	static async makeAndStart(file: WritableFile): Promise<SQLiteOn3NStorage> {
-		// @ts-ignore
-		const SQL = await initSqlJs(true);
+		const SQL = await initSqljs(true);
 		const fileContent = await readFileContent(file);
 		const db = new SQL.Database(fileContent) as Database;
 		let sqlite: SQLiteOn3NStorage;
@@ -161,7 +159,6 @@ export function objectFromQueryExecResult<T>(
 		return obj;
 	}, {} as T));
 }
-
 
 export class TableColumnsAndParams<ColumnDefs extends object> {
 

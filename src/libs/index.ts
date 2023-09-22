@@ -1,4 +1,5 @@
-export * from './sqlite-on-3nstorage'
+export { SQLiteOn3NStorage } from './sqlite-on-3nstorage'
+export type { BindParams, Database, QueryExecResult } from './sqlite-on-3nstorage'
 export {
   makeObservableMethodCaller,
   makeReqRepMethodCaller,

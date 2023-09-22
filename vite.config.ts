@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import commonjs from 'vite-plugin-commonjs'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'node:path'
 
@@ -8,7 +7,6 @@ import { resolve } from 'node:path'
 export default defineConfig({
   plugins: [
     vue(),
-    commonjs(),
     dts({ insertTypesEntry: true }),
   ],
   resolve: {

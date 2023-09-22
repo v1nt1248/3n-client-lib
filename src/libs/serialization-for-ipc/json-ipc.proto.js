@@ -1090,4 +1090,4 @@ $root.json_ipc = (function() {
     return json_ipc;
 })();
 
-module.exports = $root;
+export default $root;

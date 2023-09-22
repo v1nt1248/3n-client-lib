@@ -202,7 +202,7 @@ var module;
 
 let wasmBlob;
 
-module.exports = module.exports.default =  async function(keepWasm=false) {
+export default async function(keepWasm=false) {
 	if (!wasmBlob) {
 		if (!wasmInBase64) {
 			throw new Error(`Blob with wasm has already been read and removed`);

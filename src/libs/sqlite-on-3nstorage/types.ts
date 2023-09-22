@@ -275,5 +275,3 @@ export declare class StatementIterator implements Iterator<Statement>, Iterable<
      */
     next(): StatementIteratorResult;
 }
-
-export default function(keepWasm?: boolean): Promise<SqlJsStatic>;
