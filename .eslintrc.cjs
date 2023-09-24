@@ -4,12 +4,7 @@ module.exports = {
     browser: true,
     node: true,
   },
-  extends: [
-    'plugin:vue/base',
-    'plugin:vue/essential',
-    'plugin:vue/vue3-recommended',
-    '@vue/typescript/recommended',
-  ],
+  extends: ['plugin:vue/base', 'plugin:vue/essential', 'plugin:vue/vue3-recommended', '@vue/typescript/recommended', 'plugin:storybook/recommended'],
   plugins: [
     'vue',
     '@typescript-eslint',

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { computed, onMounted, ref, useSlots } from 'vue'
+  import { computed, onMounted, ref, useSlots, watch } from 'vue'
   import { hasSlotContent } from '../tools/ui.helpers'
   import Ui3nIcon from './ui3n-icon.vue'
 
@@ -26,6 +26,22 @@
 
   const buttonEl = ref<HTMLButtonElement | null>(null)
   const isSlotEmpty = computed(() => !hasSlotContent(slots['default']))
+
+  watch(
+    [() => props.color, () => props.textColor],
+    (newValue: [string|undefined, string|undefined], prevValue: [string|undefined, string|undefined]) => {
+      const [ prevColor, prevTextColor ] = prevValue
+      const [ color, textColor ] = newValue
+      if (buttonEl.value) {
+        if (color !== prevColor) {
+          buttonEl.value.style.setProperty('--ui3n-button-background', color ?? 'var(--blue-main, #0090ec)')
+        }
+        if (textColor !== prevTextColor) {
+          buttonEl.value.style.setProperty('--ui3n-button-text-color', textColor ?? 'var(--system-white, #fff)')
+        }
+      }
+    },
+  )
 
   onMounted(() => {
     if (buttonEl.value) {
@@ -97,8 +113,8 @@
     transition: background 0.5s ease-in-out;
 
     &--round {
-      --ui3n-button-padding-vert: 4px;
-      --ui3n-button-padding-horiz: 4px;
+      --ui3n-button-padding-vert: 6px;
+      --ui3n-button-padding-horiz: 6px;
 
       border-radius: 50%;
     }
@@ -115,6 +131,7 @@
           var(--ui3n-button-background)
           radial-gradient(circle, transparent 1%, var(--ui3n-button-background) 1%)
           center/15000%;
+        box-shadow: 0 0 4px var(--shadow-key-ambient-opacity, rgba(0, 0, 0, 0.12));
 
         .ui3n-button {
           &__icon,
@@ -152,4 +169,3 @@
     }
   }
 </style>
-../tools/ui.helpers

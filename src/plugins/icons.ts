@@ -64,7 +64,7 @@ const icons: Record<string, IconifyIcon> = {
   'schedule': baselineSchedule,
   'arrow-drop-down': baselineArrowDropDown,
   'folder': baselineFolder,
-  'outline-folder': outlineFolder,
+  'folder-outline': outlineFolder,
   'subject': baselineSubject,
   'bookmark': baselineBookmark,
   'file-upload': outlineFileUpload,
