@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-  import { computed, onMounted, ref } from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
+  import { emoticons } from '../constants/emoticons'
 
   export interface Ui3nEmojiProps {
     emoji: string;
@@ -11,25 +12,32 @@
     (ev: 'click', value: Event): void;
   }
 
-  const props = defineProps<Ui3nEmojiProps>()
+  const props = withDefaults(
+    defineProps<Ui3nEmojiProps>(),
+    {
+      size: 16,
+      readonly: false,
+    },
+  )
   const emit = defineEmits<Ui3nEmojiEmits>()
 
   const emojiElement = ref<HTMLDivElement | null>(null)
-  const params = computed(() => {
-    const {
-      emoji,
-      size = 16,
-      readonly = false,
-    } = props
-
-    return { emoji, size, readonly }
-  })
+  const emojiData = computed(() => emoticons[props.emoji])
 
   onMounted(() => {
     if (emojiElement.value) {
-      emojiElement.value.style.setProperty('--emoji-size', `${params.value.size}px`)
+      emojiElement.value.style.setProperty('--emoji-size', `${props.size}px`)
     }
   })
+
+  watch(
+    () => props.size,
+    (newValue, prevValue) => {
+      if (emojiElement.value && newValue && newValue !== prevValue) {
+        emojiElement.value.style.setProperty('--emoji-size', `${newValue}px`)
+      }
+    },
+  )
 
   const onClick = (ev: Event) => {
     ev.stopImmediatePropagation()
@@ -42,11 +50,11 @@
     ref="emojiElement"
     :class="[
       'ui3n-emoji',
-      { 'ui3n-emoji--readonly': params.readonly },
+      { 'ui3n-emoji--readonly': props.readonly },
     ]"
     v-on="readonly ? {} : { 'click': onClick }"
   >
-    {{ emoji }}
+    {{ emojiData && emojiData.value }}
   </div>
 </template>
 
@@ -57,6 +65,7 @@
     display: flex;
     width: var(--emoji-size);
     height: var(--emoji-size);
+    font-size: var(--emoji-size);
     justify-content: center;
     align-items: center;
     cursor: pointer;
