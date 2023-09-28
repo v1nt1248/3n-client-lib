@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { computed, ref } from 'vue'
+  import { computed, onMounted, ref } from 'vue'
 
   export interface Ui3nDropFilesProps {
     title?: string;
@@ -14,6 +14,8 @@
   const props = defineProps<Ui3nDropFilesProps>()
   const emit = defineEmits<Ui3nDropFilesEmits>()
 
+  const wrapperElement = ref<HTMLDivElement | null>(null)
+  const wrapperElementHeight = ref(0)
   const isOverDropPlace = ref(false)
   const isOverDropZone = ref(false)
   const params = computed(() => {
@@ -23,6 +25,20 @@
 
     return {
       title,
+    }
+  })
+
+  onMounted(() => {
+    if (wrapperElement.value) {
+      wrapperElementHeight.value = wrapperElement.value.clientHeight
+      wrapperElement.value.style.setProperty('--dropzone-height', `${wrapperElementHeight.value}px`)
+      let titleFontSize = 12
+      if (wrapperElementHeight.value > 100 && wrapperElementHeight.value <= 240) {
+        titleFontSize = 16
+      } else if (wrapperElementHeight.value > 240) {
+        titleFontSize = 20
+      }
+      wrapperElement.value.style.setProperty('--dropzone-title-font', `${titleFontSize}px`)
     }
   })
 
@@ -60,6 +76,7 @@
 <template>
   <!-- eslint-disable max-len -->
   <div
+    ref="wrapperElement"
     class="ui3n-drop-files"
     @dragenter="onDragenter"
     @dragleave="onDragleave"
@@ -80,8 +97,8 @@
       </h3>
       <div class="ui3n-drop-files__dropzone-icon">
         <svg
-          width="192"
-          height="192"
+          :width="wrapperElementHeight / 2"
+          :height="wrapperElementHeight / 2"
           viewBox="0 0 192 192"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -110,11 +127,16 @@
 
 <style lang="scss" scoped>
   .ui3n-drop-files {
+    --dropzone-height: 0;
+    --dropzone-title-font: 0;
+
     position: relative;
+    box-sizing: border-box;
     width: 100%;
     height: 100%;
 
     &__dropzone {
+      box-sizing: border-box;
       position: absolute;
       background-color: var(--system-white, #fff);
       display: flex;
@@ -126,19 +148,20 @@
       z-index: 5;
 
       &-border {
+        box-sizing: border-box;
         position: absolute;
-        width: calc(100% - calc(var(--base-size, 8px) * 2));
-        height: calc(100% - calc(var(--base-size, 8px) * 2));
-        top: var(--base-size, 8px);
-        left: var(--base-size, 8px);
+        top: calc(var(--base-size, 8px) + 1px);
+        bottom: calc(var(--base-size, 8px) + 1px);
+        left: calc(var(--base-size, 8px) + 1px);
+        right: calc(var(--base-size, 8px) + 1px);
         border-radius: var(--base-size, 8px);
         border: 2px dashed var(--gray-50, #f2f2f2);
         pointer-events: none;
       }
 
       &-title {
-        margin: 0 0 24px;
-        font-size: var(--font-24, 24px);
+        margin: 0 0 var(--dropzone-title-font);
+        font-size: var(--dropzone-title-font);
         font-weight: 600;
         color: var(--black-30, #b3b3b3);
         pointer-events: none;
@@ -146,8 +169,8 @@
 
       &-icon {
         position: relative;
-        width: 160px;
-        height: 160px;
+        width: calc(var(--dropzone-height) * 0.4);
+        height: calc(var(--dropzone-height) * 0.4);
         border-radius: 50%;
         background-color: var(--gray-50, #f2f2f2);
         display: flex;

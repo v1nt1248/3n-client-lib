@@ -1,9 +1,14 @@
 import { setup } from '@storybook/vue3'
 import type { Preview } from '@storybook/vue3'
 import { useIcons } from './../src/plugins/icons'
+import { dialogs } from './../src/plugins/dialogs'
+import { notifications } from './../src/plugins/notifications'
 
 setup(app => {
-  app.use(useIcons)
+  app
+    .use(useIcons)
+    .use(dialogs)
+    .use(notifications)
 })
 
 const preview: Preview = {

@@ -185,6 +185,7 @@
       display: block;
       width: 100%;
       font-size: var(--font-12, 12px);
+      line-height: var(--font-16, 16px);
       font-weight: 600;
       color: var(--black-90, #212121);
       margin-bottom: calc(var(--base-size, 8px) / 2);
@@ -271,11 +272,11 @@
 
     &--with-label {
       .ui3n-input__icon {
-        top: calc(var(--base-size) * 3.5 + 1px);
+        top: calc(var(--base-size, 8px) * 3.5 + 1px);
       }
 
       .ui3n-input__clear-btn {
-        top: calc(var(--base-size) * 3 + 1px);
+        top: calc(var(--base-size, 8px) * 3 + 1px);
       }
     }
   }

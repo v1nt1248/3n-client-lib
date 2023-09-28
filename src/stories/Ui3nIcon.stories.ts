@@ -31,7 +31,13 @@ const Template: StoryFn<typeof Ui3nIcon> = (args: Ui3nIconProps) => ({
     <div
       v-for="icon in icons"
       :key="icon"
-      style="font-family: sans-serif; display: flex; justify-content: flex-start; align-items: center; margin-bottom: 8px"
+      style="
+        font-family: sans-serif;
+        display: flex;
+        justify-content:flex-start;
+        align-items: center;
+        margin-bottom: 8px
+      "
     >
       <ui3n-icon
         :icon="icon"

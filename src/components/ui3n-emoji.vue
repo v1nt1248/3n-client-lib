@@ -2,6 +2,7 @@
   import { computed, onMounted, ref, watch } from 'vue'
   import { emoticons } from '../constants/emoticons'
 
+
   export interface Ui3nEmojiProps {
     emoji: string;
     size?: string | number;
@@ -29,6 +30,16 @@
       emojiElement.value.style.setProperty('--emoji-size', `${props.size}px`)
     }
   })
+
+  watch(
+    () => props.emoji,
+    newValue => {
+      if (!Object.keys(emoticons).includes(newValue)) {
+        console.error(`[Ui3nEmoji] Invalid emoticon: ${newValue}`)
+      }
+    },
+    { immediate: true },
+  )
 
   watch(
     () => props.size,
