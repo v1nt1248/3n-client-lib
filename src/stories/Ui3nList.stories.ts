@@ -4,6 +4,7 @@ import Ui3nList from '../components/ui3n-list.vue'
 
 const meta: Meta<typeof Ui3nList> = {
   title: 'Example/Ui3nList',
+  // @ts-expect-error
   component: Ui3nList,
   tags: ['autodocs'],
   argTypes: {
