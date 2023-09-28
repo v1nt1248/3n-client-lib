@@ -9,7 +9,14 @@ const meta: Meta<typeof Ui3nInput> = {
   component: Ui3nInput,
   tags: ['autodocs'],
   argTypes: {
-    icon: { control: 'select', required: true, options: ['', ...icons], description: 'Icon mame' },
+    label: { control: 'text', description: 'Sets the text of the component label' },
+    placeholder: { control: 'text', description: 'Sets the input’s placeholder text.' },
+    clearable: { control: 'boolean', description: 'Allows for the component to be cleared.', table: { defaultValue: { summary: false } } },
+    autofocus: { description: 'Enables autofocus.', table: { type: { summary: 'boolean' }, defaultValue: { summary: false } } },
+    rules: { description: 'Functions pass an input value as an argument and must return either true / false or a string containing an error message. The input field will enter an error state if a function returns (or any value in the array contains) false or is a string.', table: { type: { summary: 'array of function' } } },
+    disabled: { control: 'boolean', description: 'Removes the ability to click or target the input.', table: { defaultValue: { summary: false } } },
+    icon: { control: 'select', options: ['', ...icons], description: 'Icon mame' },
+    iconColor: { control: 'color', description: 'Icon color' },
   }
 }
 
