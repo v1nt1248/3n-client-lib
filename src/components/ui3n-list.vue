@@ -62,7 +62,7 @@
           <div
             :class="[
               'ui3n-list__item-content',
-              { 'ui3n-list__item-content--disables': props.disabled },
+              { 'ui3n-list__item-content--disabled': props.disabled },
             ]"
             @click.stop="emits('select', { value: item, index })"
           >
