@@ -34,6 +34,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "@types/**/*"],
-  "exclude": ["src/App.vue", "src/Dialog.vue", "src/main.ts", "src/store/**/*"],
+  "exclude": ["src/App.vue", "src/main.ts", "src/store/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
