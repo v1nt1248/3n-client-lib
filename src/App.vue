@@ -30,6 +30,8 @@
 
   const list = ref(prepareList()) 
   const listV = ref(prepareVList())
+
+  const text = ref(`Hello <b>Bro</b> !!!`)
 </script>
 
 <template>
@@ -39,6 +41,8 @@
     <ui3n-button>
       Done
     </ui3n-button>
+
+    <p v-ui3n-html.sanitize="text" />
 
     <div class="app-block">
       <ui3n-list
