@@ -1,6 +1,7 @@
 <script setup lang="ts">
   /* eslint-disable @typescript-eslint/no-explicit-any */
   import { ref } from 'vue'
+  import Ui3nButton from './components/ui3n-button.vue'
   import Ui3nList from './components/ui3n-list.vue'
   import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
 
@@ -10,7 +11,7 @@
       const char = String.fromCharCode(65 + i)
       res.push({
         id: char,
-        title: `${char} title`,
+        title: `${char}`,
         children: [
           { id: `${char}-01`, title: `01 ${char} item` },
           { id: `${char}-02`, title: `02 ${char} item` },
@@ -35,6 +36,10 @@
   <div class="app">
     <h3>Components</h3>
 
+    <ui3n-button>
+      Done
+    </ui3n-button>
+
     <div class="app-block">
       <ui3n-list
         :sticky="false"
@@ -42,11 +47,16 @@
       >
         <template #item="{ item }">
           <ui3n-list
-            :title="item.title"
             :items="item.children"
           >
+            <template #title>
+              <div class="list-title">
+                {{ item.title }}
+              </div>
+            </template>
+
             <template #item="{ item: children }">
-              <div>{{ children.title }}</div>
+              <div class="list-item">{{ children.title }}</div>
             </template>
           </ui3n-list>
         </template>
@@ -80,6 +90,21 @@
       height: 400px;
       margin-bottom: 20px;
       overflow-y: auto;
+    }
+
+    .list {
+      &-title {
+        font-size: 14px;
+        font-weight: 600;
+        background-color: #fff;
+        z-index: 10;
+        position: relative;
+        width: 24px;
+      }
+
+      &-item {
+        padding-left: 24px;
+      }
     }
 
     .list__header {

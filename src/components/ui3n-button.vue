@@ -99,6 +99,7 @@
     --ui3n-button-padding-horiz: 16px;
 
     display: flex;
+    justify-content: center;
     align-items: center;
     border: none;
     outline: none;
