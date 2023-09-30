@@ -32,6 +32,7 @@ const meta: Meta<typeof Ui3nDialog> = {
     'dialogProps.closeOnClickOverlay': { description: 'Whether to click the overlay to close the dialog', table: { type: { summary: 'boolean' }, defaultValue: { summary: true } } },
     'dialogProps.onConfirm': { description: 'Confirm callback', table: { type: { summary: '(data: any) => void' } } },
     'dialogProps.onCancel': { description: 'Cancel callback', table: { type: { summary: '(data: any) => void' } } },
+    'dialogProps.onClose': { description: 'Close callback', table: { type: { summary: '(data: any) => void' } } },
   },
 }
 

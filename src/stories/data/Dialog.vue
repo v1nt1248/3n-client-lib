@@ -20,6 +20,6 @@
     font-weight: 400;
     color: var(--black-90, #212121);
     text-align: center;
-    padding: var(--base-size, 8px);
+    padding: 16px 8px 8px 8px;
   }
 </style>

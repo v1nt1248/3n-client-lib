@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { App, Plugin, createApp } from 'vue'
+import { createVNode, render } from 'vue'
+import type { App, Plugin, VNode } from 'vue'
 import type { InjectionKey } from 'vue'
 import { isEmpty, values } from 'lodash'
 import { getRandomId } from '../tools/common.helpers'
@@ -8,7 +9,9 @@ import type { Ui3nDialogComponentProps } from '../components/ui3n-dialog.vue'
 
 export type DialogInstance = {
   id: string;
-  close: () => void;
+  el: HTMLDivElement;
+  vNode: VNode;
+  destroy: () => void;
 }
 
 export interface DialogsPlugin {
@@ -19,21 +22,20 @@ export const DIALOGS_KEY = Symbol() as InjectionKey<DialogsPlugin>
 
 export const dialogs: Plugin = {
   install: (app: App) => {
-    let openDialogs: Record<string, DialogInstance> = {}
+    let openDialogs: Record<string, { destroy: () => void; } > = {}
 
     const $openDialog = (params: Ui3nDialogComponentProps): DialogInstance | undefined => {
+      // TODO In the current version you cannot open a dialog from another dialog
       if (!isEmpty(openDialogs)) {
         for (const d of values(openDialogs)) {
-          d.close && d.close()
+          d.destroy && d.destroy()
         }
         openDialogs = {}
       }
 
-      const div = document.createElement('div')
-      const { component, componentProps, dialogProps } = params
+      const { component, componentProps = {}, dialogProps = {} } = params
       if (!component) {
-        console.error('The dialog component missing')
-        return
+        throw Error('[Dialog plugin] The dialog component missing')
       }
 
       const { teleport } = dialogProps || {}
@@ -43,29 +45,43 @@ export const dialogs: Plugin = {
         : document.querySelector(teleport)
 
       if (parentElement) {
-        const id = getRandomId(5)
-        const dialogComponentInstance = createApp(
+        const id = `dialog-${getRandomId(5)}`
+        let vNode: VNode | null= createVNode(
           Ui3nDialog,
           {
             component,
-            ...componentProps && { componentProps },
-            ...dialogProps && { dialogProps },
+            componentProps,
+            dialogProps: {
+              ...dialogProps,
+              onClose: dialogProps.onClose
+                ? () => {
+                  dialogProps.onClose!()
+                  destroy()
+                }
+                : () => destroy(),
+            }
           },
         )
-        const dialogComponent = dialogComponentInstance.mount(div)
-        parentElement.appendChild(dialogComponent.$el)
+        vNode.appContext = app._context
+        let el: HTMLDivElement | null = document.createElement('div')
+        el.id = id
+        render(vNode, el)
 
-        const close = () => {
-          parentElement.removeChild(dialogComponent.$el)
-          dialogComponentInstance && dialogComponentInstance.unmount && dialogComponentInstance.unmount()
+        const destroy = () => {
+          if (el) {
+            const closedDialogId = el.id
+            render(null, el)
+            document.body.removeChild(el)
+            closedDialogId && delete openDialogs[closedDialogId]
+          }
+          el = null
+          vNode = null
         }
 
-        openDialogs[id] = { id, close }
+        document.body.appendChild(el)
+        openDialogs[id] = { destroy }
 
-        return {
-          id,
-          close,
-        }
+        return { id, el, vNode, destroy }
       }
     }
 

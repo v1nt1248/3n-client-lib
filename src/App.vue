@@ -1,9 +1,13 @@
 <script setup lang="ts">
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  import { ref } from 'vue'
+  import { defineAsyncComponent, inject, ref } from 'vue'
+  import { DIALOGS_KEY } from './plugins/dialogs'
+  import type { DialogsPlugin } from './plugins/dialogs'
   import Ui3nButton from './components/ui3n-button.vue'
   import Ui3nList from './components/ui3n-list.vue'
-  import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
+  // import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
+
+  const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)
 
   const prepareList = () => {
     const res: any[] = []
@@ -22,24 +26,47 @@
     return res
   }
 
-  const prepareVList = () => Array
-    .from({ length: 5000 }, (_, i) => ({
-      id: `${i}i`,
-      title: `Item ${i}`,
-    }))
+  // const prepareVList = () => Array
+  //   .from({ length: 5000 }, (_, i) => ({
+  //     id: `${i}i`,
+  //     title: `Item ${i}`,
+  //   }))
 
   const list = ref(prepareList()) 
-  const listV = ref(prepareVList())
+  // const listV = ref(prepareVList())
 
   const text = ref(`Hello <b>Bro</b> !!!`)
+
+  const open = () => {
+    const dC = defineAsyncComponent(() => import('./stories/data/Dialog.vue'))
+
+    dialogs?.$openDialog({
+        component: dC,
+        componentProps: {
+          dialogText: 'You try delete this entity.',
+          additionalDialogText: 'Are you sure?'
+        },
+        dialogProps: {
+          title: 'Delete entity',
+          onConfirm: () => {
+            console.info('You have clicked Confirm')
+          },
+          onCancel: () => {
+            console.info('You have clicked Cancel')
+          },
+        },
+      })
+  }
 </script>
 
 <template>
   <div class="app">
     <h3>Components</h3>
 
-    <ui3n-button>
-      Done
+    <ui3n-button
+      @click="open"
+    >
+      Open
     </ui3n-button>
 
     <p v-ui3n-html.sanitize="text" />
@@ -60,24 +87,13 @@
             </template>
 
             <template #item="{ item: children }">
-              <div class="list-item">{{ children.title }}</div>
+              <div class="list-item">
+                {{ children.title }}
+              </div>
             </template>
           </ui3n-list>
         </template>
       </ui3n-list>
-    </div>
-    <br><br>
-    <div class="app-block">
-      <ui3n-virtual-scroll
-        :items="listV"
-        :min-child-height="24"
-      >
-        <template #item="{ item, index }">
-          <div class="list__item">
-            {{ item }} | {{ index }}
-          </div>
-        </template>
-      </ui3n-virtual-scroll>
     </div>
   </div>
 </template>
@@ -109,32 +125,6 @@
       &-item {
         padding-left: 24px;
       }
-    }
-
-    .list__header {
-      width: 100%;
-      height: 28px;
-      display: flex;
-      padding: 0 16px;
-      justify-content: flex-start;
-      align-items: center;
-      font-size: 18px;
-      font-weight: 600;
-      background-color: #b0dafc;
-      color: #4744e4;
-    }
-
-    .list__item {
-      position: relative;
-      min-height: 24px;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 0 8px;
-      font-size: 14px;
-      font-weight: 400;
-      border-left: 1px solid #bbb;
-      border-bottom: 1px solid #bbb;
     }
   }
 </style>

@@ -2,7 +2,6 @@
   /* eslint-disable @typescript-eslint/no-explicit-any */
   import { computed, onMounted, ref } from 'vue'
   import type { Component } from 'vue'
-  import { getRandomId } from '../tools'
   import Ui3nButton from './ui3n-button.vue'
 
   export type Ui3nDialogEvent = 'open' | 'before-close' | 'close' | 'confirm' | 'cancel' | 'click-overlay'
@@ -17,6 +16,7 @@
     contentCssStyle?: Record<string, string>;
     confirmButton?: boolean;
     cancelButton?: boolean;
+    onClose?: () => void;
     onConfirm?: (data: any) => void;
     onCancel?: (data: any) => void;
     confirmButtonText?: string;
@@ -88,15 +88,14 @@
   const show = ref(true)
   const data = ref(null)
   const isValid = ref(true)
-  const dialogId = `dialog-${getRandomId(4)}`
+  const dialogElement = ref<HTMLDivElement | null>(null)
 
   onMounted(() => {
-    const dialogElement = document.getElementById(dialogId)
-    if (dialogElement) {
-      dialogElement.style.setProperty('--dialog-confirm-button-color', dialogProps.value.confirmButtonColor)
-      dialogElement.style.setProperty('--dialog-cancel-button-color', dialogProps.value.cancelButtonColor)
-      dialogElement.style.setProperty('--dialog-confirm-background-color', dialogProps.value.confirmButtonBackground)
-      dialogElement.style.setProperty('--dialog-cancel-background-color', dialogProps.value.cancelButtonBackground)
+    if (dialogElement.value) {
+      dialogElement.value.style.setProperty('--dialog-confirm-button-color', dialogProps.value.confirmButtonColor)
+      dialogElement.value.style.setProperty('--dialog-cancel-button-color', dialogProps.value.cancelButtonColor)
+      dialogElement.value.style.setProperty('--dialog-confirm-background-color', dialogProps.value.confirmButtonBackground)
+      dialogElement.value.style.setProperty('--dialog-cancel-background-color', dialogProps.value.cancelButtonBackground)
     }
   })
 
@@ -118,12 +117,13 @@
   }
 
   const closeDialog = (arg?: { ev?: Event, withAction?: boolean }) => {
-    const { ev, withAction = false } = arg || {}
+    const { ev, withAction = true } = arg || {}
     if (ev) {
       ev.stopImmediatePropagation()
       ev.preventDefault()
     }
     show.value = false
+    props.dialogProps?.onClose && props.dialogProps.onClose()
     if (withAction) {
       emit('close')
     }
@@ -162,84 +162,82 @@
 </script>
 
 <template>
-  <teleport :to="dialogProps.teleport">
+  <div
+    v-if="show"
+    class="ui3n-dialog__overlay"
+    @click="dialogProps.closeOnClickOverlay
+      ? closeDialog({ ev: $event })
+      : startEmit('click-overlay')
+    "
+  >
     <div
-      v-if="show"
-      class="ui3n-dialog__overlay"
-      @click="dialogProps.closeOnClickOverlay
-        ? closeDialog({ ev: $event, withAction: true })
-        : startEmit('click-overlay')
-      "
+      ref="dialogElement"
+      :class="dialogProps.cssClass"
+      :style="dialogProps.cssStyle"
     >
       <div
-        :id="dialogId"
-        :class="dialogProps.cssClass"
-        :style="dialogProps.cssStyle"
+        v-if="dialogProps.title"
+        class="ui3n-dialog__title"
+        @click.stop
       >
-        <div
-          v-if="dialogProps.title"
-          class="ui3n-dialog__title"
-          @click.stop
-        >
-          <span>{{ dialogProps.title }}</span>
-          <ui3n-button
-            round
-            color="transparent"
-            icon="close"
-            icon-size="12"
-            icon-color="var(--gray-90, #444)"
-            class="ui3n-dialog__close"
-            @click="closeDialog({ ev: $event, withAction: true })"
-          />
-        </div>
+        <span>{{ dialogProps.title }}</span>
+        <ui3n-button
+          round
+          color="transparent"
+          icon="close"
+          icon-size="12"
+          icon-color="var(--gray-90, #444)"
+          class="ui3n-dialog__close"
+          @click="closeDialog({ ev: $event })"
+        />
+      </div>
 
-        <div
-          v-if="props.component"
-          :class="dialogProps.contentCssClass"
-          :style="dialogProps.contentCssStyle"
-          @click.stop
-        >
-          <component
-            :is="props.component"
-            v-bind="props.componentProps"
-            @select="selectData"
-            @validate="validate"
-            @close="closeDialog({ ev: $event, withAction: true })"
-            @confirm="startEmit('confirm')"
-            @cancel="startEmit('cancel')"
-          />
-        </div>
+      <div
+        v-if="props.component"
+        :class="dialogProps.contentCssClass"
+        :style="dialogProps.contentCssStyle"
+        @click.stop
+      >
+        <component
+          :is="props.component"
+          v-bind="props.componentProps"
+          @select="selectData"
+          @validate="validate"
+          @close="closeDialog({ ev: $event })"
+          @confirm="startEmit('confirm')"
+          @cancel="startEmit('cancel')"
+        />
+      </div>
 
-        <div
-          v-if="dialogProps.confirmButton || dialogProps.cancelButton"
-          :class="[
-            'ui3n-dialog__actions',
-            { 'ui3n-dialog__actions--both': dialogProps.confirmButton && dialogProps.cancelButton },
-          ]"
-          @click.stop
+      <div
+        v-if="dialogProps.confirmButton || dialogProps.cancelButton"
+        :class="[
+          'ui3n-dialog__actions',
+          { 'ui3n-dialog__actions--both': dialogProps.confirmButton && dialogProps.cancelButton },
+        ]"
+        @click.stop
+      >
+        <ui3n-button
+          v-if="dialogProps.cancelButton"
+          :color="dialogProps.cancelButtonBackground"
+          :text-color="dialogProps.cancelButtonColor"
+          @click="handleEvent($event, 'cancel')"
         >
-          <ui3n-button
-            v-if="dialogProps.cancelButton"
-            :color="dialogProps.cancelButtonBackground"
-            :text-color="dialogProps.cancelButtonColor"
-            @click="handleEvent($event, 'cancel')"
-          >
-            {{ dialogProps.cancelButtonText }}
-          </ui3n-button>
+          {{ dialogProps.cancelButtonText }}
+        </ui3n-button>
 
-          <ui3n-button
-            v-if="dialogProps.confirmButton"
-            :color="dialogProps.confirmButtonBackground"
-            :text-color="dialogProps.confirmButtonColor"
-            :disabled="!isValid"
-            @click="handleEvent($event, 'confirm')"
-          >
-            {{ dialogProps.confirmButtonText }}
-          </ui3n-button>
-        </div>
+        <ui3n-button
+          v-if="dialogProps.confirmButton"
+          :color="dialogProps.confirmButtonBackground"
+          :text-color="dialogProps.confirmButtonColor"
+          :disabled="!isValid"
+          @click="handleEvent($event, 'confirm')"
+        >
+          {{ dialogProps.confirmButtonText }}
+        </ui3n-button>
       </div>
     </div>
-  </teleport>
+  </div>
 </template>
 
 <style lang="scss">
