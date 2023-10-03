@@ -2,7 +2,7 @@
   "name": "@v1nt1248/3nclient-lib",
   "license": "AGPL-3.0-or-later",
   "author": "v1nt1248",
-  "version": "0.0.23",
+  "version": "0.0.25",
   "description": "Library for 3NWeb clients",
   "private": false,
   "type": "module",
@@ -39,7 +39,6 @@
     "dayjs": "^1.11.9",
     "lodash": "^4.17.21",
     "mitt": "^3.0.1",
-    "protobufjs": "^7.2.5",
     "sanitize-html": "^2.11.0",
     "tslib": "^2.6.2"
   },

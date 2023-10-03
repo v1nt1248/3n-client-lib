@@ -1,12 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'pinia'
 import type { CbFunction, Ui3nNotificationProps, VueEventBus } from './constants'
-import type { Ui3nDialogComponentProps } from './components/ui3n-dialog.vue'
 import type { DialogInstance } from './plugins/dialogs'
+import type Ui3nButton from './components/ui3n-button.vue'
+import type Ui3nDialog from './components/ui3n-dialog.vue'
+import type { Ui3nDialogComponentProps } from './components/ui3n-dialog.vue'
+import type Ui3nDropFiles from './components/ui3n-drop-files.vue'
+import type Ui3nEmoji from './components/ui3n-emoji.vue'
+import type Ui3nIcon from './components/ui3n-icon.vue'
+import type Ui3nInput from './components/ui3n-input.vue'
+import type Ui3nList from './components/ui3n-list.vue'
+import type Ui3nMenu from './components/ui3n-menu.vue'
+import type Ui3nNotification from './components/ui3n-notification.vue'
+import type Ui3nTableSortIcon from './components/ui3n-table-sort-icon.vue'
+import type Ui3nTable from './components/ui3n-table.vue'
+import type Ui3nText from './components/ui3n-text.vue'
+import type Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
+import type Ui3nHtml from './directives/ui3n-html'
+import type Ui3nClickOutside from './directives/ui3n-click-outside'
 
 export * from './constants'
 export * from './tools'
-export * from './libs'
 export * from './plugins'
 export * from './directives'
 export * from './components'
@@ -19,6 +33,27 @@ declare module 'vue' {
     $tr: (key: string, placeholders?: Record<string, string>) => string;
     $changeLocale: (lang: string) => void;
     $emitter: VueEventBus;
+  }
+
+  interface GlobalComponents {
+    Ui3nButton: typeof Ui3nButton;
+    Ui3nDialog: typeof Ui3nDialog;
+    Ui3nDropFiles: typeof Ui3nDropFiles;
+    Ui3nEmoji: typeof Ui3nEmoji;
+    Ui3nIcon: typeof Ui3nIcon;
+    Ui3nInput: typeof Ui3nInput;
+    Ui3nList: typeof Ui3nList;
+    Ui3nMenu: typeof Ui3nMenu;
+    Ui3nNotification: typeof Ui3nNotification;
+    Ui3nTableSortIcon: typeof Ui3nTableSortIcon;
+    Ui3nTable: typeof Ui3nTable;
+    Ui3nText: typeof Ui3nText;
+    Ui3nVirtualScroll: typeof Ui3nVirtualScroll;
+  }
+
+  interface GlobalDirectives {
+    Ui3nHtml: typeof Ui3nHtml;
+    Ui3nClickOutside: typeof Ui3nClickOutside;
   }
 }
 
