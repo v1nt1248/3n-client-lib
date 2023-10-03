@@ -1,6 +1,6 @@
 # Library (Vue3 + Typescript + Vite)
 
-Components, directives and plugins for Vue3 projects and some helpers methods.  
+Components, directives and plugins for Vue3 projects and some helpers methods (tools).  
 Storybook is used for documentation and demo.  
   
 For demo and development - `yarn storybook` or `npm run storybook`.  
@@ -41,9 +41,6 @@ You can run the project as `yarn dev` or `npm run dev` if you don't want to use 
   - emoticons
   - mailReg
 
-## Libs
-  - ipc-service
-  - ipc-service-caller
-  - sqlite-on-3nstorage
-
 ## Tools
+  - sqlite-on-3nstorage
+  - ...
