@@ -188,7 +188,7 @@
       line-height: var(--font-16, 16px);
       font-weight: 600;
       color: var(--black-90, #212121);
-      margin-bottom: calc(var(--base-size, 8px) / 2);
+      margin-bottom: var(--half-size, 4px);
     }
 
     &__input {
@@ -222,13 +222,13 @@
     &__icon {
       position: absolute;
       left: var(--half-size, 4px);
-      top: var(--base-size, 8px);
+      top: calc((var(--ui3n-input-height) - 16px) / 2);
     }
 
     &__clear-btn {
       position: absolute;
       right: 0;
-      top: var(--half-size, 4px);
+      top: calc((var(--ui3n-input-height) - 28px) / 2);
     }
 
     &__error-text {
@@ -272,11 +272,11 @@
 
     &--with-label {
       .ui3n-input__icon {
-        top: calc(var(--base-size, 8px) * 3.5 + 1px);
+        top: calc((var(--ui3n-input-height) - 16px) / 2 + 20px);
       }
 
       .ui3n-input__clear-btn {
-        top: calc(var(--base-size, 8px) * 3 + 1px);
+        top: calc((var(--ui3n-input-height) - 28px) / 2 + 20px);
       }
     }
   }
