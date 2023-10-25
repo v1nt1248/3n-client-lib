@@ -3,6 +3,7 @@ import 'pinia'
 import type { CbFunction, Ui3nNotificationProps, VueEventBus } from './constants'
 import type { DialogInstance } from './plugins/dialogs'
 import type Ui3nButton from './components/ui3n-button.vue'
+import type Ui3nCheckbox from './components/ui3n-checkbox.vue'
 import type Ui3nDialog from './components/ui3n-dialog.vue'
 import type { Ui3nDialogComponentProps } from './components/ui3n-dialog.vue'
 import type Ui3nDropFiles from './components/ui3n-drop-files.vue'
@@ -37,6 +38,7 @@ declare module 'vue' {
 
   interface GlobalComponents {
     Ui3nButton: typeof Ui3nButton;
+    Ui3nCheckbox: typeof Ui3nCheckbox;
     Ui3nDialog: typeof Ui3nDialog;
     Ui3nDropFiles: typeof Ui3nDropFiles;
     Ui3nEmoji: typeof Ui3nEmoji;

@@ -10,6 +10,8 @@ import Ui3nInput from './ui3n-input.vue'
 import type { Ui3nInputProps, Ui3nInputEmits } from './ui3n-input.vue'
 import Ui3nText from './ui3n-text.vue'
 import type { Ui3nTextProps, Ui3nTextEmits } from './ui3n-text.vue'
+import Ui3mCheckbox from './ui3n-checkbox.vue'
+import type { Ui3nCheckboxProps, Ui3nCheckboxEmits, Ui3nCheckboxSlots } from './ui3n-checkbox.vue'
 import Ui3nNotification from './ui3n-notification.vue'
 import Ui3nTableSortIcon from './ui3n-table-sort-icon.vue'
 import type { Ui3nTableSortIconProps } from './ui3n-table-sort-icon.vue'
@@ -43,6 +45,10 @@ export {
   Ui3nText,
   Ui3nTextProps,
   Ui3nTextEmits,
+  Ui3mCheckbox,
+  Ui3nCheckboxProps,
+  Ui3nCheckboxEmits,
+  Ui3nCheckboxSlots,
   Ui3nNotification,
   Ui3nTableSortIcon,
   Ui3nTableSortIconProps,

@@ -42,6 +42,9 @@ import outlineCleaningServices from '@iconify-icons/ic/outline-cleaning-services
 import baselineReply from '@iconify-icons/ic/baseline-reply'
 import roundContentCopy from '@iconify-icons/ic/round-content-copy'
 import outlineDownloadForOffline from '@iconify-icons/ic/outline-download-for-offline'
+import roundCheckBoxOutlineBlank from '@iconify-icons/ic/round-check-box-outline-blank'
+import baselineCheckBox from '@iconify-icons/ic/baseline-check-box'
+import baselineIndeterminateCheckBox from '@iconify-icons/ic/baseline-indeterminate-check-box'
 
 const icons: Record<string, IconifyIcon> = {
   'close': baselineClose,
@@ -84,6 +87,9 @@ const icons: Record<string, IconifyIcon> = {
   'reply': baselineReply,
   'content-copy': roundContentCopy,
   'download-for-offline': outlineDownloadForOffline,
+  'check-box': roundCheckBoxOutlineBlank,
+  'check-box-checked': baselineCheckBox,
+  'check-box-inderterminate': baselineIndeterminateCheckBox,
 }
 
 export const useIcons: Plugin = {

@@ -110,8 +110,6 @@
     line-height: var(--ui3n-button-text-height);
     font-weight: 600;
     color: var(--ui3n-button-text-color);
-    background-position: center;
-    transition: background 0.5s ease-in-out;
 
     &--round {
       --ui3n-button-padding-vert: 6px;
@@ -125,13 +123,7 @@
     }
 
     &:not([disabled]) {
-      cursor: pointer;
-
       &:hover {
-        background:
-          var(--ui3n-button-background)
-          radial-gradient(circle, transparent 1%, var(--ui3n-button-background) 1%)
-          center/15000%;
         box-shadow: 0 0 4px var(--shadow-key-ambient-opacity, rgba(0, 0, 0, 0.12));
 
         .ui3n-button {
@@ -140,13 +132,6 @@
             opacity: 1;
           }
         }
-      }
-
-      &:active {
-        opacity: 1;
-        background-color: var(--black-30, #b3b3b3);
-        background-size: 100%;
-        transition: background 0s;
       }
     }
 
@@ -168,5 +153,7 @@
     &[disabled] {
       opacity: 0.7;
     }
+
+    @include ripple(var(--ui3n-button-background));
   }
 </style>

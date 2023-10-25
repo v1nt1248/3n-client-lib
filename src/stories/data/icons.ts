@@ -39,4 +39,7 @@ export const icons = [
   'reply',
   'content-copy',
   'download-for-offline',
+  'check-box',
+  'check-box-checked',
+  'check-box-inderterminate',
 ]

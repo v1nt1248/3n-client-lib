@@ -5,6 +5,7 @@
   import type { DialogsPlugin } from './plugins/dialogs'
   import Ui3nButton from './components/ui3n-button.vue'
   import Ui3nList from './components/ui3n-list.vue'
+  import Ui3nCheckbox from './components/ui3n-checkbox.vue'
   // import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
 
   const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)
@@ -25,6 +26,8 @@
     }
     return res
   }
+
+  const checkValue = ref(false)
 
   // const prepareVList = () => Array
   //   .from({ length: 5000 }, (_, i) => ({
@@ -62,6 +65,19 @@
 <template>
   <div class="app">
     <h3>Components</h3>
+
+    <ui3n-checkbox
+      v-model="checkValue"
+      size="20"
+      indeterminate
+    >
+      Some text
+    </ui3n-checkbox>
+    <p>{{ checkValue }}</p>
+    <br>
+
+    <ui3n-button>CLICK</ui3n-button>
+    <br>
 
     <ui3n-button
       @click="open"
