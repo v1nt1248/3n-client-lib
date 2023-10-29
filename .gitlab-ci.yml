@@ -1,0 +1,23 @@
+stages:
+  - build
+  - publish
+
+
+build storybook:
+  stage: build
+  image: node-18_yarn-3.6.3
+  script:
+    - yarn --no-immutable
+    - yarn run build-storybook
+    - cd storybook-static && zip -rq ../storybook.zip ./*
+  artifacts:
+    paths:
+      - storybook.zip
+    expire_in: 1h
+
+
+publish storybook:
+  stage: publish
+  image: node-18
+  script:
+    - bash ci/publish-storybook.sh storybook.zip
