@@ -25,6 +25,8 @@ import Ui3nList from './ui3n-list.vue'
 import type { Ui3nListProps, Ui3nListEmits, Ui3nListSlots } from './ui3n-list.vue'
 import Ui3nVirtualScroll from './ui3n-virtual-scroll.vue'
 import type { Ui3nVirtualScrollProps, Ui3nVirtualScrollSlots } from './ui3n-virtual-scroll.vue'
+import Ui3nTabs from './ui3n-tabs.vue'
+import type { Ui3nTabsProps, Ui3nTabsEmits, Ui3nTabsSlots } from './ui3n-tabs.vue'
 
 export {
   Ui3nIcon,
@@ -71,4 +73,8 @@ export {
   Ui3nVirtualScroll,
   Ui3nVirtualScrollProps,
   Ui3nVirtualScrollSlots,
+  Ui3nTabs,
+  Ui3nTabsProps,
+  Ui3nTabsEmits,
+  Ui3nTabsSlots,
 }

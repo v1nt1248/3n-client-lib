@@ -110,6 +110,7 @@
     line-height: var(--ui3n-button-text-height);
     font-weight: 600;
     color: var(--ui3n-button-text-color);
+    user-select: none;
 
     &--round {
       --ui3n-button-padding-vert: 6px;
@@ -152,6 +153,15 @@
 
     &[disabled] {
       opacity: 0.7;
+    }
+
+    &:not(.ui3n-button--round) {
+      .ui3n-button {
+        &__icon,
+        &__text {
+          pointer-events: none
+        }
+      }
     }
 
     @include ripple(var(--ui3n-button-background));

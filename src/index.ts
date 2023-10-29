@@ -17,6 +17,7 @@ import type Ui3nTableSortIcon from './components/ui3n-table-sort-icon.vue'
 import type Ui3nTable from './components/ui3n-table.vue'
 import type Ui3nText from './components/ui3n-text.vue'
 import type Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
+import type Ui3nTabs from './components/ui3n-tabs.vue'
 import type Ui3nHtml from './directives/ui3n-html'
 import type Ui3nClickOutside from './directives/ui3n-click-outside'
 
@@ -51,6 +52,7 @@ declare module 'vue' {
     Ui3nTable: typeof Ui3nTable;
     Ui3nText: typeof Ui3nText;
     Ui3nVirtualScroll: typeof Ui3nVirtualScroll;
+    Ui3nTabs: typeof Ui3nTabs;
   }
 
   interface GlobalDirectives {

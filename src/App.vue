@@ -6,6 +6,7 @@
   import Ui3nButton from './components/ui3n-button.vue'
   import Ui3nList from './components/ui3n-list.vue'
   import Ui3nCheckbox from './components/ui3n-checkbox.vue'
+  import Ui3nTabs from './components/ui3n-tabs.vue'
   // import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
 
   const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)
@@ -28,6 +29,7 @@
   }
 
   const checkValue = ref(false)
+  const tabsValue = ref(0)
 
   // const prepareVList = () => Array
   //   .from({ length: 5000 }, (_, i) => ({
@@ -78,6 +80,15 @@
 
     <ui3n-button>CLICK</ui3n-button>
     <br>
+
+    <ui3n-tabs v-model="tabsValue">
+      <div class="tabs__item">Option 1</div>
+      <div class="tabs__item">Option 2</div>
+      <div class="tabs__item">Option 3</div>
+      <ui3n-button class="tabs__item">Option 4</ui3n-button>
+    </ui3n-tabs>
+    <br>
+    <p>{{ tabsValue }}</p>
 
     <ui3n-button
       @click="open"
@@ -140,6 +151,15 @@
 
       &-item {
         padding-left: 24px;
+      }
+    }
+
+    .tabs {
+      &__item {
+        display: flex;
+        width: 100px;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
