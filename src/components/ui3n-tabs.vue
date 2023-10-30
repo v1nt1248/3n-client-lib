@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-  import { computed, onMounted, ref } from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
 
   export interface Ui3nTabsProps {
     modelValue: number;
+    itemDirection?: 'horizontal' | 'vertical';
     activeColor?: string;
     inactiveColor?: string;
     indicatorColor?: string;
@@ -23,6 +24,7 @@
     defineProps<Ui3nTabsProps>(),
     {
       modelValue: 0,
+      itemDirection: 'horizontal',
       activeColor: 'var(--blue-main, #0090ec)',
       inactiveColor: 'var(--black-90, #212121)',
       indicatorColor: 'var(--blue-main, #0090ec)',
@@ -40,30 +42,47 @@
   const inactiveColor = computed(() => props.inactiveColor)
   const indicatorColor = computed(() => props.indicatorColor)
   const indicatorSize = computed(() => `${props.indicatorSize}px`)
-  const indicatorPosition = computed(() => props.indicatorPosition === 'normal' ? '0' : '100%')
+  const indicatorPosition = computed(() => props.indicatorPosition === 'reverse' ? '100%' : '0')
+
+  watch(
+    () => props.modelValue,
+    newValue => setTabsActivity(newValue),
+  )
 
   onMounted(() => {
     if (tabs.value) {
       children.value = tabs.value.children
-      if (children.value) {
-        for (let i = 0; i < children.value.length; i++) {
-          children.value[i].classList.add('ui3n-tabs__item')
-          // @ts-ignore
-          children.value[i].dataset.index = `${i}`
-          if (i === props.modelValue) {
-            children.value[i].classList.add('ui3n-tabs__item--active')
-          }
+      initialTabsActivity()
+      setTabsActivity(props.modelValue)
+    }
+  })
+
+  function initialTabsActivity(): void {
+    if (children.value) {
+      for (let i = 0; i < children.value.length; i++) {
+        // @ts-ignore
+        children.value[i].dataset.index = `${i}`
+        children.value[i].classList.add('ui3n-tabs__item')
+      }
+    }
+  }
+
+  function setTabsActivity(index: number): void {
+    if (children.value) {
+      for (let i = 0; i < children.value.length; i++) {     
+        if (i === index) {
+          children.value[i].classList.add('ui3n-tabs__item--active')
+        } else {
+          children.value[i].classList.remove('ui3n-tabs__item--active')
         }
       }
     }
-  })
+  }
 
   const onClick = (ev: MouseEvent) => {
     // @ts-ignore
     const { index } = ev.target.dataset
     if (index) {
-      children.value![props.modelValue].classList.remove('ui3n-tabs__item--active')
-      children.value![Number(index)].classList.add('ui3n-tabs__item--active')
       emits('update:modelValue', Number(index))
     }
   }
@@ -72,7 +91,10 @@
 <template>
   <div
     ref="tabs"
-    class="ui3n-tabs"
+    :class="[
+      'ui3n-tabs', 
+      props.itemDirection === 'vertical' && 'ui3n-tabs--vertical',
+    ]"
     v-on="children ? { click: onClick } : {}"
   >
     <slot />
@@ -107,8 +129,8 @@
           position: absolute;
           content: '';
           left: 0;
-          bottom: v-bind('indicatorPosition');
           width: 100%;
+          bottom: v-bind('indicatorPosition');
           height: v-bind('indicatorSize');
           background-color: transparent;
           transition: background-color 250ms ease-in-out;
@@ -129,6 +151,22 @@
         &::after {
           background-color: v-bind('indicatorColor');
           transition: background-color 250ms ease-in-out;
+        }
+      }
+    }
+
+    &--vertical {
+      height: auto;
+      flex-direction: column;
+
+      :deep(.ui3n-tabs__item) {
+        &.ui3n-tabs__item {
+            &::after {
+            left: v-bind('indicatorPosition');
+            width: v-bind('indicatorSize');
+            bottom: 0;
+            height: 100%;
+          }
         }
       }
     }

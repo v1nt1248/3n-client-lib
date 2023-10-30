@@ -80,8 +80,13 @@
 
     <ui3n-button>CLICK</ui3n-button>
     <br>
+    <br>
 
-    <ui3n-tabs v-model="tabsValue">
+    <ui3n-tabs
+      v-model="tabsValue"
+      item-direction="vertical"
+      indicator-position="reverse"
+    >
       <div class="tabs__item">Option 1</div>
       <div class="tabs__item">Option 2</div>
       <div class="tabs__item">Option 3</div>
@@ -160,6 +165,7 @@
         width: 100px;
         justify-content: center;
         align-items: center;
+        min-height: 32px;
       }
     }
   }
