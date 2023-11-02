@@ -2,6 +2,8 @@ import Ui3nIcon from './ui3n-icon.vue'
 import type { Ui3nIconProps, Ui3nIconEmits } from './ui3n-icon.vue'
 import Ui3nButton from './ui3n-button.vue'
 import type { Ui3nButtonProps, Ui3nButtonEmits } from './ui3n-button.vue'
+import Ui3nChip from './ui3n-chip.vue'
+import type { Ui3nChipProps, Ui3nChipEmits, Ui3nChipSlots } from './ui3n-chip.vue'
 import Ui3nDropFiles from './ui3n-drop-files.vue'
 import type { Ui3nDropFilesProps, Ui3nDropFilesEmits } from './ui3n-drop-files.vue'
 import Ui3nEmoji from './ui3n-emoji.vue'
@@ -35,6 +37,10 @@ export {
   Ui3nButton,
   Ui3nButtonProps,
   Ui3nButtonEmits,
+  Ui3nChip,
+  Ui3nChipProps,
+  Ui3nChipEmits,
+  Ui3nChipSlots,
   Ui3nDropFiles,
   Ui3nDropFilesProps,
   Ui3nDropFilesEmits,

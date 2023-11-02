@@ -6,7 +6,9 @@
   import Ui3nButton from './components/ui3n-button.vue'
   import Ui3nList from './components/ui3n-list.vue'
   import Ui3nCheckbox from './components/ui3n-checkbox.vue'
+  import Ui3nIcon from './components/ui3n-icon.vue'
   import Ui3nTabs from './components/ui3n-tabs.vue'
+  import Ui3nChip from './components/ui3n-chip.vue'
   // import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
 
   const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)
@@ -77,6 +79,14 @@
     </ui3n-checkbox>
     <p>{{ checkValue }}</p>
     <br>
+
+    <ui3n-chip
+      closeable
+      max-width="150"
+    >
+      simpleuser@test.com
+    </ui3n-chip>
+    <br><br>
 
     <ui3n-button>CLICK</ui3n-button>
     <br>
