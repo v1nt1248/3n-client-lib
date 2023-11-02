@@ -9,6 +9,7 @@ You can run the project as `yarn dev` or `npm run dev` if you don't want to use 
 ## Components
   - Ui3nButton
   - Ui3nCheckbox
+  - Ui3nChip
   - Ui3nIcon
   - Ui3nInput
   - Ui3nText
