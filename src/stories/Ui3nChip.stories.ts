@@ -1,4 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import Ui3nIcon from '../components/ui3n-icon.vue'
 import Ui3nChip from '../components/ui3n-chip.vue'
 import type { Ui3nChipProps } from '../components/ui3n-chip.vue'
 
@@ -37,3 +38,34 @@ const Template: StoryFn<typeof Ui3nChip> = (args: Ui3nChipProps) => ({
 })
 
 export const Default = Template.bind({})
+
+export const Closable = Template.bind({
+  closeble: true,
+})
+
+const Template1: StoryFn<typeof Ui3nChip> = (args: Ui3nChipProps) => ({
+  components: { Ui3nChip, Ui3nIcon },
+  setup() {
+    return { args }
+  },
+  template: `
+    <div style="font-family: sans-serif">
+      <ui3n-chip
+        v-bind="args"
+      >
+        adminuser@test.com
+        
+        <template #left="{ size, color }">
+          <ui3n-icon
+            icon="person"
+            :width="size"
+            :height="size"
+            :color="color"
+          />
+        </template>
+      </ui3n-chip>
+    </div>
+  `,
+})
+
+export const With_Icon = Template1.bind({})

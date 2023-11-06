@@ -9,6 +9,7 @@
   import Ui3nIcon from './components/ui3n-icon.vue'
   import Ui3nTabs from './components/ui3n-tabs.vue'
   import Ui3nChip from './components/ui3n-chip.vue'
+  import Ui3nBadge from './components/ui3n-badge.vue'
   // import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
 
   const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)
@@ -85,8 +86,25 @@
       max-width="150"
     >
       simpleuser@test.com
+
+      <template #left="{ size, color }">
+        <ui3n-icon
+          icon="person"
+          :width="size"
+          :height="size"
+          :color="color"
+        />
+      </template>
     </ui3n-chip>
-    <br><br>
+    <br>
+    <ui3n-badge
+      value="5"
+    >
+      <div class="info">
+        SOME TEXT
+      </div>
+    </ui3n-badge>
+    <br>
 
     <ui3n-button>CLICK</ui3n-button>
     <br>
@@ -152,6 +170,19 @@
       height: 400px;
       margin-bottom: 20px;
       overflow-y: auto;
+    }
+
+    .info {
+      position: relative;
+      width: 120px;
+      height: 30px;
+      font-size: 14px;
+      line-height: 1;
+      color: green;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid green;
     }
 
     .list {

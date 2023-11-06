@@ -7,6 +7,7 @@ For demo and development - `yarn storybook` or `npm run storybook`.
 You can run the project as `yarn dev` or `npm run dev` if you don't want to use Storybook.
 
 ## Components
+  - Ui3nBadge,
   - Ui3nButton
   - Ui3nCheckbox
   - Ui3nChip

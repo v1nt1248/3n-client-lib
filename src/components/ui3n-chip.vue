@@ -117,6 +117,7 @@
 
     &--with-icon {
       .ui3n-chip__icon {
+        display: flex;
         margin-right: 5px;
       }
     }
