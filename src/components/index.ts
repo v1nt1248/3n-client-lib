@@ -29,6 +29,8 @@ import Ui3nVirtualScroll from './ui3n-virtual-scroll.vue'
 import type { Ui3nVirtualScrollProps, Ui3nVirtualScrollSlots } from './ui3n-virtual-scroll.vue'
 import Ui3nTabs from './ui3n-tabs.vue'
 import type { Ui3nTabsProps, Ui3nTabsEmits, Ui3nTabsSlots } from './ui3n-tabs.vue'
+import Ui3nBadge from './ui3n-badge.vue'
+import type { Ui3nBadgeProps } from './ui3n-badge.vue'
 
 export {
   Ui3nIcon,
@@ -83,4 +85,6 @@ export {
   Ui3nTabsProps,
   Ui3nTabsEmits,
   Ui3nTabsSlots,
+  Ui3nBadge,
+  Ui3nBadgeProps,
 }

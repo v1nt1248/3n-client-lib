@@ -19,6 +19,7 @@ import type Ui3nTable from './components/ui3n-table.vue'
 import type Ui3nText from './components/ui3n-text.vue'
 import type Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
 import type Ui3nTabs from './components/ui3n-tabs.vue'
+import type Ui3nBadge from './components/ui3n-badge.vue'
 import type Ui3nHtml from './directives/ui3n-html'
 import type Ui3nClickOutside from './directives/ui3n-click-outside'
 
@@ -39,6 +40,7 @@ declare module 'vue' {
   }
 
   interface GlobalComponents {
+    Ui3nBadge: typeof Ui3nBadge;
     Ui3nButton: typeof Ui3nButton;
     Ui3nCheckbox: typeof Ui3nCheckbox;
     Ui3nChip: typeof Ui3nChip;
