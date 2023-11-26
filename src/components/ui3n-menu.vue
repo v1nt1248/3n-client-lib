@@ -128,6 +128,7 @@
       position: absolute;
       border-radius: 4px;
       background-color: var(--system-white, #fff);
+      z-index: 1000;
       @include elevation(3);
     }
   }

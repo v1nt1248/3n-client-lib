@@ -135,13 +135,13 @@
       closeDialog()
     }
 
-    if (event === 'confirm' && props.dialogProps?.onConfirm) {
-      props.dialogProps.onConfirm(data.value)
+    if (event === 'confirm') {
+      props.dialogProps?.onConfirm && props.dialogProps.onConfirm(data.value)
       closeDialog()
     }
 
-    if (event === 'cancel' && props.dialogProps?.onCancel) {
-      props.dialogProps.onCancel(data.value)
+    if (event === 'cancel') {
+      props.dialogProps?.onCancel && props.dialogProps.onCancel(data.value)
       closeDialog()
     }
 
