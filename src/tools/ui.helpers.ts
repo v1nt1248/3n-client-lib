@@ -74,3 +74,7 @@ export function prepareDateAsSting(ts: number): string {
 
   return dateValue.format('YYYY-MM-DD')
 }
+
+export function capitalize(text: string): string {
+  return `${text[0].toLocaleUpperCase()}${text.slice(1)}`
+}
