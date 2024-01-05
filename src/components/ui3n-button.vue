@@ -142,7 +142,7 @@
     }
 
     &__text {
-      display: block;
+      display: flex;
       opacity: 0.85;
       transition: opacity 0.2s ease-in-out;
 
