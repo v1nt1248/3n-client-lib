@@ -15,6 +15,7 @@
   }
 
   export interface Ui3nButtonEmits {
+    (ev: 'init', value: HTMLButtonElement): void;
     (ev: 'click', value: Event): void;
     (ev: 'focus', value: Event): void;
     (ev: 'blur', value: Event): void;
@@ -22,7 +23,7 @@
 
   const slots = useSlots()
   const props = defineProps<Ui3nButtonProps>()
-  const emit = defineEmits<Ui3nButtonEmits>()
+  const emits = defineEmits<Ui3nButtonEmits>()
 
   const buttonEl = ref<HTMLButtonElement | null>(null)
   const isSlotEmpty = computed(() => !hasSlotContent(slots['default']))
@@ -51,6 +52,8 @@
       if (props.textColor) {
         buttonEl.value.style.setProperty('--ui3n-button-text-color', props.textColor)
       }
+
+      emits('init', buttonEl.value)
     }
   })
 </script>
@@ -64,9 +67,9 @@
     ]"
     type="button"
     :disabled="props.disabled"
-    @click="emit('click', $event)"
-    @focusin="emit('focus', $event)"
-    @focusout="emit('blur', $event)"
+    @click="emits('click', $event)"
+    @focusin="emits('focus', $event)"
+    @focusout="emits('blur', $event)"
   >
     <ui3n-icon
       v-if="props.icon"

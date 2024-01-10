@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  import { computed, onMounted, ref } from 'vue'
+  import { computed, nextTick, onMounted, ref } from 'vue'
   import type { Component } from 'vue'
   import Ui3nButton from './ui3n-button.vue'
 
@@ -27,7 +27,7 @@
     cancelButtonBackground?: string;
     closeOnClickOverlay?: boolean;
   }
-    
+
   export interface Ui3nDialogComponentProps {
     component: Component;
     componentProps?: Record<string, any>;
@@ -96,6 +96,12 @@
       dialogElement.value.style.setProperty('--dialog-cancel-button-color', dialogProps.value.cancelButtonColor)
       dialogElement.value.style.setProperty('--dialog-confirm-background-color', dialogProps.value.confirmButtonBackground)
       dialogElement.value.style.setProperty('--dialog-cancel-background-color', dialogProps.value.cancelButtonBackground)
+    }
+
+    if (dialogElement.value) {
+      nextTick(() => {
+        dialogElement.value!.focus()
+      })
     }
   })
 
@@ -172,8 +178,11 @@
   >
     <div
       ref="dialogElement"
+      tabindex="1"
       :class="dialogProps.cssClass"
       :style="dialogProps.cssStyle"
+      @keydown.esc.stop="startEmit('cancel')"
+      @keydown.enter.stop=" isValid && startEmit('confirm')"
     >
       <div
         v-if="dialogProps.title"
@@ -270,6 +279,7 @@
     max-height: 95%;
     background-color: var(--system-white, #fff);
     border-radius: var(--dialog-border-radius);
+    outline: none;
     @include elevation();
 
     &__title {
