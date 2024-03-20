@@ -4,6 +4,8 @@ import { useIcons } from './../src/plugins/icons'
 import { dialogs } from './../src/plugins/dialogs'
 import { notifications } from './../src/plugins/notifications'
 
+import '../src/assets/styles/style.css'
+
 setup(app => {
   app
     .use(useIcons)

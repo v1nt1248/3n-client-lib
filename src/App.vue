@@ -10,6 +10,8 @@
   import Ui3nTabs from './components/ui3n-tabs.vue'
   import Ui3nChip from './components/ui3n-chip.vue'
   import Ui3nBadge from './components/ui3n-badge.vue'
+  import Ui3nBreadcrumb from './components/ui3n-breadcrumb.vue'
+  import Ui3nBreadcrumbs from './components/ui3n-breadcrumbs.vue'
   // import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
 
   const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)
@@ -70,6 +72,24 @@
 <template>
   <div class="app">
     <h3>Components</h3>
+
+    <ui3n-breadcrumbs>
+      <ui3n-breadcrumb
+        :is-active="true"
+        @click="() => console.log('HOME')"
+      >
+        Home
+      </ui3n-breadcrumb>
+      <ui3n-breadcrumb
+        :is-active="true"
+        @click="() => console.log('PROJECTS')"
+      >
+        Projects
+      </ui3n-breadcrumb>
+      <ui3n-breadcrumb>
+        Folder
+      </ui3n-breadcrumb>
+    </ui3n-breadcrumbs>
 
     <ui3n-checkbox
       v-model="checkValue"

@@ -3,6 +3,8 @@ export const icons = [
   'search',
   'arrow-downward',
   'arrow-upward',
+  'arrow-forward',
+  'arrow-back',
   'language',
   'brush',
   'edit',

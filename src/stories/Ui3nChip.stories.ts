@@ -39,9 +39,10 @@ const Template: StoryFn<typeof Ui3nChip> = (args: Ui3nChipProps) => ({
 
 export const Default = Template.bind({})
 
-export const Closable = Template.bind({
-  closeble: true,
-})
+export const Closable = Template.bind({})
+Closable.args = {
+  closeable: true,
+}
 
 const Template1: StoryFn<typeof Ui3nChip> = (args: Ui3nChipProps) => ({
   components: { Ui3nChip, Ui3nIcon },

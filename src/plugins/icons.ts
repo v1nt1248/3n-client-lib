@@ -6,6 +6,8 @@ import baselineClose from '@iconify-icons/ic/baseline-close'
 import roundSearch from '@iconify-icons/ic/round-search'
 import baselineArrowDownward from '@iconify-icons/ic/baseline-arrow-downward'
 import baselineArrowUpward from '@iconify-icons/ic/baseline-arrow-upward'
+import baselineArrowForward from '@iconify-icons/ic/baseline-arrow-forward'
+import baselineArrowBack from '@iconify-icons/ic/baseline-arrow-back'
 import baselineLanguage from '@iconify-icons/ic/baseline-language'
 import baselineBrush from '@iconify-icons/ic/baseline-brush'
 import baselineEdit from '@iconify-icons/ic/baseline-edit'
@@ -51,6 +53,8 @@ const icons: Record<string, IconifyIcon> = {
   'search': roundSearch,
   'arrow-downward': baselineArrowDownward,
   'arrow-upward': baselineArrowUpward,
+  'arrow-forward': baselineArrowForward,
+  'arrow-back': baselineArrowBack,
   'language': baselineLanguage,
   'brush': baselineBrush,
   'edit': baselineEdit,

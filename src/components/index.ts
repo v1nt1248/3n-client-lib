@@ -31,6 +31,10 @@ import Ui3nTabs from './ui3n-tabs.vue'
 import type { Ui3nTabsProps, Ui3nTabsEmits, Ui3nTabsSlots } from './ui3n-tabs.vue'
 import Ui3nBadge from './ui3n-badge.vue'
 import type { Ui3nBadgeProps } from './ui3n-badge.vue'
+import Ui3nBreadcrumb from './ui3n-breadcrumb.vue'
+import type { Ui3nBreadcrumdProps, Ui3nBreadcrumdEmits, Ui3nBreadcrumdSlots } from './ui3n-breadcrumb.vue'
+import Ui3nBreadcrumbs from './ui3n-breadcrumbs.vue'
+import type { Ui3nBreadcrumdsProps } from './ui3n-breadcrumbs.vue'
 
 export {
   Ui3nIcon,
@@ -87,4 +91,10 @@ export {
   Ui3nTabsSlots,
   Ui3nBadge,
   Ui3nBadgeProps,
+  Ui3nBreadcrumb,
+  Ui3nBreadcrumdProps,
+  Ui3nBreadcrumdEmits,
+  Ui3nBreadcrumdSlots,
+  Ui3nBreadcrumbs,
+  Ui3nBreadcrumdsProps,
 }

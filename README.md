@@ -8,6 +8,8 @@ You can run the project as `yarn dev` or `npm run dev` if you don't want to use 
 
 ## Components
   - Ui3nBadge,
+  - Ui3nBreadcrumb
+  - Ui3nBreadcrumbs
   - Ui3nButton
   - Ui3nCheckbox
   - Ui3nChip

@@ -29,7 +29,7 @@ const Template: StoryFn<typeof Ui3nEmoji> = (args: Ui3nEmojiProps) => ({
     return { args, emoticons}
   },
   template: `
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, 24px); gap: 10px 10px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, 24px); gap: 10px 10px">
       <ui3n-emoji
         v-for="(data, emoji) in emoticons"
         :key="emoji"

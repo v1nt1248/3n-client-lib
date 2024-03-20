@@ -28,24 +28,25 @@ const Template: StoryFn<typeof Ui3nIcon> = (args: Ui3nIconProps) => ({
     return { args, icons }
   },
   template: `
-    <div
-      v-for="icon in icons"
-      :key="icon"
-      style="
-        font-family: sans-serif;
-        display: flex;
-        justify-content:flex-start;
-        align-items: center;
-        margin-bottom: 8px
-      "
-    >
-      <ui3n-icon
-        :icon="icon"
-        width="24"
-        height="24"
-      />
-      <div style="padding-left: 10px; font-size: 18px">
-        {{ icon }}
+    <div style="position: relative; height: 500px; overflow-y: auto">
+      <div
+        v-for="icon in icons"
+        :key="icon"
+        style="
+          display: flex;
+          justify-content:flex-start;
+          align-items: center;
+          margin-bottom: 8px
+        "
+      >
+        <ui3n-icon
+          :icon="icon"
+          width="24"
+          height="24"
+        />
+        <div style="padding-left: 10px; font-size: 18px">
+          {{ icon }}
+        </div>
       </div>
     </div>
   `,

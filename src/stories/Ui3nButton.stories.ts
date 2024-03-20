@@ -15,7 +15,7 @@ const meta: Meta<typeof Ui3nButton> = {
     icon: { control: 'select', options: ['', ...icons], description: 'Icon mame' },
     iconSize: { control: 'number', description: 'Icon size in px' },
     iconColor: { control: 'color', description: 'Icon color' },
-    disabled: { control: 'boolean', description: 'Whether to disable button' },
+    disabled: { control: 'boolean', description: 'Whether to disable the button' },
   },
 }
 export default meta
