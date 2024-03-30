@@ -32,13 +32,11 @@
     }
 
     const instance = getCurrentInstance()
-    console.log('INS: ', instance?.parent?.props.separator)
     return instance?.parent?.props.separator || '/'
   })
 
   const parentDisabled = computed(() => {
     const instance = getCurrentInstance()
-    console.log('DIS: ', instance?.parent?.props.disabled)
     return instance?.parent?.props.disabled || false;
   })
 
