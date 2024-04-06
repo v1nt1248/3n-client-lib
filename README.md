@@ -3,8 +3,8 @@
 Components, directives and plugins for Vue3 projects and some helpers methods (tools).  
 Storybook is used for documentation and demo.  
   
-For demo and development - `yarn storybook` or `npm run storybook`.  
-You can run the project as `yarn dev` or `npm run dev` if you don't want to use Storybook.
+For demo and development - `pnpm run storybook` or `npm run storybook`.  
+You can run the project as `pnpm dev` or `npm run dev` if you don't want to use Storybook.
 
 ## Components
   - Ui3nBadge,
