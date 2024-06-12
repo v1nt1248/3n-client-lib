@@ -3,12 +3,13 @@ stages:
   - publish
 
 
-build storybook:
+build docs:
   stage: build
-  image: node-18_yarn-3.6.3
+  image: node-20_pnpm-9.3.0
   script:
-    - yarn --no-immutable
-    - yarn run build-storybook
+    - pnpm i --frozen-lockfile 
+    - pnpm run docs:build
+    - ls
     - cd storybook-static && zip -rq ../storybook.zip ./*
   artifacts:
     paths:
@@ -16,8 +17,8 @@ build storybook:
     expire_in: 1h
 
 
-publish storybook:
+publish docs:
   stage: publish
-  image: node-18
+  image: node-20
   script:
     - bash ci/publish-storybook.sh storybook.zip
