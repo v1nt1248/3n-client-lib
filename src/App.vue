@@ -42,31 +42,10 @@
   //     title: `Item ${i}`,
   //   }))
 
-  const list = ref(prepareList()) 
+  const list = ref(prepareList())
   // const listV = ref(prepareVList())
 
   const text = ref(`Hello <b>Bro</b> !!!`)
-
-  const open = () => {
-    const dC = defineAsyncComponent(() => import('./stories/data/Dialog.vue'))
-
-    dialogs?.$openDialog({
-        component: dC,
-        componentProps: {
-          dialogText: 'You try delete this entity.',
-          additionalDialogText: 'Are you sure?'
-        },
-        dialogProps: {
-          title: 'Delete entity',
-          onConfirm: () => {
-            console.info('You have clicked Confirm')
-          },
-          onCancel: () => {
-            console.info('You have clicked Cancel')
-          },
-        },
-      })
-  }
 </script>
 
 <template>
@@ -142,12 +121,6 @@
     </ui3n-tabs>
     <br>
     <p>{{ tabsValue }}</p>
-
-    <ui3n-button
-      @click="open"
-    >
-      Open
-    </ui3n-button>
 
     <p v-ui3n-html.sanitize="text" />
 

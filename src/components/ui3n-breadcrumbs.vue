@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-  export interface Ui3nBreadcrumdsProps {
+  export interface Ui3nBreadcrumbsProps {
     separator?: string;
     disabled?: boolean;
   }
 
   withDefaults(
-    defineProps<Ui3nBreadcrumdsProps>(),
+    defineProps<Ui3nBreadcrumbsProps>(),
     {
       separator: '/',
       disabled: false,

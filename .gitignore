@@ -9,11 +9,14 @@ lerna-debug.log*
 
 node_modules
 dist
-storybook-static
 dist-ssr
 *.local
 .yarn
 .pnp.*
+.vitepress/cache
+.vitepress/dist
+docs/.vitepress/dist/*.*
+docs/.vitepress/cache
 
 # Editor directories and files
 .vscode/*

@@ -1,21 +1,21 @@
 <script lang="ts" setup>
   import { computed, getCurrentInstance } from 'vue';
 
-  export interface Ui3nBreadcrumdProps {
+  export interface Ui3nBreadcrumbProps {
     separator?: string | undefined;
     isActive?: boolean;
     disabled?: boolean;
   }
-  export interface Ui3nBreadcrumdEmits {
+  export interface Ui3nBreadcrumbEmits {
     (ev: 'click', value: Event): void;
   }
-  export interface Ui3nBreadcrumdSlots {
+  export interface Ui3nBreadcrumbSlots {
     separator: () => unknown;
     default: () => unknown;
   }
 
   const props = withDefaults(
-    defineProps<Ui3nBreadcrumdProps>(),
+    defineProps<Ui3nBreadcrumbProps>(),
     {
       separator: undefined,
       isActive: false,
@@ -23,8 +23,8 @@
     },
   )
 
-  const emits = defineEmits<Ui3nBreadcrumdEmits>()
-  defineSlots<Ui3nBreadcrumdSlots>()
+  const emits = defineEmits<Ui3nBreadcrumbEmits>()
+  defineSlots<Ui3nBreadcrumbSlots>()
 
   const separatorValue = computed(() => {
     if (props.separator) {
@@ -37,11 +37,11 @@
 
   const parentDisabled = computed(() => {
     const instance = getCurrentInstance()
-    return instance?.parent?.props.disabled || false;
+    return instance?.parent?.props.disabled || false
   })
 
   const onClick = (ev: Event) => {
-    emits('click', ev);
+    emits('click', ev)
   }
 </script>
 
@@ -92,6 +92,10 @@
       &:hover {
         cursor: pointer;
         color: var(--ui3n-breadcrumb-color-selected);
+
+        .ui3n-breadcrumb__separator {
+          color: var(--ui3n-breadcrumb-color-default);
+        }
       }
     }
 
