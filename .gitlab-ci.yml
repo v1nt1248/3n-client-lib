@@ -9,11 +9,10 @@ build docs:
   script:
     - pnpm i --frozen-lockfile 
     - pnpm run docs:build
-    - ls
-    - cd storybook-static && zip -rq ../storybook.zip ./*
+    - cd docs/.vitepress/dist && zip -rq ../../../vitepress.zip ./*
   artifacts:
     paths:
-      - storybook.zip
+      - vitepress.zip
     expire_in: 1h
 
 
@@ -21,4 +20,4 @@ publish docs:
   stage: publish
   image: node-20
   script:
-    - bash ci/publish-storybook.sh storybook.zip
+    - bash ci/publish-vitepress.sh vitepress.zip
