@@ -16,8 +16,8 @@
     {
       dot: false,
       value: '',
-      color: '#0090ec',
-      textColor: '#fff',
+      color: 'var(--color-bg-button-primary-default)',
+      textColor: 'var(--color-text-button-primary-default)',
       position: 'right-top',
     },
   )

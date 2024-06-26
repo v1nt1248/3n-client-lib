@@ -94,12 +94,12 @@
   @import "../assets/styles/mixins";
 
   .ui3n-button {
-    --ui3n-button-text-size: 12px;
-    --ui3n-button-text-height: 16px;
-    --ui3n-button-text-color: var(--system-white, #fff);
-    --ui3n-button-background: var(--blue-main, #0090ec);
-    --ui3n-button-padding-vert: 8px;
-    --ui3n-button-padding-horiz: 16px;
+    --ui3n-button-text-size: var(--font-12);
+    --ui3n-button-text-height: var(--spacing-m);
+    --ui3n-button-text-color: var(--color-text-button-primary-default);
+    --ui3n-button-background: var(--color-bg-button-primary-default);
+    --ui3n-button-padding-vert: var(--spacing-s);
+    --ui3n-button-padding-horiz: var(--spacing-m);
 
     display: flex;
     justify-content: center;
@@ -107,7 +107,7 @@
     border: none;
     outline: none;
     padding: var(--ui3n-button-padding-vert) var(--ui3n-button-padding-horiz);
-    border-radius: 4px;
+    border-radius: var(--spacing-xs);
     background: var(--ui3n-button-background);
     font-size: var(--ui3n-button-text-size);
     line-height: var(--ui3n-button-text-height);
@@ -128,7 +128,7 @@
 
     &:not([disabled]) {
       &:hover {
-        box-shadow: 0 0 4px var(--shadow-key-ambient-opacity, rgba(0, 0, 0, 0.12));
+        box-shadow: 0 0 var(--spacing-xs) var(--shadow-key-ambient-opacity);
 
         .ui3n-button {
           &__icon,

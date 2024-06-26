@@ -70,9 +70,9 @@
 
 <style lang="scss" scoped>
   .ui3n-breadcrumb {
-    --ui3n-breadcrumb-font-size: 16px;
-    --ui3n-breadcrumb-color-default: var(--black-90, #212121);
-    --ui3n-breadcrumb-color-selected: var(--blue-main, #0090ec);
+    --ui3n-breadcrumb-font-size: var(--spacing-m);
+    --ui3n-breadcrumb-color-default: var(--color-text-block-primary-default);
+    --ui3n-breadcrumb-color-selected: var(--color-text-block-accent-default);
 
     position: relative;
     display: flex;
@@ -81,7 +81,7 @@
     &__separator {
       display: flex;
       align-items: center;
-      margin: 0 var(--base-size, 8px);
+      margin: 0 var(--spacing-s);
     }
 
     &--active {

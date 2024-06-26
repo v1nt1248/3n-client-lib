@@ -13,8 +13,8 @@
     {
       dot: false,
       value: '',
-      color: '#0090ec',
-      textColor: '#fff',
+      color: 'var(--color-bg-button-primary-default)',
+      textColor: 'var(--color-text-button-primary-default)',
     },
   )
 
@@ -66,22 +66,22 @@
     position: relative;
     box-sizing: border-box;
     background-color: v-bind(color);
-    outline: 1px var(--system-white, #fff) solid;
+    outline: 1px var(--white-0) solid;
 
     &__dot {
-      min-width: 8px;
-      width: 8px;
-      max-width: 8px;
-      min-height: 8px;
-      height: 8px;
-      max-height: 8px;
+      min-width: var(--spacing-s);
+      width: var(--spacing-s);
+      max-width: var(--spacing-s);
+      min-height: var(--spacing-s);
+      height: var(--spacing-s);
+      max-height: var(--spacing-s);
       border-radius: 50%;
     }
 
     &__text {
       display: block;
       color: v-bind(textColor);
-      font-size: 12px;
+      font-size: var(--font-12);
       line-height: var(--ui3n-badge-size);
       text-align: center;
     }
@@ -92,6 +92,6 @@
       width: max-content;
       padding: 0 6px;
       border-radius: 10px;
-    } 
+    }
   }
 </style>
