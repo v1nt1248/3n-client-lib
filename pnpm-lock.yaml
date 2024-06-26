@@ -102,9 +102,6 @@ importers:
       stylelint-config-standard:
         specifier: 36.0.0
         version: 36.0.0(stylelint@16.6.1(typescript@5.4.5))
-      stylelint-rscss:
-        specifier: 0.4.0
-        version: 0.4.0
       stylelint-scss:
         specifier: 6.3.1
         version: 6.3.1(stylelint@16.6.1(typescript@5.4.5))
@@ -1426,10 +1423,6 @@ packages:
   flatted@3.3.1:
     resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
 
-  flatten@1.0.3:
-    resolution: {integrity: sha512-dVsPA/UwQ8+2uoFe5GHtiBMu48dWLTdsuEd7CKGlZlD78r1TTWBvDuFaFGKCo/ZfEr95Uk56vZoX86OsHkUeIg==}
-    deprecated: flatten is deprecated in favor of utility frameworks such as lodash.
-
   focus-trap@7.5.4:
     resolution: {integrity: sha512-N7kHdlgsO/v+iD/dMoJKtsSqs5Dz/dXZVebRgJw23LDk+jMi/974zyiOYDziY2JPp8xivq9BmUGwIJMiuSBi7w==}
 
@@ -1584,9 +1577,6 @@ packages:
   imurmurhash@0.1.4:
     resolution: {integrity: sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==}
     engines: {node: '>=0.8.19'}
-
-  indexes-of@1.0.1:
-    resolution: {integrity: sha512-bup+4tap3Hympa+JBJUG7XuOsdNQ6fxt0MHyXMKuLBKn0OqsTfvUxkUrroEX1+B2VsSHvCjiIcZVxRtYa4nllA==}
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
@@ -2031,9 +2021,6 @@ packages:
     peerDependencies:
       postcss: ^8.4.29
 
-  postcss-selector-parser@2.2.1:
-    resolution: {integrity: sha512-LRzWH77wkR+qOzxFn4ZRSE0qza0b0jOqvmISZU5ZoxeMZyz1JXBCffApXbi+IqByMl3A/mM1kN+iHSIJzeVooQ==}
-
   postcss-selector-parser@6.0.16:
     resolution: {integrity: sha512-A0RVJrX+IUkVZbW3ClroRWurercFhieevHB38sr2+l9eUClMqome3LmEmnhlNy+5Mr2EYN6B2Kaw9wYdd+VHiw==}
     engines: {node: '>=4'}
@@ -2320,9 +2307,6 @@ packages:
     peerDependencies:
       stylelint: ^16.1.0
 
-  stylelint-rscss@0.4.0:
-    resolution: {integrity: sha512-JMmORFkoi543AvHRZlrerflUFmegv5h9l3Fw0DUkkGrCaeyCY5rMVODrQQWS5iARSY42BWfjPd3WCalgVm2ecg==}
-
   stylelint-scss@6.3.1:
     resolution: {integrity: sha512-w/czBoWUZxJNk5fBRPODcXSN4qcPv3WHjTSSpFovVY+TE3MZTMR0yRlbmaDYrm8tTWHvpwQAuEBZ0lk2wwkboQ==}
     engines: {node: '>=18.12.0'}
@@ -2432,9 +2416,6 @@ packages:
 
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
-
-  uniq@1.0.1:
-    resolution: {integrity: sha512-Gw+zz50YNKPDKXs+9d+aKAjVwpjNwqzvNpLigIruT4HA9lMZNdMqs9x07kKHB/L9WRzqp4+DlTU5s4wG2esdoA==}
 
   universalify@0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
@@ -4183,8 +4164,6 @@ snapshots:
 
   flatted@3.3.1: {}
 
-  flatten@1.0.3: {}
-
   focus-trap@7.5.4:
     dependencies:
       tabbable: 6.2.0
@@ -4341,8 +4320,6 @@ snapshots:
   import-lazy@4.0.0: {}
 
   imurmurhash@0.1.4: {}
-
-  indexes-of@1.0.1: {}
 
   inflight@1.0.6:
     dependencies:
@@ -4733,12 +4710,6 @@ snapshots:
     dependencies:
       postcss: 8.4.38
 
-  postcss-selector-parser@2.2.1:
-    dependencies:
-      flatten: 1.0.3
-      indexes-of: 1.0.1
-      uniq: 1.0.1
-
   postcss-selector-parser@6.0.16:
     dependencies:
       cssesc: 3.0.0
@@ -5047,11 +5018,6 @@ snapshots:
       stylelint: 16.6.1(typescript@5.4.5)
       stylelint-config-recommended: 14.0.0(stylelint@16.6.1(typescript@5.4.5))
 
-  stylelint-rscss@0.4.0:
-    dependencies:
-      postcss-resolve-nested-selector: 0.1.1
-      postcss-selector-parser: 2.2.1
-
   stylelint-scss@6.3.1(stylelint@16.6.1(typescript@5.4.5)):
     dependencies:
       known-css-properties: 0.31.0
@@ -5215,8 +5181,6 @@ snapshots:
       which-boxed-primitive: 1.0.2
 
   undici-types@5.26.5: {}
-
-  uniq@1.0.1: {}
 
   universalify@0.1.2: {}
 

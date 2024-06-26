@@ -1,0 +1,17 @@
+<template>
+  <DefaultTheme.Layout />
+</template>
+
+<script setup lang="ts">
+import { provide } from 'vue';
+import { useData } from 'vitepress';
+import DefaultTheme from 'vitepress/theme';
+
+const { isDark } = useData();
+
+provide('toggle-appearance', () => {
+  isDark.value = !isDark.value;
+  console.log('isDark', isDark.value);
+});
+
+</script>

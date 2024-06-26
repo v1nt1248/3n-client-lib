@@ -4,7 +4,6 @@ module.exports = {
     'stylelint-config-standard',
     'stylelint-config-recommended-scss',
     'stylelint-config-recommended-vue',
-    'stylelint-rscss/config'
   ],
   ignoreFiles: ['/app/assets/**/*.css'],
 
@@ -20,7 +19,6 @@ module.exports = {
     "no-empty-source": null,
     "no-descending-specificity": null,
     "color-function-notation": null,
-    "rscss/class-format": null,
     "selector-class-pattern": null,
     "alpha-value-notation": "number",
     "import-notation": "string",
@@ -48,12 +46,6 @@ module.exports = {
           "content"
         ]
       }
-    ],
-
-    /**
-     * DESC:
-     * rscss custom rules
-     */
-    'rscss/no-descendant-combinator': false
+    ]
   }
 }
