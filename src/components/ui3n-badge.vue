@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-  import { computed, ref, useSlots } from 'vue'
-  import get from 'lodash/get'
-  import Ui3nBadgeSimple from './ui3n-badge-simple.vue'
+  import { computed, ref, useSlots } from 'vue';
+  import get from 'lodash/get';
+  import Ui3nBadgeSimple from './ui3n-badge-simple.vue';
 
   export interface Ui3nBadgeProps {
     dot?: boolean;
@@ -20,15 +20,15 @@
       textColor: 'var(--color-text-button-primary-default)',
       position: 'right-top',
     },
-  )
+  );
 
   const slots = useSlots()
   const badgeElementSize = ref<{
     width: number;
     height: number;
-  } | never>()
+  } | never>();
 
-  const hasDefaultSlot = computed(() => !!slots.default)
+  const hasDefaultSlot = computed(() => !!slots.default);
   const style = computed(() => {
     const [xPosition, yPosition] = props.position.split('-')
     return {
@@ -37,16 +37,16 @@
       ...(yPosition === 'top' && { top: `-${get(badgeElementSize.value, 'height', 0) / 2}px` }),
       ...(yPosition === 'bottom' && { bottom: `-${get(badgeElementSize.value, 'height', 0) / 2}px` }),
     }
-  })
+  });
 </script>
 
 <template>
   <!-- eslint-disable vue/no-multiple-template-root -->
   <div
     v-if="hasDefaultSlot"
-    class="ui3n-badge"
+    :class="$style.badge"
   >
-    <div class="ui3n-badge__wrapper">
+    <div :class="$style.wrapper">
       <slot />
 
       <ui3n-badge-simple
@@ -55,7 +55,7 @@
         :color="color"
         :text-color="textColor"
         :style="style"
-        class="ui3n-badge__content"
+        :class="$style.content"
         @change:size="badgeElementSize = $event"
       />
     </div>
@@ -70,20 +70,20 @@
   />
 </template>
 
-<style lang="scss" scoped>
-  .ui3n-badge {
-    --ui3n-badge-size: 20px;
+<style lang="scss" module>
+.badge {
+  --ui3n-badge-size: 20px;
 
-    position: relative;
+  position: relative;
+}
 
-    &__wrapper {
-      position: relative;
-      width: max-content;
-    }
+.wrapper {
+  position: relative;
+  width: max-content;
+}
 
-    &__content {
-      position: absolute;
-      z-index: 5;
-    }
-  }
+.content {
+  position: absolute;
+  z-index: 5;
+}
 </style>

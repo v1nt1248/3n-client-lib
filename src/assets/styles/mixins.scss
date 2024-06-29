@@ -32,7 +32,7 @@
 @mixin ripple($color) {
   @if & {
     background-position: center;
-    transition: background 0.5s ease-in-out;
+    transition: background 0.35s ease-in-out;
 
     &:not([disabled]) {
       cursor: pointer;
@@ -43,10 +43,10 @@
           radial-gradient(circle, transparent 1%, $color 1%)
           center/15000%;
       }
-  
+
       &:active {
         opacity: 1;
-        background-color: var(--black-30, #b3b3b3);
+        background-color: var(--grey-20);
         background-size: 100%;
         transition: background 0s;
       }

@@ -1,172 +1,260 @@
 <script lang="ts" setup>
-  import { computed, onMounted, ref, useSlots, watch } from 'vue'
-  import { hasSlotContent } from '../tools/ui.helpers'
-  import Ui3nIcon from './ui3n-icon.vue'
+import { onMounted, ref, watch } from 'vue';
+import Ui3nIcon from './ui3n-icon.vue';
 
-  export interface Ui3nButtonProps {
-    textColor?: string;
-    color?: string;
-    round?: boolean;
-    elevation?: boolean;
-    icon?: string;
-    iconSize?: string | number;
-    iconColor?: string;
-    disabled?: boolean;
-  }
+export interface Ui3nButtonProps {
+  type?: 'primary' | 'secondary' | 'tertiary' | 'icon' | 'custom';
+  size?: 'regular' | 'small';
+  textColor?: string;
+  color?: string;
+  elevation?: boolean;
+  icon?: string;
+  iconSize?: string | number;
+  iconColor?: string;
+  iconPosition?: 'left' | 'right';
+  disabled?: boolean;
+}
 
-  export interface Ui3nButtonEmits {
-    (ev: 'init', value: HTMLButtonElement): void;
-    (ev: 'click', value: Event): void;
-    (ev: 'focus', value: Event): void;
-    (ev: 'blur', value: Event): void;
-  }
+export interface Ui3nButtonEmits {
+  (ev: 'init', value: HTMLButtonElement): void;
+  (ev: 'click', value: Event): void;
+  (ev: 'focus', value: Event): void;
+  (ev: 'blur', value: Event): void;
+}
 
-  const slots = useSlots()
-  const props = defineProps<Ui3nButtonProps>()
-  const emits = defineEmits<Ui3nButtonEmits>()
+const props = withDefaults(
+  defineProps<Ui3nButtonProps>(),
+  {
+    type: 'primary',
+    size: 'regular',
+    iconPosition: 'right',
+    disabled: false,
+  },
+);
+const emits = defineEmits<Ui3nButtonEmits>();
 
-  const buttonEl = ref<HTMLButtonElement | null>(null)
-  const isSlotEmpty = computed(() => !hasSlotContent(slots['default']))
+const buttonEl = ref<HTMLButtonElement | null>(null);
 
-  watch(
-    [() => props.color, () => props.textColor],
-    (newValue: [string|undefined, string|undefined], prevValue: [string|undefined, string|undefined]) => {
-      const [ prevColor, prevTextColor ] = prevValue
-      const [ color, textColor ] = newValue
-      if (buttonEl.value) {
-        if (color !== prevColor) {
-          buttonEl.value.style.setProperty('--ui3n-button-background', color ?? 'var(--blue-main, #0090ec)')
-        }
-        if (textColor !== prevTextColor) {
-          buttonEl.value.style.setProperty('--ui3n-button-text-color', textColor ?? 'var(--system-white, #fff)')
-        }
-      }
-    },
-  )
+watch(
+  [() => props.color, () => props.textColor],
+  (newValue: [string | undefined, string | undefined], prevValue: [string | undefined, string | undefined]) => {
+    if (!buttonEl.value) return;
 
-  onMounted(() => {
-    if (buttonEl.value) {
-      if (props.color) {
-        buttonEl.value.style.setProperty('--ui3n-button-background', props.color)
-      }
-      if (props.textColor) {
-        buttonEl.value.style.setProperty('--ui3n-button-text-color', props.textColor)
-      }
+    const [prevColor, prevTextColor] = prevValue;
+    const [color, textColor] = newValue;
 
-      emits('init', buttonEl.value)
-    }
-  })
+    (props.type === 'custom' || props.type === 'icon')
+    && color !== prevColor
+    && buttonEl.value.style.setProperty('--ui3n-button-bg-color-custom', color ?? 'var(--color-bg-button-primary-default)');
+
+    props.type === 'custom'
+    && textColor !== prevTextColor
+    && buttonEl.value.style.setProperty('--ui3n-button-text-color-custom', textColor ?? 'var(--color-text-button-primary-default');
+  },
+);
+
+onMounted(() => {
+  if (!buttonEl.value) return;
+
+  (props.type === 'custom' || props.type === 'icon') && props.color && buttonEl.value.style.setProperty('--ui3n-button-bg-color-custom', props.color);
+
+  props.type === 'custom' && props.textColor && buttonEl.value.style.setProperty('--ui3n-button-text-color-custom', props.textColor);
+
+  emits('init', buttonEl.value);
+});
 </script>
 
 <template>
   <button
     ref="buttonEl"
     :class="[
-      'ui3n-button',
-      { 'ui3n-button--round': props.round, 'ui3n-button--elevation': props.elevation },
+      $style.button,
+      $style[size],
+      $style[type],
+      icon && $style[`withIcon-${iconPosition}`],
+      elevation && $style.elevation,
     ]"
     type="button"
-    :disabled="props.disabled"
+    :disabled="disabled"
     @click="emits('click', $event)"
     @focusin="emits('focus', $event)"
     @focusout="emits('blur', $event)"
   >
     <ui3n-icon
-      v-if="props.icon"
-      class="ui3n-button__icon"
-      :icon="props.icon"
-      :width="props.iconSize"
-      :height="props.iconSize"
-      :color="props.iconColor || 'var(--ui3n-button-text-color)'"
+      v-if="icon"
+      :class="$style.buttonIcon"
+      :icon="icon"
+      :width="iconSize || (size === 'small' ? 12 : 16)"
+      :height="iconSize || (size === 'small' ? 12 : 16)"
+      :color="iconColor || 'var(--color-text-button-primary-default)'"
     />
-    <span
-      :class="[
-        'ui3n-button__text',
-        { 'ui3n-button__text--margin': !isSlotEmpty && props.icon },
-      ]"
-    >
+
+    <span v-if="type !== 'icon'" :class="$style.text">
       <slot />
     </span>
   </button>
 </template>
 
-<style lang="scss" scoped>
-  @import "../assets/styles/mixins";
+<style lang="scss" module>
+@import "../assets/styles/mixins";
 
-  .ui3n-button {
-    --ui3n-button-text-size: var(--font-12);
-    --ui3n-button-text-height: var(--spacing-m);
-    --ui3n-button-text-color: var(--color-text-button-primary-default);
-    --ui3n-button-background: var(--color-bg-button-primary-default);
-    --ui3n-button-padding-vert: var(--spacing-s);
-    --ui3n-button-padding-horiz: var(--spacing-m);
+.button {
+  --ui3n-button-padding: var(--spacing-m);
+  --ui3n-button-text-size: var(--font-12);
+  --ui3n-button-text-color-custom: var(--color-text-button-primary-default);
+  --ui3n-button-bg-color-custom: var(--color-bg-button-primary-default);
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    outline: none;
-    padding: var(--ui3n-button-padding-vert) var(--ui3n-button-padding-horiz);
-    border-radius: var(--spacing-xs);
-    background: var(--ui3n-button-background);
-    font-size: var(--ui3n-button-text-size);
-    line-height: var(--ui3n-button-text-height);
-    font-weight: 600;
-    color: var(--ui3n-button-text-color);
-    user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-s);
+  border: none;
+  outline: none;
+  border-radius: var(--spacing-xs);
+  font-size: var(--ui3n-button-text-size);
+  font-weight: 600;
+  line-height: calc(var(--ui3n-button-text-size) * 1.25);
+  user-select: none;
+}
 
-    &--round {
-      --ui3n-button-padding-vert: 6px;
-      --ui3n-button-padding-horiz: 6px;
+.regular {
+  height: var(--spacing-l);
+  padding: 0 var(--spacing-m);
 
-      border-radius: 50%;
-    }
-
-    &--elevation {
-      @include elevation();
-    }
-
-    &:not([disabled]) {
-      &:hover {
-        box-shadow: 0 0 var(--spacing-xs) var(--shadow-key-ambient-opacity);
-
-        .ui3n-button {
-          &__icon,
-          &__text {
-            opacity: 1;
-          }
-        }
-      }
-    }
-
-    &__icon {
-      opacity: 0.85;
-      transition: opacity 0.2s ease-in-out;
-    }
-
-    &__text {
-      display: flex;
-      opacity: 0.85;
-      transition: opacity 0.2s ease-in-out;
-
-      &--margin {
-        margin-left: 4px;
-      }
-    }
-
-    &[disabled] {
-      opacity: 0.7;
-    }
-
-    &:not(.ui3n-button--round) {
-      .ui3n-button {
-        &__icon,
-        &__text {
-          pointer-events: none
-        }
-      }
-    }
-
-    @include ripple(var(--ui3n-button-background));
+  &.withIcon-left {
+    padding-left: var(--spacing-s);
   }
+
+  &.withIcon-right {
+    padding-right: var(--spacing-s);
+  }
+}
+
+.small {
+  height: var(--spacing-ml);
+  padding: 0 var(--spacing-s);
+
+  &.withIcon-left {
+    padding-left: var(--spacing-xs);
+  }
+
+  &.withIcon-right {
+    padding-right: var(--spacing-xs);
+  }
+}
+
+.primary {
+  background: var(--color-bg-button-primary-default);
+  color: var(--color-text-button-primary-default);
+
+  &:hover {
+    background: var(--color-bg-button-primary-hover);
+    color: var(--color-text-button-primary-hover);
+    @include ripple(var(--color-bg-button-primary-hover));
+  }
+
+  &[disabled] {
+    background: var(--color-bg-button-primary-disabled);
+    color: var(--color-text-button-primary-disabled);
+    pointer-events: none;
+  }
+}
+
+.secondary {
+  background: var(--color-bg-button-secondary-default);
+  color: var(--color-text-button-secondary-default);
+
+  &:hover {
+    background: var(--color-bg-button-secondary-hover);
+    color: var(--color-text-button-secondary-hover);
+    @include ripple(var(--color-bg-button-secondary-hover));
+  }
+
+  &[disabled] {
+    background: var(--color-bg-button-secondary-disabled);
+    color: var(--color-text-button-secondary-disabled);
+    pointer-events: none;
+  }
+}
+
+.tertiary {
+  background: transparent;
+  color: var(--color-text-button-secondary-default);
+  padding: 0;
+
+  &:hover {
+    background: transparent;
+    color: var(--color-text-button-secondary-hover);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  &[disabled] {
+    background: transparent;
+    color: var(--color-text-button-secondary-disabled);
+    pointer-events: none;
+  }
+}
+
+.icon {
+  --ui3n-button-icon-bg-color: hsl(from var(--ui3n-button-bg-color-custom) h s calc(l - 10));
+
+  background: var(--ui3n-button-bg-color-custom);
+  color: var(--ui3n-button-text-color-custom);
+  border-radius: 50%;
+
+  &.regular {
+    width: var(--spacing-l);
+    padding: 0;
+  }
+
+  &.small {
+    width: var(--spacing-ml);
+    padding: 0;
+  }
+
+  &:hover {
+    background: var(--ui3n-button-icon-bg-color);
+    @include ripple(var(--ui3n-button-icon-bg-color));
+  }
+
+  &[disabled] {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+}
+
+.custom {
+  --ui3n-button-custom-bg-color: hsl(from var(--ui3n-button-bg-color-custom) h s calc(l - 10));
+
+  background: var(--ui3n-button-bg-color-custom);
+  color: var(--ui3n-button-text-color-custom);
+
+  &:hover {
+    background: var(--ui3n-button-custom-bg-color);
+    @include ripple(var(--ui3n-button-custom-bg-color));
+  }
+
+  &[disabled] {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+}
+
+.withIcon-left {
+  flex-direction: row;
+}
+
+.withIcon-right {
+  flex-direction: row-reverse;
+}
+
+.buttonIcon,
+.text {
+  pointer-events: none;
+}
+
+.elevation {
+  @include elevation();
+}
 </style>

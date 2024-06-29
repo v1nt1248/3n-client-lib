@@ -1,58 +1,62 @@
 <script setup lang="ts">
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  import { defineAsyncComponent, inject, ref } from 'vue'
-  import { DIALOGS_KEY } from './plugins/dialogs'
-  import type { DialogsPlugin } from './plugins/dialogs'
-  import Ui3nButton from './components/ui3n-button.vue'
-  import Ui3nList from './components/ui3n-list.vue'
-  import Ui3nCheckbox from './components/ui3n-checkbox.vue'
-  import Ui3nIcon from './components/ui3n-icon.vue'
-  import Ui3nTabs from './components/ui3n-tabs.vue'
-  import Ui3nChip from './components/ui3n-chip.vue'
-  import Ui3nBadge from './components/ui3n-badge.vue'
-  import Ui3nBreadcrumb from './components/ui3n-breadcrumb.vue'
-  import Ui3nBreadcrumbs from './components/ui3n-breadcrumbs.vue'
-  // import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {defineAsyncComponent, inject, ref} from 'vue';
+import {DIALOGS_KEY} from './plugins/dialogs';
+import type {DialogsPlugin} from './plugins/dialogs';
+import Ui3nButton from './components/ui3n-button.vue';
+import Ui3nList from './components/ui3n-list.vue';
+import Ui3nCheckbox from './components/ui3n-checkbox.vue';
+import Ui3nSwitch from './components/ui3n-switch.vue';
+import Ui3nIcon from './components/ui3n-icon.vue';
+import Ui3nTabs from './components/ui3n-tabs.vue';
+import Ui3nChip from './components/ui3n-chip.vue';
+import Ui3nBadge from './components/ui3n-badge.vue';
+import Ui3nBreadcrumb from './components/ui3n-breadcrumb.vue';
+import Ui3nBreadcrumbs from './components/ui3n-breadcrumbs.vue';
+// import Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue';
 
-  const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)
+const dialogs = inject<DialogsPlugin>(DIALOGS_KEY);
 
-  const prepareList = () => {
-    const res: any[] = []
-    for (let i = 0; i < 26; i++) {
-      const char = String.fromCharCode(65 + i)
-      res.push({
-        id: char,
-        title: `${char}`,
-        children: [
-          { id: `${char}-01`, title: `01 ${char} item` },
-          { id: `${char}-02`, title: `02 ${char} item` },
-          { id: `${char}-03`, title: `03 ${char} item` },
-        ],
-      })
-    }
-    return res
+const prepareList = () => {
+  const res: any[] = [];
+  for (let i = 0; i < 26; i++) {
+    const char = String.fromCharCode(65 + i);
+    res.push({
+      id: char,
+      title: `${char}`,
+      children: [
+        {id: `${char}-01`, title: `01 ${char} item`},
+        {id: `${char}-02`, title: `02 ${char} item`},
+        {id: `${char}-03`, title: `03 ${char} item`},
+      ],
+    });
   }
+  return res;
+}
 
-  const checkValue = ref(false)
-  const tabsValue = ref(0)
+const checkValue = ref([true, false, false]);
+const switchValue = ref([true, false]);
+const tabsValue = ref(0);
 
-  // const prepareVList = () => Array
-  //   .from({ length: 5000 }, (_, i) => ({
-  //     id: `${i}i`,
-  //     title: `Item ${i}`,
-  //   }))
+// const prepareVList = () => Array
+//   .from({ length: 5000 }, (_, i) => ({
+//     id: `${i}i`,
+//     title: `Item ${i}`,
+//   }));
 
-  const list = ref(prepareList())
-  // const listV = ref(prepareVList())
+const list = ref(prepareList());
+// const listV = ref(prepareVList());
 
-  const text = ref(`Hello <b>Bro</b> !!!`)
+const text = ref(`Hello <b>Bro</b> !!!`);
 </script>
 
 <template>
   <div class="app">
     <h3>Components</h3>
 
-    <ui3n-breadcrumbs>
+    <div class="app-row app-row--with-title">
+      <div class="app-row__title">--- BREADCRUMBS ---</div>
+      <ui3n-breadcrumbs>
       <ui3n-breadcrumb
         :is-active="true"
         @click="() => console.log('HOME')"
@@ -69,16 +73,72 @@
         Folder
       </ui3n-breadcrumb>
     </ui3n-breadcrumbs>
+    </div>
 
-    <ui3n-checkbox
-      v-model="checkValue"
-      size="20"
-      indeterminate
-    >
-      Some text
-    </ui3n-checkbox>
-    <p>{{ checkValue }}</p>
-    <br>
+    <div class="app-row app-row--with-title">
+      <div class="app-row__title">--- BUTTONS ---</div>
+      <ui3n-button>Primary</ui3n-button>
+      <ui3n-button disabled>Disabled</ui3n-button>
+      <ui3n-button size="small">Primary</ui3n-button>
+    </div>
+    <div class="app-row">
+      <ui3n-button type="secondary">Secondary</ui3n-button>
+      <ui3n-button type="secondary" disabled>Secondary</ui3n-button>
+      <ui3n-button type="secondary" size="small">Secondary</ui3n-button>
+    </div>
+    <div class="app-row">
+      <ui3n-button type="tertiary">Tertiary</ui3n-button>
+      <ui3n-button type="tertiary" disabled>Tertiary</ui3n-button>
+      <ui3n-button type="tertiary" size="small">Tertiary</ui3n-button>
+    </div>
+    <div class="app-row">
+      <ui3n-button type="custom" color="#124037" text-color="#ffd0be">Custom</ui3n-button>
+      <ui3n-button type="custom" color="#124037" text-color="#ffd0be" disabled>Custom</ui3n-button>
+      <ui3n-button type="custom" color="#124037" text-color="#ffd0be" size="small">Custom</ui3n-button>
+    </div>
+    <div class="app-row">
+      <ui3n-button icon="logout">Primary</ui3n-button>
+      <ui3n-button icon="logout" disabled>Primary</ui3n-button>
+      <ui3n-button icon="logout" size="small">Primary</ui3n-button>
+    </div>
+    <div class="app-row">
+      <ui3n-button icon="home" icon-position="left">Primary</ui3n-button>
+      <ui3n-button icon="home" icon-position="left" disabled>Primary</ui3n-button>
+      <ui3n-button icon="home" icon-position="left" size="small">Primary</ui3n-button>
+    </div>
+    <div class="app-row">
+      <ui3n-button type="icon" icon="check" />
+      <ui3n-button type="icon" icon="check" disabled />
+      <ui3n-button type="icon" icon="check" size="small" />
+    </div>
+
+    <div class="app-row app-row--with-title">
+      <div class="app-row__title">--- CHECKBOX ---</div>
+      <ui3n-checkbox size="20" v-model="checkValue[0]">
+        Checked
+      </ui3n-checkbox>
+      <ui3n-checkbox size="20" disabled v-model="checkValue[0]">
+        Checked (disabled)
+      </ui3n-checkbox>
+      <ui3n-checkbox size="20" v-model="checkValue[1]">
+        Unchecked
+      </ui3n-checkbox>
+      <ui3n-checkbox size="20" v-model="checkValue[2]" indeterminate>
+        Indeterminate
+      </ui3n-checkbox>
+    </div>
+
+    <div class="app-row app-row--with-title">
+      <div class="app-row__title">--- SWITCH ---</div>
+      <ui3n-switch size="24" v-model="switchValue[0]" />
+      <ui3n-switch size="24" disabled v-model="switchValue[0]" />
+      <ui3n-switch size="24" v-model="switchValue[1]" />
+      <ui3n-switch size="24" v-model="switchValue[1]">
+        With label
+      </ui3n-switch>
+    </div>
+
+    <!--
 
     <ui3n-chip
       closeable
@@ -148,59 +208,88 @@
         </template>
       </ui3n-list>
     </div>
+    -->
   </div>
 </template>
 
 <style lang="scss" scoped>
-  .app {
-    position: fixed;
-    inset: 0;
-    padding: 8px;
+.app {
+  position: fixed;
+  inset: 0;
+  padding: 8px;
+  font-family: Manrope, sans-serif;
+  background: #eee;
 
-    &-block {
-      position: relative;
-      width: 320px;
-      height: 400px;
-      margin-bottom: 20px;
-      overflow-y: auto;
-    }
+  &-row {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
 
-    .info {
-      position: relative;
-      width: 120px;
-      height: 30px;
-      font-size: 14px;
-      line-height: 1;
-      color: green;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px solid green;
-    }
-
-    .list {
-      &-title {
-        font-size: 14px;
-        font-weight: 600;
-        background-color: #fff;
-        z-index: 10;
-        position: relative;
-        width: 24px;
-      }
-
-      &-item {
-        padding-left: 24px;
-      }
-    }
-
-    .tabs {
-      &__item {
-        display: flex;
-        width: 100px;
-        justify-content: center;
-        align-items: center;
-        min-height: 32px;
-      }
+    &--with-title {
+      padding-top: 32px;
     }
   }
+
+  &-row__title {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+
+  &-block {
+    position: relative;
+    width: fit-content;
+    max-height: 400px;
+    margin-bottom: 16px;
+    overflow-y: auto;
+
+    &--with-title {
+      padding-top: 32px;
+    }
+  }
+
+  .info {
+    position: relative;
+    width: 120px;
+    height: 30px;
+    font-size: 14px;
+    line-height: 1;
+    color: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid green;
+  }
+
+  .list {
+    &-title {
+      font-size: 14px;
+      font-weight: 600;
+      background-color: #fff;
+      z-index: 10;
+      position: relative;
+      width: 24px;
+    }
+
+    &-item {
+      padding-left: 24px;
+    }
+  }
+
+  .tabs {
+    &__item {
+      display: flex;
+      width: 100px;
+      justify-content: center;
+      align-items: center;
+      min-height: 32px;
+    }
+  }
+}
 </style>

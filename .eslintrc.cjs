@@ -4,15 +4,26 @@ module.exports = {
     browser: true,
     node: true,
   },
-  extends: ['plugin:vue/base', 'plugin:vue/essential', 'plugin:vue/vue3-recommended', '@vue/typescript/recommended', 'plugin:storybook/recommended'],
+  extends: [
+    'plugin:vue/base',
+    'plugin:vue/essential',
+    'plugin:vue/vue3-recommended',
+    '@vue/typescript/recommended',
+    'prettier',
+    'eslint-config-prettier',
+  ],
   plugins: [
     'vue',
     '@typescript-eslint',
+    'prettier',
+    'eslint-plugin-prettier',
   ],
   parserOptions: {
     parser: '@typescript-eslint/parser',
     ecmaVersion: 2020,
+    sourceType: 'module',
   },
+  ignorePatterns: ['/*', '!/src', '**/assets'],
   rules: {
     'max-len': [
       'error',
