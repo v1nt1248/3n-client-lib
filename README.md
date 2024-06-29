@@ -23,6 +23,7 @@ You can run the project as `pnpm dev` or `npm run dev` if you don't want to use 
   - Ui3nVirtualScroll
   - Ui3nNotification
   - Ui3nDialog
+  - Ui3nSwitch
   - Ui3nTable
   - Ui3nTabs
 
