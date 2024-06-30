@@ -20,7 +20,16 @@
     (ev: 'click', value: Event): void;
   }
 
-  const props = defineProps<Ui3nIconProps>()
+  const props = withDefaults(
+    defineProps<Ui3nIconProps>(),
+      {
+        title: '',
+        width: 16,
+        height: 16,
+        rotate: 0,
+        color: 'var(--color-icon-control-primary-default)',
+      },
+  );
   const emit = defineEmits<Ui3nIconEmits>()
 
   const onLoad = (value: any) => {
@@ -35,17 +44,27 @@
 
 <template>
   <icon
-    :icon="props.icon"
-    :title="props.title || ''"
-    :inline="props.inline"
-    :width="props.width || 16"
-    :height="props.height || 16"
-    :horizontal-flip="props.horizontalFlip"
-    :vertical-flip="props.verticalFlip"
-    :flip="props.flip"
-    :rotate="props.rotate || 0"
-    :color="props.color || 'var(--gray-90, #444)'"
+    :class="$style.icon"
+    :icon="icon"
+    :title="title"
+    :inline="inline"
+    :width="width"
+    :height="height"
+    :horizontal-flip="horizontalFlip"
+    :vertical-flip="verticalFlip"
+    :flip="flip"
+    :rotate="rotate"
+    :color="color"
     :on-load="onLoad"
     @click="onClick"
   />
 </template>
+
+<style lang="scss" module>
+.icon {
+  min-width: v-bind(width);
+  min-height: v-bind(height);
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+</style>

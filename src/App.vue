@@ -1,8 +1,8 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {defineAsyncComponent, inject, ref} from 'vue';
-import {DIALOGS_KEY} from './plugins/dialogs';
-import type {DialogsPlugin} from './plugins/dialogs';
+import { defineAsyncComponent, inject, ref } from 'vue';
+import { DIALOGS_KEY } from './plugins/dialogs';
+import type { DialogsPlugin } from './plugins/dialogs';
 import Ui3nButton from './components/ui3n-button.vue';
 import Ui3nList from './components/ui3n-list.vue';
 import Ui3nCheckbox from './components/ui3n-checkbox.vue';
@@ -25,14 +25,14 @@ const prepareList = () => {
       id: char,
       title: `${char}`,
       children: [
-        {id: `${char}-01`, title: `01 ${char} item`},
-        {id: `${char}-02`, title: `02 ${char} item`},
-        {id: `${char}-03`, title: `03 ${char} item`},
+        { id: `${char}-01`, title: `01 ${char} item` },
+        { id: `${char}-02`, title: `02 ${char} item` },
+        { id: `${char}-03`, title: `03 ${char} item` },
       ],
     });
   }
   return res;
-}
+};
 
 const checkValue = ref([true, false, false]);
 const switchValue = ref([true, false]);
@@ -55,24 +55,31 @@ const text = ref(`Hello <b>Bro</b> !!!`);
     <h3>Components</h3>
 
     <div class="app-row app-row--with-title">
+      <div class="app-row__title">--- BADGE ---</div>
+      <ui3n-badge value="5">
+        <div class="info">SOME TEXT</div>
+      </ui3n-badge>
+    </div>
+
+    <div class="app-row app-row--with-title">
       <div class="app-row__title">--- BREADCRUMBS ---</div>
       <ui3n-breadcrumbs>
-      <ui3n-breadcrumb
-        :is-active="true"
-        @click="() => console.log('HOME')"
-      >
-        Home
-      </ui3n-breadcrumb>
-      <ui3n-breadcrumb
-        :is-active="true"
-        @click="() => console.log('PROJECTS')"
-      >
-        Projects
-      </ui3n-breadcrumb>
-      <ui3n-breadcrumb>
-        Folder
-      </ui3n-breadcrumb>
-    </ui3n-breadcrumbs>
+        <ui3n-breadcrumb
+          :is-active="true"
+          @click="() => console.log('HOME')"
+        >
+          Home
+        </ui3n-breadcrumb>
+        <ui3n-breadcrumb
+          :is-active="true"
+          @click="() => console.log('PROJECTS')"
+        >
+          Projects
+        </ui3n-breadcrumb>
+        <ui3n-breadcrumb>
+          Folder
+        </ui3n-breadcrumb>
+      </ui3n-breadcrumbs>
     </div>
 
     <div class="app-row app-row--with-title">
@@ -138,37 +145,33 @@ const text = ref(`Hello <b>Bro</b> !!!`);
       </ui3n-switch>
     </div>
 
+    <div class="app-row app-row--with-title">
+      <div class="app-row__title">--- CHIP ---</div>
+      <ui3n-chip closeable max-width="150" color="var(--blue-10)">
+        simpleuser@test.com
+        <template #left="{ size, color }">
+          <ui3n-icon icon="person" :width="size" :height="size" :color="color" />
+        </template>
+      </ui3n-chip>
+      <ui3n-chip max-width="150" color="var(--blue-10)">
+        simpleuser@test.com
+        <template #left="{ size, color }">
+          <ui3n-icon icon="person" :width="size" :height="size" :color="color" />
+        </template>
+      </ui3n-chip>
+      <ui3n-chip
+        :round="false"
+        height="16"
+        max-width="150"
+        color="var(--color-icon-table-accent-default)"
+        text-color="var(--white-0)"
+        text-size="9"
+      >
+        DOCX
+      </ui3n-chip>
+    </div>
+
     <!--
-
-    <ui3n-chip
-      closeable
-      max-width="150"
-    >
-      simpleuser@test.com
-
-      <template #left="{ size, color }">
-        <ui3n-icon
-          icon="person"
-          :width="size"
-          :height="size"
-          :color="color"
-        />
-      </template>
-    </ui3n-chip>
-    <br>
-    <ui3n-badge
-      value="5"
-    >
-      <div class="info">
-        SOME TEXT
-      </div>
-    </ui3n-badge>
-    <br>
-
-    <ui3n-button>CLICK</ui3n-button>
-    <br>
-    <br>
-
     <ui3n-tabs
       v-model="tabsValue"
       item-direction="vertical"

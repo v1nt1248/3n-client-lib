@@ -204,11 +204,13 @@ onMounted(() => {
   border-radius: 50%;
 
   &.regular {
+    min-width: var(--spacing-l);
     width: var(--spacing-l);
     padding: 0;
   }
 
   &.small {
+    min-width: var(--spacing-ml);
     width: var(--spacing-ml);
     padding: 0;
   }
