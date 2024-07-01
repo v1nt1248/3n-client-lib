@@ -1,176 +1,158 @@
 <script lang="ts" setup>
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  import { computed, nextTick, onMounted, ref } from 'vue'
-  import type { Component } from 'vue'
-  import Ui3nButton from './ui3n-button.vue'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { computed, nextTick, onMounted, ref } from 'vue';
+import type { Component } from 'vue';
+import Ui3nButton from './ui3n-button.vue';
 
-  export type Ui3nDialogEvent = 'open' | 'before-close' | 'close' | 'confirm' | 'cancel' | 'click-overlay'
+export type Ui3nDialogEvent = 'open' | 'before-close' | 'close' | 'confirm' | 'cancel' | 'click-overlay';
 
-  export interface Ui3nDialogProps {
-    teleport?: string;
-    title?: string;
-    width?: string | number;
-    cssClass?: string;
-    cssStyle?: Record<string, string>;
-    contentCssClass?: string;
-    contentCssStyle?: Record<string, string>;
-    confirmButton?: boolean;
-    cancelButton?: boolean;
-    onClose?: () => void;
-    onConfirm?: (data: any) => void;
-    onCancel?: (data: any) => void;
-    confirmButtonText?: string;
-    cancelButtonText?: string;
-    confirmButtonColor?: string;
-    cancelButtonColor?: string;
-    confirmButtonBackground?: string;
-    cancelButtonBackground?: string;
-    closeOnClickOverlay?: boolean;
+export interface Ui3nDialogProps {
+  teleport?: string;
+  title?: string;
+  width?: string | number;
+  cssClass?: string[];
+  cssStyle?: Record<string, string>;
+  contentCssClass?: string[];
+  contentCssStyle?: Record<string, string>;
+  confirmButton?: boolean;
+  cancelButton?: boolean;
+  onClose?: () => void;
+  onConfirm?: (data: any) => void;
+  onCancel?: (data: any) => void;
+  confirmButtonText?: string;
+  cancelButtonText?: string;
+  confirmButtonColor?: string;
+  cancelButtonColor?: string;
+  confirmButtonBackground?: string;
+  cancelButtonBackground?: string;
+  closeOnClickOverlay?: boolean;
+}
+
+export interface Ui3nDialogComponentProps {
+  component: Component;
+  componentProps?: Record<string, any>;
+  dialogProps?: Ui3nDialogProps;
+}
+
+export interface Ui3nDialogComponentEmits {
+  (ev: 'open', value?: any): void;
+  (ev: 'before-close', value?: any): void;
+  (ev: 'close', value?: any): void;
+  (ev: 'confirm', value?: any): void;
+  (ev: 'cancel', value?: any): void;
+  (ev: 'click-overlay', value?: any): void;
+}
+
+const props = defineProps<Ui3nDialogComponentProps>();
+
+const emits = defineEmits<Ui3nDialogComponentEmits>();
+
+const show = ref(true);
+const data = ref(null);
+const isValid = ref(true);
+const dialogElement = ref<HTMLDivElement | null>(null);
+
+const dialogProps = computed<Ui3nDialogProps>(() => ({
+  teleport: props.dialogProps?.teleport ?? 'body',
+  title: props.dialogProps?.title ?? '',
+  width: props.dialogProps?.width ?? 380,
+  cssClass: props.dialogProps?.cssClass ?? [],
+  cssStyle: props.dialogProps?.cssStyle ?? {},
+  contentCssClass: props.dialogProps?.contentCssClass ?? [],
+  contentCssStyle: props.dialogProps?.contentCssStyle ?? {},
+  confirmButton: props.dialogProps?.confirmButton ?? true,
+  cancelButton: props.dialogProps?.confirmButton ?? true,
+  confirmButtonText: props.dialogProps?.confirmButtonText ?? 'Done',
+  cancelButtonText: props.dialogProps?.cancelButtonText ?? 'Cancel',
+  confirmButtonColor: props.dialogProps?.confirmButtonColor ?? 'var(--color-text-button-primary-default)',
+  cancelButtonColor: props.dialogProps?.cancelButtonColor ?? 'var(--color-text-button-secondary-default)',
+  confirmButtonBackground: props.dialogProps?.confirmButtonBackground ?? 'var(--color-bg-button-primary-default)',
+  cancelButtonBackground: props.dialogProps?.cancelButtonBackground ?? 'var(--color-bg-button-secondary-default)',
+  closeOnClickOverlay: props.dialogProps?.closeOnClickOverlay ?? true,
+}));
+const cssStyle = computed(() => ({ width: `${dialogProps.value.width}px`, ...dialogProps.value.cssStyle }));
+
+onMounted(() => {
+  if (dialogElement.value) {
+    dialogElement.value.style.setProperty('--dialog-confirm-button-color', dialogProps.value.confirmButtonColor!);
+    dialogElement.value.style.setProperty('--dialog-cancel-button-color', dialogProps.value.cancelButtonColor!);
+    dialogElement.value.style.setProperty('--dialog-confirm-background-color', dialogProps.value.confirmButtonBackground!);
+    dialogElement.value.style.setProperty('--dialog-cancel-background-color', dialogProps.value.cancelButtonBackground!);
   }
 
-  export interface Ui3nDialogComponentProps {
-    component: Component;
-    componentProps?: Record<string, any>;
-    dialogProps?: Ui3nDialogProps;
+  if (dialogElement.value) {
+    nextTick(() => {
+      dialogElement.value!.focus();
+    });
+  }
+});
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const selectData = (value: any) => {
+  data.value = value;
+  if (
+    !dialogProps.value.confirmButton
+    && !dialogProps.value.cancelButton
+    && props.dialogProps?.onConfirm
+  ) {
+    props.dialogProps?.onConfirm(data.value);
+    closeDialog();
+  }
+};
+
+const validate = (value: boolean) => {
+  isValid.value = value;
+};
+
+const closeDialog = (arg?: { ev?: Event, withAction?: boolean }) => {
+  const { ev, withAction = true } = arg || {};
+  if (ev) {
+    ev.stopImmediatePropagation();
+    ev.preventDefault();
+  }
+  show.value = false;
+  props.dialogProps?.onClose && props.dialogProps.onClose();
+  if (withAction) {
+    emits('close');
+  }
+};
+
+const startEmit = (event: Ui3nDialogEvent) => {
+  if (event === 'click-overlay') {
+    emits(event);
+    closeDialog();
   }
 
-  export interface Ui3nDialogComponentEmits {
-    (ev: 'open', value?: any): void;
-    (ev: 'before-close', value?: any): void;
-    (ev: 'close', value?: any): void;
-    (ev: 'confirm', value?: any): void;
-    (ev: 'cancel', value?: any): void;
-    (ev: 'click-overlay', value?: any): void;
+  if (event === 'confirm') {
+    props.dialogProps?.onConfirm && props.dialogProps.onConfirm(data.value);
+    closeDialog();
   }
 
-  const props = defineProps<Ui3nDialogComponentProps>()
-
-  const emit = defineEmits<Ui3nDialogComponentEmits>()
-
-  const dialogProps = computed(() => {
-    const {
-      teleport = 'body',
-      title = '',
-      width = 380,
-      cssClass = '',
-      cssStyle = {},
-      contentCssClass = '',
-      contentCssStyle = {},
-      confirmButton = true,
-      cancelButton = true,
-      confirmButtonText = 'Done',
-      cancelButtonText = 'Cancel',
-      confirmButtonColor = 'var(--system-white, #fff)',
-      cancelButtonColor = 'var(--blue-main, #0090ec)',
-      confirmButtonBackground = 'var(--blue-main, #0090ec)',
-      cancelButtonBackground = 'var(--system-white, #fff)',
-      closeOnClickOverlay = true,
-    } = props.dialogProps || {}
-    return {
-      teleport,
-      title,
-      cssClass: cssClass ? `ui3n-dialog ${cssClass}` : 'ui3n-dialog',
-      cssStyle: { width: `${width}px`, ...cssStyle  },
-      contentCssClass: contentCssClass ? `ui3n-dialog__content ${contentCssClass}` : 'ui3n-dialog__content',
-      contentCssStyle,
-      confirmButton,
-      cancelButton,
-      confirmButtonText,
-      cancelButtonText,
-      confirmButtonColor,
-      cancelButtonColor,
-      confirmButtonBackground,
-      cancelButtonBackground,
-      closeOnClickOverlay,
-    }
-  })
-
-  const show = ref(true)
-  const data = ref(null)
-  const isValid = ref(true)
-  const dialogElement = ref<HTMLDivElement | null>(null)
-
-  onMounted(() => {
-    if (dialogElement.value) {
-      dialogElement.value.style.setProperty('--dialog-confirm-button-color', dialogProps.value.confirmButtonColor)
-      dialogElement.value.style.setProperty('--dialog-cancel-button-color', dialogProps.value.cancelButtonColor)
-      dialogElement.value.style.setProperty('--dialog-confirm-background-color', dialogProps.value.confirmButtonBackground)
-      dialogElement.value.style.setProperty('--dialog-cancel-background-color', dialogProps.value.cancelButtonBackground)
-    }
-
-    if (dialogElement.value) {
-      nextTick(() => {
-        dialogElement.value!.focus()
-      })
-    }
-  })
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const selectData = (value: any) => {
-    data.value = value
-    if (
-      !dialogProps.value.confirmButton
-      && !dialogProps.value.cancelButton
-      && props.dialogProps?.onConfirm
-    ) {
-      props.dialogProps.onConfirm(data.value)
-      closeDialog()
-    }
+  if (event === 'cancel') {
+    props.dialogProps?.onCancel && props.dialogProps.onCancel(data.value);
+    closeDialog();
   }
 
-  const validate = (value: boolean) => {
-    isValid.value = value
+  if (data.value) {
+    // @ts-ignore
+    emits(event, data.value);
+  } else {
+    // @ts-ignore
+    emits(event);
   }
+};
 
-  const closeDialog = (arg?: { ev?: Event, withAction?: boolean }) => {
-    const { ev, withAction = true } = arg || {}
-    if (ev) {
-      ev.stopImmediatePropagation()
-      ev.preventDefault()
-    }
-    show.value = false
-    props.dialogProps?.onClose && props.dialogProps.onClose()
-    if (withAction) {
-      emit('close')
-    }
-  }
-
-  const startEmit = (event: Ui3nDialogEvent) => {
-    if (event === 'click-overlay') {
-      emit(event)
-      closeDialog()
-    }
-
-    if (event === 'confirm') {
-      props.dialogProps?.onConfirm && props.dialogProps.onConfirm(data.value)
-      closeDialog()
-    }
-
-    if (event === 'cancel') {
-      props.dialogProps?.onCancel && props.dialogProps.onCancel(data.value)
-      closeDialog()
-    }
-
-    if (data.value) {
-      // @ts-ignore
-      emit(event, data.value)
-    } else {
-      // @ts-ignore
-      emit(event)
-    }
-  }
-
-  const handleEvent = (event: Event, eventName: Ui3nDialogEvent) => {
-    event.stopImmediatePropagation()
-    event.preventDefault()
-    startEmit(eventName)
-  }
+const handleEvent = (event: Event, eventName: Ui3nDialogEvent) => {
+  event.stopImmediatePropagation();
+  event.preventDefault();
+  startEmit(eventName);
+};
 </script>
 
 <template>
   <div
     v-if="show"
-    class="ui3n-dialog__overlay"
+    :class="$style.overlay"
     @click="dialogProps.closeOnClickOverlay
       ? closeDialog({ ev: $event })
       : startEmit('click-overlay')
@@ -179,37 +161,39 @@
     <div
       ref="dialogElement"
       tabindex="1"
-      :class="dialogProps.cssClass"
-      :style="dialogProps.cssStyle"
+      :class="[$style.dialog, ...dialogProps.cssClass]"
+      :style="cssStyle"
       @keydown.esc.stop="startEmit('cancel')"
       @keydown.enter.stop=" isValid && startEmit('confirm')"
     >
       <div
         v-if="dialogProps.title"
-        class="ui3n-dialog__title"
+        :class="$style.title"
         @click.stop
       >
         <span>{{ dialogProps.title }}</span>
-        <ui3n-button
-          round
-          color="transparent"
-          icon="close"
-          icon-size="12"
-          icon-color="var(--gray-90, #444)"
-          class="ui3n-dialog__close"
-          @click="closeDialog({ ev: $event })"
-        />
       </div>
+
+      <ui3n-button
+        :class="$style.closeBtn"
+        type="icon"
+        size="small"
+        color="transparent"
+        icon="close"
+        icon-size="16"
+        icon-color="var(--color-icon-control-primary-default)"
+        @click="closeDialog({ ev: $event })"
+      />
 
       <div
         v-if="props.component"
-        :class="dialogProps.contentCssClass"
+        :class="[$style.content, ...dialogProps.contentCssClass]"
         :style="dialogProps.contentCssStyle"
         @click.stop
       >
         <component
-          :is="props.component"
-          v-bind="props.componentProps"
+          :is="component"
+          v-bind="componentProps"
           @select="selectData"
           @validate="validate"
           @close="closeDialog({ ev: $event })"
@@ -221,13 +205,14 @@
       <div
         v-if="dialogProps.confirmButton || dialogProps.cancelButton"
         :class="[
-          'ui3n-dialog__actions',
-          { 'ui3n-dialog__actions--both': dialogProps.confirmButton && dialogProps.cancelButton },
+          $style.actions,
+          dialogProps.confirmButton && dialogProps.cancelButton && $style.bothBtns,
         ]"
         @click.stop
       >
         <ui3n-button
           v-if="dialogProps.cancelButton"
+          type="secondary"
           :color="dialogProps.cancelButtonBackground"
           :text-color="dialogProps.cancelButtonColor"
           @click="handleEvent($event, 'cancel')"
@@ -249,71 +234,76 @@
   </div>
 </template>
 
-<style lang="scss">
-  @import "../assets/styles/mixins";
+<style lang="scss" module>
+@import "../assets/styles/mixins";
 
-  .ui3n-dialog__overlay {
-    position: fixed;
-    z-index: 1000;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
+.overlay {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+}
 
-  .ui3n-dialog {
-    --dialog-border-radius: 8px;
-    --dialog-title-padding: 16px 24px 16px;
-    --dialog-title-font-size: 14px;
-    --dialog-actions-padding: 16px;
-    --dialog-confirm-button-color: var(--system-white, #fff);
-    --dialog-cancel-button-color: var(--blue-main, #0090ec);
-    --dialog-confirm-background-color: var(--blue-main, #0090ec);
-    --dialog-cancel-background-color: var(--system-white, #fff);
+.dialog {
+  --dialog-border-radius: 8px;
+  --dialog-title-padding: 16px 32px 16px 16px;
+  --dialog-title-font-size: 14px;
+  --dialog-actions-padding: 16px;
+  --dialog-confirm-button-color: var(--color-text-button-primary-default);
+  --dialog-cancel-button-color: var(--color-text-button-secondary-default);
+  --dialog-confirm-background-color: var(--color-bg-button-primary-default);
+  --dialog-cancel-background-color: var(--color-bg-button-secondary-default);
 
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    max-height: 95%;
-    background-color: var(--system-white, #fff);
-    border-radius: var(--dialog-border-radius);
-    outline: none;
-    @include elevation();
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  max-height: 95%;
+  background-color: var(--color-bg-block-primary-default);
+  border-radius: var(--dialog-border-radius);
+  outline: none;
+  @include elevation();
+}
 
-    &__title {
-      padding: var(--dialog-title-padding);
-      font-size: var(--dialog-title-font-size);
-      font-weight: 600;
-      line-height: 1.3;
-      color: var(--black-90, #212121);
-      border-bottom: 1px solid var(--grey-50, #f2f2f2);
-      @include text-overflow-ellipsis();
-    }
+.title {
+  position: relative;
+  width: 100%;
+  height: calc(var(--spacing-m) * 3);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: var(--dialog-title-padding);
+  font-size: var(--dialog-title-font-size);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text-control-primary-default);
+  border-bottom: 1px solid var(--color-border-block-primary-default);
+  @include text-overflow-ellipsis();
+}
 
-    &__close {
-      position: absolute;
-      right: 4px;
-      top: 4px;
-    }
+.closeBtn {
+  position: absolute;
+  right: 4px;
+  top: 12px;
+}
 
-    &__content {
-      flex-grow: 2;
-      overflow-y: auto;
-    }
+.content {
+  flex-grow: 2;
+  overflow-y: auto;
+}
 
-    &__actions {
-      padding: var(--dialog-actions-padding);
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
+.actions {
+  padding: var(--dialog-actions-padding);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--spacing-s);
+}
 
-      &--both {
-        .ui3n-button {
-          margin-left: 8px;
-        }
-      }
-    }
-  }
+.bothBtns {
+  margin-left: var(--spacing-s);
+}
 </style>

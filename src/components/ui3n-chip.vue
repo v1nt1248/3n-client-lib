@@ -34,6 +34,7 @@
       textColor: 'var(--color-text-control-primary-default)',
     },
   );
+
   const emits = defineEmits<Ui3nChipEmits>();
   defineSlots<Ui3nChipSlots>();
 
