@@ -9,10 +9,40 @@ import Ui3nIcon from '../components/ui3n-icon.vue';
 import Ui3nBreadcrumbs from '../components/ui3n-breadcrumbs.vue';
 import Ui3nCheckbox from '../components/ui3n-checkbox.vue';
 import Ui3nChip from '../components/ui3n-chip.vue';
+import Ui3nInput from '../components/ui3n-input.vue';
+import Ui3nList from '../components/ui3n-list.vue';
+import Ui3nMenu from '../components/ui3n-menu.vue';
 
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 const checkValue = ref([true, false, false]);
 const switchValue = ref([true, false]);
+const inputValue = ref('');
+const list = ref<{
+  id: string;
+  title: string;
+  children: {
+    id: string;
+    title: string;
+  }[];
+}[]>(prepareList());
+
+function prepareList() {
+  const res: any[] = [];
+  for (let i = 0; i < 26; i++) {
+    const char = String.fromCharCode(65 + i);
+    res.push({
+      id: char,
+      title: `${char}`,
+      children: [
+        { id: `${char}-01`, title: `01 ${char} item` },
+        { id: `${char}-02`, title: `02 ${char} item` },
+        { id: `${char}-03`, title: `03 ${char} item` },
+      ],
+    });
+  }
+
+  return res;
+}
 
 function openDialog() {
   const component = defineAsyncComponent(() => import('./test-dialog.vue'));
@@ -26,6 +56,10 @@ function openDialog() {
       closeOnClickOverlay: false,
     },
   });
+}
+
+function onInputComponentEvent(eventName: string, value?: unknown) {
+  console.log('Ui3nInput component event: ', eventName, value);
 }
 </script>
 
@@ -154,6 +188,145 @@ function openDialog() {
       <div class="demo-row__title">--- DIALOG ---</div>
       <ui3n-button @click="openDialog">OPEN DIALOG</ui3n-button>
     </div>
+
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- INPUT ---</div>
+      <div class="demo-row__cell">
+        <ui3n-input
+          placeholder="Enter any text"
+          v-model="inputValue"
+          @input="onInputComponentEvent('input', $event)"
+          @focus="onInputComponentEvent('focus', $event)"
+          @blur="onInputComponentEvent('blur', $event)"
+          @change="onInputComponentEvent('change', $event)"
+        />
+      </div>
+      <div class="demo-row__cell">
+        <ui3n-input placeholder="Enter any text" :disabled="true" v-model="inputValue" />
+      </div>
+      <div class="demo-row__cell">
+        text field value: {{ inputValue }}
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell">
+        <ui3n-input
+          placeholder="Enter any text"
+          icon="search"
+          v-model="inputValue"
+          @input="onInputComponentEvent('input', $event)"
+          @focus="onInputComponentEvent('focus', $event)"
+          @blur="onInputComponentEvent('blur', $event)"
+          @change="onInputComponentEvent('change', $event)"
+        />
+      </div>
+      <div class="demo-row__cell">
+        <ui3n-input placeholder="Enter any text" icon="search" :disabled="true" v-model="inputValue" />
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell">
+        <ui3n-input
+          placeholder="Enter any text"
+          clearable
+          icon="search"
+          v-model="inputValue"
+          @input="onInputComponentEvent('input', $event)"
+          @focus="onInputComponentEvent('focus', $event)"
+          @blur="onInputComponentEvent('blur', $event)"
+          @change="onInputComponentEvent('change', $event)"
+          @clear="onInputComponentEvent('clear')"
+        />
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell">
+        <ui3n-input
+          placeholder="Enter any text less than 5 characters"
+          clearable
+          icon="search"
+          :rules="[
+            (v: string) => v.length <= 5 ? true : 'Not more than 5 characters',
+          ]"
+          v-model="inputValue"
+          @input="onInputComponentEvent('input', $event)"
+          @focus="onInputComponentEvent('focus', $event)"
+          @blur="onInputComponentEvent('blur', $event)"
+          @change="onInputComponentEvent('change', $event)"
+          @clear="onInputComponentEvent('clear')"
+        />
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell">
+        <ui3n-input
+          label="Label"
+          placeholder="Enter any text"
+          clearable
+          icon="search"
+          v-model="inputValue"
+          @input="onInputComponentEvent('input', $event)"
+          @focus="onInputComponentEvent('focus', $event)"
+          @blur="onInputComponentEvent('blur', $event)"
+          @change="onInputComponentEvent('change', $event)"
+          @clear="onInputComponentEvent('clear')"
+        />
+      </div>
+    </div>
+
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- LIST ---</div>
+      <div class="demo-row__list">
+        <ui3n-list :sticky="false" :items="list">
+          <template #item="{ item }">
+            <ui3n-list :items="item.children">
+              <template #title>
+                <div class="list-title">{{ item.title }}</div>
+              </template>
+
+              <template #item="{ item: children }">
+                <div class="list-item">{{ children.title }}</div>
+              </template>
+            </ui3n-list>
+          </template>
+        </ui3n-list>
+      </div>
+    </div>
+
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- MENU ---</div>
+      <div class="demo-row__cell">
+        <ui3n-menu>
+          <ui3n-button>Menu</ui3n-button>
+          <template #menu>
+            <div
+              v-for="idx in [1, 2, 3]"
+              :key="idx"
+              class="demo-menu__item"
+              @click="() => console.log(`Click on the ${idx} menu item`)"
+            >
+              Menu option {{ idx }}
+            </div>
+          </template>
+        </ui3n-menu>
+      </div>
+      <div class="demo-row__cell">
+        <ui3n-menu :offset-x="16" :offset-y="8">
+          <ui3n-button>Menu (offset)</ui3n-button>
+          <template #menu>
+            <div
+              v-for="idx in [1, 2, 3]"
+              :key="idx"
+              class="demo-menu__item"
+              @click="() => console.log(`Click on the ${idx} menu item`)"
+            >
+              Menu option {{ idx }}
+            </div>
+          </template>
+        </ui3n-menu>
+      </div>
+    </div>
+
   </section>
 </template>
 
@@ -161,6 +334,7 @@ function openDialog() {
 .demo {
   position: relative;
   width: 100%;
+  padding-bottom: 400px;
 
   &-row {
     position: relative;
@@ -184,29 +358,49 @@ function openDialog() {
     line-height: 20px;
   }
 
-  &-block {
+  &-row__cell {
     position: relative;
-    width: fit-content;
-    max-height: 400px;
-    margin-bottom: 16px;
-    overflow-y: auto;
+    width: 300px;
+  }
 
-    &--with-title {
-      padding-top: 32px;
+  &-row__list {
+    position: relative;
+    width: 300px;
+    height: 360px;
+    overflow-y: auto;
+    background-color: var(--grey-5);
+
+    .list {
+      &-title {
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 10;
+        position: relative;
+        width: 24px;
+      }
+
+      &-item {
+        padding-left: 24px;
+        cursor: pointer;
+      }
     }
   }
 
-  &-info {
-    position: relative;
-    width: 120px;
-    height: 30px;
-    font-size: 14px;
-    line-height: 1;
-    color: green;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid green;
+  &-menu {
+    &__item {
+      position: relative;
+      height: 24px;
+      padding: 0 8px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      font-size: 14px;
+
+      &:hover {
+        cursor: pointer;
+        opacity: 0.75;
+      }
+    }
   }
 }
 </style>

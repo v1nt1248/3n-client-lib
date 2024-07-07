@@ -30,7 +30,7 @@
         color: 'var(--color-icon-control-primary-default)',
       },
   );
-  const emit = defineEmits<Ui3nIconEmits>()
+  const emits = defineEmits<Ui3nIconEmits>()
 
   const onLoad = (value: any) => {
     if (props.onLoad) {
@@ -38,7 +38,7 @@
     }
   }
   const onClick = (ev: Event) => {
-    emit('click', ev)
+    emits('click', ev)
   }
 </script>
 
