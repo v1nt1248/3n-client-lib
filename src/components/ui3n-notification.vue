@@ -1,42 +1,30 @@
-ui<script lang="ts" setup>
-  import { computed  } from 'vue'
-  import Ui3nIcon from './ui3n-icon.vue'
-  import Ui3nButton from './ui3n-button.vue'
-  import type { Ui3nNotificationProps } from '../constants'
+ui
+<script lang="ts" setup>
+import Ui3nIcon from './ui3n-icon.vue';
+import Ui3nButton from './ui3n-button.vue';
+import type { Ui3nNotificationProps } from '../constants';
 
-  const props = defineProps<Ui3nNotificationProps>()
-  const params = computed(() => {
-    const {
-      id,
-      type = 'info',
-      content,
-      icon,
-      iconSize = '16',
-      iconColor = 'var(--black-30, #b3b3b3)',
-      position = 'center',
-      duration = 0,
-      onOpen = () => void(0),
-      onClose = () => void(0),
-    } = props
-    return { id, type, content, icon, iconSize, iconColor, position, duration, onOpen, onClose }
-  })
+const props = withDefaults(
+  defineProps<Ui3nNotificationProps>(),
+  {
+    type: 'info',
+    position: 'center',
+    duration: 0,
+    withIcon: true,
+    onOpen: () => void (0),
+    onClose: () => void (0),
+  },
+);
 
-  const closeNotification = () => {
-    params.value.onClose()
-  }
+const closeNotification = () => {
+  props.onClose();
+};
 </script>
 
 <template>
   <div
-    :id="params.id"
-    :class="[
-      'ui3n-notification',
-      `ui3n-notification--${params.type}`,
-      `ui3n-notification--${params.position}`,
-      {
-        'ui3n-notification--with-icon': params.icon,
-      },
-    ]"
+    :id="id"
+    :class="[$style.notification, `${type}Type`, `${position}Position`, withIcon && $style.withIcon]"
   >
     <ui3n-icon
       v-if="params.icon"
@@ -63,71 +51,58 @@ ui<script lang="ts" setup>
   </div>
 </template>
 
-<style lang="scss" scoped>
-  .ui3n-notification {
-    display: flex;
-    position: relative;
-    z-index: 5000;
-    border-radius: var(--half-size, 4px);
-    padding: var(--base-size, 8px);
-    max-width: 400px;
-    margin-bottom: var(--base-size);
+<style lang="scss" module>
+.notification {
+  --ui3n-notification-width: 380px;
 
-    &--with-icon {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
+  display: flex;
+  position: relative;
+  z-index: 5000;
+  border-radius: var(--spacing-s);
+  outline: 1px solid var(--color-border-control-tritery-default);
+  padding: var(--spacing-m);
+  max-width: var(--ui3n-notification-width);
+  margin-bottom: var(--spacing-s);
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-s);
+}
 
-      .ui3n-notification__content {
-        padding-left: var(--base-size, 8px);
-      }
-    }
+.withIcon {
+  justify-content: flex-start;
+}
 
-    &__content {
-      position: relative;
-      flex-grow: 2;
-      font-size: var(--font-13, 13px);
-      font-weight: 400;
-      line-height: 1.5;
-      color: var(--system-white, #fff);
-    }
+.content {
+  position: relative;
+  flex-grow: 2;
+  font-size: var(--font-12);
+  font-weight: 500;
+  line-height: 1.2;
+}
 
-    &__close {
-      position: absolute;
-      z-index: 1;
-      top: 0;
-      right: 0;
-    }
+.closeBtn {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+}
 
-    &--success {
-      background-color: rgb(16, 196, 143);
-    }
+.successType {
 
-    &--warning {
-      background-color: rgb(255, 136,0);
-    }
+}
 
-    &--info {
-      background-color: rgb(16, 175, 239);
-    }
+.leftPosition {
+  margin-left: 0;
+  margin-right: auto;
+}
 
-    &--error {
-      background-color: rgb(239, 83, 80);
-    }
+.centerPosition {
+  margin-left: auto;
+  margin-right: auto;
+}
 
-    &--left {
-      margin-left: 0;
-      margin-right: auto;
-    }
-
-    &--center {
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    &--right {
-      margin-left: auto;
-      margin-right: 0;
-    }
-  }
+.rightPosition {
+  margin-left: auto;
+  margin-right: 0;
+}
 </style>

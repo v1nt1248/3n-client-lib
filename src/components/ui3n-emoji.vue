@@ -44,7 +44,7 @@ watch(
   () => props.size,
   (newValue, prevValue) => {
     if (emojiElement.value && newValue && newValue !== prevValue) {
-      emojiElement.value.style.setProperty('--emoji-size', `${newValue}px`);
+      emojiElement.value.style.setProperty('--ui3n-emoji-size', `${newValue}px`);
     }
   },
 );
@@ -67,12 +67,14 @@ const onClick = (ev: Event) => {
 
 <style lang="scss" module>
 .emoji {
-  --emoji-size: 16px;
+  --ui3n-emoji-size: 16px;
 
   display: flex;
-  width: var(--emoji-size);
-  height: var(--emoji-size);
-  font-size: var(--emoji-size);
+  min-width: var(--ui3n-emoji-size);
+  width: var(--ui3n-emoji-size);
+  min-height: var(--ui3n-emoji-size);
+  height: var(--ui3n-emoji-size);
+  font-size: var(--ui3n-emoji-size);
   justify-content: center;
   align-items: center;
   cursor: pointer;

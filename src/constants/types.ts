@@ -13,11 +13,9 @@ export interface Ui3nNotificationProps {
   id?: string;
   type?: 'success' | 'warning' | 'info' | 'error';
   content: string;
-  icon?: string;
-  iconSize?: string | number;
-  iconColor?: string;
   position?: 'left' | 'center' | 'right';
   duration?: number;
+  withIcon?: boolean;
   teleport?: string;
   onOpen?: () => void;
   onClose?: () => void;
