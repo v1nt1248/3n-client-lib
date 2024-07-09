@@ -12,6 +12,7 @@ import Ui3nChip from '../components/ui3n-chip.vue';
 import Ui3nInput from '../components/ui3n-input.vue';
 import Ui3nList from '../components/ui3n-list.vue';
 import Ui3nMenu from '../components/ui3n-menu.vue';
+import Ui3nNotification from '../components/ui3n-notification.vue';
 
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 const checkValue = ref([true, false, false]);
@@ -25,6 +26,13 @@ const list = ref<{
     title: string;
   }[];
 }[]>(prepareList());
+
+const notificationsExamples = {
+  warning: `Warning message with short Description for on or two lines and default view.`,
+  error: `Error message with short Description for on or two lines and default view.`,
+  success: `Successes message with short Description for on or two lines and default view.`,
+  info: `Info message with short Description for on or two lines and default view.`,
+};
 
 function prepareList() {
   const res: any[] = [];
@@ -327,6 +335,40 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
       </div>
     </div>
 
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- NOTIFICATION ---</div>
+      <div class="demo-row__cell-long">
+        <ui3n-notification type="info" :content="notificationsExamples.info" :duration="2000" :on-close="() => console.log('CLOSE NOTIFICATION!!!')" />
+      </div>
+      <div class="demo-row__cell-long">
+        <ui3n-notification type="info" :with-icon="false" :content="notificationsExamples.info" />
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell-long">
+        <ui3n-notification type="success" :content="notificationsExamples.success" :duration="2000" />
+      </div>
+      <div class="demo-row__cell-long">
+        <ui3n-notification type="success" :with-icon="false" :content="notificationsExamples.success" />
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell-long">
+        <ui3n-notification type="warning" :content="notificationsExamples.warning" :duration="2000" />
+      </div>
+      <div class="demo-row__cell-long">
+        <ui3n-notification type="warning" :with-icon="false" :content="notificationsExamples.warning" />
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell-long">
+        <ui3n-notification type="error" :content="notificationsExamples.error" :duration="2000" />
+      </div>
+      <div class="demo-row__cell-long">
+        <ui3n-notification type="error" :with-icon="false" :content="notificationsExamples.error" />
+      </div>
+    </div>
+
   </section>
 </template>
 
@@ -361,6 +403,11 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
   &-row__cell {
     position: relative;
     width: 300px;
+  }
+
+  &-row__cell-long {
+    position: relative;
+    width: 500px;
   }
 
   &-row__list {
