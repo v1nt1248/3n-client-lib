@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineAsyncComponent, inject, ref } from 'vue';
+import { defineAsyncComponent, inject, ref, watch } from 'vue';
 import { DIALOGS_KEY, type DialogsPlugin } from '../plugins/dialogs';
 import Ui3nBadge from '../components/ui3n-badge.vue';
 import Ui3nButton from '../components/ui3n-button.vue';
@@ -13,6 +13,7 @@ import Ui3nInput from '../components/ui3n-input.vue';
 import Ui3nList from '../components/ui3n-list.vue';
 import Ui3nMenu from '../components/ui3n-menu.vue';
 import Ui3nNotification from '../components/ui3n-notification.vue';
+import Ui3nTabs from '../components/ui3n-tabs.vue';
 
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 const checkValue = ref([true, false, false]);
@@ -26,6 +27,15 @@ const list = ref<{
     title: string;
   }[];
 }[]>(prepareList());
+const tabsValue = ref(0);
+
+watch(
+  () => tabsValue.value,
+  (val, oldValue) => {
+    console.log(`CHANGE TAB FROM ${oldValue} TO ${val} INDEX`);
+  },
+  { immediate: true },
+);
 
 const notificationsExamples = {
   warning: `Warning message with short Description for on or two lines and default view.`,
@@ -369,6 +379,26 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
       </div>
     </div>
 
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- TABS ---</div>
+      <div class="demo-row__cell">
+        <ui3n-tabs item-direction="vertical" indicator-position="reverse" v-model="tabsValue">
+          <div class="tabs__item">Option 1</div>
+          <div class="tabs__item">Option 2</div>
+          <div class="tabs__item">Option 3</div>
+          <ui3n-button type="secondary" class="tabs__item">Option 4</ui3n-button>
+        </ui3n-tabs>
+      </div>
+      <div class="demo-row__cell-long">
+        <ui3n-tabs v-model="tabsValue">
+          <div class="tabs__item" disabled>Option 1</div>
+          <div class="tabs__item">Option 2</div>
+          <div class="tabs__item">Option 3</div>
+          <div class="tabs__item">Option 4</div>
+        </ui3n-tabs>
+      </div>
+    </div>
+
   </section>
 </template>
 
@@ -447,6 +477,16 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         cursor: pointer;
         opacity: 0.75;
       }
+    }
+  }
+
+  .tabs {
+    &__item {
+      display: flex;
+      width: 100px;
+      justify-content: center;
+      align-items: center;
+      min-height: 32px;
     }
   }
 }
