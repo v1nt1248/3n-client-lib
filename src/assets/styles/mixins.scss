@@ -53,3 +53,26 @@
     }
   }
 }
+
+@mixin scrollbar($size: 200px) {
+  &::-webkit-scrollbar-track {
+    background-color: var(--grey-10);
+  }
+  &::-webkit-scrollbar-thumb {
+    height: $size;
+    background-color: var(--grey-15);
+    border-radius: 80px;
+  }
+}
+@mixin scrollbar-vertical($size: 200px) {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  @include scrollbar($size);
+}
+@mixin scrollbar-horizontal($size: 200px) {
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  @include scrollbar($size);
+}

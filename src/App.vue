@@ -17,6 +17,15 @@ const listV = ref(prepareVList());
   </div>
 </template>
 
+<style>
+/* for the demo page */
+#ui-3n-lib {
+  position: fixed;
+  inset: 0;
+  background-color: var(--white-0);
+}
+</style>
+
 <style lang="scss" scoped>
 .app {
   position: fixed;

@@ -612,7 +612,7 @@ div {
 }
 
 ::-webkit-scrollbar {
-  width: var(--spacing-xs);
+  width: 5px;
 }
 
 /* other CSS style classes */
@@ -624,11 +624,4 @@ div {
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
-}
-
-/* for the demo page */
-#ui-3n-lib {
-  position: fixed;
-  inset: 0;
-  background-color: var(--white-0);
 }

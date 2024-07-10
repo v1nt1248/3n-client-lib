@@ -1,115 +1,111 @@
 <script lang="ts" setup>
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  import { computed, onMounted, ref, watch } from 'vue'
-  import { patchTextareaMaxRowsSupport } from '../tools'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { computed, onMounted, ref, watch } from 'vue';
+import { patchTextareaMaxRowsSupport } from '../tools';
 
-  export interface Ui3nTextProps {
-    text: string;
-    rows?: number;
-    maxRows?: number;
-    label?: string;
-    placeholder?: string;
-    rules?: Array<(v: string) => any>;
-    disabled?: boolean;
+export interface Ui3nTextProps {
+  text: string;
+  rows?: number;
+  maxRows?: number;
+  label?: string;
+  placeholder?: string;
+  rules?: Array<(v: string) => any>;
+  disabled?: boolean;
+}
+
+export interface Ui3nTextEmits {
+  (ev: 'init', value: HTMLTextAreaElement): void;
+  (ev: 'input', value: string): void;
+  (ev: 'focus', value: Event): void;
+  (ev: 'blur', value: Event): void;
+  (ev: 'update:text', value: string): void;
+  (ev: 'update:valid', value: boolean): void;
+}
+
+const props = withDefaults(
+  defineProps<Ui3nTextProps>(),
+  {
+    rows: 6,
+    maxRows: 6,
+    label: '',
+    placeholder: '',
+    disabled: false,
+  },
+);
+const emit = defineEmits<Ui3nTextEmits>();
+
+const textareaElement = ref<HTMLTextAreaElement | null>(null);
+const isFocused = ref(false);
+const errorMessage = ref('');
+
+const isValid = computed(() => {
+  if (!props.text) {
+    return true;
   }
 
-  export interface Ui3nTextEmits {
-    (ev: 'init', value: HTMLTextAreaElement): void;
-    (ev: 'input', value: string): void;
-    (ev: 'focus', value: Event): void;
-    (ev: 'blur', value: Event): void;
-    (ev: 'update:text', value: string): void;
-    (ev: 'update:valid', value: boolean): void;
+  return !errorMessage.value;
+});
+
+onMounted(() => {
+  if (textareaElement.value) {
+    patchTextareaMaxRowsSupport(textareaElement.value!);
+    emit('init', textareaElement.value!);
   }
+});
 
-  const props = defineProps<Ui3nTextProps>()
-  const emit = defineEmits<Ui3nTextEmits>()
+watch(
+  () => isValid.value,
+  val => emit('update:valid', val),
+  { immediate: true },
+);
 
-  const textareaElement = ref<HTMLTextAreaElement | null>(null)
-  const isFocused = ref(false)
-  const errorMessage = ref('')
-
-  const componentProps = computed(() => {
-    const { rows = 6, maxRows = 6, label = '', placeholder = '', disabled = false } = props
-    return { rows, maxRows, label, placeholder, disabled }
-  })
-
-  const isValid = computed(() => {
-    if (!props.text) {
-      return true
-    }
-
-    return !errorMessage.value
-  })
-
-  onMounted(() => {
-    if (textareaElement.value) {
-      patchTextareaMaxRowsSupport(textareaElement.value!)
-      emit('init', textareaElement.value!)
-    }
-  })
-
-  watch(
-    () => isValid.value,
-    val => emit('update:valid', val),
-    { immediate: true },
-  )
-
-  const validate = (text: string) => {
-    errorMessage.value = ''
-    if (props.rules && props.rules.length) {
-      for (const validateFunction of props.rules) {
-        if (typeof validateFunction === 'function') {
-          const res = validateFunction(text)
-          if (typeof res === 'string') {
-            errorMessage.value += res
-          }
+const validate = (text: string) => {
+  errorMessage.value = '';
+  if (props.rules && props.rules.length) {
+    for (const validateFunction of props.rules) {
+      if (typeof validateFunction === 'function') {
+        const res = validateFunction(text);
+        if (typeof res === 'string') {
+          errorMessage.value += res;
         }
       }
     }
   }
+};
 
-  const onFocus = (event: Event) => {
-    isFocused.value = true
-    emit('focus', event)
-  }
+const onFocus = (event: Event) => {
+  isFocused.value = true;
+  emit('focus', event);
+};
 
-  const onBlur = (event: Event) => {
-    isFocused.value = false
-    emit('blur', event)
-  }
+const onBlur = (event: Event) => {
+  isFocused.value = false;
+  emit('blur', event);
+};
 
-  const onInput = (ev: Event) => {
-    const value = (ev.target as HTMLInputElement).value
-    validate(value)
-    emit('update:text', value)
-    emit('input', value)
-  }
+const onInput = (ev: Event) => {
+  const value = (ev.target as HTMLInputElement).value;
+  validate(value);
+  emit('update:text', value);
+  emit('input', value);
+};
 </script>
 
 <template>
-  <div
-    :class="[
-      'ui3n-text',
-      { 'ui3n-text--disabled': props.disabled, 'ui3n-text--focused': isFocused },
-    ]"
-  >
-    <label
-      v-if="componentProps.label"
-      class="ui3n-text__label"
-    >
-      {{ componentProps.label }}
+  <div :class="[$style.text, disabled && $style.disabled, isFocused && $style.focused]">
+    <label v-if="label" :class="$style.label">
+      {{ label }}
     </label>
-    <div class="ui3n-text__body">
+    <div :class="$style.body">
       <textarea
         ref="textareaElement"
-        :value="props.text"
-        :placeholder="componentProps.placeholder"
-        :readonly="componentProps.disabled"
-        :rows="componentProps.rows"
-        :max-rows="componentProps.maxRows"
-        :disabled="componentProps.disabled"
-        class="ui3n-text__content"
+        :class="$style.content"
+        :value="text"
+        :placeholder="placeholder"
+        :readonly="disabled"
+        :rows="rows"
+        :max-rows="maxRows"
+        :disabled="disabled"
         v-bind="$attrs"
         @input="onInput"
         @focusin="onFocus"
@@ -119,67 +115,160 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
-  .ui3n-text {
-    position: relative;
-    width: 100%;
+<style lang="scss" module>
+.text {
+  position: relative;
+  width: 100%;
+  border-radius: var(--spacing-xs);
+}
 
-    &__label {
-      display: block;
-      width: 100%;
-      font-size: var(--font-12, 12px);
-      font-weight: 600;
-      color: var(--black-90, #212121);
-      margin-bottom: calc(var(--base-size, 8px) / 2);
-    }
+.label {
+  display: block;
+  width: 100%;
+  font-size: var(--font-12);
+  line-height: var(--font-16);
+  font-weight: 600;
+  color: var(--color-text-control-primary-default);
+  margin-bottom: var(--spacing-xs);
+}
 
-    &__body {
-      position: relative;
-      width: 100%;
-      padding: var(--base-size, 8px) 0;
-      background-color: var(--gray-50, #f2f2f2);
-      border-radius: 4px;
-    }
+.body {
+  position: relative;
+  width: 100%;
+  padding: var(--spacing-s) 0;
+  background-color: var(--color-bg-control-secondary-default);
+  border-radius: var(--spacing-xs);
+  transition: all 0.2s ease-in-out;
 
-    &__content {
-      resize: none;
-      display: block;
-      box-sizing: border-box;
-      position: relative;
-      width: 100%;
-      border-radius: 4px;
-      background-color: var(--gray-50, #f2f2f2);
-      padding: 0 var(--base-size, 8px);
-      font-family: OpenSans, sans-serif;
-      font-size: var(--font-13, 13px);
-      font-weight: 400;
-      line-height: var(--font-16, 16px);
-      color: var(--black-90, #212121);
-      border: none;
+  &:hover {
+    &:not(:focus-within) {
+      background-color: var(--color-bg-control-secondary-hover);
 
-      &::placeholder {
-        font-size: var(--font-13, 13px);
-        font-weight: 300;
-        font-style: italic;
-        color: var(--gray-90, #212121);
-      }
-    }
+      .content {
+        background-color: var(--color-bg-control-secondary-hover);
 
-    &--disabled {
-      pointer-events: none;
-      user-select: none;
-      opacity: 0.5;
-    }
-
-    &--focused {
-      .ui3n-text {
-        &__body, &__content {
-          background-color: var(--blue-main-20, #d8edfd);
-          outline: none;
-          border: none;
+        &::placeholder {
+          color: var(--color-text-control-secondary-hover);
         }
       }
     }
   }
+}
+
+.content {
+  resize: none;
+  display: block;
+  border: none;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  border-radius: var(--spacing-xs);
+  background-color: var(--color-bg-control-secondary-default);
+  padding: 0 var(--spacing-s);
+  font-family: Manrope, sans-serif;
+  font-size: var(--font-13);
+  line-height: var(--font-16);
+  font-weight: 400;
+  color: var(--color-text-control-primary-default);
+  transition: all 0.2s ease-in-out;
+
+  &::placeholder {
+    color: var(--color-text-control-secondary-default);
+    font-style: italic;
+    font-size: var(--font-13);
+    line-height: var(--font-16);
+    font-weight: 400;
+  }
+
+  &:focus-within {
+    outline: none;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  user-select: none;
+
+  .body {
+    background-color: var(--color-bg-control-secondary-disabled);
+  }
+
+  .content {
+    background-color: var(--color-bg-control-secondary-disabled);
+    color: var(--color-text-control-secondary-disabled);
+  }
+}
+
+.focused {
+  .body {
+    background-color: var(--color-bg-control-secondary-focused);
+    outline: 1px solid var(--color-border-control-accent-focused);
+  }
+
+  .content {
+    background-color: var(--color-bg-control-secondary-focused);
+  }
+}
+
+//.ui3n-text {
+//  position: relative;
+//  width: 100%;
+//
+//  &__label {
+//    display: block;
+//    width: 100%;
+//    font-size: var(--font-12, 12px);
+//    font-weight: 600;
+//    color: var(--black-90, #212121);
+//    margin-bottom: calc(var(--base-size, 8px) / 2);
+//  }
+//
+//  &__body {
+//    position: relative;
+//    width: 100%;
+//    padding: var(--base-size, 8px) 0;
+//    background-color: var(--gray-50, #f2f2f2);
+//    border-radius: 4px;
+//  }
+//
+//  &__content {
+//    resize: none;
+//    display: block;
+//    box-sizing: border-box;
+//    position: relative;
+//    width: 100%;
+//    border-radius: 4px;
+//    background-color: var(--gray-50, #f2f2f2);
+//    padding: 0 var(--base-size, 8px);
+//    font-family: OpenSans, sans-serif;
+//    font-size: var(--font-13, 13px);
+//    font-weight: 400;
+//    line-height: var(--font-16, 16px);
+//    color: var(--black-90, #212121);
+//    border: none;
+//
+//    &::placeholder {
+//      font-size: var(--font-13, 13px);
+//      font-weight: 300;
+//      font-style: italic;
+//      color: var(--gray-90, #212121);
+//    }
+//  }
+//
+//  &--disabled {
+//    pointer-events: none;
+//    user-select: none;
+//    opacity: 0.5;
+//  }
+//
+//  &--focused {
+//    .ui3n-text {
+//      &__body, &__content {
+//        background-color: var(--blue-main-20, #d8edfd);
+//        outline: none;
+//        border: none;
+//      }
+//    }
+//  }
+//}
 </style>
-../tools/textarea-max-rows

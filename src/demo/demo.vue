@@ -14,11 +14,13 @@ import Ui3nList from '../components/ui3n-list.vue';
 import Ui3nMenu from '../components/ui3n-menu.vue';
 import Ui3nNotification from '../components/ui3n-notification.vue';
 import Ui3nTabs from '../components/ui3n-tabs.vue';
+import Ui3nText from '../components/ui3n-text.vue';
 
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 const checkValue = ref([true, false, false]);
 const switchValue = ref([true, false]);
 const inputValue = ref('');
+const textValue = ref('');
 const list = ref<{
   id: string;
   title: string;
@@ -208,7 +210,7 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
     </div>
 
     <div class="demo-row demo-row--with-title">
-      <div class="demo-row__title">--- INPUT ---</div>
+      <div class="demo-row__title">--- INPUT FIELD---</div>
       <div class="demo-row__cell">
         <ui3n-input
           placeholder="Enter any text"
@@ -399,6 +401,27 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
       </div>
     </div>
 
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- TEXT FIELD ---</div>
+      <div class="demo-row__cell">
+        <ui3n-text v-model:text="textValue" :rows="1" :max-rows="3" placeholder="Enter any text" />
+      </div>
+      <div class="demo-row__cell-text">
+        <span>text:</span>
+        <div style="white-space: pre-wrap">{{ textValue }}</div>
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell">
+        <ui3n-text v-model:text="textValue" :rows="1" :max-rows="3" placeholder="Enter any text" :disabled="true" />
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell">
+        <ui3n-text v-model:text="textValue" label="Some label" :rows="1" :max-rows="3" placeholder="Enter any text" />
+      </div>
+    </div>
+
   </section>
 </template>
 
@@ -433,6 +456,14 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
   &-row__cell {
     position: relative;
     width: 300px;
+  }
+
+  &-row__cell-text {
+    display: flex;
+    width: 500px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
   }
 
   &-row__cell-long {
