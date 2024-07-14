@@ -30,5 +30,5 @@ export interface ListingEntryTypeExtended extends web3n.files.Stats {
   ext?: string;
 }
 
-export type EntityAction = 'rename' | 'add:favorites' | 'open-menu'
+export type EntityAction = 'rename' | 'add:favorites' | 'open:menu'
 export type SortField = 'name' | 'type' | 'createdAt' | 'changedAt'

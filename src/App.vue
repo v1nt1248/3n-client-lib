@@ -1,14 +1,5 @@
 <script setup lang="ts">
 import Demo from './demo/demo.vue';
-
-/*
-const prepareVList = () => Array
-  .from({ length: 5000 }, (_, i) => ({
-    id: `${i}i`,
-    title: `Item ${i}`,
-  }));
-const listV = ref(prepareVList());
-*/
 </script>
 
 <template>

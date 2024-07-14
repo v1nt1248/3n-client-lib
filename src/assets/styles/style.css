@@ -407,11 +407,11 @@ html {
   --color-text-table-accent-focused: var(--s-accent-content-focused);
   --color-text-table-accent-pressed: var(--s-accent-content-pressed);
   --color-text-table-accent-disabled: var(--s-accent-content-disabled);
-  --colot-text-table-primary-default: var(--default-content-default);
-  --colot-text-table-primary-hover: var(--default-content-hover);
-  --colot-text-table-primary-focused: var(--default-content-focused);
-  --colot-text-table-primary-pressed: var(--default-content-pressed);
-  --colot-text-table-primary-disabled: var(--default-content-disabled);
+  --color-text-table-primary-default: var(--default-content-default);
+  --color-text-table-primary-hover: var(--default-content-hover);
+  --color-text-table-primary-focused: var(--default-content-focused);
+  --color-text-table-primary-pressed: var(--default-content-pressed);
+  --color-text-table-primary-disabled: var(--default-content-disabled);
   --color-text-table-secondary-default: var(--default-hint-default);
   --color-text-table-secondary-hover: var(--default-hint-hover);
   --color-text-table-secondary-focused: var(--default-hint-focused);

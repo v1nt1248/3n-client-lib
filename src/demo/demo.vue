@@ -15,6 +15,9 @@ import Ui3nMenu from '../components/ui3n-menu.vue';
 import Ui3nNotification from '../components/ui3n-notification.vue';
 import Ui3nTabs from '../components/ui3n-tabs.vue';
 import Ui3nText from '../components/ui3n-text.vue';
+import Ui3nVirtualScroll from '../components/ui3n-virtual-scroll.vue';
+import Ui3nTable from '../components/ui3n-table.vue';
+import type { ListingEntryTypeExtended } from '@/constants';
 
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 const checkValue = ref([true, false, false]);
@@ -29,7 +32,12 @@ const list = ref<{
     title: string;
   }[];
 }[]>(prepareList());
+const listV = ref<{
+  id: string;
+  title: string;
+}[]>(prepareVList());
 const tabsValue = ref(0);
+const tableValue = ref<ListingEntryTypeExtended[]>([]);
 
 watch(
   () => tabsValue.value,
@@ -62,6 +70,14 @@ function prepareList() {
   }
 
   return res;
+}
+
+function prepareVList() {
+  return Array
+    .from({ length: 5000 }, (_, i) => ({
+      id: `${i}i`,
+      title: `Item ${i}`,
+    }));
 }
 
 function openDialog() {
@@ -314,6 +330,19 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
     </div>
 
     <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- VIRTUAL LIST ---</div>
+      <div class="demo-row__list">
+        <ui3n-virtual-scroll :items="listV" :min-child-height="32">
+          <template v-slot:item="{ value, index }">
+            <div class="demo-row__virtual-scroll-item">
+              {{ `(${index}) ${value.id}_${value.title}` }}
+            </div>
+          </template>
+        </ui3n-virtual-scroll>
+      </div>
+    </div>
+
+    <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- MENU ---</div>
       <div class="demo-row__cell">
         <ui3n-menu>
@@ -422,6 +451,12 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
       </div>
     </div>
 
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- TABLE ---</div>
+      <div class="demo-row__table">
+        <ui3n-table :items="[]" text-if-empty="No data" />
+      </div>
+    </div>
   </section>
 </template>
 
@@ -492,6 +527,20 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         cursor: pointer;
       }
     }
+  }
+
+  &-row__virtual-scroll-item {
+    position: relative;
+    display: flex;
+    height: 32px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &-row__table {
+    position: relative;
+    width: 720px;
+    background-color: var(--white-0);
   }
 
   &-menu {

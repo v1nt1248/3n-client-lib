@@ -11,7 +11,7 @@
   const props = defineProps<Ui3nTableSortIconProps>()
 
   const iconSize = computed(() => props.size ? +props.size : 16)
-  const iconColor = computed(() => props.color || 'var(--black-90, #212121)')
+  const iconColor = computed(() => props.color || 'var(--color-icon-table-primary-default)')
 </script>
 
 <template>
@@ -20,6 +20,5 @@
     :width="iconSize"
     :height="iconSize"
     :color="iconColor"
-    class="ui3n-table-sort-icon"
   />
 </template>
