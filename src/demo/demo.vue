@@ -16,8 +16,8 @@ import Ui3nNotification from '../components/ui3n-notification.vue';
 import Ui3nTabs from '../components/ui3n-tabs.vue';
 import Ui3nText from '../components/ui3n-text.vue';
 import Ui3nVirtualScroll from '../components/ui3n-virtual-scroll.vue';
-import Ui3nTable from '../components/ui3n-table.vue';
-import type { ListingEntryTypeExtended } from '@/constants';
+// import Ui3nTable from '../components/ui3n-table.vue';
+// import type { ListingEntryTypeExtended } from '@/constants';
 
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 const checkValue = ref([true, false, false]);
@@ -37,7 +37,7 @@ const listV = ref<{
   title: string;
 }[]>(prepareVList());
 const tabsValue = ref(0);
-const tableValue = ref<ListingEntryTypeExtended[]>([]);
+// const tableValue = ref<ListingEntryTypeExtended[]>([]);
 
 watch(
   () => tabsValue.value,
@@ -102,14 +102,14 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
 <template>
   <section class="demo">
     <h3>Components</h3>
-
+    <!-- BADGE -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- BADGE ---</div>
       <ui3n-badge value="5">
         <div class="demo-info">SOME TEXT</div>
       </ui3n-badge>
     </div>
-
+    <!-- BREADCRUMBS -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- BREADCRUMBS ---</div>
       <ui3n-breadcrumbs>
@@ -130,9 +130,9 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         </ui3n-breadcrumb>
       </ui3n-breadcrumbs>
     </div>
-
+    <!-- BUTTON -->
     <div class="demo-row demo-row--with-title">
-      <div class="demo-row__title">--- BUTTONS ---</div>
+      <div class="demo-row__title">--- BUTTON ---</div>
       <ui3n-button>Primary</ui3n-button>
       <ui3n-button disabled>Disabled</ui3n-button>
       <ui3n-button size="small">Primary</ui3n-button>
@@ -167,7 +167,7 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
       <ui3n-button type="icon" icon="check" disabled />
       <ui3n-button type="icon" icon="check" size="small" />
     </div>
-
+    <!-- CHECKBOX -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- CHECKBOX ---</div>
       <ui3n-checkbox size="20" v-model="checkValue[0]">
@@ -183,7 +183,7 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         Indeterminate
       </ui3n-checkbox>
     </div>
-
+    <!-- SWITCH -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- SWITCH ---</div>
       <ui3n-switch size="24" v-model="switchValue[0]" />
@@ -193,7 +193,7 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         With label
       </ui3n-switch>
     </div>
-
+    <!-- CHIP -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- CHIP ---</div>
       <ui3n-chip closeable max-width="150" color="var(--blue-10)">
@@ -219,12 +219,12 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         DOCX
       </ui3n-chip>
     </div>
-
+    <!-- DIALOG -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- DIALOG ---</div>
       <ui3n-button @click="openDialog">OPEN DIALOG</ui3n-button>
     </div>
-
+    <!-- INPUT FIELD -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- INPUT FIELD---</div>
       <div class="demo-row__cell">
@@ -309,7 +309,7 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         />
       </div>
     </div>
-
+    <!-- LIST -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- LIST ---</div>
       <div class="demo-row__list">
@@ -328,7 +328,7 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         </ui3n-list>
       </div>
     </div>
-
+    <!-- VIRTUAL LIST -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- VIRTUAL LIST ---</div>
       <div class="demo-row__list">
@@ -341,7 +341,7 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         </ui3n-virtual-scroll>
       </div>
     </div>
-
+    <!-- MENU -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- MENU ---</div>
       <div class="demo-row__cell">
@@ -375,7 +375,7 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         </ui3n-menu>
       </div>
     </div>
-
+    <!-- NOTIFICATION -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- NOTIFICATION ---</div>
       <div class="demo-row__cell-long">
@@ -409,7 +409,7 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         <ui3n-notification type="error" :with-icon="false" :content="notificationsExamples.error" />
       </div>
     </div>
-
+    <!-- TABS -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- TABS ---</div>
       <div class="demo-row__cell">
@@ -429,7 +429,7 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         </ui3n-tabs>
       </div>
     </div>
-
+    <!-- TEXT FIELD -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- TEXT FIELD ---</div>
       <div class="demo-row__cell">
@@ -451,12 +451,12 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
       </div>
     </div>
 
-    <div class="demo-row demo-row--with-title">
-      <div class="demo-row__title">--- TABLE ---</div>
-      <div class="demo-row__table">
-        <ui3n-table :items="[]" text-if-empty="No data" />
-      </div>
-    </div>
+<!--    <div class="demo-row demo-row&#45;&#45;with-title">-->
+<!--      <div class="demo-row__title">-&#45;&#45; TABLE -&#45;&#45;</div>-->
+<!--      <div class="demo-row__table">-->
+<!--        <ui3n-table :items="[]" text-if-empty="No data" />-->
+<!--      </div>-->
+<!--    </div>-->
   </section>
 </template>
 

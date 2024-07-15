@@ -1,4 +1,4 @@
-export const mailReg = /[^@]+@[^@]+\.[^@]+/ui
+export const mailReg = /[^@]+@[^@]+\.[^@]+/ui;
 
 export const colorsMap: Record<string, string> = {
   '0': '#ab47bc',
@@ -66,4 +66,4 @@ export const colorsMap: Record<string, string> = {
   '62': '#455a64',
   '63': '#37474f',
   '?': '#a33333',
-}
+};

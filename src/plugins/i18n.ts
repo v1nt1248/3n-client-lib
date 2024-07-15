@@ -1,5 +1,5 @@
-import { App, Plugin } from 'vue'
-import type { InjectionKey } from 'vue'
+import { App, Plugin } from 'vue';
+import type { InjectionKey } from 'vue';
 
 export interface I18nOptions {
   lang: string;
@@ -12,47 +12,47 @@ export interface I18nPlugin {
   $changeLocale: (lang: string) => void;
 }
 
-export const I18N_KEY = Symbol() as InjectionKey<I18nPlugin>
+export const I18N_KEY = Symbol() as InjectionKey<I18nPlugin>;
 
 export const i18n: Plugin = {
   install: (app: App, options: I18nOptions) => {
-    const { lang, messages } = options
-    const allLanguages = Object.keys(messages) || []
+    const { lang, messages } = options;
+    const allLanguages = Object.keys(messages) || [];
 
     const $tr = (key: string, placeholders?: Record<string, string>) => {
-      let message = messages[app.config.globalProperties.$locale][key]
+      let message = messages[app.config.globalProperties.$locale][key];
       if (!message) {
-        return key
+        return key;
       }
 
       if (placeholders) {
         for (const item of Object.entries(placeholders)) {
-          const [placeholder, value] = item
+          const [placeholder, value] = item;
           if (message.includes(`{${placeholder}}`)) {
-            message = message.replace(`{${placeholder}}`, value)
+            message = message.replace(`{${placeholder}}`, value);
           }
         }
       }
 
-      return message
-    }
+      return message;
+    };
 
     const $changeLocale = (lang: string) => {
       if (!allLanguages.includes(lang)) {
-        throw new Error(`The language ${lang} is undefined.`)
+        throw new Error(`The language ${lang} is undefined.`);
       }
-      app.config.globalProperties.$locale = lang
-    }
+      app.config.globalProperties.$locale = lang;
+    };
 
-    app.config.globalProperties.$locale = lang
+    app.config.globalProperties.$locale = lang;
 
-    app.config.globalProperties.$tr = $tr
+    app.config.globalProperties.$tr = $tr;
 
-    app.config.globalProperties.$changeLocale = $changeLocale
+    app.config.globalProperties.$changeLocale = $changeLocale;
 
-    app.provide<I18nPlugin>(I18N_KEY, { $locale: lang, $tr, $changeLocale })
+    app.provide<I18nPlugin>(I18N_KEY, { $locale: lang, $tr, $changeLocale });
   },
-}
+};
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {

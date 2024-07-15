@@ -1,8 +1,8 @@
-import { DirectiveBinding } from 'vue'
-import sanitizeHtml from 'sanitize-html'
+import { DirectiveBinding } from 'vue';
+import sanitizeHtml from 'sanitize-html';
 
 function setValue(el: Element, binding: DirectiveBinding) {
-  const { sanitize, classes } = binding.modifiers
+  const { sanitize, classes } = binding.modifiers;
   el.innerHTML = sanitize
     ? sanitizeHtml(
       binding.value,
@@ -10,16 +10,16 @@ function setValue(el: Element, binding: DirectiveBinding) {
         ...(classes && {
           allowedAttributes: { '*': ['class'] },
         }),
-      }
+      },
     )
-    : binding.value
+    : binding.value;
 }
 
 export default {
   mounted(el: Element, binding: DirectiveBinding) {
-    setValue(el, binding)
+    setValue(el, binding);
   },
   updated(el: Element, binding: DirectiveBinding) {
-    setValue(el, binding)
+    setValue(el, binding);
   },
-}
+};

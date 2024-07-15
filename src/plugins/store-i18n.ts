@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export function storeI18n(context: any) {
-  const { app = {} } = context
-  const { config = {} } = app
-  const { globalProperties = {} } = config
-  const { $locale, $changeLocale, $tr } = globalProperties
+  const { app = {} } = context;
+  const { config = {} } = app;
+  const { globalProperties = {} } = config;
+  const { $locale, $changeLocale, $tr } = globalProperties;
   const methods: {
     locale: string;
     changeLocale: (lang: string) => void;
@@ -12,6 +12,6 @@ export function storeI18n(context: any) {
     locale: $locale,
     changeLocale: $changeLocale,
     tr: $tr,
-  }
-  return { $i18n: methods }
+  };
+  return { $i18n: methods };
 }

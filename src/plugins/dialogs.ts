@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createVNode, render } from 'vue'
-import type { App, Plugin, VNode } from 'vue'
-import type { InjectionKey } from 'vue'
-import { isEmpty, values } from 'lodash'
-import { getRandomId } from '../tools/common.helpers'
-import Ui3nDialog from '../components/ui3n-dialog.vue'
-import type { Ui3nDialogComponentProps } from '../components/ui3n-dialog.vue'
+import { createVNode, render } from 'vue';
+import type { App, Plugin, VNode } from 'vue';
+import type { InjectionKey } from 'vue';
+import { isEmpty, values } from 'lodash';
+import { getRandomId } from '../tools/common.helpers';
+import Ui3nDialog from '../components/ui3n-dialog.vue';
+import type { Ui3nDialogComponentProps } from '../components/ui3n-dialog.vue';
 
 export type DialogInstance = {
   id: string;
@@ -18,35 +18,35 @@ export interface DialogsPlugin {
   $openDialog: (params: Ui3nDialogComponentProps) => DialogInstance | undefined;
 }
 
-export const DIALOGS_KEY = Symbol() as InjectionKey<DialogsPlugin>
+export const DIALOGS_KEY = Symbol() as InjectionKey<DialogsPlugin>;
 
 export const dialogs: Plugin = {
   install: (app: App) => {
-    let openDialogs: Record<string, { destroy: () => void; } > = {}
+    let openDialogs: Record<string, { destroy: () => void; }> = {};
 
     const $openDialog = (params: Ui3nDialogComponentProps): DialogInstance | undefined => {
       // TODO In the current version you cannot open a dialog from another dialog
       if (!isEmpty(openDialogs)) {
         for (const d of values(openDialogs)) {
-          d.destroy && d.destroy()
+          d.destroy && d.destroy();
         }
-        openDialogs = {}
+        openDialogs = {};
       }
 
-      const { component, componentProps = {}, dialogProps = {} } = params
+      const { component, componentProps = {}, dialogProps = {} } = params;
       if (!component) {
-        throw Error('[Dialog plugin] The dialog component missing')
+        throw Error('[Dialog plugin] The dialog component missing');
       }
 
-      const { teleport } = dialogProps || {}
+      const { teleport } = dialogProps || {};
 
       const parentElement = !teleport || teleport === 'body'
         ? document.body
-        : document.querySelector(teleport)
+        : document.querySelector(teleport);
 
       if (parentElement) {
-        const id = `dialog-${getRandomId(5)}`
-        let vNode: VNode | null= createVNode(
+        const id = `dialog-${getRandomId(5)}`;
+        let vNode: VNode | null = createVNode(
           Ui3nDialog,
           {
             component,
@@ -55,40 +55,40 @@ export const dialogs: Plugin = {
               ...dialogProps,
               onClose: dialogProps.onClose
                 ? () => {
-                  dialogProps.onClose!()
-                  destroy()
+                  dialogProps.onClose!();
+                  destroy();
                 }
                 : () => destroy(),
-            }
+            },
           },
-        )
-        vNode.appContext = app._context
-        let el: HTMLDivElement | null = document.createElement('div')
-        el.id = id
-        render(vNode, el)
+        );
+        vNode.appContext = app._context;
+        let el: HTMLDivElement | null = document.createElement('div');
+        el.id = id;
+        render(vNode, el);
 
         const destroy = () => {
           if (el) {
-            const closedDialogId = el.id
-            render(null, el)
-            document.body.removeChild(el)
-            closedDialogId && delete openDialogs[closedDialogId]
+            const closedDialogId = el.id;
+            render(null, el);
+            document.body.removeChild(el);
+            closedDialogId && delete openDialogs[closedDialogId];
           }
-          el = null
-          vNode = null
-        }
+          el = null;
+          vNode = null;
+        };
 
-        document.body.appendChild(el)
-        openDialogs[id] = { destroy }
+        document.body.appendChild(el);
+        openDialogs[id] = { destroy };
 
-        return { id, el, vNode, destroy }
+        return { id, el, vNode, destroy };
       }
-    }
+    };
 
-    app.config.globalProperties.$openDialog = $openDialog
-    app.provide<DialogsPlugin>(DIALOGS_KEY, { $openDialog })
-  }
-}
+    app.config.globalProperties.$openDialog = $openDialog;
+    app.provide<DialogsPlugin>(DIALOGS_KEY, { $openDialog });
+  },
+};
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
