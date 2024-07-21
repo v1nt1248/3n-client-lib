@@ -45,8 +45,6 @@ const tabsValue = ref(0);
 const timerId = ref();
 const progressValue = ref(0);
 
-const qw = ref(0);
-
 // const tableValue = ref<ListingEntryTypeExtended[]>([]);
 
 watch(

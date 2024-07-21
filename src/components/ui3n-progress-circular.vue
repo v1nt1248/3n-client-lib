@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, onBeforeMount, onBeforeUnmount, ref, useCssModule, watch } from 'vue';
+import { computed, onBeforeMount, onBeforeUnmount, ref, useCssModule } from 'vue';
 import { toNumber } from 'lodash';
 
 export interface Ui3nProgressCircularProps {
