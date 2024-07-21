@@ -7,16 +7,21 @@ import Ui3nButton from './ui3n-button.vue';
 export interface Ui3nInputProps {
   modelValue: string;
   label?: string;
+  type?: 'text' | 'password';
   placeholder?: string;
   clearable?: boolean;
   autofocus?: boolean;
-  rules?: Array<(v: string) => any>;
-  disabled?: boolean;
   icon?: string;
   iconColor?: string;
+  rules?: Array<(v: string) => any>;
+  displayStateMode?: 'error' | 'success';
+  displayStateWithIcon?: boolean;
+  displayStateMessage?: string;
+  disabled?: boolean;
 }
 
 export interface Ui3nInputEmits {
+  (ev: 'init', value: HTMLInputElement): void;
   (ev: 'input', value: string): void;
   (ev: 'focus', value: Event): void;
   (ev: 'blur', value: Event): void;
@@ -39,7 +44,7 @@ const cssIconColor = computed(() => {
     return 'var(--color-icon-control-primary-disabled)';
   }
 
-  return props.iconColor || 'var(--color-icon-control-primary-default)'
+  return props.iconColor || 'var(--color-icon-control-primary-default)';
 });
 const isValid = computed(() => {
   if (!text.value) {
@@ -53,6 +58,8 @@ onMounted(() => {
   if (props.autofocus && inputElement.value) {
     inputElement.value.focus();
   }
+
+  emits('init', inputElement.value!);
 });
 
 watch(
@@ -124,7 +131,8 @@ const validate = (text: string) => {
       icon && $style.withIcon,
       clearable && text && $style.clearable,
       disabled && $style.disabled,
-      !!errorMessage && $style.error,
+      (!!errorMessage || (displayStateMode === 'error')) && $style.error,
+      displayStateMode === 'success' && $style.success,
     ]"
   >
     <label v-if="label" :class="$style.label">
@@ -133,6 +141,8 @@ const validate = (text: string) => {
 
     <input
       ref="inputElement"
+      autocomplete="off"
+      :type="type || 'text'"
       :value="text"
       :placeholder="placeholder"
       :disabled="disabled"
@@ -152,7 +162,7 @@ const validate = (text: string) => {
     />
 
     <ui3n-button
-      v-if="clearable && !!text"
+      v-if="clearable && !!text && !(displayStateMode === 'success' && displayStateWithIcon && !isFocused)"
       type="icon"
       size="small"
       color="transparent"
@@ -163,8 +173,24 @@ const validate = (text: string) => {
       @click="clearValue"
     />
 
-    <div v-if="errorMessage" :class="$style.errorText">
-      {{ errorMessage }}
+    <ui3n-icon
+      v-if="displayStateMode === 'success' && displayStateWithIcon && !isFocused"
+      icon="check-circle-outline"
+      :width="16"
+      :height="16"
+      color="var(--success-content-default)"
+      :class="$style.successIcon"
+    />
+
+    <div
+      v-if="errorMessage || displayStateMessage"
+      :class="[
+        $style.fieldMessage,
+        errorMessage || (displayStateMode === 'error' && !!displayStateMessage) && $style.errorMessage,
+        displayStateMode === 'success' && displayStateMessage && $style.successMessage,
+      ]"
+    >
+      {{ errorMessage || displayStateMessage }}
     </div>
   </div>
 </template>
@@ -208,7 +234,7 @@ const validate = (text: string) => {
   width: 100%;
   font-size: var(--font-12);
   line-height: var(--font-16);
-  font-weight: 600;
+  font-weight: 500;
   color: var(--color-text-control-primary-default);
   margin-bottom: var(--spacing-xs);
 }
@@ -262,12 +288,20 @@ const validate = (text: string) => {
   z-index: 1;
 }
 
-.errorText {
+.fieldMessage {
   font-style: italic;
   font-size: var(--font-10);
   font-weight: 400;
   line-height: 1.4;
-  color: var(--content-error-default);
+  margin-top: 2px;
+
+  &.errorMessage {
+    color: var(--error-content-default);
+  }
+
+  &.successMessage {
+    color: var(--success-content-default)
+  }
 }
 
 .clearable {
@@ -279,9 +313,25 @@ const validate = (text: string) => {
 }
 
 .error {
-  .field {
-    outline: 1px solid var(--content-error-default);
+  .label {
+    color: var(--error-content-default) !important;
   }
+
+  .field {
+    outline: 1px solid var(--error-content-default) !important;
+  }
+}
+
+.success {
+  .label {
+    color: var(--success-content-default) !important;
+  }
+}
+
+.successIcon {
+  position: absolute;
+  right: var(--spacing-s);
+  bottom: var(--spacing-s);
 }
 
 .disabled {

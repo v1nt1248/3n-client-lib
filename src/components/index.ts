@@ -37,6 +37,12 @@ import Ui3nBreadcrumbs from './ui3n-breadcrumbs.vue';
 import type { Ui3nBreadcrumbsProps } from './ui3n-breadcrumbs.vue';
 import Ui3nSwitch from './ui3n-switch.vue';
 import type { Ui3nSwitchProps, Ui3nSwitchEmits, Ui3nSwitchSlots } from './ui3n-switch.vue';
+import Ui3nStepLineBar from './ui3n-step-line-bar.vue';
+import type { Ui3nStepLineBarProps } from './ui3n-step-line-bar.vue';
+import Ui3nProgressLinear from './ui3n-progress-linear.vue';
+import type { Ui3nProgressLinearProps } from './ui3n-progress-linear.vue';
+import Ui3nProgressCircular from './ui3n-progress-circular.vue';
+import type { Ui3nProgressCircularProps } from './ui3n-progress-circular.vue';
 
 export {
   Ui3nIcon,
@@ -103,4 +109,10 @@ export {
   Ui3nSwitchProps,
   Ui3nSwitchEmits,
   Ui3nSwitchSlots,
+  Ui3nStepLineBar,
+  Ui3nStepLineBarProps,
+  Ui3nProgressLinear,
+  Ui3nProgressLinearProps,
+  Ui3nProgressCircular,
+  Ui3nProgressCircularProps,
 }

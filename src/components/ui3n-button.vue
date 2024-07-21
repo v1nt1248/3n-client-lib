@@ -5,6 +5,7 @@ import Ui3nIcon from './ui3n-icon.vue';
 export interface Ui3nButtonProps {
   type?: 'primary' | 'secondary' | 'tertiary' | 'icon' | 'custom';
   size?: 'regular' | 'small';
+  block?: boolean;
   textColor?: string;
   color?: string;
   elevation?: boolean;
@@ -71,6 +72,7 @@ onMounted(() => {
       $style.button,
       $style[size],
       $style[type],
+      block && type !== 'icon' && $style.block,
       icon && $style[`withIcon-${iconPosition}`],
       elevation && $style.elevation,
     ]"
@@ -141,6 +143,10 @@ onMounted(() => {
   &.withIcon-right {
     padding-right: var(--spacing-xs);
   }
+}
+
+.block {
+  width: 100%;
 }
 
 .primary {

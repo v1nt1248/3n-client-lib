@@ -23,6 +23,9 @@ import type Ui3nBadge from './components/ui3n-badge.vue';
 import type Ui3nBreadcrumb from './components/ui3n-breadcrumb.vue';
 import type Ui3nBreadcrumbs from './components/ui3n-breadcrumbs.vue';
 import type Ui3nSwitch from './components/ui3n-switch.vue';
+import type Ui3nStepLineBar from './components/ui3n-step-line-bar.vue';
+import type Ui3nProgressLinear from './components/ui3n-progress-linear.vue';
+import type Ui3nProgressCircular from './components/ui3n-progress-circular.vue';
 import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
 
@@ -58,6 +61,9 @@ declare module 'vue' {
     Ui3nMenu: typeof Ui3nMenu;
     Ui3nNotification: typeof Ui3nNotification;
     Ui3nSwitch: typeof Ui3nSwitch;
+    Ui3nStepLineBar: typeof Ui3nStepLineBar;
+    Ui3nProgressLinear: typeof Ui3nProgressLinear;
+    Ui3nProgressCircular: typeof Ui3nProgressCircular;
     // Ui3nTableSortIcon: typeof Ui3nTableSortIcon;
     // Ui3nTable: typeof Ui3nTable;
     Ui3nTabs: typeof Ui3nTabs;

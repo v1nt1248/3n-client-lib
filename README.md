@@ -24,6 +24,9 @@ You can run the project as `pnpm dev` or `npm run dev` if you don't want to use 
   - Ui3nNotification
   - Ui3nDialog
   - Ui3nSwitch
+  - Ui3nStepLineBar
+  - Ui3nProgressLinear
+  - Ui3nProgressCircular
   - Ui3nTabs
 
 ## Directives

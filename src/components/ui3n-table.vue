@@ -11,7 +11,6 @@ export interface Ui3nTableProps {
 
 export interface Ui3nTableEmits {
   (ev: 'go', name: string): void;
-
   (ev: 'action', value: { action: EntityAction, entity: ListingEntryTypeExtended }): void;
 }
 
@@ -268,11 +267,11 @@ const handleActions = (ev: MouseEvent, action: EntityAction, entity: ListingEntr
   color: var(--color-icon-control-accent-unselected);
 }
 
-.rowBookmark{
+.rowBookmark {
   left: 2px;
 }
 
-.rowRename{
+.rowRename {
   right: calc(var(--spacing-l) * 4);
 }
 
@@ -324,6 +323,6 @@ const handleActions = (ev: MouseEvent, action: EntityAction, entity: ListingEntr
   line-height: var(--font-20);
   color: var(--color-text-control-secondary-default);
   text-align: center;
-  padding: 56px 0 ;
+  padding: 56px 0;
 }
 </style>

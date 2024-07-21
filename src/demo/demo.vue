@@ -9,19 +9,23 @@ import Ui3nIcon from '../components/ui3n-icon.vue';
 import Ui3nBreadcrumbs from '../components/ui3n-breadcrumbs.vue';
 import Ui3nCheckbox from '../components/ui3n-checkbox.vue';
 import Ui3nChip from '../components/ui3n-chip.vue';
+import Ui3nStepLineBar from '../components/ui3n-step-line-bar.vue';
 import Ui3nInput from '../components/ui3n-input.vue';
 import Ui3nList from '../components/ui3n-list.vue';
 import Ui3nMenu from '../components/ui3n-menu.vue';
 import Ui3nNotification from '../components/ui3n-notification.vue';
 import Ui3nTabs from '../components/ui3n-tabs.vue';
 import Ui3nText from '../components/ui3n-text.vue';
+import Ui3nProgressLinear from '../components/ui3n-progress-linear.vue';
 import Ui3nVirtualScroll from '../components/ui3n-virtual-scroll.vue';
+import Ui3nProgressCircular from '../components/ui3n-progress-circular.vue';
 // import Ui3nTable from '../components/ui3n-table.vue';
 // import type { ListingEntryTypeExtended } from '@/constants';
 
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 const checkValue = ref([true, false, false]);
 const switchValue = ref([true, false]);
+const stepValue = ref(1);
 const inputValue = ref('');
 const textValue = ref('');
 const list = ref<{
@@ -37,6 +41,12 @@ const listV = ref<{
   title: string;
 }[]>(prepareVList());
 const tabsValue = ref(0);
+
+const timerId = ref();
+const progressValue = ref(0);
+
+const qw = ref(0);
+
 // const tableValue = ref<ListingEntryTypeExtended[]>([]);
 
 watch(
@@ -47,12 +57,36 @@ watch(
   { immediate: true },
 );
 
+watch(
+  () => progressValue.value,
+  (val) => {
+    if (val >= 100) {
+      clearInterval(timerId.value);
+      setTimeout(() => {
+        progressValue.value = 0;
+        changeProgressValue();
+      }, 2000);
+    }
+  }
+);
+
 const notificationsExamples = {
   warning: `Warning message with short Description for on or two lines and default view.`,
   error: `Error message with short Description for on or two lines and default view.`,
   success: `Successes message with short Description for on or two lines and default view.`,
   info: `Info message with short Description for on or two lines and default view.`,
 };
+
+function getRandomInt(max: number): number {
+  return Math.floor(Math.random() * max);
+}
+
+function changeProgressValue() {
+  timerId.value = setInterval(() => {
+    const increment = getRandomInt(8);
+    progressValue.value = progressValue.value + increment > 100 ? 100 : progressValue.value + increment;
+  }, 500);
+}
 
 function prepareList() {
   const res: any[] = [];
@@ -97,11 +131,13 @@ function openDialog() {
 function onInputComponentEvent(eventName: string, value?: unknown) {
   console.log('Ui3nInput component event: ', eventName, value);
 }
+
+changeProgressValue();
 </script>
 
 <template>
   <section class="demo">
-    <h3>Components</h3>
+    <h3>Components {{ progressValue }}</h3>
     <!-- BADGE -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- BADGE ---</div>
@@ -136,6 +172,11 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
       <ui3n-button>Primary</ui3n-button>
       <ui3n-button disabled>Disabled</ui3n-button>
       <ui3n-button size="small">Primary</ui3n-button>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell-long">
+        <ui3n-button block>Primary</ui3n-button>
+      </div>
     </div>
     <div class="demo-row">
       <ui3n-button type="secondary">Secondary</ui3n-button>
@@ -193,6 +234,52 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
         With label
       </ui3n-switch>
     </div>
+    <!-- STEP LINE BAR -->
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- STEP LINE BAR ---</div>
+      <div class="demo-row">
+        <div class="demo-row__cell-long">
+          <ui3n-step-line-bar :label="`Step ${stepValue} of 5`" :steps="5" :current="stepValue" />
+        </div>
+      </div>
+    </div>
+    <div class="demo-row">
+      <ui3n-button :disabled="stepValue === 5" @click="stepValue++">Next step</ui3n-button>
+      <ui3n-button type="secondary" :disabled="stepValue === 1" @click="stepValue = 1">
+        To 1 step
+      </ui3n-button>
+    </div>
+    <!-- PROGRESS LINEAR -->
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- PROGRESS LINEAR ---</div>
+      <div class="demo-row__cell-long">
+        <ui3n-progress-linear indeterminate />
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell-long">
+        <ui3n-progress-linear height="5" :value="progressValue" />
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell-long">
+        <ui3n-progress-linear height="5" with-text :value="progressValue" />
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell-long">
+        <ui3n-progress-linear height="12" with-text :value="progressValue" />
+      </div>
+    </div>
+    <!-- PROGRESS CIRCULAR -->
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- PROGRESS CIRCULAR ---</div>
+      <ui3n-progress-circular indeterminate size="80" />
+      <ui3n-progress-circular size="80" :value="progressValue" />
+      <ui3n-progress-circular size="80" with-text :value="progressValue" />
+      <ui3n-progress-circular size="48" with-text :value="progressValue" />
+    </div>
+
     <!-- CHIP -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- CHIP ---</div>
@@ -296,11 +383,45 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
     <div class="demo-row">
       <div class="demo-row__cell">
         <ui3n-input
-          label="Label"
+          label="Label 1"
           placeholder="Enter any text"
           clearable
           icon="search"
           v-model="inputValue"
+          @input="onInputComponentEvent('input', $event)"
+          @focus="onInputComponentEvent('focus', $event)"
+          @blur="onInputComponentEvent('blur', $event)"
+          @change="onInputComponentEvent('change', $event)"
+          @clear="onInputComponentEvent('clear')"
+        />
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell">
+        <ui3n-input
+          label="Label 2"
+          placeholder="Enter any text"
+          display-state-mode="error"
+          display-state-message="Some error text"
+          :model-value="'dddddddd'"
+          @input="onInputComponentEvent('input', $event)"
+          @focus="onInputComponentEvent('focus', $event)"
+          @blur="onInputComponentEvent('blur', $event)"
+          @change="onInputComponentEvent('change', $event)"
+          @clear="onInputComponentEvent('clear')"
+        />
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-row__cell">
+        <ui3n-input
+          label="Password"
+          placeholder="Enter any text"
+          type="password"
+          clearable
+          display-state-mode="success"
+          display-state-with-icon
+          :model-value="'dddddddd'"
           @input="onInputComponentEvent('input', $event)"
           @focus="onInputComponentEvent('focus', $event)"
           @blur="onInputComponentEvent('blur', $event)"

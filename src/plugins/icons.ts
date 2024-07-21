@@ -47,6 +47,7 @@ import outlineDownloadForOffline from '@iconify-icons/ic/outline-download-for-of
 import roundCheckBoxOutlineBlank from '@iconify-icons/ic/round-check-box-outline-blank';
 import baselineCheckBox from '@iconify-icons/ic/baseline-check-box';
 import baselineIndeterminateCheckBox from '@iconify-icons/ic/baseline-indeterminate-check-box';
+import checkCircleOutline from '@iconify-icons/ic/sharp-check-circle-outline';
 
 const icons: Record<string, IconifyIcon> = {
   'close': baselineClose,
@@ -94,6 +95,7 @@ const icons: Record<string, IconifyIcon> = {
   'check-box': roundCheckBoxOutlineBlank,
   'check-box-checked': baselineCheckBox,
   'check-box-indeterminate': baselineIndeterminateCheckBox,
+  'check-circle-outline': checkCircleOutline,
 };
 
 export const useIcons: Plugin = {
