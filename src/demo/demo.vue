@@ -19,7 +19,8 @@ import Ui3nText from '../components/ui3n-text.vue';
 import Ui3nProgressLinear from '../components/ui3n-progress-linear.vue';
 import Ui3nVirtualScroll from '../components/ui3n-virtual-scroll.vue';
 import Ui3nProgressCircular from '../components/ui3n-progress-circular.vue';
-// import Ui3nTable from '../components/ui3n-table.vue';
+import Ui3nTable from '../components/ui3n-table/ui3n-table.vue';
+import type { Ui3nTableProps } from '../components/ui3n-table/types';
 // import type { ListingEntryTypeExtended } from '@/constants';
 
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
@@ -45,7 +46,30 @@ const tabsValue = ref(0);
 const timerId = ref();
 const progressValue = ref(0);
 
-// const tableValue = ref<ListingEntryTypeExtended[]>([]);
+const tableValue = ref<Ui3nTableProps<{ name: string; type: string; date: string; }>>({
+  config: {
+    tableName: 'test',
+    defaultSortOrder: {
+      field: 'name',
+      direction: 'desc',
+    },
+    columnStyle: {
+      name: { width: '70%' },
+      type: { width: '10%' },
+      date: { width: '20%' },
+    }
+  },
+  head: [
+    { key: 'name', text: 'Name', sortable: true },
+    { key: 'type', text: 'Type', headCellStyle: { justifyContent: 'center' } },
+    { key: 'date', text: 'Date', sortable: true, headCellStyle: { justifyContent: 'center' } },
+  ],
+  body: [
+    { content: { name: 'Documents', type: 'folder', date: '2024-07-20' } },
+    { content: { name: 'Downloads', type: 'folder', date: '2022-07-20' } },
+    { content: { name: 'calendar.docx', type: 'docx', date: '2022-07-20' } },
+  ],
+});
 
 watch(
   () => tabsValue.value,
@@ -570,12 +594,12 @@ changeProgressValue();
       </div>
     </div>
 
-<!--    <div class="demo-row demo-row&#45;&#45;with-title">-->
-<!--      <div class="demo-row__title">-&#45;&#45; TABLE -&#45;&#45;</div>-->
-<!--      <div class="demo-row__table">-->
-<!--        <ui3n-table :items="[]" text-if-empty="No data" />-->
-<!--      </div>-->
-<!--    </div>-->
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- TABLE ---</div>
+      <div class="demo-row__table">
+        <ui3n-table :config="tableValue.config" :head="tableValue.head" :body="tableValue.body" />
+      </div>
+    </div>
   </section>
 </template>
 

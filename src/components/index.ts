@@ -17,8 +17,8 @@ import type { Ui3nCheckboxProps, Ui3nCheckboxEmits, Ui3nCheckboxSlots } from './
 import Ui3nNotification from './ui3n-notification.vue';
 import Ui3nTableSortIcon from './ui3n-table-sort-icon.vue';
 import type { Ui3nTableSortIconProps } from './ui3n-table-sort-icon.vue';
-import Ui3nTable from './ui3n-table.vue';
-import type { Ui3nTableProps, Ui3nTableEmits } from './ui3n-table.vue';
+import Ui3nTable from './ui3n-table/ui3n-table.vue';
+import type { Ui3nTableProps, Ui3nTableEmits } from './ui3n-table/ui3n-table.vue';
 import Ui3nDialog from './ui3n-dialog.vue';
 import type { Ui3nDialogComponentProps, Ui3nDialogComponentEmits, Ui3nDialogProps, Ui3nDialogEvent } from './ui3n-dialog.vue';
 import Ui3nMenu from './ui3n-menu.vue';
