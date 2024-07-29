@@ -24,6 +24,7 @@ import type { Ui3nTableProps } from '../components/ui3n-table/types';
 // import type { ListingEntryTypeExtended } from '@/constants';
 
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
+const darkTheme = ref(false);
 const checkValue = ref([true, false, false]);
 const switchValue = ref([true, false]);
 const stepValue = ref(1);
@@ -99,6 +100,14 @@ const notificationsExamples = {
   info: `Info message with short Description for on or two lines and default view.`,
 };
 
+function changeColorTheme(val: boolean) {
+  const htmlEl = document.querySelector('html');
+  if (!htmlEl) return;
+
+  htmlEl.classList.remove(val ? 'default-theme' : 'dark-theme');
+  htmlEl.classList.add(val ? 'dark-theme' : 'default-theme');
+}
+
 function getRandomInt(max: number): number {
   return Math.floor(Math.random() * max);
 }
@@ -159,7 +168,13 @@ changeProgressValue();
 
 <template>
   <section class="demo">
-    <h3>Components {{ progressValue }}</h3>
+    <h3>Components</h3>
+    <div class="theme">
+      <span>Default theme</span>
+      <ui3n-switch size="24" :model-value="darkTheme" @change="changeColorTheme" />
+      <span>Dark theme</span>
+    </div>
+
     <!-- BADGE -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- BADGE ---</div>
@@ -609,6 +624,19 @@ changeProgressValue();
   width: 100%;
   padding-bottom: 400px;
 
+  .theme {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
   &-row {
     position: relative;
     display: flex;
@@ -683,6 +711,7 @@ changeProgressValue();
   &-row__table {
     position: relative;
     width: 720px;
+    max-height: 400px;
     background-color: var(--white-0);
   }
 

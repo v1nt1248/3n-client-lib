@@ -23,7 +23,8 @@ import Demo from './demo/demo.vue';
   inset: 0;
   padding: 8px;
   font-family: Manrope, sans-serif;
-  background: var(--grey-15);
+  background: var(--color-bg-block-primary-default);
+  color: var(--color-text-block-primary-default);
   overflow: auto;
 }
 </style>
