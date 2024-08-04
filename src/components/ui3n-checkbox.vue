@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, watch, onBeforeMount, ref, useSlots } from 'vue';
 
-type Ui3nCheckboxValue = boolean | string | number;
+export type Ui3nCheckboxValue = boolean | string | number;
 
 export interface Ui3nCheckboxProps {
   modelValue: Ui3nCheckboxValue;

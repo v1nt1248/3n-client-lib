@@ -45,7 +45,7 @@
   },
   "peerDependencies": {
     "pinia": "2.1.7",
-    "vue": "3.4.27"
+    "vue": "3.4.35"
   },
   "devDependencies": {
     "@types/lodash": "4.17.5",
@@ -80,11 +80,12 @@
     "vite": "5.2.13",
     "vite-plugin-css-injected-by-js": "3.5.1",
     "vite-plugin-dts": "3.9.1",
+    "vite-plugin-vue-devtools": "^7.3.7",
     "vitepress": "1.2.3",
-    "vue": "3.4.27",
+    "vue": "3.4.35",
     "vue-tsc": "2.0.21"
   },
-  "packageManager": "pnpm@9.5.0",
+  "packageManager": "pnpm@9.6.0",
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [

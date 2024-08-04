@@ -1,21 +1,28 @@
 <script lang="ts" setup generic="T extends object">
-import { onMounted, ref, UnwrapRef } from 'vue';
+import { computed, onMounted, Ref, ref, UnwrapRef } from 'vue';
 import { getInitialSortOrder, setColumnWidth } from './utils';
 import type { Ui3nTableEvents, Ui3nTableProps, Ui3nTableSort } from './types';
 import Ui3nIcon from '../ui3n-icon.vue';
 import Ui3nButton from '../ui3n-button.vue';
-import Ui3nCheckbox from '../ui3n-checkbox.vue';
+import Ui3nCheckbox, { type Ui3nCheckboxValue } from '../ui3n-checkbox.vue';
 
 const props = defineProps<Ui3nTableProps<T>>();
 const emits = defineEmits<Ui3nTableEvents<T>>();
 
 const tableEl = ref<HTMLDivElement | null>(null);
 const currentSortOrder = ref<Ui3nTableSort<T>>(getInitialSortOrder(props));
-const selectedRows = ref<Array<T>>([]);
+const selectedRows: Ref<Set<T>> = ref<Set<T>>(new Set()) as Ref<Set<T>>;
+
+const visibleColumns = computed(() => props.head.filter((h) => !h.hidden));
+const selectedRowsArray = computed(() => Array.from(selectedRows.value));
 
 onMounted(() => {
   tableEl.value && setColumnWidth(tableEl.value, props);
 });
+
+const eventsHandlers = {
+  select: processSelection,
+};
 
 function changeSortOrder(field: keyof T) {
   if (currentSortOrder.value?.field === field) {
@@ -28,33 +35,49 @@ function changeSortOrder(field: keyof T) {
   currentSortOrder.value && emits('change:sort', currentSortOrder.value);
 }
 
-function toggleSelectedRows(val: boolean) {
+function toggleSelectedRows(val: Ui3nCheckboxValue) {
   console.log('toggleSelectedRows', val);
+}
+
+function processSelection(value: T) {
+  const isValuePresence = selectedRows.value.has(value);
+  if (isValuePresence) {
+    selectedRows.value.delete(value);
+  } else {
+    selectedRows.value.add(value);
+  }
+}
+
+function isRowSelected(row: T) {
+  return selectedRows.value.has(row);
 }
 </script>
 
 <template>
   <div ref="tableEl" :class="$style.table">
-    <div :class="[$style.header, selectedRows?.length > 0 && $style.withGroupActions]">
-      <div v-if="!!selectedRows?.length" :class="$style.groupActions">
+    <div :class="[$style.header, selectedRowsArray?.length > 0 && $style.withGroupActions]">
+      <!-- group actions -->
+      <div v-if="!!selectedRowsArray?.length" :class="$style.groupActions">
         <ui3n-checkbox
-          :indeterminate="selectedRows?.length < body.length"
-          :model-value="selectedRows?.length === body.length"
+          :indeterminate="selectedRowsArray?.length < body.length"
+          :model-value="selectedRowsArray?.length === body.length"
           @change="toggleSelectedRows"
         >
-          Selected: {{ selectedRows?.length }}
+          Selected: {{ selectedRowsArray?.length }}
         </ui3n-checkbox>
 
         <div :class="$style.groupActionsBody">
-          <slot name="group-actions" :selected-rows="selectedRows" />
+          <slot name="group-actions" :selected-rows="selectedRowsArray" />
         </div>
 
         <ui3n-button type="secondary">Cancel</ui3n-button>
       </div>
-
-      <template v-for="(h, index) in head" :key="h.key">
+      <!-- table header  -->
+      <template
+        v-for="(h, index) in visibleColumns"
+        :key="h.key"
+      >
         <div
-          v-if="!h.hidden"
           :class="[
             $style.headerItemWrapper,
             h.sortable && $style.sortable,
@@ -96,6 +119,51 @@ function toggleSelectedRows(val: boolean) {
           </div>
         </div>
       </template>
+      <!-- table body -->
+      <div :class="$style.body">
+        <template v-if="$slots['row']">
+          <div
+            v-for="(row, rowIndex) in body"
+            :class="[$style.row, isRowSelected(row.content) && $style.selected]"
+            :key="config.fieldAsRowKey ? (row.content[config.fieldAsRowKey] as string | number) : rowIndex"
+          >
+            <slot
+              name="row"
+              :row="row.content"
+              :row-style="row.rowStyle"
+              :row-index="rowIndex"
+              :events="eventsHandlers"
+            />
+          </div>
+        </template>
+
+        <template v-else>
+          <div
+            v-for="(row, rowIndex) in body"
+            :class="[
+              $style.row,
+              config.selectable && $style.selectable,
+              isRowSelected(row.content) && $style.selected,
+            ]"
+            :key="config.fieldAsRowKey ? (row.content[config.fieldAsRowKey] as string | number) : rowIndex"
+            :style="row.rowStyle"
+          >
+            <ui3n-checkbox
+              v-if="config.selectable"
+              :class="$style.rowCheckbox"
+              :model-value="isRowSelected(row.content)"
+              @change="processSelection(row.content)"
+            />
+
+            <template
+              v-for="(col, colIndex) in visibleColumns"
+              :key="col.key"
+            >
+              <!-- ToDo -->
+            </template>
+          </div>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -188,5 +256,35 @@ function toggleSelectedRows(val: boolean) {
   height: 100%;
   padding: 0 var(--spacing-s);
   flex-grow: 1;
+}
+
+.body {
+  position: relative;
+  width: 100%;
+  border-left: 1px solid var(--color-border-table-primary-default);
+  border-right: 1px solid var(--color-border-table-primary-default);
+}
+
+.row {
+  position: relative;
+  width: 100%;
+  min-height: var(--spacing-ml);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: var(--spacing-m);
+  border-bottom: 1px solid var(--color-border-block-primary-default);
+}
+
+.selectable {
+
+}
+
+.selected {
+  background-color: var(--color-bg-control-primary-hover);
+}
+
+.rowCheckbox {
+  margin-right: var(--spacing-s);
 }
 </style>

@@ -6,9 +6,11 @@ export type Ui3nTableSort<T extends object> = {
 export type Ui3nTableConfig<T extends object> = {
   tableName?: string;
   defaultSortOrder?: Ui3nTableSort<T>;
+  selectable?: boolean;
   draggebleRows?: boolean;
   draggebleColumns?: boolean;
   columnStyle?: Record<keyof T, Record<string, string>>;
+  fieldAsRowKey?: keyof T;
 };
 
 export type Ui3nTableHeadProps<T extends object> = {
