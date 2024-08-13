@@ -15,10 +15,13 @@
 </script>
 
 <template>
-  <ui3n-icon
-    :icon="props.value === 'asc' ? 'arrow-downward' : 'arrow-upward'"
-    :width="iconSize"
-    :height="iconSize"
-    :color="iconColor"
-  />
+  <transition mode="out-in" name="fade">
+    <ui3n-icon
+      :key="value === 'asc' ? 'arrow-downward' : 'arrow-upward'"
+      :icon="value === 'asc' ? 'arrow-downward' : 'arrow-upward'"
+      :width="iconSize"
+      :height="iconSize"
+      :color="iconColor"
+    />
+  </transition>
 </template>

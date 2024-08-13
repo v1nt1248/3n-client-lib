@@ -1,92 +1,76 @@
-<script lang="ts" setup generic="T extends object">
-import { computed, onMounted, Ref, ref, UnwrapRef } from 'vue';
-import { getInitialSortOrder, setColumnWidth } from './utils';
-import type { Ui3nTableEvents, Ui3nTableProps, Ui3nTableSort } from './types';
-import Ui3nIcon from '../ui3n-icon.vue';
+<script setup lang="ts" generic="T extends Ui3nTableBodyBaseItem">
+import { useTable } from './composables/useTable';
+import {
+  Ui3nTableBodyBaseItem,
+  Ui3nTableEvents,
+  Ui3nTableProps,
+} from './types';
 import Ui3nButton from '../ui3n-button.vue';
-import Ui3nCheckbox, { type Ui3nCheckboxValue } from '../ui3n-checkbox.vue';
+import Ui3nCheckbox from '../ui3n-checkbox.vue';
+import Ui3nTableSortIcon from '../ui3n-table-sort-icon.vue';
 
 const props = defineProps<Ui3nTableProps<T>>();
 const emits = defineEmits<Ui3nTableEvents<T>>();
 
-const tableEl = ref<HTMLDivElement | null>(null);
-const currentSortOrder = ref<Ui3nTableSort<T>>(getInitialSortOrder(props));
-const selectedRows: Ref<Set<T>> = ref<Set<T>>(new Set()) as Ref<Set<T>>;
-
-const visibleColumns = computed(() => props.head.filter((h) => !h.hidden));
-const selectedRowsArray = computed(() => Array.from(selectedRows.value));
-
-onMounted(() => {
-  tableEl.value && setColumnWidth(tableEl.value, props);
-});
+const {
+  tableEl,
+  currentConfig,
+  visibleColumns,
+  showGroupActionsRow,
+  selectedRowsArray,
+  selectedRowsSize,
+  closeGroupActionsRow,
+  getRowKey,
+  isRowSelected,
+  getRowStyle,
+  processSelection,
+  toggleSelectedRows,
+  changeSortOrder,
+} = useTable(props, emits);
 
 const eventsHandlers = {
   select: processSelection,
 };
-
-function changeSortOrder(field: keyof T) {
-  if (currentSortOrder.value?.field === field) {
-    currentSortOrder.value.direction = currentSortOrder.value.direction === 'asc' ? 'desc' : 'asc';
-  } else {
-    currentSortOrder.value.field = field as UnwrapRef<keyof T>;
-    currentSortOrder.value.direction = 'desc';
-  }
-  // @ts-ignore
-  currentSortOrder.value && emits('change:sort', currentSortOrder.value);
-}
-
-function toggleSelectedRows(val: Ui3nCheckboxValue) {
-  console.log('toggleSelectedRows', val);
-}
-
-function processSelection(value: T) {
-  const isValuePresence = selectedRows.value.has(value);
-  if (isValuePresence) {
-    selectedRows.value.delete(value);
-  } else {
-    selectedRows.value.add(value);
-  }
-}
-
-function isRowSelected(row: T) {
-  return selectedRows.value.has(row);
-}
 </script>
 
 <template>
   <div ref="tableEl" :class="$style.table">
-    <div :class="[$style.header, selectedRowsArray?.length > 0 && $style.withGroupActions]">
+    <div :class="[$style.header, showGroupActionsRow && $style.withGroupActions]">
       <!-- group actions -->
-      <div v-if="!!selectedRowsArray?.length" :class="$style.groupActions">
+      <div v-if="showGroupActionsRow" :class="$style.groupActions">
         <ui3n-checkbox
-          :indeterminate="selectedRowsArray?.length < body.length"
-          :model-value="selectedRowsArray?.length === body.length"
+          :indeterminate="selectedRowsSize < body.content.length && selectedRowsSize !== 0"
+          :model-value="selectedRowsSize === body.content.length"
           @change="toggleSelectedRows"
         >
-          Selected: {{ selectedRowsArray?.length }}
+          Selected: {{ selectedRowsSize }}
         </ui3n-checkbox>
 
         <div :class="$style.groupActionsBody">
           <slot name="group-actions" :selected-rows="selectedRowsArray" />
         </div>
 
-        <ui3n-button type="secondary">Cancel</ui3n-button>
+        <ui3n-button
+          type="secondary"
+          @click="closeGroupActionsRow"
+        >
+          Cancel
+        </ui3n-button>
       </div>
       <!-- table header  -->
       <template
-        v-for="(h, index) in visibleColumns"
+        v-for="h in visibleColumns"
         :key="h.key"
       >
         <div
           :class="[
             $style.headerItemWrapper,
             h.sortable && $style.sortable,
-            h.sortable && currentSortOrder?.field === h.key && $style.sortableActive,
+            h.sortable && currentConfig.sortOrder?.field === h.key && $style.sortableActive,
           ]"
           :style="{
             ...h.headCellStyle,
             width: `var(--ui3n-table-col-${String(h.key)}-width)`,
-            ...(index === 0 && { paddingLeft: 'var(--spacing-m)' }),
           }"
         >
           <div
@@ -106,64 +90,82 @@ function isRowSelected(row: T) {
                 {{ h.text }}
               </span>
             </slot>
-            <transition mode="out-in" name="fade">
-              <ui3n-icon
-                v-if="h.sortable && currentSortOrder?.field === h.key"
-                :key="currentSortOrder.direction === 'desc' ? 'arrow-downward' : 'arrow-upward'"
-                :icon="currentSortOrder.direction === 'desc' ? 'arrow-downward' : 'arrow-upward'"
-                width="16"
-                height="16"
-                color="var(--color-icon-table-primary-default)"
-              />
-            </transition>
+            <ui3n-table-sort-icon
+              v-if="h.sortable && currentConfig.sortOrder?.field === h.key"
+              :value="currentConfig.sortOrder?.direction"
+              size="16"
+            />
           </div>
         </div>
       </template>
-      <!-- table body -->
-      <div :class="$style.body">
-        <template v-if="$slots['row']">
-          <div
-            v-for="(row, rowIndex) in body"
-            :class="[$style.row, isRowSelected(row.content) && $style.selected]"
-            :key="config.fieldAsRowKey ? (row.content[config.fieldAsRowKey] as string | number) : rowIndex"
-          >
-            <slot
-              name="row"
-              :row="row.content"
-              :row-style="row.rowStyle"
-              :row-index="rowIndex"
-              :events="eventsHandlers"
-            />
-          </div>
-        </template>
+    </div>
 
-        <template v-else>
-          <div
-            v-for="(row, rowIndex) in body"
-            :class="[
-              $style.row,
-              config.selectable && $style.selectable,
-              isRowSelected(row.content) && $style.selected,
-            ]"
-            :key="config.fieldAsRowKey ? (row.content[config.fieldAsRowKey] as string | number) : rowIndex"
-            :style="row.rowStyle"
-          >
-            <ui3n-checkbox
-              v-if="config.selectable"
-              :class="$style.rowCheckbox"
-              :model-value="isRowSelected(row.content)"
-              @change="processSelection(row.content)"
-            />
+    <!-- table body -->
+    <div :class="$style.body">
+      <template v-if="$slots['row']">
+        <div
+          v-for="(row, rowIndex) in body.content"
+          :class="[
+            $style.row,
+            isRowSelected(row) && $style.selected,
+            config.selectable && $style.selectable,
+          ]"
+          :key="getRowKey(row, rowIndex)"
+        >
+          <slot
+            name="row"
+            :row="row"
+            :row-style="getRowStyle(row)"
+            :row-index="rowIndex"
+            :events="eventsHandlers"
+          />
+        </div>
+      </template>
 
-            <template
-              v-for="(col, colIndex) in visibleColumns"
-              :key="col.key"
+      <template v-else>
+        <div
+          v-for="(row, rowIndex) in body.content"
+          :class="[
+            $style.row,
+            isRowSelected(row) && $style.selected,
+            config.selectable && $style.selectable,
+          ]"
+          :key="getRowKey(row, rowIndex)"
+          :style="getRowStyle(row)"
+        >
+          <ui3n-checkbox
+            v-if="config.selectable"
+            :class="$style.rowCheckbox"
+            :model-value="isRowSelected(row)"
+            @change="processSelection(row)"
+          />
+
+          <template
+            v-for="(col, colIndex) in visibleColumns"
+            :key="col.key"
+          >
+            <div
+              :class="[$style.bodyItem]"
+              :style="{
+                width: colIndex === 0 && !!config.selectable
+                  ? `calc(var(--ui3n-table-col-${String(col.key)}-width) - var(--spacing-ml))`
+                  : `var(--ui3n-table-col-${String(col.key)}-width)`,
+              }"
             >
-              <!-- ToDo -->
-            </template>
-          </div>
-        </template>
-      </div>
+              <slot
+                :name="`row-cell-${String(col.key)}`"
+                :row="row"
+                :row-index="rowIndex"
+                :cell="row[col.key]"
+              >
+                <span :class="$style.cell">
+                  {{ row[col.key] }}
+                </span>
+              </slot>
+            </div>
+          </template>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -191,6 +193,9 @@ function isRowSelected(row: T) {
   justify-content: space-between;
   align-items: center;
   background-color: var(--color-bg-table-header-default);
+  padding-left: var(--spacing-m);
+  border-left: 1px solid var(--color-bg-table-header-default);
+  border-right: 1px solid var(--color-bg-table-header-default);
 
   &.withGroupActions {
     height: calc(var(--ui3n-table-base-head-height) + var(--ui3n-table-group-actions-height));
@@ -261,8 +266,6 @@ function isRowSelected(row: T) {
 .body {
   position: relative;
   width: 100%;
-  border-left: 1px solid var(--color-border-table-primary-default);
-  border-right: 1px solid var(--color-border-table-primary-default);
 }
 
 .row {
@@ -273,11 +276,14 @@ function isRowSelected(row: T) {
   justify-content: flex-start;
   align-items: center;
   padding-left: var(--spacing-m);
+  border-left: 1px solid var(--color-border-table-primary-default);
+  border-right: 1px solid var(--color-border-table-primary-default);
   border-bottom: 1px solid var(--color-border-block-primary-default);
-}
+  background-color: var(--color-bg-control-secondary-default);
 
-.selectable {
-
+  &.selectable {
+    cursor: pointer;
+  }
 }
 
 .selected {
@@ -286,5 +292,19 @@ function isRowSelected(row: T) {
 
 .rowCheckbox {
   margin-right: var(--spacing-s);
+}
+
+.bodyItem {
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.cell {
+  font-size: var(--font-12);
+  font-weight: 400;
+  color: var(--color-text-table-primary-default);
 }
 </style>
