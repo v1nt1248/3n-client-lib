@@ -21,7 +21,6 @@ import Ui3nVirtualScroll from '../components/ui3n-virtual-scroll.vue';
 import Ui3nProgressCircular from '../components/ui3n-progress-circular.vue';
 import Ui3nTable from '../components/ui3n-table/ui3n-table.vue';
 import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '../components/ui3n-table/types';
-// import type { ListingEntryTypeExtended } from '@/constants';
 
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 const darkTheme = ref(false);
@@ -50,6 +49,7 @@ const progressValue = ref(0);
 interface TableDemoItem extends Ui3nTableBodyBaseItem {
   name: string;
   type: string;
+  size?: string;
   date: string;
 }
 
@@ -63,21 +63,35 @@ const tableValue = ref<Ui3nTableProps<TableDemoItem>>({
     fieldAsRowKey: 'name',
     selectable: 'multiple',
     columnStyle: {
-      name: { width: '70%' },
+      name: { width: '60%' },
       type: { width: '10%' },
+      size: { width: '10%' },
       date: { width: '20%' },
     }
   },
   head: [
     { key: 'name', text: 'Name', sortable: true },
     { key: 'type', text: 'Type' },
+    { key: 'size', text: 'Size' },
     { key: 'date', text: 'Date', sortable: true },
   ],
   body: {
     content: [
       { name: 'Documents', type: 'folder', date: '2024-07-20' },
       { name: 'Downloads', type: 'folder', date: '2022-07-20' },
-      { name: 'calendar.docx', type: 'docx', date: '2022-07-20' },
+      { name: 'Images', type: 'folder', date: '2022-07-20' },
+      { name: 'Video', type: 'folder', date: '2022-07-20' },
+      { name: 'Dump', type: 'folder', date: '2022-07-20' },
+      { name: 'calendar.docx', type: 'docx', size: '84 KB', date: '2022-07-22' },
+      { name: 'cars.xlsx', type: 'xlsx', size: '26 KB',date: '2022-07-22' },
+      { name: 'nature.jpg', type: 'jpg', size: '176 KB',date: '2022-07-22' },
+      { name: 'rocket.jpg', type: 'jpg', size: '14 KB',date: '2022-07-22' },
+      { name: 'стич.jpg', type: 'jpg', size: '76 KB',date: '2022-07-22' },
+      { name: 'favicon.png', type: 'png', size: '690 B',date: '2022-07-22' },
+      { name: 'asmail.d.ts', type: 'd.ts', size: '840 B',date: '2024-08-11'},
+      { name: 'common-caps.d.ts', type: 'd.ts', size: '2 KB',date: '2024-08-11'},
+      { name: 'files.d.ts', type: 'd.ts', size: '38 KB',date: '2024-08-11'},
+      { name: 'storage.d.ts', type: 'd.ts', size: '2 KB',date: '2024-08-11'},
     ],
   },
 });
@@ -725,8 +739,9 @@ changeProgressValue();
   &-row__table {
     position: relative;
     width: 720px;
-    max-height: 400px;
+    height: 360px;
     background-color: var(--white-0);
+    overflow-y: hidden;
   }
 
   &-menu {

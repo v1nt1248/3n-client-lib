@@ -2,15 +2,17 @@
 import { useTable } from './composables/useTable';
 import {
   Ui3nTableBodyBaseItem,
-  Ui3nTableEvents,
+  Ui3nTableEmits,
   Ui3nTableProps,
+  Ui3nTableSlots,
 } from './types';
 import Ui3nButton from '../ui3n-button.vue';
 import Ui3nCheckbox from '../ui3n-checkbox.vue';
 import Ui3nTableSortIcon from '../ui3n-table-sort-icon.vue';
 
 const props = defineProps<Ui3nTableProps<T>>();
-const emits = defineEmits<Ui3nTableEvents<T>>();
+const emits = defineEmits<Ui3nTableEmits<T>>();
+defineSlots<Ui3nTableSlots<T, string & keyof T>>();
 
 const {
   tableEl,
@@ -68,25 +70,15 @@ const eventsHandlers = {
             h.sortable && $style.sortable,
             h.sortable && currentConfig.sortOrder?.field === h.key && $style.sortableActive,
           ]"
-          :style="{
-            ...h.headCellStyle,
-            width: `var(--ui3n-table-col-${String(h.key)}-width)`,
-          }"
+          :style="h.headCellStyle"
         >
           <div
             :class="$style.headerItem"
             :style="h.headCellStyle"
             v-on="h.sortable ? { click: () => changeSortOrder(h.key) }: {}"
           >
-            <slot :name="`column-${String(h.key)}`">
-              <span
-                :class="$style.headerText"
-                :style="{
-                  maxWidth: h.sortable
-                    ? `calc(var(--ui3n-table-col-${String(h.key)}-width) - - var(--spacing-ml))`
-                    : 'var(--ui3n-table-col-${String(h.key)}-width)'
-                }"
-              >
+            <slot :name="`header-cell-${h.key as string & keyof T}`">
+              <span :class="$style.headerText">
                 {{ h.text }}
               </span>
             </slot>
@@ -113,7 +105,7 @@ const eventsHandlers = {
           :key="getRowKey(row, rowIndex)"
         >
           <slot
-            name="row"
+            name="body-row"
             :row="row"
             :row-style="getRowStyle(row)"
             :row-index="rowIndex"
@@ -133,27 +125,23 @@ const eventsHandlers = {
           :key="getRowKey(row, rowIndex)"
           :style="getRowStyle(row)"
         >
-          <ui3n-checkbox
+          <div
             v-if="config.selectable"
             :class="$style.rowCheckbox"
-            :model-value="isRowSelected(row)"
-            @change="processSelection(row)"
-          />
+          >
+            <ui3n-checkbox
+              :model-value="isRowSelected(row)"
+              @change="processSelection(row)"
+            />
+          </div>
 
           <template
             v-for="(col, colIndex) in visibleColumns"
             :key="col.key"
           >
-            <div
-              :class="[$style.bodyItem]"
-              :style="{
-                width: colIndex === 0 && !!config.selectable
-                  ? `calc(var(--ui3n-table-col-${String(col.key)}-width) - var(--spacing-ml))`
-                  : `var(--ui3n-table-col-${String(col.key)}-width)`,
-              }"
-            >
+            <div :class="[$style.bodyItem, colIndex === 0 && $style.bodyItemFirst]">
               <slot
-                :name="`row-cell-${String(col.key)}`"
+                :name="`body-row-cell-${(col.key as string & keyof T)}`"
                 :row="row"
                 :row-index="rowIndex"
                 :cell="row[col.key]"
@@ -174,12 +162,15 @@ const eventsHandlers = {
 @import "../../assets/styles/mixins.scss";
 
 .table {
+  --ui3n-table-columns-width: auto;
   --ui3n-table-base-head-height: 36px;
   --ui3n-table-group-actions-height: 48px;
+  --ui3n-table-body-row-height: 28px;
   --ui3n-table-group-actions-bg-color: var(--color-bg-block-primary-default);
 
   position: relative;
   width: 100%;
+  height: 100%;
   background-color: transparent;
   overflow-y: auto;
 }
@@ -188,18 +179,21 @@ const eventsHandlers = {
   position: sticky;
   top: 0;
   width: 100%;
+  min-height: var(--ui3n-table-header-height);
   height: var(--ui3n-table-base-head-height);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: var(--ui3n-table-columns-width);
   background-color: var(--color-bg-table-header-default);
   padding-left: var(--spacing-m);
-  border-left: 1px solid var(--color-bg-table-header-default);
-  border-right: 1px solid var(--color-bg-table-header-default);
+  z-index: 5;
 
   &.withGroupActions {
     height: calc(var(--ui3n-table-base-head-height) + var(--ui3n-table-group-actions-height));
     padding-top: var(--ui3n-table-group-actions-height);
+  }
+
+  .headerItemWrapper:not(:first-child) {
+    padding: 0 var(--spacing-xs);
   }
 }
 
@@ -271,18 +265,21 @@ const eventsHandlers = {
 .row {
   position: relative;
   width: 100%;
-  min-height: var(--spacing-ml);
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  min-height: var(--ui3n-table-body-row-height);
+  display: grid;
+  grid-template-columns: var(--ui3n-table-columns-width);
   padding-left: var(--spacing-m);
   border-left: 1px solid var(--color-border-table-primary-default);
   border-right: 1px solid var(--color-border-table-primary-default);
   border-bottom: 1px solid var(--color-border-block-primary-default);
-  background-color: var(--color-bg-control-secondary-default);
+  background-color: transparent;
 
   &.selectable {
     cursor: pointer;
+  }
+
+  &:hover {
+    background-color: var(--color-bg-control-primary-hover);
   }
 }
 
@@ -291,7 +288,15 @@ const eventsHandlers = {
 }
 
 .rowCheckbox {
-  margin-right: var(--spacing-s);
+  position: absolute;
+  top: 0;
+  left: 16px;
+  width: var(--spacing-m);
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: 1;
 }
 
 .bodyItem {
@@ -300,6 +305,10 @@ const eventsHandlers = {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+
+  &.bodyItemFirst {
+    padding-left: var(--spacing-ml);
+  }
 }
 
 .cell {

@@ -14,8 +14,8 @@ import type Ui3nInput from './components/ui3n-input.vue';
 import type Ui3nList from './components/ui3n-list.vue';
 import type Ui3nMenu from './components/ui3n-menu.vue';
 import type Ui3nNotification from './components/ui3n-notification.vue';
-// import type Ui3nTableSortIcon from './components/ui3n-table-sort-icon.vue';
-// import type Ui3nTable from './components/ui3n-table.vue';
+import type Ui3nTableSortIcon from './components/ui3n-table-sort-icon.vue';
+import type Ui3nTable from './components/ui3n-table/ui3n-table.vue';
 import type Ui3nText from './components/ui3n-text.vue';
 import type Ui3nVirtualScroll from './components/ui3n-virtual-scroll.vue';
 import type Ui3nTabs from './components/ui3n-tabs.vue';
@@ -48,7 +48,7 @@ declare module 'vue' {
   interface GlobalComponents {
     Ui3nBadge: typeof Ui3nBadge;
     Ui3nBreadcrumb: typeof Ui3nBreadcrumb;
-    Ui3nBreadcrumbs: typeof Ui3nBreadcrumbs,
+    Ui3nBreadcrumbs: typeof Ui3nBreadcrumbs;
     Ui3nButton: typeof Ui3nButton;
     Ui3nCheckbox: typeof Ui3nCheckbox;
     Ui3nChip: typeof Ui3nChip;
@@ -64,8 +64,8 @@ declare module 'vue' {
     Ui3nStepLineBar: typeof Ui3nStepLineBar;
     Ui3nProgressLinear: typeof Ui3nProgressLinear;
     Ui3nProgressCircular: typeof Ui3nProgressCircular;
-    // Ui3nTableSortIcon: typeof Ui3nTableSortIcon;
-    // Ui3nTable: typeof Ui3nTable;
+    Ui3nTableSortIcon: typeof Ui3nTableSortIcon;
+    Ui3nTable: typeof Ui3nTable;
     Ui3nTabs: typeof Ui3nTabs;
     Ui3nText: typeof Ui3nText;
     Ui3nVirtualScroll: typeof Ui3nVirtualScroll;
@@ -82,16 +82,16 @@ declare module 'pinia' {
     $openDialog: (params: Ui3nDialogComponentProps) => DialogInstance | undefined;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: {
-      on: (type: string|symbol, handler: CbFunction) => void;
-      off: (type: string|symbol, handler?: CbFunction) => void;
-      emit:(type: string|symbol, arguments?: any) => void;
-      once: (type: string|symbol, handler: CbFunction) => void;
+      on: (type: string | symbol, handler: CbFunction) => void;
+      off: (type: string | symbol, handler?: CbFunction) => void;
+      emit: (type: string | symbol, arguments?: any) => void;
+      once: (type: string | symbol, handler: CbFunction) => void;
       clear: () => void;
-    }
+    };
     $i18n: {
       locale: string;
       changeLocale: (lang: string) => void;
       tr: (key: string, placeholders?: Record<string, string>) => string;
-    }
+    };
   }
 }

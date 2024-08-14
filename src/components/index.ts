@@ -18,9 +18,28 @@ import Ui3nNotification from './ui3n-notification.vue';
 import Ui3nTableSortIcon from './ui3n-table-sort-icon.vue';
 import type { Ui3nTableSortIconProps } from './ui3n-table-sort-icon.vue';
 import Ui3nTable from './ui3n-table/ui3n-table.vue';
-import type { Ui3nTableProps, Ui3nTableEmits } from './ui3n-table/ui3n-table.vue';
+import type {
+  Ui3nTableSort,
+  Ui3nTableConfig,
+  Ui3nTableHeadProps,
+  Ui3nTableBodyProps,
+  Ui3nTableGroupActionsSlot,
+  Ui3nTableHeaderCellSlot,
+  Ui3nTableBodyRowSlotScope,
+  Ui3nTableBodyRowSlot,
+  Ui3nTableBodyRowCellSlotScope,
+  Ui3nTableBodyRowCellSlot,
+  Ui3nTableSlots,
+  Ui3nTableProps,
+  Ui3nTableEmits,
+} from './ui3n-table/types';
 import Ui3nDialog from './ui3n-dialog.vue';
-import type { Ui3nDialogComponentProps, Ui3nDialogComponentEmits, Ui3nDialogProps, Ui3nDialogEvent } from './ui3n-dialog.vue';
+import type {
+  Ui3nDialogComponentProps,
+  Ui3nDialogComponentEmits,
+  Ui3nDialogProps,
+  Ui3nDialogEvent,
+} from './ui3n-dialog.vue';
 import Ui3nMenu from './ui3n-menu.vue';
 import type { Ui3nMenuProps, Ui3nMenuEmits, Ui3nMenuSlots } from './ui3n-menu.vue';
 import Ui3nList from './ui3n-list.vue';
@@ -75,6 +94,17 @@ export {
   Ui3nTableSortIcon,
   Ui3nTableSortIconProps,
   Ui3nTable,
+  Ui3nTableSort,
+  Ui3nTableConfig,
+  Ui3nTableHeadProps,
+  Ui3nTableBodyProps,
+  Ui3nTableGroupActionsSlot,
+  Ui3nTableHeaderCellSlot,
+  Ui3nTableBodyRowSlotScope,
+  Ui3nTableBodyRowSlot,
+  Ui3nTableBodyRowCellSlotScope,
+  Ui3nTableBodyRowCellSlot,
+  Ui3nTableSlots,
   Ui3nTableProps,
   Ui3nTableEmits,
   Ui3nDialog,
@@ -115,4 +145,4 @@ export {
   Ui3nProgressLinearProps,
   Ui3nProgressCircular,
   Ui3nProgressCircularProps,
-}
+};

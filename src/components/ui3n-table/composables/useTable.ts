@@ -1,19 +1,18 @@
 import { computed, onMounted, type Ref, ref, watch, UnwrapRef } from 'vue';
 import { get, isEmpty, size } from 'lodash';
-import { setColumnWidth, setInitialSortOrder } from '@/components/ui3n-table/utils';
 import {
   Ui3nTableBodyBaseItem,
   Ui3nTableConfig,
-  Ui3nTableEvents,
+  Ui3nTableEmits,
   Ui3nTableProps,
   Ui3nTableSort,
 } from '@/components/ui3n-table/types';
 import type { Ui3nCheckboxValue } from '../../ui3n-checkbox.vue';
 
-export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<T>, emits: Ui3nTableEvents<T>) {
+export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<T>, emits: Ui3nTableEmits<T>) {
   const tableEl = ref<HTMLDivElement | null>(null);
   const currentConfig = ref<Pick<Ui3nTableConfig<T>, 'sortOrder' | 'fieldAsRowKey'>>({
-    sortOrder: setInitialSortOrder(props),
+    sortOrder: setInitialSortOrder(),
     fieldAsRowKey: setFieldAsRowKey(),
   });
   const selectedRows: Ref<Set<T> | Array<T[keyof T]>> = !!currentConfig.value?.fieldAsRowKey
@@ -36,8 +35,20 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
   const showGroupActionsRow = computed(() => props.config?.selectable === 'multiple' && hasGroupActionsRow.value);
 
   onMounted(() => {
-    tableEl.value && setColumnWidth(tableEl.value, props);
+    tableEl.value && setColumnWidth(tableEl.value);
   });
+
+  function setColumnWidth(el: HTMLDivElement) {
+    const { config = {}, head } = props;
+    const { columnStyle } = config;
+    const keys = head.map(h => h.key);
+    const columnsWidthValue = keys.reduce((res, key, index) => {
+      const width = get(columnStyle, [key, 'width'], '1fr');
+      res = index === 0 ? `${width}` : `${res} ${width}`;
+      return res;
+    }, '');
+    el && el.style.setProperty('--ui3n-table-columns-width', columnsWidthValue);
+  }
 
   function setFieldAsRowKey() {
     const { config = {}, body } = props;
@@ -47,6 +58,26 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     if ('id' in get(body, ['content', 0], {})) return 'id';
 
     return undefined;
+  }
+
+  function setInitialSortOrder(): Ui3nTableSort<T> {
+    const { config = {}, head } = props;
+    const { sortOrder } = config;
+    if (!isEmpty(sortOrder)) {
+      return sortOrder;
+    }
+
+    for (const h of head) {
+      const { key, sortable } = h;
+      if (sortable) {
+        return {
+          field: key,
+          direction: 'desc',
+        };
+      }
+    }
+
+    return {} as Ui3nTableSort<T>;
   }
 
   function getRowKey(row: T, index: number) {
@@ -63,7 +94,7 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     return (selectedRows.value as Set<T>).has(row);
   }
 
-  function getRowStyle(row: T) {
+  function getRowStyle(row: T): Record<string, string> {
     if (isEmpty(props.body.rowsStyle) || !isRowKeyUsed.value) return {};
 
     const rowKey = row[currentConfig.value.fieldAsRowKey as keyof T] as string | number;
@@ -87,8 +118,6 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
         (selectedRows.value as Set<T>).add(row);
       }
     }
-
-    emits('select:row', selectedRowsArray.value);
   }
 
   function selectInMultipleMode(row: T) {
@@ -106,11 +135,9 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
         (selectedRows.value as Array<T[keyof T]>).push(row[currentConfig.value.fieldAsRowKey as keyof T]);
       !isRowKeyUsed.value && (selectedRows.value as Set<T>).add(row);
     }
-
-    emits('select:row', selectedRowsArray.value);
   }
 
-  function processSelection(row: T) {
+  function processSelection(row: T, withoutEvents?: boolean) {
     const { selectable } = props.config;
 
     if (selectable === 'single') {
@@ -118,6 +145,8 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     } else {
       selectInMultipleMode(row);
     }
+
+    !withoutEvents && emits('select:row', selectedRowsArray.value);
   }
 
   function toggleSelectedRows(val: Ui3nCheckboxValue) {
@@ -126,13 +155,15 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     if (!!val) {
       for (const item of props.body.content) {
         if (!isRowSelected(item)) {
-          processSelection(item);
+          processSelection(item, true);
         }
       }
     } else {
       isRowKeyUsed.value && ((selectedRows.value as Array<T[keyof T]>) = []);
       !isRowKeyUsed.value && (selectedRows.value as Set<T>).clear();
     }
+
+    emits('select:row', selectedRowsArray.value);
   }
 
   function changeSortOrder(field: keyof T) {

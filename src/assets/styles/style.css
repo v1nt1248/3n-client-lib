@@ -33,6 +33,8 @@
   --spacing-m: 16px;
   --spacing-ml: 24px;
   --spacing-l: 32px;
+  --spacing-xl: 40px;
+  --spacing-xxl: 48px;
   --white-0: #fff;
   --white-inf: rgba(255, 255, 255, 0);
   --red-0: #feeeed;
@@ -98,7 +100,7 @@
   --grey-0: #fcfcfd;
   --grey-5: #eff0f1;
   --grey-10: #e1e3e6;
-  --grey-15: #d4d6da;
+    --grey-15: #d4d6da;
   --grey-20: #c6cacf;
   --grey-30: #abb0b8;
   --grey-40: #9197a0;
