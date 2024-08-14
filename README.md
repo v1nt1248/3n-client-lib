@@ -28,6 +28,8 @@ You can run the project as `pnpm dev` or `npm run dev` if you don't want to use 
   - Ui3nProgressLinear
   - Ui3nProgressCircular
   - Ui3nTabs
+  - Ui3nTableSortIcon
+  - Ui3nTable
 
 ## Directives
   - Ui3nHtml
