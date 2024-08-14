@@ -36,10 +36,15 @@ export interface Ui3nDialogComponentProps {
 
 export interface Ui3nDialogComponentEmits {
   (ev: 'open', value?: any): void;
+
   (ev: 'before-close', value?: any): void;
+
   (ev: 'close', value?: any): void;
+
   (ev: 'confirm', value?: any): void;
+
   (ev: 'cancel', value?: any): void;
+
   (ev: 'click-overlay', value?: any): void;
 }
 
@@ -52,7 +57,7 @@ const data = ref(null);
 const isValid = ref(true);
 const dialogElement = ref<HTMLDivElement | null>(null);
 
-const dialogProps = computed<Ui3nDialogProps>(() => ({
+const dialogProps = computed<Required<Omit<Ui3nDialogProps, 'onClose' | 'onConfirm' | 'onCancel'>>>(() => ({
   teleport: props.dialogProps?.teleport ?? 'body',
   title: props.dialogProps?.title ?? '',
   width: props.dialogProps?.width ?? 380,
