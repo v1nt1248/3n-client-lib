@@ -2,7 +2,7 @@
   "name": "@v1nt1248/3nclient-lib",
   "license": "AGPL-3.0-or-later",
   "author": "v1nt1248",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Library for 3NWeb clients",
   "type": "module",
   "files": [
@@ -16,20 +16,22 @@
       "import": "./dist/ui-3n-lib.js",
       "types": "./dist/index.d.ts"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": "./dist/style.css",
+    "./variables.css": "./dist/variables.css"
   },
   "scripts": {
     "dev": "vite",
     "generate:types": "vue-tsc --declaration --emitDeclarationOnly --outdir ./dist",
     "copy:dts": "cp ./src/types.d.ts ./dist",
-    "build": "vite build",
+    "copy:css": "cp ./src/assets/styles/variables.css ./dist",
+    "build": "vite build && pnpm run copy:css",
     "preview": "vite preview",
     "stylelint": "stylelint --config .stylelint.config.cjs 'src/**/*.{vue,scss}'",
     "stylelint:fix": "stylelint --config .stylelint.config.cjs --fix 'src/**/*.{vue,scss}'",
     "linter": "eslint -c .eslintrc.cjs --ext .js,.vue,.ts, src",
     "linter:fix": "eslint -c .eslintrc.cjs --fix --ext .js,.vue,.ts, src",
-    "lint": "yarn linter && yarn stylelint",
-    "lint:fix": "yarn linter:fix && yarn stylelint:fix",
+    "lint": "pnpm run linter && pnpm run stylelint",
+    "lint:fix": "pnpm run linter:fix && pnpm run stylelint:fix",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
