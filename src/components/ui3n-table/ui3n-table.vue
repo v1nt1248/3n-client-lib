@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends Ui3nTableBodyBaseItem">
 import { useTable } from './composables/useTable';
-import {
+import type {
   Ui3nTableBodyBaseItem,
   Ui3nTableEmits,
   Ui3nTableProps,

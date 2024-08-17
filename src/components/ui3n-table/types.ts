@@ -13,8 +13,8 @@ export type Ui3nTableConfig<T extends Ui3nTableBodyBaseItem, K extends keyof T =
   tableName?: string;
   sortOrder?: Ui3nTableSort<T>;
   selectable?: 'single' | 'multiple';
-  // draggebleRows?: boolean; // ToDo this will be done in the next version
-  // draggebleColumns?: boolean; // ToDo this will be done in the next version
+  // draggableRows?: boolean; // ToDo this will be done in the next version
+  // draggableColumns?: boolean; // ToDo this will be done in the next version
   columnStyle?: { [P in Omit<K, 'id'> as string | number]: Record<string, string> };
   fieldAsRowKey?: keyof T;
 };

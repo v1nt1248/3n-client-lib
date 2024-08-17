@@ -27,6 +27,7 @@ You can run the project as `pnpm dev` or `npm run dev` if you don't want to use 
   - Ui3nStepLineBar
   - Ui3nProgressLinear
   - Ui3nProgressCircular
+  - Ui3nTooltip
   - Ui3nTabs
   - Ui3nTableSortIcon
   - Ui3nTable

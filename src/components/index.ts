@@ -40,8 +40,8 @@ import type {
   Ui3nDialogProps,
   Ui3nDialogEvent,
 } from './ui3n-dialog.vue';
-import Ui3nMenu from './ui3n-menu.vue';
-import type { Ui3nMenuProps, Ui3nMenuEmits, Ui3nMenuSlots } from './ui3n-menu.vue';
+import Ui3nMenu from './ui3n-menu/ui3n-menu.vue';
+import type { Ui3nMenuProps, Ui3nMenuEmits, Ui3nMenuSlots } from './ui3n-menu/types';
 import Ui3nList from './ui3n-list.vue';
 import type { Ui3nListProps, Ui3nListEmits, Ui3nListSlots } from './ui3n-list.vue';
 import Ui3nVirtualScroll from './ui3n-virtual-scroll.vue';

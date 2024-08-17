@@ -12,7 +12,7 @@ import type Ui3nEmoji from './components/ui3n-emoji.vue';
 import type Ui3nIcon from './components/ui3n-icon.vue';
 import type Ui3nInput from './components/ui3n-input.vue';
 import type Ui3nList from './components/ui3n-list.vue';
-import type Ui3nMenu from './components/ui3n-menu.vue';
+import type Ui3nMenu from './components/ui3n-menu/ui3n-menu.vue';
 import type Ui3nNotification from './components/ui3n-notification.vue';
 import type Ui3nTableSortIcon from './components/ui3n-table-sort-icon.vue';
 import type Ui3nTable from './components/ui3n-table/ui3n-table.vue';

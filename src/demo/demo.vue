@@ -12,7 +12,7 @@ import Ui3nChip from '../components/ui3n-chip.vue';
 import Ui3nStepLineBar from '../components/ui3n-step-line-bar.vue';
 import Ui3nInput from '../components/ui3n-input.vue';
 import Ui3nList from '../components/ui3n-list.vue';
-import Ui3nMenu from '../components/ui3n-menu.vue';
+import Ui3nMenu from '../components/ui3n-menu/ui3n-menu.vue';
 import Ui3nNotification from '../components/ui3n-notification.vue';
 import Ui3nTabs from '../components/ui3n-tabs.vue';
 import Ui3nText from '../components/ui3n-text.vue';
@@ -20,6 +20,7 @@ import Ui3nProgressLinear from '../components/ui3n-progress-linear.vue';
 import Ui3nVirtualScroll from '../components/ui3n-virtual-scroll.vue';
 import Ui3nProgressCircular from '../components/ui3n-progress-circular.vue';
 import Ui3nTable from '../components/ui3n-table/ui3n-table.vue';
+import Ui3nTooltip from '../components/ui3n-tooltip/ui3n-tooltip.vue';
 import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '../components/ui3n-table/types';
 
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
@@ -206,6 +207,7 @@ changeProgressValue();
         <div class="demo-info">SOME TEXT</div>
       </ui3n-badge>
     </div>
+
     <!-- BREADCRUMBS -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- BREADCRUMBS ---</div>
@@ -227,48 +229,52 @@ changeProgressValue();
         </ui3n-breadcrumb>
       </ui3n-breadcrumbs>
     </div>
+
     <!-- BUTTON -->
-    <div class="demo-row demo-row--with-title">
-      <div class="demo-row__title">--- BUTTON ---</div>
-      <ui3n-button>Primary</ui3n-button>
-      <ui3n-button disabled>Disabled</ui3n-button>
-      <ui3n-button size="small">Primary</ui3n-button>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell-long">
-        <ui3n-button block>Primary</ui3n-button>
+    <div>
+      <div class="demo-row demo-row--with-title">
+        <div class="demo-row__title">--- BUTTON ---</div>
+        <ui3n-button>Primary</ui3n-button>
+        <ui3n-button disabled>Disabled</ui3n-button>
+        <ui3n-button size="small">Primary</ui3n-button>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell-long">
+          <ui3n-button block>Primary</ui3n-button>
+        </div>
+      </div>
+      <div class="demo-row">
+        <ui3n-button type="secondary">Secondary</ui3n-button>
+        <ui3n-button type="secondary" disabled>Secondary</ui3n-button>
+        <ui3n-button type="secondary" size="small">Secondary</ui3n-button>
+      </div>
+      <div class="demo-row">
+        <ui3n-button type="tertiary">Tertiary</ui3n-button>
+        <ui3n-button type="tertiary" disabled>Tertiary</ui3n-button>
+        <ui3n-button type="tertiary" size="small">Tertiary</ui3n-button>
+      </div>
+      <div class="demo-row">
+        <ui3n-button type="custom" color="#124037" text-color="#ffd0be">Custom</ui3n-button>
+        <ui3n-button type="custom" color="#124037" text-color="#ffd0be" disabled>Custom</ui3n-button>
+        <ui3n-button type="custom" color="#124037" text-color="#ffd0be" size="small">Custom</ui3n-button>
+      </div>
+      <div class="demo-row">
+        <ui3n-button icon="logout">Primary</ui3n-button>
+        <ui3n-button icon="logout" disabled>Primary</ui3n-button>
+        <ui3n-button icon="logout" size="small">Primary</ui3n-button>
+      </div>
+      <div class="demo-row">
+        <ui3n-button icon="home" icon-position="left">Primary</ui3n-button>
+        <ui3n-button icon="home" icon-position="left" disabled>Primary</ui3n-button>
+        <ui3n-button icon="home" icon-position="left" size="small">Primary</ui3n-button>
+      </div>
+      <div class="demo-row">
+        <ui3n-button type="icon" icon="check" />
+        <ui3n-button type="icon" icon="check" disabled />
+        <ui3n-button type="icon" icon="check" size="small" />
       </div>
     </div>
-    <div class="demo-row">
-      <ui3n-button type="secondary">Secondary</ui3n-button>
-      <ui3n-button type="secondary" disabled>Secondary</ui3n-button>
-      <ui3n-button type="secondary" size="small">Secondary</ui3n-button>
-    </div>
-    <div class="demo-row">
-      <ui3n-button type="tertiary">Tertiary</ui3n-button>
-      <ui3n-button type="tertiary" disabled>Tertiary</ui3n-button>
-      <ui3n-button type="tertiary" size="small">Tertiary</ui3n-button>
-    </div>
-    <div class="demo-row">
-      <ui3n-button type="custom" color="#124037" text-color="#ffd0be">Custom</ui3n-button>
-      <ui3n-button type="custom" color="#124037" text-color="#ffd0be" disabled>Custom</ui3n-button>
-      <ui3n-button type="custom" color="#124037" text-color="#ffd0be" size="small">Custom</ui3n-button>
-    </div>
-    <div class="demo-row">
-      <ui3n-button icon="logout">Primary</ui3n-button>
-      <ui3n-button icon="logout" disabled>Primary</ui3n-button>
-      <ui3n-button icon="logout" size="small">Primary</ui3n-button>
-    </div>
-    <div class="demo-row">
-      <ui3n-button icon="home" icon-position="left">Primary</ui3n-button>
-      <ui3n-button icon="home" icon-position="left" disabled>Primary</ui3n-button>
-      <ui3n-button icon="home" icon-position="left" size="small">Primary</ui3n-button>
-    </div>
-    <div class="demo-row">
-      <ui3n-button type="icon" icon="check" />
-      <ui3n-button type="icon" icon="check" disabled />
-      <ui3n-button type="icon" icon="check" size="small" />
-    </div>
+
     <!-- CHECKBOX -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- CHECKBOX ---</div>
@@ -285,6 +291,7 @@ changeProgressValue();
         Indeterminate
       </ui3n-checkbox>
     </div>
+
     <!-- SWITCH -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- SWITCH ---</div>
@@ -295,43 +302,50 @@ changeProgressValue();
         With label
       </ui3n-switch>
     </div>
+
     <!-- STEP LINE BAR -->
-    <div class="demo-row demo-row--with-title">
-      <div class="demo-row__title">--- STEP LINE BAR ---</div>
+    <div>
+      <div class="demo-row demo-row--with-title">
+        <div class="demo-row__title">--- STEP LINE BAR ---</div>
+        <div class="demo-row">
+          <div class="demo-row__cell-long">
+            <ui3n-step-line-bar :label="`Step ${stepValue} of 5`" :steps="5" :current="stepValue" />
+          </div>
+        </div>
+      </div>
+      <div class="demo-row">
+        <ui3n-button :disabled="stepValue === 5" @click="stepValue++">Next step</ui3n-button>
+        <ui3n-button type="secondary" :disabled="stepValue === 1" @click="stepValue = 1">
+          To 1 step
+        </ui3n-button>
+      </div>
+    </div>
+
+    <!-- PROGRESS LINEAR -->
+    <div>
+      <div class="demo-row demo-row--with-title">
+        <div class="demo-row__title">--- PROGRESS LINEAR ---</div>
+        <div class="demo-row__cell-long">
+          <ui3n-progress-linear indeterminate />
+        </div>
+      </div>
       <div class="demo-row">
         <div class="demo-row__cell-long">
-          <ui3n-step-line-bar :label="`Step ${stepValue} of 5`" :steps="5" :current="stepValue" />
+          <ui3n-progress-linear height="5" :value="progressValue" />
+        </div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell-long">
+          <ui3n-progress-linear height="5" with-text :value="progressValue" />
+        </div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell-long">
+          <ui3n-progress-linear height="12" with-text :value="progressValue" />
         </div>
       </div>
     </div>
-    <div class="demo-row">
-      <ui3n-button :disabled="stepValue === 5" @click="stepValue++">Next step</ui3n-button>
-      <ui3n-button type="secondary" :disabled="stepValue === 1" @click="stepValue = 1">
-        To 1 step
-      </ui3n-button>
-    </div>
-    <!-- PROGRESS LINEAR -->
-    <div class="demo-row demo-row--with-title">
-      <div class="demo-row__title">--- PROGRESS LINEAR ---</div>
-      <div class="demo-row__cell-long">
-        <ui3n-progress-linear indeterminate />
-      </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell-long">
-        <ui3n-progress-linear height="5" :value="progressValue" />
-      </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell-long">
-        <ui3n-progress-linear height="5" with-text :value="progressValue" />
-      </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell-long">
-        <ui3n-progress-linear height="12" with-text :value="progressValue" />
-      </div>
-    </div>
+
     <!-- PROGRESS CIRCULAR -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- PROGRESS CIRCULAR ---</div>
@@ -367,130 +381,135 @@ changeProgressValue();
         DOCX
       </ui3n-chip>
     </div>
+
     <!-- DIALOG -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- DIALOG ---</div>
       <ui3n-button @click="openDialog">OPEN DIALOG</ui3n-button>
     </div>
+
     <!-- INPUT FIELD -->
-    <div class="demo-row demo-row--with-title">
-      <div class="demo-row__title">--- INPUT FIELD---</div>
-      <div class="demo-row__cell">
-        <ui3n-input
-          placeholder="Enter any text"
-          v-model="inputValue"
-          @input="onInputComponentEvent('input', $event)"
-          @focus="onInputComponentEvent('focus', $event)"
-          @blur="onInputComponentEvent('blur', $event)"
-          @change="onInputComponentEvent('change', $event)"
-        />
+    <div>
+      <div class="demo-row demo-row--with-title">
+        <div class="demo-row__title">--- INPUT FIELD---</div>
+        <div class="demo-row__cell">
+          <ui3n-input
+            placeholder="Enter any text"
+            v-model="inputValue"
+            @input="onInputComponentEvent('input', $event)"
+            @focus="onInputComponentEvent('focus', $event)"
+            @blur="onInputComponentEvent('blur', $event)"
+            @change="onInputComponentEvent('change', $event)"
+          />
+        </div>
+        <div class="demo-row__cell">
+          <ui3n-input placeholder="Enter any text" :disabled="true" v-model="inputValue" />
+        </div>
+        <div class="demo-row__cell">
+          text field value: {{ inputValue }}
+        </div>
       </div>
-      <div class="demo-row__cell">
-        <ui3n-input placeholder="Enter any text" :disabled="true" v-model="inputValue" />
+      <div class="demo-row">
+        <div class="demo-row__cell">
+          <ui3n-input
+            placeholder="Enter any text"
+            icon="search"
+            v-model="inputValue"
+            @input="onInputComponentEvent('input', $event)"
+            @focus="onInputComponentEvent('focus', $event)"
+            @blur="onInputComponentEvent('blur', $event)"
+            @change="onInputComponentEvent('change', $event)"
+          />
+        </div>
+        <div class="demo-row__cell">
+          <ui3n-input placeholder="Enter any text" icon="search" :disabled="true" v-model="inputValue" />
+        </div>
       </div>
-      <div class="demo-row__cell">
-        text field value: {{ inputValue }}
+      <div class="demo-row">
+        <div class="demo-row__cell">
+          <ui3n-input
+            placeholder="Enter any text"
+            clearable
+            icon="search"
+            v-model="inputValue"
+            @input="onInputComponentEvent('input', $event)"
+            @focus="onInputComponentEvent('focus', $event)"
+            @blur="onInputComponentEvent('blur', $event)"
+            @change="onInputComponentEvent('change', $event)"
+            @clear="onInputComponentEvent('clear')"
+          />
+        </div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell">
+          <ui3n-input
+            placeholder="Enter any text less than 5 characters"
+            clearable
+            icon="search"
+            :rules="[
+              (v: string) => v.length <= 5 ? true : 'Not more than 5 characters',
+            ]"
+            v-model="inputValue"
+            @input="onInputComponentEvent('input', $event)"
+            @focus="onInputComponentEvent('focus', $event)"
+            @blur="onInputComponentEvent('blur', $event)"
+            @change="onInputComponentEvent('change', $event)"
+            @clear="onInputComponentEvent('clear')"
+          />
+        </div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell">
+          <ui3n-input
+            label="Label 1"
+            placeholder="Enter any text"
+            clearable
+            icon="search"
+            v-model="inputValue"
+            @input="onInputComponentEvent('input', $event)"
+            @focus="onInputComponentEvent('focus', $event)"
+            @blur="onInputComponentEvent('blur', $event)"
+            @change="onInputComponentEvent('change', $event)"
+            @clear="onInputComponentEvent('clear')"
+          />
+        </div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell">
+          <ui3n-input
+            label="Label 2"
+            placeholder="Enter any text"
+            display-state-mode="error"
+            display-state-message="Some error text"
+            :model-value="'dddddddd'"
+            @input="onInputComponentEvent('input', $event)"
+            @focus="onInputComponentEvent('focus', $event)"
+            @blur="onInputComponentEvent('blur', $event)"
+            @change="onInputComponentEvent('change', $event)"
+            @clear="onInputComponentEvent('clear')"
+          />
+        </div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell">
+          <ui3n-input
+            label="Password"
+            placeholder="Enter any text"
+            type="password"
+            clearable
+            display-state-mode="success"
+            display-state-with-icon
+            :model-value="'dddddddd'"
+            @input="onInputComponentEvent('input', $event)"
+            @focus="onInputComponentEvent('focus', $event)"
+            @blur="onInputComponentEvent('blur', $event)"
+            @change="onInputComponentEvent('change', $event)"
+            @clear="onInputComponentEvent('clear')"
+          />
+        </div>
       </div>
     </div>
-    <div class="demo-row">
-      <div class="demo-row__cell">
-        <ui3n-input
-          placeholder="Enter any text"
-          icon="search"
-          v-model="inputValue"
-          @input="onInputComponentEvent('input', $event)"
-          @focus="onInputComponentEvent('focus', $event)"
-          @blur="onInputComponentEvent('blur', $event)"
-          @change="onInputComponentEvent('change', $event)"
-        />
-      </div>
-      <div class="demo-row__cell">
-        <ui3n-input placeholder="Enter any text" icon="search" :disabled="true" v-model="inputValue" />
-      </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell">
-        <ui3n-input
-          placeholder="Enter any text"
-          clearable
-          icon="search"
-          v-model="inputValue"
-          @input="onInputComponentEvent('input', $event)"
-          @focus="onInputComponentEvent('focus', $event)"
-          @blur="onInputComponentEvent('blur', $event)"
-          @change="onInputComponentEvent('change', $event)"
-          @clear="onInputComponentEvent('clear')"
-        />
-      </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell">
-        <ui3n-input
-          placeholder="Enter any text less than 5 characters"
-          clearable
-          icon="search"
-          :rules="[
-            (v: string) => v.length <= 5 ? true : 'Not more than 5 characters',
-          ]"
-          v-model="inputValue"
-          @input="onInputComponentEvent('input', $event)"
-          @focus="onInputComponentEvent('focus', $event)"
-          @blur="onInputComponentEvent('blur', $event)"
-          @change="onInputComponentEvent('change', $event)"
-          @clear="onInputComponentEvent('clear')"
-        />
-      </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell">
-        <ui3n-input
-          label="Label 1"
-          placeholder="Enter any text"
-          clearable
-          icon="search"
-          v-model="inputValue"
-          @input="onInputComponentEvent('input', $event)"
-          @focus="onInputComponentEvent('focus', $event)"
-          @blur="onInputComponentEvent('blur', $event)"
-          @change="onInputComponentEvent('change', $event)"
-          @clear="onInputComponentEvent('clear')"
-        />
-      </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell">
-        <ui3n-input
-          label="Label 2"
-          placeholder="Enter any text"
-          display-state-mode="error"
-          display-state-message="Some error text"
-          :model-value="'dddddddd'"
-          @input="onInputComponentEvent('input', $event)"
-          @focus="onInputComponentEvent('focus', $event)"
-          @blur="onInputComponentEvent('blur', $event)"
-          @change="onInputComponentEvent('change', $event)"
-          @clear="onInputComponentEvent('clear')"
-        />
-      </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell">
-        <ui3n-input
-          label="Password"
-          placeholder="Enter any text"
-          type="password"
-          clearable
-          display-state-mode="success"
-          display-state-with-icon
-          :model-value="'dddddddd'"
-          @input="onInputComponentEvent('input', $event)"
-          @focus="onInputComponentEvent('focus', $event)"
-          @blur="onInputComponentEvent('blur', $event)"
-          @change="onInputComponentEvent('change', $event)"
-          @clear="onInputComponentEvent('clear')"
-        />
-      </div>
-    </div>
+
     <!-- LIST -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- LIST ---</div>
@@ -510,6 +529,7 @@ changeProgressValue();
         </ui3n-list>
       </div>
     </div>
+
     <!-- VIRTUAL LIST -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- VIRTUAL LIST ---</div>
@@ -523,6 +543,7 @@ changeProgressValue();
         </ui3n-virtual-scroll>
       </div>
     </div>
+
     <!-- MENU -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- MENU ---</div>
@@ -542,7 +563,7 @@ changeProgressValue();
         </ui3n-menu>
       </div>
       <div class="demo-row__cell">
-        <ui3n-menu :offset-x="16" :offset-y="8">
+        <ui3n-menu>
           <ui3n-button>Menu (offset)</ui3n-button>
           <template #menu>
             <div
@@ -557,40 +578,7 @@ changeProgressValue();
         </ui3n-menu>
       </div>
     </div>
-    <!-- NOTIFICATION -->
-    <div class="demo-row demo-row--with-title">
-      <div class="demo-row__title">--- NOTIFICATION ---</div>
-      <div class="demo-row__cell-long">
-        <ui3n-notification type="info" :content="notificationsExamples.info" :duration="2000" :on-close="() => console.log('CLOSE NOTIFICATION!!!')" />
-      </div>
-      <div class="demo-row__cell-long">
-        <ui3n-notification type="info" :with-icon="false" :content="notificationsExamples.info" />
-      </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell-long">
-        <ui3n-notification type="success" :content="notificationsExamples.success" :duration="2000" />
-      </div>
-      <div class="demo-row__cell-long">
-        <ui3n-notification type="success" :with-icon="false" :content="notificationsExamples.success" />
-      </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell-long">
-        <ui3n-notification type="warning" :content="notificationsExamples.warning" :duration="2000" />
-      </div>
-      <div class="demo-row__cell-long">
-        <ui3n-notification type="warning" :with-icon="false" :content="notificationsExamples.warning" />
-      </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell-long">
-        <ui3n-notification type="error" :content="notificationsExamples.error" :duration="2000" />
-      </div>
-      <div class="demo-row__cell-long">
-        <ui3n-notification type="error" :with-icon="false" :content="notificationsExamples.error" />
-      </div>
-    </div>
+
     <!-- TABS -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- TABS ---</div>
@@ -611,28 +599,78 @@ changeProgressValue();
         </ui3n-tabs>
       </div>
     </div>
+
     <!-- TEXT FIELD -->
-    <div class="demo-row demo-row--with-title">
-      <div class="demo-row__title">--- TEXT FIELD ---</div>
-      <div class="demo-row__cell">
-        <ui3n-text v-model:text="textValue" :rows="1" :max-rows="3" placeholder="Enter any text" />
+    <div>
+      <div class="demo-row demo-row--with-title">
+        <div class="demo-row__title">--- TEXT FIELD ---</div>
+        <div class="demo-row__cell">
+          <ui3n-text v-model:text="textValue" :rows="1" :max-rows="3" placeholder="Enter any text" />
+        </div>
+        <div class="demo-row__cell-text">
+          <span>text:</span>
+          <div style="white-space: pre-wrap">{{ textValue }}</div>
+        </div>
       </div>
-      <div class="demo-row__cell-text">
-        <span>text:</span>
-        <div style="white-space: pre-wrap">{{ textValue }}</div>
+      <div class="demo-row">
+        <div class="demo-row__cell">
+          <ui3n-text v-model:text="textValue" :rows="1" :max-rows="3" placeholder="Enter any text" :disabled="true" />
+        </div>
       </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell">
-        <ui3n-text v-model:text="textValue" :rows="1" :max-rows="3" placeholder="Enter any text" :disabled="true" />
-      </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-row__cell">
-        <ui3n-text v-model:text="textValue" label="Some label" :rows="1" :max-rows="3" placeholder="Enter any text" />
+      <div class="demo-row">
+        <div class="demo-row__cell">
+          <ui3n-text v-model:text="textValue" label="Some label" :rows="1" :max-rows="3" placeholder="Enter any text" />
+        </div>
       </div>
     </div>
 
+    <!-- TOOLTIP-->
+    <div>
+      <div class="demo-row demo-row--with-title">
+        <div class="demo-row__title">--- TOOLTIP ---</div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell">
+          <ui3n-tooltip content="Tooltip text" placement="right" trigger="manual" :model-value="true">
+            <ui3n-button>Tooltip RIGHT</ui3n-button>
+          </ui3n-tooltip>
+        </div>
+        <div class="demo-row__cell">
+          <ui3n-tooltip content="Tooltip text" placement="top" trigger="hover">
+            <ui3n-button>Tooltip TOP (Hover)</ui3n-button>
+          </ui3n-tooltip>
+        </div>
+        <div class="demo-row__cell">
+          <ui3n-tooltip content="Tooltip text" placement="bottom" trigger="click">
+            <ui3n-button>Tooltip BOTTOM (Click)</ui3n-button>
+          </ui3n-tooltip>
+        </div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell">
+          <ui3n-tooltip
+            content="Tooltip text"
+            placement="bottom-end"
+            trigger="hover"
+            color="#0d3029"
+            text-color="#fff"
+          >
+            <ui3n-button>Tooltip BOTTOM-END (Hover)</ui3n-button>
+          </ui3n-tooltip>
+        </div>
+        <div class="demo-row__cell" />
+        <div class="demo-row__cell">
+          <ui3n-tooltip placement="left" trigger="click">
+            <ui3n-button>Tooltip LEFT, 'content' slot (Click)</ui3n-button>
+            <template #content>
+              <ui3n-icon icon="person" />
+            </template>
+          </ui3n-tooltip>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLE -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- TABLE ---</div>
       <div class="demo-row__table">
@@ -641,6 +679,43 @@ changeProgressValue();
           :head="tableValue.head"
           :body="tableValue.body"
         />
+      </div>
+    </div>
+
+    <!-- NOTIFICATION -->
+    <div>
+      <div class="demo-row demo-row--with-title">
+        <div class="demo-row__title">--- NOTIFICATION ---</div>
+        <div class="demo-row__cell-long">
+          <ui3n-notification type="info" :content="notificationsExamples.info" :duration="2000" :on-close="() => console.log('CLOSE NOTIFICATION!!!')" />
+        </div>
+        <div class="demo-row__cell-long">
+          <ui3n-notification type="info" :with-icon="false" :content="notificationsExamples.info" />
+        </div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell-long">
+          <ui3n-notification type="success" :content="notificationsExamples.success" :duration="2000" />
+        </div>
+        <div class="demo-row__cell-long">
+          <ui3n-notification type="success" :with-icon="false" :content="notificationsExamples.success" />
+        </div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell-long">
+          <ui3n-notification type="warning" :content="notificationsExamples.warning" :duration="2000" />
+        </div>
+        <div class="demo-row__cell-long">
+          <ui3n-notification type="warning" :with-icon="false" :content="notificationsExamples.warning" />
+        </div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell-long">
+          <ui3n-notification type="error" :content="notificationsExamples.error" :duration="2000" />
+        </div>
+        <div class="demo-row__cell-long">
+          <ui3n-notification type="error" :with-icon="false" :content="notificationsExamples.error" />
+        </div>
       </div>
     </div>
   </section>
@@ -747,6 +822,7 @@ changeProgressValue();
   &-menu {
     &__item {
       position: relative;
+      width: max-content;
       height: 24px;
       padding: 0 8px;
       display: flex;
