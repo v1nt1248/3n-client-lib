@@ -26,7 +26,7 @@ import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
 
 export * from './directives';
-export * from './ui3n-components';
+export * from './components';
 
 declare module 'vue' {
   interface GlobalComponents {
