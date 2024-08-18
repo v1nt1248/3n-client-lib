@@ -2,19 +2,27 @@
   "name": "@v1nt1248/3nclient-lib",
   "license": "AGPL-3.0-or-later",
   "author": "v1nt1248",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "Library for 3NWeb clients",
   "type": "module",
   "files": [
     "dist",
     "src/components/"
   ],
-  "module": "./dist/ui-3n-lib.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/ui3n-components.js",
+  "module": "./dist/ui3n-components.js",
   "exports": {
     ".": {
-      "import": "./dist/ui-3n-lib.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/ui3n-components.js",
+      "types": "./dist/ui3n-components.d.ts"
+    },
+    "./plugins": {
+      "import": "./dist/ui3n-plugins.js",
+      "types": "./dist/ui3n-plugins.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/ui3n-utils.js",
+      "types": "./dist/ui3n-utils.d.ts"
     },
     "./style.css": "./dist/style.css",
     "./variables.css": "./dist/variables.css"
@@ -24,7 +32,11 @@
     "generate:types": "vue-tsc --declaration --emitDeclarationOnly --outdir ./dist",
     "copy:dts": "cp ./src/types.d.ts ./dist",
     "copy:css": "cp ./src/assets/styles/variables.css ./dist",
-    "build": "vite build && pnpm run copy:css",
+    "clean:dist": "rm -rf dist/",
+    "build:components": "LIB_NAME=lib vite build",
+    "build:plugins": "LIB_NAME=plugins vite build",
+    "build:utils": "LIB_NAME=utils vite build",
+    "build": "pnpm run clean:dist && pnpm run build:components && pnpm run build:plugins && pnpm run build:utils && pnpm run copy:css",
     "preview": "vite preview",
     "stylelint": "stylelint --config .stylelint.config.cjs 'src/**/*.{vue,scss}'",
     "stylelint:fix": "stylelint --config .stylelint.config.cjs --fix 'src/**/*.{vue,scss}'",

@@ -38,9 +38,9 @@ Used to display information hierarchically.
 ### *The basic usage*
 ###
 <script setup>
-  import Ui3nBreadcrumb from '../../src/components/ui3n-breadcrumb.vue';
-  import Ui3nBreadcrumbs from '../../src/components/ui3n-breadcrumbs.vue';
-  import Ui3nIcon from '../../src/components/ui3n-icon.vue';
+  import Ui3nBreadcrumb from '../../src/components/ui3n-breadcrumbs/ui3n-breadcrumb.vue';
+  import Ui3nBreadcrumbs from '../../src/components/ui3n-breadcrumbs/ui3n-breadcrumbs.vue';
+  import Ui3nIcon from '../../src/components/ui3n-icon/ui3n-icon.vue';
 
 
   const onClick = (link) => {

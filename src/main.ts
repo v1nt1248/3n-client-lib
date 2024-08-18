@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { dialogs, notifications, vueBus, useIcons } from './plugins';
+import { dialogs, notifications, vueBus, useIcons } from './ui3n-plugins';
 import Ui3nHtml from './directives/ui3n-html';
 import './assets/styles/style.css';
 

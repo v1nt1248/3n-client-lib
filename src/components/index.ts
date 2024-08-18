@@ -1,24 +1,24 @@
-import Ui3nIcon from './ui3n-icon.vue';
-import type { Ui3nIconProps, Ui3nIconEmits } from './ui3n-icon.vue';
-import Ui3nButton from './ui3n-button.vue';
-import type { Ui3nButtonProps, Ui3nButtonEmits } from './ui3n-button.vue';
-import Ui3nChip from './ui3n-chip.vue';
-import type { Ui3nChipProps, Ui3nChipEmits, Ui3nChipSlots } from './ui3n-chip.vue';
-import Ui3nDropFiles from './ui3n-drop-files.vue';
-import type { Ui3nDropFilesProps, Ui3nDropFilesEmits } from './ui3n-drop-files.vue';
-import Ui3nEmoji from './ui3n-emoji.vue';
-import type { Ui3nEmojiProps, Ui3nEmojiEmits } from './ui3n-emoji.vue';
-import Ui3nInput from './ui3n-input.vue';
-import type { Ui3nInputProps, Ui3nInputEmits } from './ui3n-input.vue';
-import Ui3nText from './ui3n-text.vue';
-import type { Ui3nTextProps, Ui3nTextEmits } from './ui3n-text.vue';
-import Ui3nCheckbox from './ui3n-checkbox.vue';
-import type { Ui3nCheckboxProps, Ui3nCheckboxEmits, Ui3nCheckboxSlots } from './ui3n-checkbox.vue';
-import Ui3nNotification from './ui3n-notification.vue';
-import Ui3nTableSortIcon from './ui3n-table-sort-icon.vue';
-import type { Ui3nTableSortIconProps } from './ui3n-table-sort-icon.vue';
+import Ui3nIcon from './ui3n-icon/ui3n-icon.vue';
+import type { Ui3nIconProps, Ui3nIconEmits } from './ui3n-icon/types';
+import Ui3nButton from './ui3n-button/ui3n-button.vue';
+import type { Ui3nButtonProps, Ui3nButtonEmits } from './ui3n-button/types';
+import Ui3nChip from './ui3n-chip/ui3n-chip.vue';
+import type { Ui3nChipProps, Ui3nChipEmits, Ui3nChipSlots } from './ui3n-chip/types';
+import Ui3nDropFiles from './ui3n-drop-files/ui3n-drop-files.vue';
+import type { Ui3nDropFilesProps, Ui3nDropFilesEmits, Ui3nDropFilesSlots } from './ui3n-drop-files/types';
+import Ui3nEmoji from './ui3n-emoji/ui3n-emoji.vue';
+import type { Ui3nEmojiProps, Ui3nEmojiEmits } from './ui3n-emoji/types';
+import Ui3nInput from './ui3n-input/ui3n-input.vue';
+import type { Ui3nInputProps, Ui3nInputEmits } from './ui3n-input/types';
+import Ui3nText from './ui3n-text/ui3n-text.vue';
+import type { Ui3nTextProps, Ui3nTextEmits } from './ui3n-text/types';
+import Ui3nCheckbox from './ui3n-checkbox/ui3n-checkbox.vue';
+import type { Ui3nCheckboxProps, Ui3nCheckboxEmits, Ui3nCheckboxSlots, Ui3nCheckboxValue } from './ui3n-checkbox/types';
+import Ui3nNotification from './ui3n-notification/ui3n-notification.vue';
+import Ui3nTableSortIcon from './ui3n-table/ui3n-table-sort-icon.vue';
 import Ui3nTable from './ui3n-table/ui3n-table.vue';
 import type {
+  Ui3nTableSortIconProps,
   Ui3nTableSort,
   Ui3nTableConfig,
   Ui3nTableHeadProps,
@@ -33,35 +33,40 @@ import type {
   Ui3nTableProps,
   Ui3nTableEmits,
 } from './ui3n-table/types';
-import Ui3nDialog from './ui3n-dialog.vue';
+import Ui3nDialog from './ui3n-dialog/ui3n-dialog.vue';
 import type {
   Ui3nDialogComponentProps,
   Ui3nDialogComponentEmits,
   Ui3nDialogProps,
   Ui3nDialogEvent,
-} from './ui3n-dialog.vue';
+} from './ui3n-dialog/types';
 import Ui3nMenu from './ui3n-menu/ui3n-menu.vue';
 import type { Ui3nMenuProps, Ui3nMenuEmits, Ui3nMenuSlots } from './ui3n-menu/types';
-import Ui3nList from './ui3n-list.vue';
-import type { Ui3nListProps, Ui3nListEmits, Ui3nListSlots } from './ui3n-list.vue';
-import Ui3nVirtualScroll from './ui3n-virtual-scroll.vue';
-import type { Ui3nVirtualScrollProps, Ui3nVirtualScrollSlots } from './ui3n-virtual-scroll.vue';
-import Ui3nTabs from './ui3n-tabs.vue';
-import type { Ui3nTabsProps, Ui3nTabsEmits, Ui3nTabsSlots } from './ui3n-tabs.vue';
-import Ui3nBadge from './ui3n-badge.vue';
-import type { Ui3nBadgeProps } from './ui3n-badge.vue';
-import Ui3nBreadcrumb from './ui3n-breadcrumb.vue';
-import type { Ui3nBreadcrumbProps, Ui3nBreadcrumbEmits, Ui3nBreadcrumbSlots } from './ui3n-breadcrumb.vue';
-import Ui3nBreadcrumbs from './ui3n-breadcrumbs.vue';
-import type { Ui3nBreadcrumbsProps } from './ui3n-breadcrumbs.vue';
-import Ui3nSwitch from './ui3n-switch.vue';
-import type { Ui3nSwitchProps, Ui3nSwitchEmits, Ui3nSwitchSlots } from './ui3n-switch.vue';
-import Ui3nStepLineBar from './ui3n-step-line-bar.vue';
-import type { Ui3nStepLineBarProps } from './ui3n-step-line-bar.vue';
-import Ui3nProgressLinear from './ui3n-progress-linear.vue';
-import type { Ui3nProgressLinearProps } from './ui3n-progress-linear.vue';
-import Ui3nProgressCircular from './ui3n-progress-circular.vue';
-import type { Ui3nProgressCircularProps } from './ui3n-progress-circular.vue';
+import Ui3nList from './ui3n-list/ui3n-list.vue';
+import type { Ui3nListProps, Ui3nListEmits, Ui3nListSlots } from './ui3n-list/types';
+import Ui3nVirtualScroll from './ui3n-virtual-scroll/ui3n-virtual-scroll.vue';
+import type { Ui3nVirtualScrollProps, Ui3nVirtualScrollSlots } from './ui3n-virtual-scroll/types';
+import Ui3nTabs from './ui3n-tabs/ui3n-tabs.vue';
+import type { Ui3nTabsProps, Ui3nTabsEmits, Ui3nTabsSlots } from './ui3n-tabs/types';
+import Ui3nBadge from './ui3n-badge/ui3n-badge.vue';
+import type { Ui3nBadgeProps } from './ui3n-badge/types';
+import Ui3nBreadcrumb from './ui3n-breadcrumbs/ui3n-breadcrumb.vue';
+import Ui3nBreadcrumbs from './ui3n-breadcrumbs/ui3n-breadcrumbs.vue';
+import type {
+  Ui3nBreadcrumbProps,
+  Ui3nBreadcrumbEmits,
+  Ui3nBreadcrumbSlots,
+  Ui3nBreadcrumbsProps,
+} from './ui3n-breadcrumbs/types';
+import Ui3nSwitch from './ui3n-switch/ui3n-switch.vue';
+import type { Ui3nSwitchProps, Ui3nSwitchEmits, Ui3nSwitchSlots } from './ui3n-switch/types';
+import Ui3nStepLineBar from './ui3n-step-line-bar/ui3n-step-line-bar.vue';
+import type { Ui3nStepLineBarProps } from './ui3n-step-line-bar/types';
+import Ui3nProgressLinear from './ui3n-progress/ui3n-progress-linear.vue';
+import Ui3nProgressCircular from './ui3n-progress/ui3n-progress-circular.vue';
+import type { Ui3nProgressCircularProps, Ui3nProgressLinearProps } from './ui3n-progress/types';
+import Ui3nTooltip from './ui3n-tooltip/ui3n-tooltip.vue';
+import type { Ui3nTooltipEmits, Ui3nTooltipProps, Ui3nTooltipSlots, Ui3nTooltipPlacement } from './ui3n-tooltip/types';
 
 export {
   Ui3nIcon,
@@ -77,6 +82,7 @@ export {
   Ui3nDropFiles,
   Ui3nDropFilesProps,
   Ui3nDropFilesEmits,
+  Ui3nDropFilesSlots,
   Ui3nEmoji,
   Ui3nEmojiProps,
   Ui3nEmojiEmits,
@@ -90,6 +96,7 @@ export {
   Ui3nCheckboxProps,
   Ui3nCheckboxEmits,
   Ui3nCheckboxSlots,
+  Ui3nCheckboxValue,
   Ui3nNotification,
   Ui3nTableSortIcon,
   Ui3nTableSortIconProps,
@@ -145,4 +152,9 @@ export {
   Ui3nProgressLinearProps,
   Ui3nProgressCircular,
   Ui3nProgressCircularProps,
+  Ui3nTooltip,
+  Ui3nTooltipEmits,
+  Ui3nTooltipProps,
+  Ui3nTooltipSlots,
+  Ui3nTooltipPlacement,
 };

@@ -78,3 +78,9 @@ export type Ui3nTableSlots<T extends Ui3nTableBodyBaseItem, K extends string & k
   Ui3nTableHeaderCellSlot<T, K> &
   Ui3nTableBodyRowSlot<T> &
   Ui3nTableBodyRowCellSlot<T, K>;
+
+export interface Ui3nTableSortIconProps {
+  size?: string | number;
+  color?: string;
+  value: 'asc' | 'desc';
+}

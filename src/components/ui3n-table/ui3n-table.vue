@@ -6,9 +6,9 @@ import type {
   Ui3nTableProps,
   Ui3nTableSlots,
 } from './types';
-import Ui3nButton from '../ui3n-button.vue';
-import Ui3nCheckbox from '../ui3n-checkbox.vue';
-import Ui3nTableSortIcon from '../ui3n-table-sort-icon.vue';
+import Ui3nButton from '../ui3n-button/ui3n-button.vue';
+import Ui3nCheckbox from '../ui3n-checkbox/ui3n-checkbox.vue';
+import Ui3nTableSortIcon from './ui3n-table-sort-icon.vue';
 
 const props = defineProps<Ui3nTableProps<T>>();
 const emits = defineEmits<Ui3nTableEmits<T>>();

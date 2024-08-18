@@ -4,6 +4,27 @@ import dts from 'vite-plugin-dts';
 import vueDevTools from 'vite-plugin-vue-devtools';
 import { resolve } from 'node:path';
 
+const config = {
+  lib: {
+    entry: resolve(__dirname, 'src/ui3n-components.ts'),
+    fileName: 'ui3n-components',
+  },
+  plugins: {
+    entry: resolve(__dirname, 'src/ui3n-plugins.ts'),
+    fileName: 'ui3n-plugins',
+  },
+  utils: {
+    entry: resolve(__dirname, 'src/ui3n-utils.ts'),
+    fileName: 'ui3n-utils',
+  },
+};
+
+const currentConfig = config[process.env.LIB_NAME];
+
+if (currentConfig === undefined) {
+  throw new Error('LIB_NAME is not defined or is not valid');
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), vueDevTools(), dts({ insertTypesEntry: true })],
@@ -13,11 +34,12 @@ export default defineConfig({
     },
   },
   build: {
+    outDir: 'dist',
+    emptyOutDir: false,
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      ...currentConfig,
       formats: ['es'],
       name: 'Ui3nLib',
-      fileName: 'ui-3n-lib',
     },
     rollupOptions: {
       external: ['vue', 'pinia'],

@@ -7,7 +7,7 @@ import {
   Ui3nTableProps,
   Ui3nTableSort,
 } from '@/components/ui3n-table/types';
-import type { Ui3nCheckboxValue } from '../../ui3n-checkbox.vue';
+import type { Ui3nCheckboxValue } from '@/components/ui3n-checkbox/types';
 
 export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<T>, emits: Ui3nTableEmits<T>) {
   const tableEl = ref<HTMLDivElement | null>(null);

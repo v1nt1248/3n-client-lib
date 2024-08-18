@@ -28,7 +28,7 @@ A dot, number, or text that appears in the upper corner of an icon or text indic
 ### *The simple badge (as a dot)*
 ###
 <script setup>
-  import Ui3nBadge from '../../src/components/ui3n-badge.vue'
+  import Ui3nBadge from '../../src/components/ui3n-badge/ui3n-badge.vue'
 </script>
 
 
