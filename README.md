@@ -35,6 +35,7 @@ You can run the project as `pnpm dev` or `npm run dev` if you don't want to use 
 ## Directives
   - Ui3nHtml
   - Ui3nClickOutside
+  - Ui3nResize
 
 ## Plugins
   - icons
