@@ -27,6 +27,7 @@ import type Ui3nProgressLinear from './components/ui3n-progress/ui3n-progress-li
 import type Ui3nProgressCircular from './components/ui3n-progress/ui3n-progress-circular.vue';
 import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
+import type Ui3nResize from './directives/ui3n-resize';
 import type { CbFunction, VueEventBus } from './plugins/vue-bus/types';
 import type { DialogInstance } from './plugins/dialogs/types';
 
@@ -75,6 +76,7 @@ declare module 'vue' {
   interface GlobalDirectives {
     Ui3nHtml: typeof Ui3nHtml;
     Ui3nClickOutside: typeof Ui3nClickOutside;
+    Ui3nResize: typeof Ui3nResize;
   }
 }
 

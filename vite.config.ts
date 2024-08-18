@@ -5,6 +5,10 @@ import vueDevTools from 'vite-plugin-vue-devtools';
 import { resolve } from 'node:path';
 
 const config = {
+  all: {
+    entry: resolve(__dirname, 'src/index.ts'),
+    fileName: 'ui3n-lib',
+  },
   lib: {
     entry: resolve(__dirname, 'src/ui3n-components.ts'),
     fileName: 'ui3n-components',

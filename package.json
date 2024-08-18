@@ -2,7 +2,7 @@
   "name": "@v1nt1248/3nclient-lib",
   "license": "AGPL-3.0-or-later",
   "author": "v1nt1248",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Library for 3NWeb clients",
   "type": "module",
   "files": [
@@ -28,7 +28,7 @@
     "./variables.css": "./dist/variables.css"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "LIB_NAME=all vite",
     "generate:types": "vue-tsc --declaration --emitDeclarationOnly --outdir ./dist",
     "copy:dts": "cp ./src/types.d.ts ./dist",
     "copy:css": "cp ./src/assets/styles/variables.css ./dist",

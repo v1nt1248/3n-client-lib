@@ -21,8 +21,10 @@ import Ui3nVirtualScroll from '../components/ui3n-virtual-scroll/ui3n-virtual-sc
 import Ui3nProgressCircular from '../components/ui3n-progress/ui3n-progress-circular.vue';
 import Ui3nTable from '../components/ui3n-table/ui3n-table.vue';
 import Ui3nTooltip from '../components/ui3n-tooltip/ui3n-tooltip.vue';
+import Ui3nResize, { type Ui3nResizeCbArg } from '../directives/ui3n-resize';
 import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '../components/ui3n-table/types';
 
+const vUi3nResize = Ui3nResize;
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 const darkTheme = ref(false);
 const checkValue = ref([true, false, false]);
@@ -189,10 +191,14 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
 }
 
 changeProgressValue();
-</script>
 
+function onResize(val: Ui3nResizeCbArg) {
+  console.log('ON_RESIZE', val);
+}
+</script>
+Ï
 <template>
-  <section class="demo">
+  <section class="demo" v-ui3n-resize="onResize">
     <h3>Components</h3>
     <div class="theme">
       <span>Default theme</span>
