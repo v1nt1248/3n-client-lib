@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { Component } from 'vue';
 import 'pinia';
 import { i18n } from '@/plugins/i18n/i18n';
 import { storeI18n } from '@/plugins/i18n/store-i18n';
@@ -18,7 +19,9 @@ import { VUEBUS_KEY, type CbFunction, type VueEventBus, type VueBusPlugin } from
 
 declare module 'vue' {
   interface ComponentCustomProperties {
-    $openDialog: (params: Ui3nDialogComponentProps) => DialogInstance | undefined;
+    $openDialog: <T extends Component, P extends Record<string, unknown>>(
+      params: Ui3nDialogComponentProps<T, P>,
+    ) => DialogInstance | undefined;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $locale: string;
     $tr: (key: string, placeholders?: Record<string, string>) => string;
@@ -29,7 +32,9 @@ declare module 'vue' {
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
-    $openDialog: (params: Ui3nDialogComponentProps) => DialogInstance | undefined;
+    $openDialog: <T extends Component, P extends Record<string, unknown>>(
+      params: Ui3nDialogComponentProps<T, P>,
+    ) => DialogInstance | undefined;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: {
       on: (type: string | symbol, handler: CbFunction) => void;

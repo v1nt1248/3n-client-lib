@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createVNode, render } from 'vue';
-import type { App, Plugin, VNode } from 'vue';
+import type { App, Component, Plugin, VNode } from 'vue';
 import { isEmpty, values } from 'lodash';
 import { getRandomId } from '@/utils/common.utils';
 import Ui3nDialog from '@/components/ui3n-dialog/ui3n-dialog.vue';
@@ -11,7 +11,9 @@ export const dialogs: Plugin = {
   install: (app: App) => {
     let openDialogs: Record<string, { destroy: () => void }> = {};
 
-    const $openDialog = (params: Ui3nDialogComponentProps): DialogInstance | undefined => {
+    const $openDialog = <T extends Component, P extends Record<string, unknown>>(
+      params: Ui3nDialogComponentProps<T, P>,
+    ): DialogInstance | undefined => {
       // TODO In the current version you cannot open a dialog from another dialog
       if (!isEmpty(openDialogs)) {
         for (const d of values(openDialogs)) {
@@ -74,6 +76,8 @@ export const dialogs: Plugin = {
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
-    $openDialog: (params: Ui3nDialogComponentProps) => DialogInstance | undefined;
+    $openDialog: <T extends Component, P extends Record<string, unknown>>(
+      params: Ui3nDialogComponentProps<T, P>,
+    ) => DialogInstance | undefined;
   }
 }

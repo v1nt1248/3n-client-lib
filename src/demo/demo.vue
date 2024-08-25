@@ -23,6 +23,8 @@ import Ui3nTable from '../components/ui3n-table/ui3n-table.vue';
 import Ui3nTooltip from '../components/ui3n-tooltip/ui3n-tooltip.vue';
 import Ui3nResize, { type Ui3nResizeCbArg } from '../directives/ui3n-resize';
 import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '../components/ui3n-table/types';
+import type { ExtractComponentProps } from '../components/types';
+import type TestDialog from './test-dialog.vue';
 
 const vUi3nResize = Ui3nResize;
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
@@ -32,18 +34,22 @@ const switchValue = ref([true, false]);
 const stepValue = ref(1);
 const inputValue = ref('');
 const textValue = ref('');
-const list = ref<{
-  id: string;
-  title: string;
-  children: {
+const list = ref<
+  {
     id: string;
     title: string;
-  }[];
-}[]>(prepareList());
-const listV = ref<{
-  id: string;
-  title: string;
-}[]>(prepareVList());
+    children: {
+      id: string;
+      title: string;
+    }[];
+  }[]
+>(prepareList());
+const listV = ref<
+  {
+    id: string;
+    title: string;
+  }[]
+>(prepareVList());
 const tabsValue = ref(0);
 
 const timerId = ref();
@@ -70,7 +76,7 @@ const tableValue = ref<Ui3nTableProps<TableDemoItem>>({
       type: { width: '10%' },
       size: { width: '10%' },
       date: { width: '20%' },
-    }
+    },
   },
   head: [
     { key: 'name', text: 'Name', sortable: true },
@@ -86,15 +92,15 @@ const tableValue = ref<Ui3nTableProps<TableDemoItem>>({
       { name: 'Video', type: 'folder', date: '2022-07-20' },
       { name: 'Dump', type: 'folder', date: '2022-07-20' },
       { name: 'calendar.docx', type: 'docx', size: '84 KB', date: '2022-07-22' },
-      { name: 'cars.xlsx', type: 'xlsx', size: '26 KB',date: '2022-07-22' },
-      { name: 'nature.jpg', type: 'jpg', size: '176 KB',date: '2022-07-22' },
-      { name: 'rocket.jpg', type: 'jpg', size: '14 KB',date: '2022-07-22' },
-      { name: 'стич.jpg', type: 'jpg', size: '76 KB',date: '2022-07-22' },
-      { name: 'favicon.png', type: 'png', size: '690 B',date: '2022-07-22' },
-      { name: 'asmail.d.ts', type: 'd.ts', size: '840 B',date: '2024-08-11'},
-      { name: 'common-caps.d.ts', type: 'd.ts', size: '2 KB',date: '2024-08-11'},
-      { name: 'files.d.ts', type: 'd.ts', size: '38 KB',date: '2024-08-11'},
-      { name: 'storage.d.ts', type: 'd.ts', size: '2 KB',date: '2024-08-11'},
+      { name: 'cars.xlsx', type: 'xlsx', size: '26 KB', date: '2022-07-22' },
+      { name: 'nature.jpg', type: 'jpg', size: '176 KB', date: '2022-07-22' },
+      { name: 'rocket.jpg', type: 'jpg', size: '14 KB', date: '2022-07-22' },
+      { name: 'стич.jpg', type: 'jpg', size: '76 KB', date: '2022-07-22' },
+      { name: 'favicon.png', type: 'png', size: '690 B', date: '2022-07-22' },
+      { name: 'asmail.d.ts', type: 'd.ts', size: '840 B', date: '2024-08-11' },
+      { name: 'common-caps.d.ts', type: 'd.ts', size: '2 KB', date: '2024-08-11' },
+      { name: 'files.d.ts', type: 'd.ts', size: '38 KB', date: '2024-08-11' },
+      { name: 'storage.d.ts', type: 'd.ts', size: '2 KB', date: '2024-08-11' },
     ],
   },
 });
@@ -109,7 +115,7 @@ watch(
 
 watch(
   () => progressValue.value,
-  (val) => {
+  val => {
     if (val >= 100) {
       clearInterval(timerId.value);
       setTimeout(() => {
@@ -117,7 +123,7 @@ watch(
         changeProgressValue();
       }, 2000);
     }
-  }
+  },
 );
 
 const notificationsExamples = {
@@ -165,16 +171,15 @@ function prepareList() {
 }
 
 function prepareVList() {
-  return Array
-    .from({ length: 5000 }, (_, i) => ({
-      id: `${i}i`,
-      title: `Item ${i}`,
-    }));
+  return Array.from({ length: 5000 }, (_, i) => ({
+    id: `${i}i`,
+    title: `Item ${i}`,
+  }));
 }
 
 function openDialog() {
   const component = defineAsyncComponent(() => import('./test-dialog.vue'));
-  dialogs.$openDialog({
+  dialogs.$openDialog<typeof component, ExtractComponentProps<typeof component>>({
     component,
     componentProps: {
       text: 'This is the place for any text!',
@@ -198,11 +203,18 @@ function onResize(val: Ui3nResizeCbArg) {
 </script>
 Ï
 <template>
-  <section class="demo" v-ui3n-resize="onResize">
+  <section
+    class="demo"
+    v-ui3n-resize="onResize"
+  >
     <h3>Components</h3>
     <div class="theme">
       <span>Default theme</span>
-      <ui3n-switch size="24" :model-value="darkTheme" @change="changeColorTheme" />
+      <ui3n-switch
+        size="24"
+        :model-value="darkTheme"
+        @change="changeColorTheme"
+      />
       <span>Dark theme</span>
     </div>
 
@@ -230,9 +242,7 @@ function onResize(val: Ui3nResizeCbArg) {
         >
           Projects
         </ui3n-breadcrumb>
-        <ui3n-breadcrumb>
-          Folder
-        </ui3n-breadcrumb>
+        <ui3n-breadcrumb> Folder </ui3n-breadcrumb>
       </ui3n-breadcrumbs>
     </div>
 
@@ -251,49 +261,129 @@ function onResize(val: Ui3nResizeCbArg) {
       </div>
       <div class="demo-row">
         <ui3n-button type="secondary">Secondary</ui3n-button>
-        <ui3n-button type="secondary" disabled>Secondary</ui3n-button>
-        <ui3n-button type="secondary" size="small">Secondary</ui3n-button>
+        <ui3n-button
+          type="secondary"
+          disabled
+          >Secondary</ui3n-button
+        >
+        <ui3n-button
+          type="secondary"
+          size="small"
+          >Secondary</ui3n-button
+        >
       </div>
       <div class="demo-row">
         <ui3n-button type="tertiary">Tertiary</ui3n-button>
-        <ui3n-button type="tertiary" disabled>Tertiary</ui3n-button>
-        <ui3n-button type="tertiary" size="small">Tertiary</ui3n-button>
+        <ui3n-button
+          type="tertiary"
+          disabled
+          >Tertiary</ui3n-button
+        >
+        <ui3n-button
+          type="tertiary"
+          size="small"
+          >Tertiary</ui3n-button
+        >
       </div>
       <div class="demo-row">
-        <ui3n-button type="custom" color="#124037" text-color="#ffd0be">Custom</ui3n-button>
-        <ui3n-button type="custom" color="#124037" text-color="#ffd0be" disabled>Custom</ui3n-button>
-        <ui3n-button type="custom" color="#124037" text-color="#ffd0be" size="small">Custom</ui3n-button>
+        <ui3n-button
+          type="custom"
+          color="#124037"
+          text-color="#ffd0be"
+          >Custom</ui3n-button
+        >
+        <ui3n-button
+          type="custom"
+          color="#124037"
+          text-color="#ffd0be"
+          disabled
+          >Custom</ui3n-button
+        >
+        <ui3n-button
+          type="custom"
+          color="#124037"
+          text-color="#ffd0be"
+          size="small"
+          >Custom</ui3n-button
+        >
       </div>
       <div class="demo-row">
         <ui3n-button icon="logout">Primary</ui3n-button>
-        <ui3n-button icon="logout" disabled>Primary</ui3n-button>
-        <ui3n-button icon="logout" size="small">Primary</ui3n-button>
+        <ui3n-button
+          icon="logout"
+          disabled
+          >Primary</ui3n-button
+        >
+        <ui3n-button
+          icon="logout"
+          size="small"
+          >Primary</ui3n-button
+        >
       </div>
       <div class="demo-row">
-        <ui3n-button icon="home" icon-position="left">Primary</ui3n-button>
-        <ui3n-button icon="home" icon-position="left" disabled>Primary</ui3n-button>
-        <ui3n-button icon="home" icon-position="left" size="small">Primary</ui3n-button>
+        <ui3n-button
+          icon="home"
+          icon-position="left"
+          >Primary</ui3n-button
+        >
+        <ui3n-button
+          icon="home"
+          icon-position="left"
+          disabled
+          >Primary</ui3n-button
+        >
+        <ui3n-button
+          icon="home"
+          icon-position="left"
+          size="small"
+          >Primary</ui3n-button
+        >
       </div>
       <div class="demo-row">
-        <ui3n-button type="icon" icon="check" />
-        <ui3n-button type="icon" icon="check" disabled />
-        <ui3n-button type="icon" icon="check" size="small" />
+        <ui3n-button
+          type="icon"
+          icon="check"
+        />
+        <ui3n-button
+          type="icon"
+          icon="check"
+          disabled
+        />
+        <ui3n-button
+          type="icon"
+          icon="check"
+          size="small"
+        />
       </div>
     </div>
 
     <!-- CHECKBOX -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- CHECKBOX ---</div>
-      <ui3n-checkbox size="20" v-model="checkValue[0]">
+      <ui3n-checkbox
+        size="20"
+        v-model="checkValue[0]"
+      >
         Checked
       </ui3n-checkbox>
-      <ui3n-checkbox size="20" disabled v-model="checkValue[0]">
+      <ui3n-checkbox
+        size="20"
+        disabled
+        v-model="checkValue[0]"
+      >
         Checked (disabled)
       </ui3n-checkbox>
-      <ui3n-checkbox size="20" v-model="checkValue[1]">
+      <ui3n-checkbox
+        size="20"
+        v-model="checkValue[1]"
+      >
         Unchecked
       </ui3n-checkbox>
-      <ui3n-checkbox size="20" v-model="checkValue[2]" indeterminate>
+      <ui3n-checkbox
+        size="20"
+        v-model="checkValue[2]"
+        indeterminate
+      >
         Indeterminate
       </ui3n-checkbox>
     </div>
@@ -301,10 +391,23 @@ function onResize(val: Ui3nResizeCbArg) {
     <!-- SWITCH -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- SWITCH ---</div>
-      <ui3n-switch size="24" v-model="switchValue[0]" />
-      <ui3n-switch size="24" disabled v-model="switchValue[0]" />
-      <ui3n-switch size="24" v-model="switchValue[1]" />
-      <ui3n-switch size="24" v-model="switchValue[1]">
+      <ui3n-switch
+        size="24"
+        v-model="switchValue[0]"
+      />
+      <ui3n-switch
+        size="24"
+        disabled
+        v-model="switchValue[0]"
+      />
+      <ui3n-switch
+        size="24"
+        v-model="switchValue[1]"
+      />
+      <ui3n-switch
+        size="24"
+        v-model="switchValue[1]"
+      >
         With label
       </ui3n-switch>
     </div>
@@ -315,13 +418,25 @@ function onResize(val: Ui3nResizeCbArg) {
         <div class="demo-row__title">--- STEP LINE BAR ---</div>
         <div class="demo-row">
           <div class="demo-row__cell-long">
-            <ui3n-step-line-bar :label="`Step ${stepValue} of 5`" :steps="5" :current="stepValue" />
+            <ui3n-step-line-bar
+              :label="`Step ${stepValue} of 5`"
+              :steps="5"
+              :current="stepValue"
+            />
           </div>
         </div>
       </div>
       <div class="demo-row">
-        <ui3n-button :disabled="stepValue === 5" @click="stepValue++">Next step</ui3n-button>
-        <ui3n-button type="secondary" :disabled="stepValue === 1" @click="stepValue = 1">
+        <ui3n-button
+          :disabled="stepValue === 5"
+          @click="stepValue++"
+          >Next step</ui3n-button
+        >
+        <ui3n-button
+          type="secondary"
+          :disabled="stepValue === 1"
+          @click="stepValue = 1"
+        >
           To 1 step
         </ui3n-button>
       </div>
@@ -337,17 +452,28 @@ function onResize(val: Ui3nResizeCbArg) {
       </div>
       <div class="demo-row">
         <div class="demo-row__cell-long">
-          <ui3n-progress-linear height="5" :value="progressValue" />
+          <ui3n-progress-linear
+            height="5"
+            :value="progressValue"
+          />
         </div>
       </div>
       <div class="demo-row">
         <div class="demo-row__cell-long">
-          <ui3n-progress-linear height="5" with-text :value="progressValue" />
+          <ui3n-progress-linear
+            height="5"
+            with-text
+            :value="progressValue"
+          />
         </div>
       </div>
       <div class="demo-row">
         <div class="demo-row__cell-long">
-          <ui3n-progress-linear height="12" with-text :value="progressValue" />
+          <ui3n-progress-linear
+            height="12"
+            with-text
+            :value="progressValue"
+          />
         </div>
       </div>
     </div>
@@ -355,25 +481,56 @@ function onResize(val: Ui3nResizeCbArg) {
     <!-- PROGRESS CIRCULAR -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- PROGRESS CIRCULAR ---</div>
-      <ui3n-progress-circular indeterminate size="80" />
-      <ui3n-progress-circular size="80" :value="progressValue" />
-      <ui3n-progress-circular size="80" with-text :value="progressValue" />
-      <ui3n-progress-circular size="48" with-text :value="progressValue" />
+      <ui3n-progress-circular
+        indeterminate
+        size="80"
+      />
+      <ui3n-progress-circular
+        size="80"
+        :value="progressValue"
+      />
+      <ui3n-progress-circular
+        size="80"
+        with-text
+        :value="progressValue"
+      />
+      <ui3n-progress-circular
+        size="48"
+        with-text
+        :value="progressValue"
+      />
     </div>
 
     <!-- CHIP -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- CHIP ---</div>
-      <ui3n-chip closeable max-width="150" color="var(--blue-10)">
+      <ui3n-chip
+        closeable
+        max-width="150"
+        color="var(--blue-10)"
+      >
         simpleuser@test.com
         <template #left="{ size, color }">
-          <ui3n-icon icon="person" :width="size" :height="size" :color="color" />
+          <ui3n-icon
+            icon="person"
+            :width="size"
+            :height="size"
+            :color="color"
+          />
         </template>
       </ui3n-chip>
-      <ui3n-chip max-width="150" color="var(--blue-10)">
+      <ui3n-chip
+        max-width="150"
+        color="var(--blue-10)"
+      >
         simpleuser@test.com
         <template #left="{ size, color }">
-          <ui3n-icon icon="person" :width="size" :height="size" :color="color" />
+          <ui3n-icon
+            icon="person"
+            :width="size"
+            :height="size"
+            :color="color"
+          />
         </template>
       </ui3n-chip>
       <ui3n-chip
@@ -409,11 +566,13 @@ function onResize(val: Ui3nResizeCbArg) {
           />
         </div>
         <div class="demo-row__cell">
-          <ui3n-input placeholder="Enter any text" :disabled="true" v-model="inputValue" />
+          <ui3n-input
+            placeholder="Enter any text"
+            :disabled="true"
+            v-model="inputValue"
+          />
         </div>
-        <div class="demo-row__cell">
-          text field value: {{ inputValue }}
-        </div>
+        <div class="demo-row__cell">text field value: {{ inputValue }}</div>
       </div>
       <div class="demo-row">
         <div class="demo-row__cell">
@@ -428,7 +587,12 @@ function onResize(val: Ui3nResizeCbArg) {
           />
         </div>
         <div class="demo-row__cell">
-          <ui3n-input placeholder="Enter any text" icon="search" :disabled="true" v-model="inputValue" />
+          <ui3n-input
+            placeholder="Enter any text"
+            icon="search"
+            :disabled="true"
+            v-model="inputValue"
+          />
         </div>
       </div>
       <div class="demo-row">
@@ -452,9 +616,7 @@ function onResize(val: Ui3nResizeCbArg) {
             placeholder="Enter any text less than 5 characters"
             clearable
             icon="search"
-            :rules="[
-              (v: string) => v.length <= 5 ? true : 'Not more than 5 characters',
-            ]"
+            :rules="[(v: string) => (v.length <= 5 ? true : 'Not more than 5 characters')]"
             v-model="inputValue"
             @input="onInputComponentEvent('input', $event)"
             @focus="onInputComponentEvent('focus', $event)"
@@ -520,7 +682,10 @@ function onResize(val: Ui3nResizeCbArg) {
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- LIST ---</div>
       <div class="demo-row__list">
-        <ui3n-list :sticky="false" :items="list">
+        <ui3n-list
+          :sticky="false"
+          :items="list"
+        >
           <template #item="{ item }">
             <ui3n-list :items="item.children">
               <template #title>
@@ -540,7 +705,10 @@ function onResize(val: Ui3nResizeCbArg) {
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- VIRTUAL LIST ---</div>
       <div class="demo-row__list">
-        <ui3n-virtual-scroll :items="listV" :min-child-height="32">
+        <ui3n-virtual-scroll
+          :items="listV"
+          :min-child-height="32"
+        >
           <template v-slot:item="{ value, index }">
             <div class="demo-row__virtual-scroll-item">
               {{ `(${index}) ${value.id}_${value.title}` }}
@@ -589,16 +757,29 @@ function onResize(val: Ui3nResizeCbArg) {
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- TABS ---</div>
       <div class="demo-row__cell">
-        <ui3n-tabs item-direction="vertical" indicator-position="reverse" v-model="tabsValue">
+        <ui3n-tabs
+          item-direction="vertical"
+          indicator-position="reverse"
+          v-model="tabsValue"
+        >
           <div class="tabs__item">Option 1</div>
           <div class="tabs__item">Option 2</div>
           <div class="tabs__item">Option 3</div>
-          <ui3n-button type="secondary" class="tabs__item">Option 4</ui3n-button>
+          <ui3n-button
+            type="secondary"
+            class="tabs__item"
+            >Option 4</ui3n-button
+          >
         </ui3n-tabs>
       </div>
       <div class="demo-row__cell-long">
         <ui3n-tabs v-model="tabsValue">
-          <div class="tabs__item" disabled>Option 1</div>
+          <div
+            class="tabs__item"
+            disabled
+          >
+            Option 1
+          </div>
           <div class="tabs__item">Option 2</div>
           <div class="tabs__item">Option 3</div>
           <div class="tabs__item">Option 4</div>
@@ -611,7 +792,12 @@ function onResize(val: Ui3nResizeCbArg) {
       <div class="demo-row demo-row--with-title">
         <div class="demo-row__title">--- TEXT FIELD ---</div>
         <div class="demo-row__cell">
-          <ui3n-text v-model:text="textValue" :rows="1" :max-rows="3" placeholder="Enter any text" />
+          <ui3n-text
+            v-model:text="textValue"
+            :rows="1"
+            :max-rows="3"
+            placeholder="Enter any text"
+          />
         </div>
         <div class="demo-row__cell-text">
           <span>text:</span>
@@ -620,12 +806,24 @@ function onResize(val: Ui3nResizeCbArg) {
       </div>
       <div class="demo-row">
         <div class="demo-row__cell">
-          <ui3n-text v-model:text="textValue" :rows="1" :max-rows="3" placeholder="Enter any text" :disabled="true" />
+          <ui3n-text
+            v-model:text="textValue"
+            :rows="1"
+            :max-rows="3"
+            placeholder="Enter any text"
+            :disabled="true"
+          />
         </div>
       </div>
       <div class="demo-row">
         <div class="demo-row__cell">
-          <ui3n-text v-model:text="textValue" label="Some label" :rows="1" :max-rows="3" placeholder="Enter any text" />
+          <ui3n-text
+            v-model:text="textValue"
+            label="Some label"
+            :rows="1"
+            :max-rows="3"
+            placeholder="Enter any text"
+          />
         </div>
       </div>
     </div>
@@ -637,17 +835,30 @@ function onResize(val: Ui3nResizeCbArg) {
       </div>
       <div class="demo-row">
         <div class="demo-row__cell">
-          <ui3n-tooltip content="Tooltip text" placement="right" trigger="manual" :model-value="true">
+          <ui3n-tooltip
+            content="Tooltip text"
+            placement="right"
+            trigger="manual"
+            :model-value="true"
+          >
             <ui3n-button>Tooltip RIGHT</ui3n-button>
           </ui3n-tooltip>
         </div>
         <div class="demo-row__cell">
-          <ui3n-tooltip content="Tooltip text" placement="top" trigger="hover">
+          <ui3n-tooltip
+            content="Tooltip text"
+            placement="top"
+            trigger="hover"
+          >
             <ui3n-button>Tooltip TOP (Hover)</ui3n-button>
           </ui3n-tooltip>
         </div>
         <div class="demo-row__cell">
-          <ui3n-tooltip content="Tooltip text" placement="bottom" trigger="click">
+          <ui3n-tooltip
+            content="Tooltip text"
+            placement="bottom"
+            trigger="click"
+          >
             <ui3n-button>Tooltip BOTTOM (Click)</ui3n-button>
           </ui3n-tooltip>
         </div>
@@ -666,7 +877,10 @@ function onResize(val: Ui3nResizeCbArg) {
         </div>
         <div class="demo-row__cell" />
         <div class="demo-row__cell">
-          <ui3n-tooltip placement="left" trigger="click">
+          <ui3n-tooltip
+            placement="left"
+            trigger="click"
+          >
             <ui3n-button>Tooltip LEFT, 'content' slot (Click)</ui3n-button>
             <template #content>
               <ui3n-icon icon="person" />
@@ -693,34 +907,67 @@ function onResize(val: Ui3nResizeCbArg) {
       <div class="demo-row demo-row--with-title">
         <div class="demo-row__title">--- NOTIFICATION ---</div>
         <div class="demo-row__cell-long">
-          <ui3n-notification type="info" :content="notificationsExamples.info" :duration="2000" :on-close="() => console.log('CLOSE NOTIFICATION!!!')" />
+          <ui3n-notification
+            type="info"
+            :content="notificationsExamples.info"
+            :duration="2000"
+            :on-close="() => console.log('CLOSE NOTIFICATION!!!')"
+          />
         </div>
         <div class="demo-row__cell-long">
-          <ui3n-notification type="info" :with-icon="false" :content="notificationsExamples.info" />
-        </div>
-      </div>
-      <div class="demo-row">
-        <div class="demo-row__cell-long">
-          <ui3n-notification type="success" :content="notificationsExamples.success" :duration="2000" />
-        </div>
-        <div class="demo-row__cell-long">
-          <ui3n-notification type="success" :with-icon="false" :content="notificationsExamples.success" />
-        </div>
-      </div>
-      <div class="demo-row">
-        <div class="demo-row__cell-long">
-          <ui3n-notification type="warning" :content="notificationsExamples.warning" :duration="2000" />
-        </div>
-        <div class="demo-row__cell-long">
-          <ui3n-notification type="warning" :with-icon="false" :content="notificationsExamples.warning" />
+          <ui3n-notification
+            type="info"
+            :with-icon="false"
+            :content="notificationsExamples.info"
+          />
         </div>
       </div>
       <div class="demo-row">
         <div class="demo-row__cell-long">
-          <ui3n-notification type="error" :content="notificationsExamples.error" :duration="2000" />
+          <ui3n-notification
+            type="success"
+            :content="notificationsExamples.success"
+            :duration="2000"
+          />
         </div>
         <div class="demo-row__cell-long">
-          <ui3n-notification type="error" :with-icon="false" :content="notificationsExamples.error" />
+          <ui3n-notification
+            type="success"
+            :with-icon="false"
+            :content="notificationsExamples.success"
+          />
+        </div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell-long">
+          <ui3n-notification
+            type="warning"
+            :content="notificationsExamples.warning"
+            :duration="2000"
+          />
+        </div>
+        <div class="demo-row__cell-long">
+          <ui3n-notification
+            type="warning"
+            :with-icon="false"
+            :content="notificationsExamples.warning"
+          />
+        </div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row__cell-long">
+          <ui3n-notification
+            type="error"
+            :content="notificationsExamples.error"
+            :duration="2000"
+          />
+        </div>
+        <div class="demo-row__cell-long">
+          <ui3n-notification
+            type="error"
+            :with-icon="false"
+            :content="notificationsExamples.error"
+          />
         </div>
       </div>
     </div>

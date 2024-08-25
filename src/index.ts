@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { Component } from 'vue';
 import 'pinia';
 import type Ui3nButton from './components/ui3n-button/ui3n-button.vue';
 import type Ui3nChip from './components/ui3n-chip/ui3n-chip.vue';
@@ -36,10 +37,13 @@ export * from './utils';
 export * from './plugins';
 export * from './directives';
 export * from './components';
+export * from './components/types';
 
 declare module 'vue' {
   interface ComponentCustomProperties {
-    $openDialog: (params: Ui3nDialogComponentProps) => DialogInstance | undefined;
+    $openDialog: <T extends Component, P extends Record<string, unknown>>(
+      params: Ui3nDialogComponentProps<T, P>,
+    ) => DialogInstance | undefined;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $locale: string;
     $tr: (key: string, placeholders?: Record<string, string>) => string;
@@ -82,7 +86,9 @@ declare module 'vue' {
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
-    $openDialog: (params: Ui3nDialogComponentProps) => DialogInstance | undefined;
+    $openDialog: <T extends Component, P extends Record<string, unknown>>(
+      params: Ui3nDialogComponentProps<T, P>,
+    ) => DialogInstance | undefined;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: {
       on: (type: string | symbol, handler: CbFunction) => void;

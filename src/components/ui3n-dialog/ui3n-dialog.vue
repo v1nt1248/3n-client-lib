@@ -1,10 +1,10 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends Component, P extends Record<string, unknown>">
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { type Component, computed, nextTick, onMounted, ref } from 'vue';
 import Ui3nButton from '../ui3n-button/ui3n-button.vue';
 import type { Ui3nDialogEvent, Ui3nDialogProps, Ui3nDialogComponentProps, Ui3nDialogComponentEmits } from './types';
 
-const props = defineProps<Ui3nDialogComponentProps>();
+const props = defineProps<Ui3nDialogComponentProps<T, P>>();
 const emits = defineEmits<Ui3nDialogComponentEmits>();
 
 const show = ref(true);
@@ -36,8 +36,14 @@ onMounted(() => {
   if (dialogElement.value) {
     dialogElement.value.style.setProperty('--dialog-confirm-button-color', dialogProps.value.confirmButtonColor!);
     dialogElement.value.style.setProperty('--dialog-cancel-button-color', dialogProps.value.cancelButtonColor!);
-    dialogElement.value.style.setProperty('--dialog-confirm-background-color', dialogProps.value.confirmButtonBackground!);
-    dialogElement.value.style.setProperty('--dialog-cancel-background-color', dialogProps.value.cancelButtonBackground!);
+    dialogElement.value.style.setProperty(
+      '--dialog-confirm-background-color',
+      dialogProps.value.confirmButtonBackground!,
+    );
+    dialogElement.value.style.setProperty(
+      '--dialog-cancel-background-color',
+      dialogProps.value.cancelButtonBackground!,
+    );
   }
 
   if (dialogElement.value) {
@@ -49,11 +55,7 @@ onMounted(() => {
 
 const selectData = (value: any) => {
   data.value = value;
-  if (
-    !dialogProps.value.confirmButton
-    && !dialogProps.value.cancelButton
-    && props.dialogProps?.onConfirm
-  ) {
+  if (!dialogProps.value.confirmButton && !dialogProps.value.cancelButton && props.dialogProps?.onConfirm) {
     props.dialogProps?.onConfirm(data.value);
     closeDialog();
   }
@@ -63,7 +65,7 @@ const validate = (value: boolean) => {
   isValid.value = value;
 };
 
-const closeDialog = (arg?: { ev?: Event, withAction?: boolean }) => {
+const closeDialog = (arg?: { ev?: Event; withAction?: boolean }) => {
   const { ev, withAction = true } = arg || {};
   if (ev) {
     ev.stopImmediatePropagation();
@@ -112,10 +114,7 @@ const handleEvent = (event: Event, eventName: Ui3nDialogEvent) => {
   <div
     v-if="show"
     :class="$style.overlay"
-    @click="dialogProps.closeOnClickOverlay
-      ? closeDialog({ ev: $event })
-      : startEmit('click-overlay')
-    "
+    @click="dialogProps.closeOnClickOverlay ? closeDialog({ ev: $event }) : startEmit('click-overlay')"
   >
     <div
       ref="dialogElement"
@@ -123,7 +122,7 @@ const handleEvent = (event: Event, eventName: Ui3nDialogEvent) => {
       :class="[$style.dialog, ...dialogProps.cssClass]"
       :style="cssStyle"
       @keydown.esc.stop="startEmit('cancel')"
-      @keydown.enter.stop=" isValid && startEmit('confirm')"
+      @keydown.enter.stop="isValid && startEmit('confirm')"
     >
       <div
         v-if="dialogProps.title"
@@ -150,9 +149,10 @@ const handleEvent = (event: Event, eventName: Ui3nDialogEvent) => {
         :style="dialogProps.contentCssStyle"
         @click.stop
       >
+        <!-- @vue-ignore  -->
         <component
           :is="component"
-          v-bind="componentProps"
+          v-bind="componentProps as Object"
           @select="selectData"
           @validate="validate"
           @close="closeDialog({ ev: $event })"
@@ -163,10 +163,7 @@ const handleEvent = (event: Event, eventName: Ui3nDialogEvent) => {
 
       <div
         v-if="dialogProps.confirmButton || dialogProps.cancelButton"
-        :class="[
-          $style.actions,
-          dialogProps.confirmButton && dialogProps.cancelButton && $style.bothBtns,
-        ]"
+        :class="[$style.actions, dialogProps.confirmButton && dialogProps.cancelButton && $style.bothBtns]"
         @click.stop
       >
         <ui3n-button
@@ -194,7 +191,7 @@ const handleEvent = (event: Event, eventName: Ui3nDialogEvent) => {
 </template>
 
 <style lang="scss" module>
-@import "../../assets/styles/mixins";
+@import '../../assets/styles/mixins';
 
 .overlay {
   position: fixed;

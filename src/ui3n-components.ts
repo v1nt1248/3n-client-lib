@@ -28,6 +28,7 @@ import type Ui3nResize from './directives/ui3n-resize';
 
 export * from './directives';
 export * from './components';
+export * from './components/types';
 
 declare module 'vue' {
   interface GlobalComponents {

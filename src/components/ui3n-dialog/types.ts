@@ -24,9 +24,9 @@ export interface Ui3nDialogProps {
   closeOnClickOverlay?: boolean;
 }
 
-export interface Ui3nDialogComponentProps {
-  component: Component;
-  componentProps?: Record<string, any>;
+export interface Ui3nDialogComponentProps<T extends Component, P extends Record<string, unknown>> {
+  component: T;
+  componentProps?: P;
   dialogProps?: Ui3nDialogProps;
 }
 
