@@ -1,6 +1,5 @@
 import { i18n } from './i18n/i18n';
 import { I18N_KEY, type I18nOptions, type I18nPlugin } from './i18n/types';
-import { useIcons } from './icons/icons';
 import { notifications } from './notifications/notifications';
 import { NOTIFICATIONS_KEY, type NotificationsPlugin } from './notifications/types';
 import { vueBus } from './vue-bus/vue-bus';
@@ -17,7 +16,6 @@ export {
   I18nOptions,
   I18nPlugin,
   I18N_KEY,
-  useIcons,
   notifications,
   NotificationsPlugin,
   NOTIFICATIONS_KEY,
