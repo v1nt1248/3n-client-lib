@@ -149,7 +149,7 @@ const validate = (text: string) => {
 
     <ui3n-icon
       v-if="displayStateMode === 'success' && displayStateWithIcon && !isFocused"
-      icon="check-circle-outline"
+      icon="sharp-check-circle-outline"
       :width="16"
       :height="16"
       color="var(--success-content-default)"

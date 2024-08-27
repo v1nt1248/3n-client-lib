@@ -4,7 +4,6 @@ import 'pinia';
 import { i18n } from '@/plugins/i18n/i18n';
 import { storeI18n } from '@/plugins/i18n/store-i18n';
 import { I18N_KEY, type I18nOptions, type I18nPlugin } from '@/plugins/i18n/types';
-import { useIcons } from '@/plugins/icons/icons';
 import type { Ui3nNotificationProps } from '@/components/ui3n-notification/types';
 import { notifications } from '@/plugins/notifications/notifications';
 import { storeNotifications } from '@/plugins/notifications/store-notifications';
@@ -57,7 +56,6 @@ export {
   I18N_KEY,
   I18nOptions,
   I18nPlugin,
-  useIcons,
   notifications,
   storeNotifications,
   NOTIFICATIONS_KEY,

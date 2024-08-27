@@ -24,10 +24,11 @@ import Ui3nTooltip from '../components/ui3n-tooltip/ui3n-tooltip.vue';
 import Ui3nResize, { type Ui3nResizeCbArg } from '../directives/ui3n-resize';
 import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '../components/ui3n-table/types';
 import type { ExtractComponentProps } from '../components/types';
-import type TestDialog from './test-dialog.vue';
+import { iconList } from './constants';
 
 const vUi3nResize = Ui3nResize;
 const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
+
 const darkTheme = ref(false);
 const checkValue = ref([true, false, false]);
 const switchValue = ref([true, false]);
@@ -310,30 +311,30 @@ function onResize(val: Ui3nResizeCbArg) {
       <div class="demo-row">
         <ui3n-button icon="logout">Primary</ui3n-button>
         <ui3n-button
-          icon="logout"
+          icon="outline-logout"
           disabled
           >Primary</ui3n-button
         >
         <ui3n-button
-          icon="logout"
+          icon="outline-logout"
           size="small"
           >Primary</ui3n-button
         >
       </div>
       <div class="demo-row">
         <ui3n-button
-          icon="home"
+          icon="baseline-home"
           icon-position="left"
           >Primary</ui3n-button
         >
         <ui3n-button
-          icon="home"
+          icon="baseline-home"
           icon-position="left"
           disabled
           >Primary</ui3n-button
         >
         <ui3n-button
-          icon="home"
+          icon="baseline-home"
           icon-position="left"
           size="small"
           >Primary</ui3n-button
@@ -342,16 +343,16 @@ function onResize(val: Ui3nResizeCbArg) {
       <div class="demo-row">
         <ui3n-button
           type="icon"
-          icon="check"
+          icon="round-check"
         />
         <ui3n-button
           type="icon"
-          icon="check"
+          icon="round-check"
           disabled
         />
         <ui3n-button
           type="icon"
-          icon="check"
+          icon="round-check"
           size="small"
         />
       </div>
@@ -512,7 +513,7 @@ function onResize(val: Ui3nResizeCbArg) {
         simpleuser@test.com
         <template #left="{ size, color }">
           <ui3n-icon
-            icon="person"
+            icon="round-person"
             :width="size"
             :height="size"
             :color="color"
@@ -526,7 +527,7 @@ function onResize(val: Ui3nResizeCbArg) {
         simpleuser@test.com
         <template #left="{ size, color }">
           <ui3n-icon
-            icon="person"
+            icon="round-person"
             :width="size"
             :height="size"
             :color="color"
@@ -883,7 +884,7 @@ function onResize(val: Ui3nResizeCbArg) {
           >
             <ui3n-button>Tooltip LEFT, 'content' slot (Click)</ui3n-button>
             <template #content>
-              <ui3n-icon icon="person" />
+              <ui3n-icon icon="round-person" />
             </template>
           </ui3n-tooltip>
         </div>
@@ -971,6 +972,23 @@ function onResize(val: Ui3nResizeCbArg) {
         </div>
       </div>
     </div>
+
+    <!-- ICON -->
+    <div class="demo-icons">
+      <div class="demo-row__title">--- ICON ---</div>
+      <div
+        class="demo-icons__item"
+        v-for="icon in iconList.sort()"
+        :key="icon"
+      >
+        <ui3n-icon
+          :icon="icon"
+          width="32"
+          height="32"
+        />
+        <span>{{ icon }}</span>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -984,13 +1002,36 @@ function onResize(val: Ui3nResizeCbArg) {
     position: fixed;
     top: 24px;
     right: 24px;
-    z-index: 1000;
+    z-index: 10000;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 16px;
     font-size: 14px;
     font-weight: 500;
+  }
+
+  &-icons {
+    position: relative;
+    padding-top: 32px;
+    display: grid;
+    gap: var(--spacing-m);
+    grid-template-columns: repeat(8, 64px);
+    margin-bottom: 16px;
+
+    &__item {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      gap: var(--spacing-s);
+      font-size: var(--font-12);
+      color: var(--color-icon-control-secondary-default);
+
+      span {
+        text-align: center;
+      }
+    }
   }
 
   &-row {

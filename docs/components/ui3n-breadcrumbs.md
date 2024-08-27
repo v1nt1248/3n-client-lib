@@ -150,13 +150,13 @@ Used to display information hierarchically.
     <ui3n-breadcrumb is-active>
       Home
       <template #separator>
-        <ui3n-icon icon="bookmark"></ui3n-icon>
+        <ui3n-icon icon="baseline-bookmark"></ui3n-icon>
       </template>
     </ui3n-breadcrumb>
     <ui3n-breadcrumb is-active>
       Link 1
       <template #separator>
-        <ui3n-icon icon="emoticon"></ui3n-icon>
+        <ui3n-icon icon="baseline-insert-emoticon"></ui3n-icon>
       </template>
     </ui3n-breadcrumb>
     <ui3n-breadcrumb>Link 2</ui3n-breadcrumb>
@@ -177,13 +177,13 @@ Used to display information hierarchically.
       <ui3n-breadcrumb is-active>
         Home
         <template #separator>
-          <ui3n-icon icon="bookmark"></ui3n-icon>
+          <ui3n-icon icon="baseline-bookmark"></ui3n-icon>
         </template>
       </ui3n-breadcrumb>
       <ui3n-breadcrumb is-active>
         Link 1
         <template #separator>
-          <ui3n-icon icon="emoticon"></ui3n-icon>
+          <ui3n-icon icon="baseline-insert-emoticon"></ui3n-icon>
         </template>
       </ui3n-breadcrumb>
       <ui3n-breadcrumb>Link 2</ui3n-breadcrumb>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { computed } from 'vue';
 import { Icon } from '@iconify/vue';
 import type { Ui3nIconEmits, Ui3nIconProps } from './types';
 
@@ -15,20 +15,23 @@ const props = withDefaults(
 );
 const emits = defineEmits<Ui3nIconEmits>();
 
-const onLoad = (value: any) => {
+const iconName = computed(() => `ic:${props.icon}`);
+
+function onLoad(value: unknown) {
   if (props.onLoad) {
     props.onLoad(value);
   }
-};
-const onClick = (ev: Event) => {
+}
+
+function onClick(ev: Event) {
   emits('click', ev);
-};
+}
 </script>
 
 <template>
   <icon
     :class="$style.icon"
-    :icon="icon"
+    :icon="iconName"
     :title="title"
     :inline="inline"
     :width="width"

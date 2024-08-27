@@ -13,24 +13,24 @@ You can run the project as `pnpm dev` or `npm run dev` if you don't want to use 
   - Ui3nButton
   - Ui3nCheckbox
   - Ui3nChip
+  - Ui3nDialog
+  - Ui3nDroopFiles
+  - Ui3nEmoji
   - Ui3nIcon
   - Ui3nInput
-  - Ui3nText
-  - Ui3nEmoji
-  - Ui3nMenu
-  - Ui3nDroopFiles
   - Ui3nList
-  - Ui3nVirtualScroll
+  - Ui3nMenu
   - Ui3nNotification
-  - Ui3nDialog
-  - Ui3nSwitch
-  - Ui3nStepLineBar
-  - Ui3nProgressLinear
   - Ui3nProgressCircular
-  - Ui3nTooltip
-  - Ui3nTabs
+  - Ui3nProgressLinear
+  - Ui3nStepLineBar
+  - Ui3nSwitch
   - Ui3nTableSortIcon
   - Ui3nTable
+  - Ui3nTabs
+  - Ui3nText
+  - Ui3nTooltip
+  - Ui3nVirtualScroll  
 
 ## Directives
   - Ui3nHtml
@@ -38,7 +38,6 @@ You can run the project as `pnpm dev` or `npm run dev` if you don't want to use 
   - Ui3nResize
 
 ## Plugins
-  - icons
   - i18n
   - dialogs
   - notifications

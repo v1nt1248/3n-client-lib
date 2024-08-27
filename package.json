@@ -2,7 +2,7 @@
   "name": "@v1nt1248/3nclient-lib",
   "license": "AGPL-3.0-or-later",
   "author": "v1nt1248",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Library for 3NWeb clients",
   "type": "module",
   "files": [
@@ -37,6 +37,7 @@
     "build:plugins": "LIB_NAME=plugins vite build",
     "build:utils": "LIB_NAME=utils vite build",
     "build": "pnpm run clean:dist && pnpm run build:components && pnpm run build:plugins && pnpm run build:utils && pnpm run copy:css",
+    "pack": "pnpm run build && npm pack && cp *.tgz ./dist && rm *.tgz",
     "preview": "vite preview",
     "stylelint": "stylelint --config .stylelint.config.cjs 'src/**/*.{vue,scss}'",
     "stylelint:fix": "stylelint --config .stylelint.config.cjs --fix 'src/**/*.{vue,scss}'",

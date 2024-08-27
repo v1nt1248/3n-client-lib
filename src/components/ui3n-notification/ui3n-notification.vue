@@ -19,25 +19,25 @@ const props = withDefaults(
 const stylesByTypes = {
   success: {
     color: 'var(--success-content-default)',
-    icon: 'warning',
+    icon: 'round-warning',
     iconColor: 'var(--success-fill-default)',
     iconRotate: 0,
   },
   warning: {
     color: 'var(--warning-content-default)',
-    icon: 'warning',
+    icon: 'round-warning',
     iconColor: 'var(--warning-fill-default)',
     iconRotate: 0,
   },
   info: {
     color: 'var(--info-content-default)',
-    icon: 'info',
+    icon: 'round-info',
     iconColor: 'var(--info-fill-default)',
     iconRotate: 90,
   },
   error: {
     color: 'var(--error-content-default)',
-    icon: 'info',
+    icon: 'round-info',
     iconColor: 'var(--error-fill-default)',
     iconRotate: 90,
   },
