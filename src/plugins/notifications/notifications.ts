@@ -1,5 +1,5 @@
 import { App, Plugin, createApp } from 'vue';
-import { getRandomId } from '@/utils/common.utils';
+import { getRandomId } from '@/utils';
 import Ui3nNotification from '../../components/ui3n-notification/ui3n-notification.vue';
 import type { Ui3nNotificationProps } from '../../components/ui3n-notification/types';
 import { NOTIFICATIONS_KEY, type NotificationsPlugin } from './types';
