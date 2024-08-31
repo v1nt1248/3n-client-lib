@@ -5,30 +5,29 @@ import type { Ui3nTooltipEmits, Ui3nTooltipProps, Ui3nTooltipSlots } from './typ
 
 const baseOffset = 5;
 
-const props = withDefaults(
-  defineProps<Ui3nTooltipProps>(),
-  {
-    color: 'var(--color-bg-control-secondary-default)',
-    textColor: 'var(--color-text-control-primary-default)',
-    placement: 'top',
-    positionStrategy: 'absolute',
-    offsetX: 0,
-    offsetY: 0,
-    trigger: 'hover',
-  },
-);
+const props = withDefaults(defineProps<Ui3nTooltipProps>(), {
+  color: 'var(--color-bg-control-secondary-default)',
+  textColor: 'var(--color-text-control-primary-default)',
+  placement: 'top',
+  positionStrategy: 'absolute',
+  offsetX: 0,
+  offsetY: 0,
+  trigger: 'hover',
+});
 
 const emits = defineEmits<Ui3nTooltipEmits>();
 defineSlots<Ui3nTooltipSlots>();
 
 const referenceElEventHandler = {
-  ...(props.trigger === 'hover' && !props.disabled && {
-    mouseenter: () => handleMouseEvents(true),
-    mouseleave: () => handleMouseEvents(false),
-  }),
-  ...(props.trigger === 'click' && !props.disabled && {
-    click: () => handleMouseEvents(!showTooltip.value),
-  }),
+  ...(props.trigger === 'hover' &&
+    !props.disabled && {
+      mouseenter: () => handleMouseEvents(true),
+      mouseleave: () => handleMouseEvents(false),
+    }),
+  ...(props.trigger === 'click' &&
+    !props.disabled && {
+      click: () => handleMouseEvents(!showTooltip.value),
+    }),
 };
 
 const showTooltip = ref(false);
@@ -72,10 +71,7 @@ const { floatingStyles, isPositioned, middlewareData } = useFloating(referenceEl
   open: showTooltip,
   placement: props.placement,
   strategy: props.positionStrategy,
-  middleware: [
-    offset(offsetOptions.value),
-    arrow({ element: floatingArrowEl, padding: 8 }),
-  ],
+  middleware: [offset(offsetOptions.value), arrow({ element: floatingArrowEl, padding: 8 })],
   whileElementsMounted: props.positionStrategy === 'fixed' ? autoUpdate : undefined,
 });
 
@@ -87,16 +83,13 @@ function handleMouseEvents(val: boolean) {
 
 watch(
   () => props.modelValue,
-  (val) => props.trigger === 'manual' && (showTooltip.value = val),
+  val => props.trigger === 'manual' && (showTooltip.value = val),
   { immediate: true },
 );
 
-watch(
-  isPositioned,
-  (val) => {
-    val ? emits('opened') : emits('closed');
-  },
-);
+watch(isPositioned, val => {
+  val ? emits('opened') : emits('closed');
+});
 </script>
 
 <template>
@@ -109,7 +102,12 @@ watch(
       <slot name="default" />
     </div>
 
-    <div ref="floatingEl" :class="$style.floating" :style="floatingStyles" v-if="showTooltip">
+    <div
+      ref="floatingEl"
+      :class="$style.floating"
+      :style="floatingStyles"
+      v-if="showTooltip"
+    >
       <slot name="content">
         <div :class="$style.content">
           {{ props.content }}
