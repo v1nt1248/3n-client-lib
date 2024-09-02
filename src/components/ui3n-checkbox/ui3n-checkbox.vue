@@ -22,6 +22,16 @@ const checkboxEl = ref<HTMLDivElement | null>(null);
 const val = ref<Ui3nCheckboxValue>(props.uncheckedValue || false);
 const uncertain = ref(false);
 
+const checkBoxValue = computed(() => {
+  if (uncertain.value) {
+    return 'indeterminate';
+  }
+
+  return val.value === props.checkedValue
+    ? 'checked'
+    : 'unchecked';
+});
+
 onBeforeMount(() => {
   const checkedValueType = typeof props.checkedValue;
   const uncheckedValueType = typeof props.uncheckedValue;
@@ -38,6 +48,7 @@ onBeforeMount(() => {
 onMounted(() => {
   if (checkboxEl.value) {
     checkboxEl.value.style.setProperty('--ui3n-checkbox-size', `${props.size}px`);
+    checkboxEl.value.style.setProperty('--ui3n-checkbox-color', props.color);
   }
 });
 
@@ -62,17 +73,16 @@ watch(
   },
 );
 
-const checkBoxValue = computed(() => {
-  if (uncertain.value) {
-    return 'indeterminate';
-  }
+watch(
+  () => props.color,
+  newValue => {
+    if (checkboxEl.value) {
+      checkboxEl.value.style.setProperty('--ui3n-checkbox-color', newValue);
+    }
+  },
+);
 
-  return val.value === props.checkedValue
-    ? 'checked'
-    : 'unchecked';
-});
-
-const change = () => {
+function change() {
   val.value = checkBoxValue.value !== 'unchecked'
     ? props.uncheckedValue
     : props.checkedValue;
@@ -83,7 +93,7 @@ const change = () => {
 
   emits('change', val.value);
   emits('update:modelValue', val.value);
-};
+}
 </script>
 
 <template>
@@ -107,9 +117,7 @@ const change = () => {
         <g id="SVGRepo_bgCarrier" stroke-width="0" />
         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
         <g id="SVGRepo_iconCarrier">
-          <path d="M20.0001 7L9.0001 18L4 13" stroke="#fff" stroke-width="3" stroke-linecap="round"
-                stroke-linejoin="round"
-          />
+          <path d="M20.0001 7L9.0001 18L4 13" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
         </g>
       </svg>
 
@@ -165,7 +173,9 @@ const change = () => {
   position: relative;
   display: flex;
   width: var(--ui3n-checkbox-size);
+  min-width: var(--ui3n-checkbox-size);
   height: var(--ui3n-checkbox-size);
+  min-height: var(--ui3n-checkbox-size);
   justify-content: center;
   align-items: center;
   border-radius: calc(var(--ui3n-checkbox-size) / 10);

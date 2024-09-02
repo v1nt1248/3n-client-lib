@@ -1,48 +1,43 @@
 <script lang="ts" setup>
-  import { computed, getCurrentInstance } from 'vue';
-  import type { Ui3nBreadcrumbEmits, Ui3nBreadcrumbProps, Ui3nBreadcrumbSlots } from './types';
+import { computed, getCurrentInstance } from 'vue';
+import type { Ui3nBreadcrumbEmits, Ui3nBreadcrumbProps, Ui3nBreadcrumbSlots } from './types';
 
-  const props = withDefaults(
-    defineProps<Ui3nBreadcrumbProps>(),
-    {
-      separator: undefined,
-      isActive: false,
-      disabled: false,
-    },
-  );
-  const emits = defineEmits<Ui3nBreadcrumbEmits>();
-  defineSlots<Ui3nBreadcrumbSlots>();
+const props = withDefaults(defineProps<Ui3nBreadcrumbProps>(), {
+  separator: undefined,
+  isActive: false,
+  disabled: false,
+});
+const emits = defineEmits<Ui3nBreadcrumbEmits>();
+defineSlots<Ui3nBreadcrumbSlots>();
 
-  const separatorValue = computed(() => {
-    if (props.separator) {
-      return props.separator
-    }
-
-    const instance = getCurrentInstance()
-    return instance?.parent?.props.separator || '/'
-  });
-
-  const parentDisabled = computed(() => {
-    const instance = getCurrentInstance()
-    return instance?.parent?.props.disabled || false
-  });
-
-  const onClick = (ev: Event) => {
-    emits('click', ev)
+const separatorValue = computed(() => {
+  if (props.separator) {
+    return props.separator;
   }
+
+  const instance = getCurrentInstance();
+  return instance?.parent?.props.separator || '/';
+});
+
+const parentDisabled = computed(() => {
+  const instance = getCurrentInstance();
+  return instance?.parent?.props.disabled || false;
+});
+
+const onClick = (ev: Event) => {
+  emits('click', ev);
+};
 </script>
 
 <template>
   <div
-    :class="[
-      $style.breadcrumb,
-      isActive && $style.active,
-      (disabled || parentDisabled) && $style.disabled,
-    ]"
+    :class="[$style.breadcrumb, isActive && $style.active, (disabled || parentDisabled) && $style.disabled]"
     v-on="isActive && !(disabled || parentDisabled) ? { click: onClick } : {}"
   >
     <slot />
-    <div v-if="isActive" :class="$style.separator"
+    <div
+      v-if="isActive"
+      :class="$style.separator"
     >
       <slot name="separator">
         <span>{{ separatorValue }}</span>

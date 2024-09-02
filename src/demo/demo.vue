@@ -21,6 +21,8 @@ import Ui3nVirtualScroll from '../components/ui3n-virtual-scroll/ui3n-virtual-sc
 import Ui3nProgressCircular from '../components/ui3n-progress/ui3n-progress-circular.vue';
 import Ui3nTable from '../components/ui3n-table/ui3n-table.vue';
 import Ui3nTooltip from '../components/ui3n-tooltip/ui3n-tooltip.vue';
+import Ui3nRadio from '../components/ui3n-radio-group/ui3n-radio.vue'
+import Ui3nRadioGroup from '../components/ui3n-radio-group/ui3n-radio-group.vue';
 import Ui3nResize, { type Ui3nResizeCbArg } from '../directives/ui3n-resize';
 import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '../components/ui3n-table/types';
 import type { ExtractComponentProps } from '../components/types';
@@ -52,6 +54,9 @@ const listV = ref<
   }[]
 >(prepareVList());
 const tabsValue = ref(0);
+const radioValue1 = ref(false);
+const radioValue2 = ref(0);
+const radioGroupValue = ref(0);
 
 const timerId = ref();
 const progressValue = ref(0);
@@ -361,6 +366,10 @@ function onResize(val: Ui3nResizeCbArg) {
     <!-- CHECKBOX -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- CHECKBOX ---</div>
+      <ui3n-checkbox
+        size="20"
+        v-model="checkValue[0]"
+      />
       <ui3n-checkbox
         size="20"
         v-model="checkValue[0]"
@@ -988,6 +997,87 @@ function onResize(val: Ui3nResizeCbArg) {
         />
         <span>{{ icon }}</span>
       </div>
+    </div>
+
+    <!-- RADIO -->
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- RADIO ---</div>
+      <ui3n-radio
+        size="40"
+        v-model="radioValue1"
+      >
+        Current value: {{ radioValue1 }}
+      </ui3n-radio>
+
+      <ui3n-radio
+        size="40"
+        color="#ff8800"
+        v-model="radioValue1"
+      >
+        Current value: {{ radioValue1 }}
+      </ui3n-radio>
+
+      <ui3n-radio
+        size="40"
+        v-model="radioValue1"
+      >
+        <template #checkedIcon>
+          <ui3n-icon
+            icon="round-done-all"
+            width="32"
+            height="32"
+            color="green"
+          />
+        </template>
+
+        <template #uncheckedIcon>
+          <ui3n-icon
+            icon="round-done"
+            width="32"
+            height="32"
+          />
+        </template>
+
+        Current value: {{ radioValue1 }}
+      </ui3n-radio>
+      
+      <ui3n-radio
+        size="40"
+        :unchecked-value="0"
+        :checked-value="1"
+        v-model="radioValue2"
+      >
+        Current value: {{ radioValue2 }}
+      </ui3n-radio>
+
+      <ui3n-radio
+        size="40"
+        :unchecked-value="0"
+        :checked-value="1"
+        :disabled="true"
+        v-model="radioValue2"
+      >
+        Disabled (current value: {{ radioValue2 }})
+      </ui3n-radio>
+
+      <ui3n-radio
+        size="40"
+        :unchecked-value="0"
+        :checked-value="1"
+        v-model="radioValue2"
+      >
+        Current value: {{ radioValue2 }}
+      </ui3n-radio>
+    </div>
+
+    <!-- RADIO GROUP -->
+    <div class="demo-row demo-row--with-title">
+      <div class="demo-row__title">--- RADIO GROUP ---</div>
+      <ui3n-radio-group v-model="radioGroupValue">
+        <ui3n-radio :checked-value="0">AAAAA</ui3n-radio>
+        <ui3n-radio :checked-value="2">BBBBB</ui3n-radio>
+      </ui3n-radio-group>
+      <p>Current value: {{ radioGroupValue }}</p>
     </div>
   </section>
 </template>
