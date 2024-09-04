@@ -2,8 +2,8 @@
 import { createVNode, render } from 'vue';
 import type { App, Component, Plugin, VNode } from 'vue';
 import { isEmpty, values } from 'lodash';
-import { getRandomId } from '@/utils';
-import Ui3nDialog from '@/components/ui3n-dialog/ui3n-dialog.vue';
+import { getRandomId } from '../../utils';
+import Ui3nDialog from '../../components/ui3n-dialog/ui3n-dialog.vue';
 import type { Ui3nDialogComponentProps } from '@/components/ui3n-dialog/types';
 import { DIALOGS_KEY, type DialogInstance, type DialogsPlugin } from './types';
 
