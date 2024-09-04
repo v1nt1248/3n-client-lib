@@ -22,7 +22,7 @@ export const notifications: Plugin = {
           ...(params.onOpen && { onOpen: params.onOpen }),
           duration,
           onClose: () => {
-            parentElement.removeChild(component.$el);
+            (component.$el as Element).remove();
             componentInstance && componentInstance.unmount && componentInstance.unmount();
           },
         });
@@ -31,7 +31,7 @@ export const notifications: Plugin = {
 
         if (duration) {
           setTimeout(() => {
-            parentElement.removeChild(component.$el);
+            (component.$el as Element).remove();
             componentInstance && componentInstance.unmount && componentInstance.unmount();
           }, duration);
         }

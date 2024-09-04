@@ -1,6 +1,6 @@
 # Library (Vue3 + Typescript + Vite)
 
-Components, directives and plugins for Vue3 projects and some helpers methods (utils).
+Components, directives and plugins for Vue3 projects and some helpers methods (utils).  
 [The library on npm](https://www.npmjs.com/package/@v1nt1248/3nclient-lib)  
   
 You can run the project as `pnpm dev` or `npm run dev`.
