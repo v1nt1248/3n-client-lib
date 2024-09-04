@@ -27,12 +27,12 @@ export interface Ui3nRadioGroupProps {
   direction?: 'horizontal' | 'vertical';
   disabled?: boolean;
 }
-
-export interface Ui3nRadioGroupEmits {
-  (ev: 'change', value: Ui3nRadioValue): void;
-  (ev: 'update:modelValue', value: Ui3nRadioValue): void;
-}
-
-export interface Ui3nRadioGroupSlots {
-  default: () => VNode;
-}
+// 
+// export interface Ui3nRadioGroupEmits {
+//   (ev: 'change', value: Ui3nRadioValue): void;
+//   (ev: 'update:modelValue', value: Ui3nRadioValue): void;
+// }
+// 
+// export interface Ui3nRadioGroupSlots {
+//   default: () => VNode;
+// }

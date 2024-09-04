@@ -48,18 +48,23 @@ onBeforeMount(() => {
     throw Error('[Ui3nRadio] Both checkedIcon and uncheckedIcon slots must have values ​​defined.');
   }
 
-  // const checkedValueType = typeof props.checkedValue;
-  // const uncheckedValueType = typeof props.uncheckedValue;
-  // const valueType = typeof props.modelValue;
-  // if (
-  //   checkedValueType !== uncheckedValueType
-  //   || checkedValueType !== valueType
-  //   || uncheckedValueType !== valueType
-  // ) {
-  //   throw Error('[Ui3nRadio] types of "value", "checkedValue" and "uncheckedValue" are different');
-  // }
-  const inst = getCurrentInstance();
-  console.log('ONBEFORE: ', inst);
+  if (instance?.parent?.type.__name !== 'ui3n-radio-group') {
+    const checkedValueType = typeof props.checkedValue;
+    const uncheckedValueType = typeof props.uncheckedValue;
+    const valueType = typeof props.modelValue;
+    if (
+      checkedValueType !== uncheckedValueType
+      || checkedValueType !== valueType
+      || uncheckedValueType !== valueType
+    ) {
+      throw Error('[Ui3nRadio] types of "value", "checkedValue" and "uncheckedValue" are different');
+    }
+  } else {
+    const groupModelValue = instance?.parent.props.modelValue;
+    if (groupModelValue === props.checkedValue) {
+      val.value = groupModelValue as Ui3nRadioValue;
+    }
+  }
 });
 
 onMounted(() => {
@@ -102,6 +107,8 @@ function change() {
   emits('change', val.value);
   emits('update:modelValue', val.value);
 };
+
+defineExpose({ change, radioEl });
 </script>
 
 <template>

@@ -1,10 +1,9 @@
 # Library (Vue3 + Typescript + Vite)
 
-Components, directives and plugins for Vue3 projects and some helpers methods (tools).  
-Vitepress is used for documentation and demo.  
+Components, directives and plugins for Vue3 projects and some helpers methods (utils).
+[The library on npm](https://www.npmjs.com/package/@v1nt1248/3nclient-lib)  
   
-For demo and development - `pnpm run docs:dev` or `npm run docs:dev`.  
-You can run the project as `pnpm dev` or `npm run dev` if you don't want to use Vitepress.
+You can run the project as `pnpm dev` or `npm run dev`.
 
 ## Components
   - Ui3nBadge,
@@ -23,6 +22,7 @@ You can run the project as `pnpm dev` or `npm run dev` if you don't want to use 
   - Ui3nNotification
   - Ui3nProgressCircular
   - Ui3nProgressLinear
+  - Ui3nRadio
   - Ui3nStepLineBar
   - Ui3nSwitch
   - Ui3nTableSortIcon
@@ -53,6 +53,6 @@ You can run the project as `pnpm dev` or `npm run dev` if you don't want to use 
   - emoticons
   - mailReg
 
-## Tools
+## Utils
   - sqlite-on-3nstorage
   - ...
