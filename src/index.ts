@@ -37,6 +37,7 @@ import type { DialogInstance } from './plugins/dialogs/types';
 export * from './constants';
 export * from './utils';
 export * from './plugins';
+export * from './plugins/types';
 export * from './directives';
 export * from './components';
 export * from './components/types';
