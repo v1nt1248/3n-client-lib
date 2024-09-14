@@ -72,6 +72,10 @@
   --svg: url('../icons/ic--outline-reply.svg');
 }
 
+.ui3n-icon__outline-settings {
+  --svg: url('../icons/ic--outline-settings.svg');
+}
+
 .ui3n-icon__outline-upload-file {
   --svg: url('../icons/ic--outline-upload-file.svg');
 }

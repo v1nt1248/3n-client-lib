@@ -14,6 +14,7 @@ export const iconList: string[] = [
   'outline-mail',
   'outline-reply-all',
   'outline-reply',
+  'outline-settings',
   'outline-upload-file',
   'outline-wb-sunny',
   'round-add-circle-outline',
