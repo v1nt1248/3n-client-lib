@@ -140,7 +140,7 @@ const validate = (text: string) => {
       type="icon"
       size="small"
       color="transparent"
-      icon="close"
+      icon="round-close"
       icon-size="16"
       icon-color="var(--color-icon-control-accent-default)"
       :class="$style.clearBtn"
@@ -149,7 +149,7 @@ const validate = (text: string) => {
 
     <ui3n-icon
       v-if="displayStateMode === 'success' && displayStateWithIcon && !isFocused"
-      icon="sharp-check-circle-outline"
+      icon="round-check-circle-outline"
       :width="16"
       :height="16"
       color="var(--success-content-default)"
@@ -179,6 +179,7 @@ const validate = (text: string) => {
 
   position: relative;
   width: 100%;
+  padding: 1px;
   border-radius: var(--spacing-xs);
 
   &:hover {

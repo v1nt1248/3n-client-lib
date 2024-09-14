@@ -33,13 +33,13 @@ const stylesByTypes = {
     color: 'var(--info-content-default)',
     icon: 'round-info',
     iconColor: 'var(--info-fill-default)',
-    iconRotate: 90,
+    iconRotate: 180,
   },
   error: {
     color: 'var(--error-content-default)',
     icon: 'round-info',
     iconColor: 'var(--error-fill-default)',
-    iconRotate: 90,
+    iconRotate: 180,
   },
 };
 
@@ -81,7 +81,7 @@ const closeNotification = () => {
       type="icon"
       size="small"
       color="transparent"
-      icon="close"
+      icon="round-close"
       :icon-color="stylesByTypes[type].color"
       :class="$style.closeBtn"
       @click="closeNotification"

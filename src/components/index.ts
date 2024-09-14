@@ -1,3 +1,4 @@
+import '../assets/styles/icons.css';
 import Ui3nIcon from './ui3n-icon/ui3n-icon.vue';
 import type { Ui3nIconProps, Ui3nIconEmits } from './ui3n-icon/types';
 import Ui3nButton from './ui3n-button/ui3n-button.vue';

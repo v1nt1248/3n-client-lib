@@ -22,11 +22,11 @@ const $style = useCssModule();
 const tabs = ref<HTMLDivElement | null>(null);
 const children = ref<HTMLCollection | null>(null);
 
-const activeColor = computed(() => props.activeColor);
-const inactiveColor = computed(() => props.inactiveColor);
-const indicatorColor = computed(() => props.indicatorColor);
-const indicatorSize = computed(() => `${props.indicatorSize}px`);
-const indicatorPosition = computed(() => props.indicatorPosition === 'reverse' ? '100%' : '0');
+const activeColorValue = computed(() => props.activeColor);
+const inactiveColorValue = computed(() => props.inactiveColor);
+const indicatorColorValue = computed(() => props.indicatorColor);
+const indicatorSizeValue = computed(() => `${props.indicatorSize}px`);
+const indicatorPositionValue = computed(() => props.indicatorPosition === 'reverse' ? '100%' : '0');
 
 watch(
   () => props.modelValue,
@@ -100,7 +100,7 @@ const onClick = (ev: MouseEvent) => {
   cursor: pointer;
   position: relative;
   user-select: none;
-  color: v-bind('inactiveColor');
+  color: v-bind(inactiveColorValue);
   @include ripple(var(--color-bg-control-secondary-default));
 
   &:hover {
@@ -112,8 +112,8 @@ const onClick = (ev: MouseEvent) => {
     content: '';
     left: 0;
     width: 100%;
-    bottom: v-bind('indicatorPosition');
-    height: v-bind('indicatorSize');
+    bottom: v-bind(indicatorPositionValue);
+    height: v-bind(indicatorSizeValue);
     background-color: transparent;
     transition: background-color 250ms ease-in-out;
   }
@@ -126,10 +126,10 @@ const onClick = (ev: MouseEvent) => {
 }
 
 .active {
-  color: v-bind('activeColor');
+  color: v-bind(activeColorValue);
 
   &::after {
-    background-color: v-bind('indicatorColor');
+    background-color: v-bind(indicatorColorValue);
     transition: background-color 250ms ease-in-out;
   }
 }
@@ -140,8 +140,8 @@ const onClick = (ev: MouseEvent) => {
 
   .item {
     &::after {
-      left: v-bind('indicatorPosition');
-      width: v-bind('indicatorSize');
+      left: v-bind(indicatorPositionValue);
+      width: v-bind(indicatorSizeValue);
       bottom: 0;
       height: 100%;
     }

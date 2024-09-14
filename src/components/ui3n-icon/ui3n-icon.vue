@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { Icon } from '@iconify/vue';
 import type { Ui3nIconEmits, Ui3nIconProps } from './types';
 
 const props = withDefaults(
@@ -15,13 +14,23 @@ const props = withDefaults(
 );
 const emits = defineEmits<Ui3nIconEmits>();
 
-const iconName = computed(() => `ic:${props.icon}`);
-
-function onLoad(value: unknown) {
-  if (props.onLoad) {
-    props.onLoad(value);
+const iconClass = computed(() => `ui3n-icon__${props.icon}`);
+const iconStyle = computed(() => {
+  const value: Record<string, string> = {
+    width: `${props.width}px`,
+    height: `${props.height}px`,
+    color: props.color,
+  };
+  const transformData = [];
+  props.horizontalFlip && transformData.push('rotateY(180deg)');
+  props.verticalFlip && transformData.push('rotateX(180deg)');
+  props.rotate && transformData.push(`rotate(${props.rotate}deg)`);
+  if (transformData.length) {
+    value.transform = transformData.join(' ');
   }
-}
+
+  return value;
+});
 
 function onClick(ev: Event) {
   emits('click', ev);
@@ -29,24 +38,15 @@ function onClick(ev: Event) {
 </script>
 
 <template>
-  <icon
-    :class="$style.icon"
-    :icon="iconName"
+  <div
+    :class="['ui3n-icon', iconClass]"
     :title="title"
-    :inline="inline"
-    :width="width"
-    :height="height"
-    :horizontal-flip="horizontalFlip"
-    :vertical-flip="verticalFlip"
-    :flip="flip"
-    :rotate="rotate"
-    :color="color"
-    :on-load="onLoad"
+    :style="iconStyle"
     @click="onClick"
-  />
+  ></div>
 </template>
 
-<style lang="scss" module>
+<style lang="scss">
 .icon {
   min-width: v-bind(width);
   min-height: v-bind(height);

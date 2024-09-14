@@ -314,32 +314,32 @@ function onResize(val: Ui3nResizeCbArg) {
         >
       </div>
       <div class="demo-row">
-        <ui3n-button icon="logout">Primary</ui3n-button>
+        <ui3n-button icon="round-logout'">Primary</ui3n-button>
         <ui3n-button
-          icon="outline-logout"
+          icon="round-logout'"
           disabled
           >Primary</ui3n-button
         >
         <ui3n-button
-          icon="outline-logout"
+          icon="round-logout'"
           size="small"
           >Primary</ui3n-button
         >
       </div>
       <div class="demo-row">
         <ui3n-button
-          icon="baseline-home"
+          icon="round-home"
           icon-position="left"
           >Primary</ui3n-button
         >
         <ui3n-button
-          icon="baseline-home"
+          icon="round-home"
           icon-position="left"
           disabled
           >Primary</ui3n-button
         >
         <ui3n-button
-          icon="baseline-home"
+          icon="round-home"
           icon-position="left"
           size="small"
           >Primary</ui3n-button
@@ -588,7 +588,7 @@ function onResize(val: Ui3nResizeCbArg) {
         <div class="demo-row__cell">
           <ui3n-input
             placeholder="Enter any text"
-            icon="search"
+            icon="round-search"
             v-model="inputValue"
             @input="onInputComponentEvent('input', $event)"
             @focus="onInputComponentEvent('focus', $event)"
@@ -599,7 +599,7 @@ function onResize(val: Ui3nResizeCbArg) {
         <div class="demo-row__cell">
           <ui3n-input
             placeholder="Enter any text"
-            icon="search"
+            icon="round-search"
             :disabled="true"
             v-model="inputValue"
           />
@@ -610,7 +610,7 @@ function onResize(val: Ui3nResizeCbArg) {
           <ui3n-input
             placeholder="Enter any text"
             clearable
-            icon="search"
+            icon="round-search"
             v-model="inputValue"
             @input="onInputComponentEvent('input', $event)"
             @focus="onInputComponentEvent('focus', $event)"
@@ -625,7 +625,7 @@ function onResize(val: Ui3nResizeCbArg) {
           <ui3n-input
             placeholder="Enter any text less than 5 characters"
             clearable
-            icon="search"
+            icon="round-search"
             :rules="[(v: string) => (v.length <= 5 ? true : 'Not more than 5 characters')]"
             v-model="inputValue"
             @input="onInputComponentEvent('input', $event)"
@@ -642,7 +642,7 @@ function onResize(val: Ui3nResizeCbArg) {
             label="Label 1"
             placeholder="Enter any text"
             clearable
-            icon="search"
+            icon="round-search"
             v-model="inputValue"
             @input="onInputComponentEvent('input', $event)"
             @focus="onInputComponentEvent('focus', $event)"
@@ -992,8 +992,8 @@ function onResize(val: Ui3nResizeCbArg) {
       >
         <ui3n-icon
           :icon="icon"
-          width="32"
-          height="32"
+          width="64"
+          height="64"
         />
         <span>{{ icon }}</span>
       </div>
@@ -1040,7 +1040,7 @@ function onResize(val: Ui3nResizeCbArg) {
 
         Current value: {{ radioValue1 }}
       </ui3n-radio>
-      
+
       <ui3n-radio
         size="40"
         :unchecked-value="0"
@@ -1082,7 +1082,7 @@ function onResize(val: Ui3nResizeCbArg) {
   </section>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .demo {
   position: relative;
   width: 100%;
@@ -1106,7 +1106,7 @@ function onResize(val: Ui3nResizeCbArg) {
     padding-top: 32px;
     display: grid;
     gap: var(--spacing-m);
-    grid-template-columns: repeat(8, 64px);
+    grid-template-columns: repeat(8, 96px);
     margin-bottom: 16px;
 
     &__item {

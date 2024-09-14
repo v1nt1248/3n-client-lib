@@ -101,6 +101,7 @@ const onInput = (ev: Event) => {
   position: relative;
   width: 100%;
   border-radius: var(--spacing-xs);
+  padding: 1px;
 }
 
 .label {

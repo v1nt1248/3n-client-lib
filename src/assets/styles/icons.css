@@ -1,0 +1,217 @@
+/* CSS style for icons */
+.ui3n-icon {
+  /* Add dimensions to span */
+  display: block;
+  width: 24px;
+  height: 24px;
+
+  /* Add background color */
+  background-color: currentcolor;
+
+  /* Add mask image, use variable to reduce duplication */
+  --svg: url('');
+  
+  mask-image: var(--svg);
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+}
+
+.ui3n-icon__outline-account-circle {
+  --svg: url('../icons/ic--outline-account-circle.svg');
+}
+
+.ui3n-icon__outline-arrow-drop-down {
+  --svg: url('../icons/ic--outline-arrow-drop-down.svg');
+}
+
+.ui3n-icon__outline-chat {
+  --svg: url('../icons/ic--outline-chat.svg');
+}
+
+.ui3n-icon__outline-cleaning-services {
+  --svg: url('../icons/ic--outline-cleaning-services.svg');
+}
+
+.ui3n-icon__outline-delete {
+  --svg: url('../icons/ic--outline-delete.svg');
+}
+
+.ui3n-icon__outline-download-for-offline {
+  --svg: url('../icons/ic--outline-download-for-offline.svg');
+}
+
+.ui3n-icon__outline-edit {
+  --svg: url('../icons/ic--outline-edit.svg');
+}
+
+.ui3n-icon__outline-file-upload {
+  --svg: url('../icons/ic--outline-file-upload.svg');
+}
+
+.ui3n-icon__outline-folder {
+  --svg: url('../icons/ic--outline-folder.svg');
+}
+
+.ui3n-icon__outline-info {
+  --svg: url('../icons/ic--outline-info.svg');
+}
+
+.ui3n-icon__outline-insert-emoticon {
+  --svg: url('../icons/ic--outline-insert-emoticon.svg');
+}
+
+.ui3n-icon__outline-mail {
+  --svg: url('../icons/ic--outline-mail.svg');
+}
+
+.ui3n-icon__outline-reply-all {
+  --svg: url('../icons/ic--outline-reply-all.svg');
+}
+
+.ui3n-icon__outline-reply {
+  --svg: url('../icons/ic--outline-reply.svg');
+}
+
+.ui3n-icon__outline-upload-file {
+  --svg: url('../icons/ic--outline-upload-file.svg');
+}
+
+.ui3n-icon__outline-wb-sunny {
+  --svg: url('../icons/ic--outline-wb-sunny.svg');
+}
+
+.ui3n-icon__round-add-circle-outline {
+  --svg: url('../icons/ic--round-add-circle-outline.svg');
+}
+
+.ui3n-icon__round-arrow-back {
+  --svg: url('../icons/ic--round-arrow-back.svg');
+}
+
+.ui3n-icon__round-arrow-downward {
+  --svg: url('../icons/ic--round-arrow-downward.svg');
+}
+
+.ui3n-icon__round-arrow-forward {
+  --svg: url('../icons/ic--round-arrow-forward.svg');
+}
+
+.ui3n-icon__round-arrow-upward {
+  --svg: url('../icons/ic--round-arrow-upward.svg');
+}
+
+.ui3n-icon__round-attach-file {
+  --svg: url('../icons/ic--round-attach-file.svg');
+}
+
+.ui3n-icon__round-bookmark {
+  --svg: url('../icons/ic--round-bookmark.svg');
+}
+
+.ui3n-icon__round-brush {
+  --svg: url('../icons/ic--round-brush.svg');
+}
+
+.ui3n-icon__round-check-box-outline-blank {
+  --svg: url('../icons/ic--round-check-box-outline-blank.svg');
+}
+
+.ui3n-icon__round-check-box {
+  --svg: url('../icons/ic--round-check-box.svg');
+}
+
+.ui3n-icon__round-check-circle-outline {
+  --svg: url('../icons/ic--round-check-circle-outline.svg');
+}
+
+.ui3n-icon__round-check {
+  --svg: url('../icons/ic--round-check.svg');
+}
+
+.ui3n-icon__round-close {
+  --svg: url('../icons/ic--round-close.svg');
+}
+
+.ui3n-icon__round-content-copy {
+  --svg: url('../icons/ic--round-content-copy.svg');
+}
+
+.ui3n-icon__round-done-all {
+  --svg: url('../icons/ic--round-done-all.svg');
+}
+
+.ui3n-icon__round-done {
+  --svg: url('../icons/ic--round-done.svg');
+}
+
+.ui3n-icon__round-edit {
+  --svg: url('../icons/ic--round-edit.svg');
+}
+
+.ui3n-icon__round-file-upload {
+  --svg: url('../icons/ic--round-file-upload.svg');
+}
+
+.ui3n-icon__round-folder {
+  --svg: url('../icons/ic--round-folder.svg');
+}
+
+.ui3n-icon__round-home {
+  --svg: url('../icons/ic--round-home.svg');
+}
+
+.ui3n-icon__round-indeterminate-check-box {
+  --svg: url('../icons/ic--round-indeterminate-check-box.svg');
+}
+
+.ui3n-icon__round-info {
+  --svg: url('../icons/ic--round-info.svg');
+}
+
+.ui3n-icon__round-language {
+  --svg: url('../icons/ic--round-language.svg');
+}
+
+.ui3n-icon__round-logout {
+  --svg: url('../icons/ic--round-logout.svg');
+}
+
+.ui3n-icon__round-person-outline {
+  --svg: url('../icons/ic--round-person-outline.svg');
+}
+
+.ui3n-icon__round-person {
+  --svg: url('../icons/ic--round-person.svg');
+}
+
+.ui3n-icon__round-refresh {
+  --svg: url('../icons/ic--round-refresh.svg');
+}
+
+.ui3n-icon__round-report-gmailerrorred {
+  --svg: url('../icons/ic--round-report-gmailerrorred.svg');
+}
+
+.ui3n-icon__round-schedule {
+  --svg: url('../icons/ic--round-schedule.svg');
+}
+
+.ui3n-icon__round-search {
+  --svg: url('../icons/ic--round-search.svg');
+}
+
+.ui3n-icon__round-send {
+  --svg: url('../icons/ic--round-send.svg');
+}
+
+.ui3n-icon__round-subject {
+  --svg: url('../icons/ic--round-subject.svg');
+}
+
+.ui3n-icon__round-system-update-alt {
+  --svg: url('../icons/ic--round-system-update-alt.svg');
+}
+
+.ui3n-icon__round-warning {
+  --svg: url('../icons/ic--round-warning.svg');
+}

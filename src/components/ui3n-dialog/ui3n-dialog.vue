@@ -137,7 +137,7 @@ const handleEvent = (event: Event, eventName: Ui3nDialogEvent) => {
         type="icon"
         size="small"
         color="transparent"
-        icon="close"
+        icon="round-close"
         icon-size="16"
         icon-color="var(--color-icon-control-primary-default)"
         @click="closeDialog({ ev: $event })"

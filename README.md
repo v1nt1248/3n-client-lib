@@ -5,7 +5,7 @@ Components, directives and plugins for Vue3 projects and some helpers methods (u
   
 You can run the project as `pnpm dev` or `npm run dev`.
 
-## Components
+### Components
   - Ui3nBadge,
   - Ui3nBreadcrumb
   - Ui3nBreadcrumbs
@@ -32,27 +32,43 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nTooltip
   - Ui3nVirtualScroll  
 
-## Directives
+### Directives
   - Ui3nHtml
   - Ui3nClickOutside
   - Ui3nResize
 
-## Plugins
+### Plugins
   - i18n
   - dialogs
   - notifications
   - vue-bus
 
-## Store plugins
+### Store plugins
   - store-i18n
   - store-dialogs
   - store-notifications
   - store-vue-bus
 
-## Constants
+### Constants
   - emoticons
   - mailReg
 
-## Utils
+### Utils
   - sqlite-on-3nstorage
   - ...
+
+## Installation  
+  
+### npm
+`npm i @v1nt1248/3nclient-lib`
+### yarn
+`yarn add @v1nt1248/3nclient-lib`  
+### pnpm
+`pnpm add @v1nt1248/3nclient-lib`
+
+  
+You also need to import the required CSS files into your `main.ts`:
+```ts
+import '@v1nt1248/3nclient-lib/variables.css';
+import '@v1nt1248/3nclient-lib/style.css';
+```  
