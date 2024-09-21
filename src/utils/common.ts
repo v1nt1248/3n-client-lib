@@ -33,3 +33,20 @@ export async function transformFileToWeb3NFile(file: File): Promise<web3n.files.
   const { isFile, item } = fsItemCollection;
   return isFile && item ? item as web3n.files.File : undefined;
 }
+
+/**
+ * функция округления с заданной точностью
+ * @param num {number} - округляемое число
+ * @param precision {number} - точность округления (количество знаков после запятой
+ * указывается со знаком "-")
+ * @return {number} - скорректированная округленная десятичная дробь
+ */
+export function round(num: number, precision: number): number {
+  // Сдвиг разрядов
+  let tmpNum = (num.toString().split('e')) as any;
+  tmpNum = Math.round(+(tmpNum[0] + 'e' + (tmpNum[1] ? (+tmpNum[1] - precision) : -precision)));
+  // Обратный сдвиг
+  tmpNum = tmpNum.toString().split('e');
+  return +(tmpNum[0] + 'e' + (tmpNum[1] ? (+tmpNum[1] -
+  + precision) : precision));
+}

@@ -1,42 +1,49 @@
-<script lang="ts" setup>
-import { onMounted, ref, SetupContext, useSlots } from 'vue';
-// import { isEmpty } from 'lodash';
+<script setup lang="ts">
+import { provide, ref, watch } from 'vue';
 import type {
-  // Ui3nRadioGroupEmits,
   Ui3nRadioGroupProps,
-  // Ui3nRadioGroupSlots,
-  // Ui3nRadioValue,
+  Ui3nRadioGroupEmits,
+  Ui3nRadioGroupSlots,
+  Ui3nRadioValue,
 } from './types';
 
-const props = withDefaults(
-  defineProps<Ui3nRadioGroupProps>(),
-  {
-    modelValue: false,
-    direction: 'horizontal',
-    disabled: false,
-  },
-);
+const props = withDefaults(defineProps<Ui3nRadioGroupProps>(), {
+  modelValue: false,
+  direction: 'vertical',
+  disabled: false,
+});
+const emits = defineEmits<Ui3nRadioGroupEmits>();
+defineSlots<Ui3nRadioGroupSlots>();
 
-const slots: SetupContext['slots'] = useSlots();
-const contentSlot = ref();
-const children = ref([]);
+const groupValue = ref<Ui3nRadioValue>(props.modelValue);
 
-function onClick(ev: MouseEvent) {
-  console.log('EV: ', ev);
+function updateGroupValue(value: Ui3nRadioValue): void {
+  groupValue.value = value;
+  emits('update:modelValue', value);
+  emits('change', value);
 }
 
-onMounted(() => {
-  // @ts-ignore
-  children.value = slots.default();
-  console.log('CH: ', children.value);
+provide(`radio-group-${props.name}`, {
+  groupValue,
+  updateGroupValue,
 });
+
+watch(
+  () => props.modelValue,
+  (val: Ui3nRadioValue) => {
+    if (val !== groupValue.value) {
+      groupValue.value = val;
+    }
+  },
+);
 </script>
 
 <template>
   <div
-    ref="contentSlot"
-    :class="$style.radioGroup"
-    v-on="disabled ? {} : { click: onClick }"
+    :class="[
+      $style.radioGroup,
+      direction === 'horizontal' && $style.horizontal,
+    ]"
   >
     <slot />
   </div>
@@ -46,9 +53,14 @@ onMounted(() => {
 .radioGroup {
   position: relative;
   display: flex;
-  width: max-content;
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-s);
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 4px;
+
+  &.horizontal {
+    flex-direction: row;
+    column-gap: 8px;
+  }
 }
 </style>

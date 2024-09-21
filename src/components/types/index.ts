@@ -3,3 +3,5 @@ export type ExtractComponentProps<TComponent> = TComponent extends new () => {
 }
   ? P
   : never;
+
+export type Nullable<T> = T | null;

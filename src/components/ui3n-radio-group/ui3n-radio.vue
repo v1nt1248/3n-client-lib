@@ -2,12 +2,15 @@
 import {
   computed,
   getCurrentInstance,
+  inject,
   onBeforeMount,
   onMounted,
   ref,
   useSlots,
   watch,
 } from 'vue';
+import type { Ref } from 'vue';
+import type { Nullable } from '../types';
 import type {
   Ui3nRadioEmits,
   Ui3nRadioProps,
@@ -30,15 +33,40 @@ const emits = defineEmits<Ui3nRadioEmits>();
 defineSlots<Ui3nRadioSlots>();
 
 const slots = useSlots();
-const radioEl = ref<HTMLDivElement | null>(null);
-const val = ref<Ui3nRadioValue>(props.uncheckedValue || false);
-const instance = getCurrentInstance();
 
-const radioValue = computed(() => {
-  return val.value === props.checkedValue
-    ? 'checked'
-    : 'unchecked';
-});
+const instance = getCurrentInstance();
+const isComponentPartOfGroup = instance?.parent?.type.__name === 'Ui3nRadioGroup' || instance?.parent?.type.__name === 'ui3n-radio-group';
+const groupName = isComponentPartOfGroup ? instance?.parent?.props.name : '';
+
+const radioEl = ref<HTMLDivElement | null>(null);
+
+const {
+  groupValue,
+  updateGroupValue,
+}: {
+  groupValue: Nullable<Ref<Ui3nRadioValue>>;
+  updateGroupValue: Nullable<(value: Ui3nRadioValue) => void>;
+} = groupName
+  ? inject(`radio-group-${groupName}`)!
+  : {
+      groupValue: null,
+      updateGroupValue: null,
+    };
+
+const val = ref<Ui3nRadioValue>(groupName ? groupValue!.value : props.modelValue);
+
+const isOn = computed(() => val.value === props.checkedValue);
+
+function change() {
+  val.value = isOn.value ? props.uncheckedValue : props.checkedValue;
+
+  if (groupName) {
+    isOn.value && updateGroupValue!(val.value);
+  } else {
+    emits('change', val.value);
+    emits('update:modelValue', val.value);
+  }
+};
 
 onBeforeMount(() => {
   if (
@@ -46,24 +74,6 @@ onBeforeMount(() => {
     (!slots.checkedIcon && slots.uncheckedIcon)
   ) {
     throw Error('[Ui3nRadio] Both checkedIcon and uncheckedIcon slots must have values ​​defined.');
-  }
-
-  if (instance?.parent?.type.__name !== 'ui3n-radio-group') {
-    const checkedValueType = typeof props.checkedValue;
-    const uncheckedValueType = typeof props.uncheckedValue;
-    const valueType = typeof props.modelValue;
-    if (
-      checkedValueType !== uncheckedValueType
-      || checkedValueType !== valueType
-      || uncheckedValueType !== valueType
-    ) {
-      throw Error('[Ui3nRadio] types of "value", "checkedValue" and "uncheckedValue" are different');
-    }
-  } else {
-    const groupModelValue = instance?.parent.props.modelValue;
-    if (groupModelValue === props.checkedValue) {
-      val.value = groupModelValue as Ui3nRadioValue;
-    }
   }
 });
 
@@ -76,8 +86,11 @@ onMounted(() => {
 
 watch(
   () => props.modelValue,
-  newValue => val.value = newValue,
-  { immediate: true },
+  newValue => {
+    if (newValue !== val.value) {
+      val.value = newValue;
+    }
+  },
 );
 
 watch(
@@ -98,17 +111,14 @@ watch(
   },
 );
 
-
-function change() {
-  val.value = radioValue.value !== 'unchecked'
-    ? props.uncheckedValue
-    : props.checkedValue;
-
-  emits('change', val.value);
-  emits('update:modelValue', val.value);
-};
-
-defineExpose({ change, radioEl });
+watch(
+  () => groupValue?.value,
+  newVal => {
+    if (groupName) {
+      val.value = newVal === props.checkedValue ? props.checkedValue : props.uncheckedValue;
+    }
+  },
+);
 </script>
 
 <template>
@@ -121,19 +131,19 @@ defineExpose({ change, radioEl });
     ]"
   >
     <div
-      :class="$style.body"
+      :class="[$style.body, disabled && $style.bodyDisabled]"
       @click="change"
     >
       <slot
-        v-if="radioValue === 'checked'
-        "name="checkedIcon"
+        v-if="isOn"
+        name="checkedIcon"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           :width="Number(size) - 4"
           :height="Number(size) - 4"
           viewBox="0 0 24 24"
-          :class="$style.icon"
+          :class="[$style.icon, disabled && $style.iconDisabled]"
         >
           <path
             fill="currentColor"
@@ -151,7 +161,7 @@ defineExpose({ change, radioEl });
           :width="Number(size) - 4"
           :height="Number(size) - 4"
           viewBox="0 0 24 24"
-          :class="$style.icon"
+          :class="[$style.icon, disabled && $style.iconDisabled]"
         >
           <path
             fill="currentColor"
@@ -227,7 +237,15 @@ defineExpose({ change, radioEl });
 .icon {
   color: var(--ui3n-radio-color);
   min-height: calc(var(--ui3n-radion-size) - 2px);
+  height: calc(var(--ui3n-radion-size) - 2px);
   min-width: calc(var(--ui3n-checkbox-size) - 2px);
+  width: calc(var(--ui3n-radion-size) - 2px);
   cursor: pointer;
+}
+
+.bodyDisabled,
+.iconDisabled {
+  filter: grayscale(1);
+  opacity: 0.5;
 }
 </style>

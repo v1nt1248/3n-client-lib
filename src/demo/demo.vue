@@ -22,7 +22,7 @@ import Ui3nProgressCircular from '../components/ui3n-progress/ui3n-progress-circ
 import Ui3nTable from '../components/ui3n-table/ui3n-table.vue';
 import Ui3nTooltip from '../components/ui3n-tooltip/ui3n-tooltip.vue';
 import Ui3nRadio from '../components/ui3n-radio-group/ui3n-radio.vue'
-// import Ui3nRadioGroup from '../components/ui3n-radio-group/ui3n-radio-group.vue';
+import Ui3nRadioGroup from '../components/ui3n-radio-group/ui3n-radio-group.vue';
 import Ui3nResize, { type Ui3nResizeCbArg } from '../directives/ui3n-resize';
 import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '../components/ui3n-table/types';
 import type { ExtractComponentProps } from '../components/types';
@@ -56,7 +56,7 @@ const listV = ref<
 const tabsValue = ref(0);
 const radioValue1 = ref(false);
 const radioValue2 = ref(0);
-// const radioGroupValue = ref(0);
+const radioGroupValue = ref(0);
 
 const timerId = ref();
 const progressValue = ref(0);
@@ -294,21 +294,21 @@ function onResize(val: Ui3nResizeCbArg) {
       <div class="demo-row">
         <ui3n-button
           type="custom"
-          color="#124037"
-          text-color="#ffd0be"
+          color="#2ca089"
+          text-color="#e3f4f1"
           >Custom</ui3n-button
         >
         <ui3n-button
           type="custom"
-          color="#124037"
-          text-color="#ffd0be"
+          color="#2ca089"
+          text-color="#e3f4f1"
           disabled
           >Custom</ui3n-button
         >
         <ui3n-button
           type="custom"
-          color="#124037"
-          text-color="#ffd0be"
+          color="var(--warning-content-default)"
+          text-color="#ffefe9"
           size="small"
           >Custom</ui3n-button
         >
@@ -1035,6 +1035,33 @@ function onResize(val: Ui3nResizeCbArg) {
             icon="round-done"
             width="32"
             height="32"
+            color="orange"
+          />
+        </template>
+
+        Current value: {{ radioValue1 }}
+      </ui3n-radio>
+
+      <ui3n-radio
+        size="40"
+        v-model="radioValue1"
+        :disabled="true"
+      >
+        <template #checkedIcon>
+          <ui3n-icon
+            icon="round-done-all"
+            width="32"
+            height="32"
+            color="green"
+          />
+        </template>
+
+        <template #uncheckedIcon>
+          <ui3n-icon
+            icon="round-done"
+            width="32"
+            height="32"
+            color="orange"
           />
         </template>
 
@@ -1059,26 +1086,17 @@ function onResize(val: Ui3nResizeCbArg) {
       >
         Disabled (current value: {{ radioValue2 }})
       </ui3n-radio>
-
-      <ui3n-radio
-        size="40"
-        :unchecked-value="0"
-        :checked-value="1"
-        v-model="radioValue2"
-      >
-        Current value: {{ radioValue2 }}
-      </ui3n-radio>
     </div>
 
     <!-- RADIO GROUP -->
-    <!-- <div class="demo-row demo-row--with-title">
+    <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- RADIO GROUP ---</div>
-      <ui3n-radio-group v-model="radioGroupValue">
-        <ui3n-radio :checked-value="0">AAAAA</ui3n-radio>
-        <ui3n-radio :checked-value="2">BBBBB</ui3n-radio>
+      <ui3n-radio-group name="test" v-model="radioGroupValue">
+        <ui3n-radio size="32" :checked-value="0">AAAAA</ui3n-radio>
+        <ui3n-radio size="32" :checked-value="2">BBBBB</ui3n-radio>
       </ui3n-radio-group>
       <p>Current value: {{ radioGroupValue }}</p>
-    </div> -->
+    </div>
   </section>
 </template>
 
