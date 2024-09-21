@@ -23,6 +23,7 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nProgressCircular
   - Ui3nProgressLinear
   - Ui3nRadio
+  - Ui3nRadioGroup
   - Ui3nStepLineBar
   - Ui3nSwitch
   - Ui3nTableSortIcon
