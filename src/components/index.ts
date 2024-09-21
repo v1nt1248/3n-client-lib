@@ -69,14 +69,14 @@ import type { Ui3nProgressCircularProps, Ui3nProgressLinearProps } from './ui3n-
 import Ui3nTooltip from './ui3n-tooltip/ui3n-tooltip.vue';
 import type { Ui3nTooltipEmits, Ui3nTooltipProps, Ui3nTooltipSlots, Ui3nTooltipPlacement } from './ui3n-tooltip/types';
 import Ui3nRadio from './ui3n-radio-group/ui3n-radio.vue';
-// import Ui3nRadioGroup from './ui3n-radio-group/ui3n-radio-group.vue';
+import Ui3nRadioGroup from './ui3n-radio-group/ui3n-radio-group.vue';
 import type {
   Ui3nRadioEmits,
   Ui3nRadioProps,
   Ui3nRadioSlots,
-  // Ui3nRadioGroupEmits,
+  Ui3nRadioGroupEmits,
   Ui3nRadioGroupProps,
-  // Ui3nRadioGroupSlots,
+  Ui3nRadioGroupSlots,
   Ui3nRadioValue,
 } from './ui3n-radio-group/types';
 
@@ -170,12 +170,12 @@ export {
   Ui3nTooltipSlots,
   Ui3nTooltipPlacement,
   Ui3nRadio,
-  // Ui3nRadioGroup,
+  Ui3nRadioGroup,
   Ui3nRadioValue,
   Ui3nRadioEmits,
   Ui3nRadioProps,
   Ui3nRadioSlots,
-  // Ui3nRadioGroupEmits,
+  Ui3nRadioGroupEmits,
   Ui3nRadioGroupProps,
-  // Ui3nRadioGroupSlots,
+  Ui3nRadioGroupSlots,
 };

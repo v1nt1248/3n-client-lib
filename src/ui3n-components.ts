@@ -23,7 +23,7 @@ import type Ui3nProgressLinear from './components/ui3n-progress/ui3n-progress-li
 import type Ui3nProgressCircular from './components/ui3n-progress/ui3n-progress-circular.vue';
 import type Ui3nTooltip from './components/ui3n-tooltip/ui3n-tooltip.vue';
 import type Ui3nRadio from './components/ui3n-radio-group/ui3n-radio.vue';
-// import type Ui3nRadioGroup from './components/ui3n-radio-group/ui3n-radio-group.vue';
+import type Ui3nRadioGroup from './components/ui3n-radio-group/ui3n-radio-group.vue';
 import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
 import type Ui3nResize from './directives/ui3n-resize';
@@ -53,7 +53,7 @@ declare module 'vue' {
     Ui3nProgressLinear: typeof Ui3nProgressLinear;
     Ui3nProgressCircular: typeof Ui3nProgressCircular;
     Ui3nRadio: typeof Ui3nRadio,
-    // Ui3nRadioGroup: typeof Ui3nRadioGroup,
+    Ui3nRadioGroup: typeof Ui3nRadioGroup,
     Ui3nTableSortIcon: typeof Ui3nTableSortIcon;
     Ui3nTable: typeof Ui3nTable;
     Ui3nTabs: typeof Ui3nTabs;
