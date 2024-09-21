@@ -38,7 +38,10 @@ onMounted(() => {
 
 watch(
   () => props.modelValue,
-  val => text.value = val,
+  val => {
+    text.value = val;
+    validate(text.value);
+  },
   { immediate: true },
 );
 
@@ -48,40 +51,42 @@ watch(
   { immediate: true },
 );
 
-const onFocus = (event: Event) => {
+function onFocus(event: Event) {
   isFocused.value = true;
   emits('focus', event);
-};
+}
 
-const onBlur = (event: Event) => {
-  isFocused.value = false;
-  emits('blur', event);
-};
+function onBlur(event: Event) {
+  setTimeout(() => {
+    isFocused.value = false;
+    emits('blur', event);
+  }, 100);
+}
 
-const onChange = (event: Event) => {
+function onChange(event: Event) {
   const value = (event.target as HTMLInputElement).value;
   validate(value);
   emits('change', value);
-};
+}
 
-const onInput = (ev: Event) => {
+function onInput(ev: Event) {
   const value = (ev.target as HTMLInputElement).value;
   text.value = value;
   validate(value);
   emits('update:modelValue', value);
   emits('input', value);
-};
+}
 
-const clearValue = () => {
+function clearValue() {
   text.value = '';
   validate('');
   emits('update:modelValue', '');
   emits('input', '');
   emits('change', '');
   emits('clear');
-};
+}
 
-const validate = (text: string) => {
+function validate(text: string) {
   errorMessage.value = '';
   if (props.rules && props.rules.length) {
     for (const validateFunction of props.rules) {
@@ -93,7 +98,7 @@ const validate = (text: string) => {
       }
     }
   }
-};
+}
 </script>
 
 <template>
@@ -135,6 +140,15 @@ const validate = (text: string) => {
       :class="[$style.icon, disabled && $style.iconDisabled]"
     />
 
+    <ui3n-icon
+      v-if="displayStateMode === 'success' && displayStateWithIcon && !isFocused"
+      icon="round-check-circle-outline"
+      :width="16"
+      :height="16"
+      color="var(--success-content-default)"
+      :class="$style.successIcon"
+    />
+
     <ui3n-button
       v-if="clearable && !!text && !(displayStateMode === 'success' && displayStateWithIcon && !isFocused)"
       type="icon"
@@ -147,20 +161,11 @@ const validate = (text: string) => {
       @click="clearValue"
     />
 
-    <ui3n-icon
-      v-if="displayStateMode === 'success' && displayStateWithIcon && !isFocused"
-      icon="round-check-circle-outline"
-      :width="16"
-      :height="16"
-      color="var(--success-content-default)"
-      :class="$style.successIcon"
-    />
-
     <div
       v-if="errorMessage || displayStateMessage"
       :class="[
         $style.fieldMessage,
-        errorMessage || (displayStateMode === 'error' && !!displayStateMessage) && $style.errorMessage,
+        (errorMessage || (displayStateMode === 'error' && !!displayStateMessage)) && $style.errorMessage,
         displayStateMode === 'success' && displayStateMessage && $style.successMessage,
       ]"
     >
@@ -260,7 +265,7 @@ const validate = (text: string) => {
   position: absolute;
   right: 0;
   top: calc((var(--ui3n-input-height) - 24px) / 2);
-  z-index: 1;
+  z-index: 2;
 }
 
 .fieldMessage {
@@ -319,8 +324,14 @@ const validate = (text: string) => {
     top: calc((var(--ui3n-input-height) - 16px) / 2 + 20px);
   }
 
+  .successIcon {
+    bottom: auto;
+    top: calc((var(--ui3n-input-height) - 16px) / 2 + 20px);
+  }
+
   .clearBtn {
     top: calc((var(--ui3n-input-height) - 24px) / 2 + 20px);
+    z-index: 1;
   }
 }
 </style>

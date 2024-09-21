@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { defineAsyncComponent, inject, ref, watch } from 'vue';
 import { DIALOGS_KEY, type DialogsPlugin } from '../plugins/dialogs/types';
+import Ui3nInputDemo from './ui3n-input-demo.vue';
+
 import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
 import Ui3nButton from '../components/ui3n-button/ui3n-button.vue';
 import Ui3nSwitch from '../components/ui3n-switch/ui3n-switch.vue';
@@ -10,7 +12,6 @@ import Ui3nBreadcrumbs from '../components/ui3n-breadcrumbs/ui3n-breadcrumbs.vue
 import Ui3nCheckbox from '../components/ui3n-checkbox/ui3n-checkbox.vue';
 import Ui3nChip from '../components/ui3n-chip/ui3n-chip.vue';
 import Ui3nStepLineBar from '../components/ui3n-step-line-bar/ui3n-step-line-bar.vue';
-import Ui3nInput from '../components/ui3n-input/ui3n-input.vue';
 import Ui3nList from '../components/ui3n-list/ui3n-list.vue';
 import Ui3nMenu from '../components/ui3n-menu/ui3n-menu.vue';
 import Ui3nNotification from '../components/ui3n-notification/ui3n-notification.vue';
@@ -35,7 +36,6 @@ const darkTheme = ref(false);
 const checkValue = ref([true, false, false]);
 const switchValue = ref([true, false]);
 const stepValue = ref(1);
-const inputValue = ref('');
 const textValue = ref('');
 const list = ref<
   {
@@ -223,6 +223,9 @@ function onResize(val: Ui3nResizeCbArg) {
       />
       <span>Dark theme</span>
     </div>
+
+    <ui3n-input-demo />
+
 
     <!-- BADGE -->
     <div class="demo-row demo-row--with-title">
@@ -559,133 +562,6 @@ function onResize(val: Ui3nResizeCbArg) {
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- DIALOG ---</div>
       <ui3n-button @click="openDialog">OPEN DIALOG</ui3n-button>
-    </div>
-
-    <!-- INPUT FIELD -->
-    <div>
-      <div class="demo-row demo-row--with-title">
-        <div class="demo-row__title">--- INPUT FIELD---</div>
-        <div class="demo-row__cell">
-          <ui3n-input
-            placeholder="Enter any text"
-            v-model="inputValue"
-            @input="onInputComponentEvent('input', $event)"
-            @focus="onInputComponentEvent('focus', $event)"
-            @blur="onInputComponentEvent('blur', $event)"
-            @change="onInputComponentEvent('change', $event)"
-          />
-        </div>
-        <div class="demo-row__cell">
-          <ui3n-input
-            placeholder="Enter any text"
-            :disabled="true"
-            v-model="inputValue"
-          />
-        </div>
-        <div class="demo-row__cell">text field value: {{ inputValue }}</div>
-      </div>
-      <div class="demo-row">
-        <div class="demo-row__cell">
-          <ui3n-input
-            placeholder="Enter any text"
-            icon="round-search"
-            v-model="inputValue"
-            @input="onInputComponentEvent('input', $event)"
-            @focus="onInputComponentEvent('focus', $event)"
-            @blur="onInputComponentEvent('blur', $event)"
-            @change="onInputComponentEvent('change', $event)"
-          />
-        </div>
-        <div class="demo-row__cell">
-          <ui3n-input
-            placeholder="Enter any text"
-            icon="round-search"
-            :disabled="true"
-            v-model="inputValue"
-          />
-        </div>
-      </div>
-      <div class="demo-row">
-        <div class="demo-row__cell">
-          <ui3n-input
-            placeholder="Enter any text"
-            clearable
-            icon="round-search"
-            v-model="inputValue"
-            @input="onInputComponentEvent('input', $event)"
-            @focus="onInputComponentEvent('focus', $event)"
-            @blur="onInputComponentEvent('blur', $event)"
-            @change="onInputComponentEvent('change', $event)"
-            @clear="onInputComponentEvent('clear')"
-          />
-        </div>
-      </div>
-      <div class="demo-row">
-        <div class="demo-row__cell">
-          <ui3n-input
-            placeholder="Enter any text less than 5 characters"
-            clearable
-            icon="round-search"
-            :rules="[(v: string) => (v.length <= 5 ? true : 'Not more than 5 characters')]"
-            v-model="inputValue"
-            @input="onInputComponentEvent('input', $event)"
-            @focus="onInputComponentEvent('focus', $event)"
-            @blur="onInputComponentEvent('blur', $event)"
-            @change="onInputComponentEvent('change', $event)"
-            @clear="onInputComponentEvent('clear')"
-          />
-        </div>
-      </div>
-      <div class="demo-row">
-        <div class="demo-row__cell">
-          <ui3n-input
-            label="Label 1"
-            placeholder="Enter any text"
-            clearable
-            icon="round-search"
-            v-model="inputValue"
-            @input="onInputComponentEvent('input', $event)"
-            @focus="onInputComponentEvent('focus', $event)"
-            @blur="onInputComponentEvent('blur', $event)"
-            @change="onInputComponentEvent('change', $event)"
-            @clear="onInputComponentEvent('clear')"
-          />
-        </div>
-      </div>
-      <div class="demo-row">
-        <div class="demo-row__cell">
-          <ui3n-input
-            label="Label 2"
-            placeholder="Enter any text"
-            display-state-mode="error"
-            display-state-message="Some error text"
-            :model-value="'dddddddd'"
-            @input="onInputComponentEvent('input', $event)"
-            @focus="onInputComponentEvent('focus', $event)"
-            @blur="onInputComponentEvent('blur', $event)"
-            @change="onInputComponentEvent('change', $event)"
-            @clear="onInputComponentEvent('clear')"
-          />
-        </div>
-      </div>
-      <div class="demo-row">
-        <div class="demo-row__cell">
-          <ui3n-input
-            label="Password"
-            placeholder="Enter any text"
-            type="password"
-            clearable
-            display-state-mode="success"
-            display-state-with-icon
-            :model-value="'dddddddd'"
-            @input="onInputComponentEvent('input', $event)"
-            @focus="onInputComponentEvent('focus', $event)"
-            @blur="onInputComponentEvent('blur', $event)"
-            @change="onInputComponentEvent('change', $event)"
-            @clear="onInputComponentEvent('clear')"
-          />
-        </div>
-      </div>
     </div>
 
     <!-- LIST -->
@@ -1100,7 +976,7 @@ function onResize(val: Ui3nResizeCbArg) {
   </section>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .demo {
   position: relative;
   width: 100%;
@@ -1117,6 +993,13 @@ function onResize(val: Ui3nResizeCbArg) {
     gap: 16px;
     font-size: 14px;
     font-weight: 500;
+  }
+
+  &__body-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    column-gap: 8px;
+    row-gap: 16px;
   }
 
   &-icons {
