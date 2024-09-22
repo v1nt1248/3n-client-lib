@@ -37,6 +37,7 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nHtml
   - Ui3nClickOutside
   - Ui3nResize
+  - Ui3nRipple
 
 ### Plugins
   - i18n
