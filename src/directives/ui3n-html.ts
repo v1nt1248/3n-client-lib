@@ -1,17 +1,14 @@
-import { DirectiveBinding } from 'vue';
+import type { DirectiveBinding } from 'vue';
 import sanitizeHtml from 'sanitize-html';
 
 function setValue(el: Element, binding: DirectiveBinding) {
   const { sanitize, classes } = binding.modifiers;
   el.innerHTML = sanitize
-    ? sanitizeHtml(
-      binding.value,
-      {
+    ? sanitizeHtml(binding.value, {
         ...(classes && {
           allowedAttributes: { '*': ['class'] },
         }),
-      },
-    )
+      })
     : binding.value;
 }
 

@@ -31,6 +31,7 @@ import type Ui3nRadioGroup from './components/ui3n-radio-group/ui3n-radio-group.
 import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
 import type Ui3nResize from './directives/ui3n-resize';
+import type Ui3nRipple from './directives/ui3n-ripple';
 import type { CbFunction, VueEventBus } from './plugins/vue-bus/types';
 import type { DialogInstance } from './plugins/dialogs/types';
 
@@ -73,8 +74,8 @@ declare module 'vue' {
     Ui3nStepLineBar: typeof Ui3nStepLineBar;
     Ui3nProgressLinear: typeof Ui3nProgressLinear;
     Ui3nProgressCircular: typeof Ui3nProgressCircular;
-    Ui3nRadio: typeof Ui3nRadio,
-    Ui3nRadioGroup: typeof Ui3nRadioGroup,
+    Ui3nRadio: typeof Ui3nRadio;
+    Ui3nRadioGroup: typeof Ui3nRadioGroup;
     Ui3nTableSortIcon: typeof Ui3nTableSortIcon;
     Ui3nTable: typeof Ui3nTable;
     Ui3nTabs: typeof Ui3nTabs;
@@ -86,6 +87,7 @@ declare module 'vue' {
     Ui3nHtml: typeof Ui3nHtml;
     Ui3nClickOutside: typeof Ui3nClickOutside;
     Ui3nResize: typeof Ui3nResize;
+    Ui3nRipple: typeof Ui3nRipple;
   }
 }
 

@@ -15,6 +15,9 @@ export interface Ui3nButtonProps {
 export interface Ui3nButtonEmits {
   (ev: 'init', value: HTMLButtonElement): void;
   (ev: 'click', value: Event): void;
+  (ev: 'enter', value: HTMLButtonElement): void;
   (ev: 'focus', value: Event): void;
   (ev: 'blur', value: Event): void;
 }
+
+export type Ui3nButtonEventName = 'init' | 'click' | 'enter' | 'focus' | 'blur';

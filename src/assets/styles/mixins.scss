@@ -46,7 +46,7 @@
 
       &:active {
         opacity: 1;
-        background-color: var(--grey-20);
+        background-color: var(--grey-20) !important;
         background-size: 100%;
         transition: background 0s;
       }

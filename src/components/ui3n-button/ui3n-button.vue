@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
 import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
-import type { Ui3nButtonEmits, Ui3nButtonProps } from './types';
+import Ui3nRipple from '../..//directives/ui3n-ripple';
+import type { Ui3nButtonEmits, Ui3nButtonProps, Ui3nButtonEventName } from './types';
+
+const vUi3nRipple = Ui3nRipple;
 
 const props = withDefaults(
   defineProps<Ui3nButtonProps>(),
@@ -15,6 +18,16 @@ const props = withDefaults(
 const emits = defineEmits<Ui3nButtonEmits>();
 
 const buttonEl = ref<HTMLButtonElement | null>(null);
+
+async function handleButtonEvent(eventName: Ui3nButtonEventName, value?: Event ) {
+  if (['init', 'enter'].includes(eventName)) {
+    // @ts-ignore
+    emits(eventName, buttonEl.value);
+  } else {
+    // @ts-ignore
+    emits(eventName, value!);
+  }
+}
 
 watch(
   [() => props.color, () => props.textColor],
@@ -41,26 +54,28 @@ onMounted(() => {
 
   props.type === 'custom' && props.textColor && buttonEl.value.style.setProperty('--ui3n-button-text-color-custom', props.textColor);
 
-  emits('init', buttonEl.value);
+  handleButtonEvent('init');
 });
 </script>
 
 <template>
   <button
     ref="buttonEl"
+    v-ui3n-ripple
     :class="[
       $style.button,
-      $style[size],
-      $style[type],
+      $style[size!],
+      $style[type!],
       block && type !== 'icon' && $style.block,
       icon && $style[`withIcon-${iconPosition}`],
       elevation && $style.elevation,
     ]"
     type="button"
     :disabled="disabled"
-    @click="emits('click', $event)"
-    @focusin="emits('focus', $event)"
-    @focusout="emits('blur', $event)"
+    @click="handleButtonEvent('click', $event)"
+    @focusin="handleButtonEvent('focus', $event)"
+    @focusout="handleButtonEvent('blur', $event)"
+    @keydown.enter="handleButtonEvent('enter')"
   >
     <ui3n-icon
       v-if="icon"
@@ -86,6 +101,8 @@ onMounted(() => {
   --ui3n-button-text-color-custom: var(--color-text-button-primary-default);
   --ui3n-button-bg-color-custom: var(--color-bg-button-primary-default);
 
+  position: relative;
+  width: max-content;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -97,6 +114,11 @@ onMounted(() => {
   font-weight: 600;
   line-height: calc(var(--ui3n-button-text-size) * 1.25);
   user-select: none;
+  overflow: hidden;
+
+  &:not([disabled]) {
+    cursor: pointer;
+  }
 }
 
 .regular {
@@ -136,7 +158,10 @@ onMounted(() => {
   &:hover {
     background: var(--color-bg-button-primary-hover);
     color: var(--color-text-button-primary-hover);
-    @include ripple(var(--color-bg-button-primary-hover));
+  }
+
+  &:focus {
+    outline: 1px solid var(--color-border-button-primary-focused);
   }
 
   &[disabled] {
@@ -153,7 +178,10 @@ onMounted(() => {
   &:hover {
     background: var(--color-bg-button-secondary-hover);
     color: var(--color-text-button-secondary-hover);
-    @include ripple(var(--color-bg-button-secondary-hover));
+  }
+
+  &:focus {
+    outline: 1px solid var(--color-border-button-secondary-focused);
   }
 
   &[disabled] {
@@ -173,6 +201,10 @@ onMounted(() => {
     color: var(--color-text-button-secondary-hover);
     text-decoration: underline;
     cursor: pointer;
+  }
+
+  &:focus {
+    outline: 1px solid var(--color-border-button-secondary-focused);
   }
 
   &[disabled] {
@@ -203,7 +235,10 @@ onMounted(() => {
 
   &:hover {
     background: var(--ui3n-button-icon-bg-color);
-    @include ripple(var(--ui3n-button-icon-bg-color));
+  }
+
+  &:focus {
+    outline: 1px solid hsl(from var(--ui3n-button-icon-bg-color) h s calc(l - 10));
   }
 
   &[disabled] {
@@ -220,7 +255,10 @@ onMounted(() => {
 
   &:hover {
     background: var(--ui3n-button-custom-bg-color);
-    @include ripple(var(--ui3n-button-custom-bg-color));
+  }
+
+  &:focus {
+    outline: 1px solid hsl(from var(--ui3n-button-custom-bg-color) h s calc(l - 10));
   }
 
   &[disabled] {

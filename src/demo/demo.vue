@@ -2,6 +2,7 @@
 import { defineAsyncComponent, inject, ref, watch } from 'vue';
 import { DIALOGS_KEY, type DialogsPlugin } from '../plugins/dialogs/types';
 import Ui3nInputDemo from './ui3n-input-demo.vue';
+import Ui3nButtonDemo from './ui3n-button-demo.vue';
 
 import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
 import Ui3nButton from '../components/ui3n-button/ui3n-button.vue';
@@ -197,10 +198,6 @@ function openDialog() {
   });
 }
 
-function onInputComponentEvent(eventName: string, value?: unknown) {
-  console.log('Ui3nInput component event: ', eventName, value);
-}
-
 changeProgressValue();
 
 function onResize(val: Ui3nResizeCbArg) {
@@ -225,6 +222,7 @@ function onResize(val: Ui3nResizeCbArg) {
     </div>
 
     <ui3n-input-demo />
+    <ui3n-button-demo />
 
 
     <!-- BADGE -->
@@ -317,14 +315,14 @@ function onResize(val: Ui3nResizeCbArg) {
         >
       </div>
       <div class="demo-row">
-        <ui3n-button icon="round-logout'">Primary</ui3n-button>
+        <ui3n-button icon="round-logout">Primary</ui3n-button>
         <ui3n-button
-          icon="round-logout'"
+          icon="round-logout"
           disabled
           >Primary</ui3n-button
         >
         <ui3n-button
-          icon="round-logout'"
+          icon="round-logout"
           size="small"
           >Primary</ui3n-button
         >
@@ -1030,7 +1028,7 @@ function onResize(val: Ui3nResizeCbArg) {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 16px;
+    gap: 8px;
     margin-bottom: 16px;
 
     &--with-title {

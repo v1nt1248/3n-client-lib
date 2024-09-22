@@ -202,7 +202,7 @@
   --warning-content-disabled: var(--orange-30);
   --warning-outline-default: var(--orange-5);
   --warning-outline-hover: var(--orange-10);
-  --warning-outline-focused: var(--orange-50);
+  --warning-outline-focused: var(--orange-70);
   --warning-outline-pressed: var(--orange-10);
   --warning-outline-disabled: var(--orange-5);
   --success-fill-default: var(--emerald-5);
@@ -217,7 +217,7 @@
   --success-content-disabled: var(--emerald-30);
   --success-outline-default: var(--emerald-5);
   --success-outline-hover: var(--emerald-10);
-  --success-outline-focused: var(--emerald-50);
+  --success-outline-focused: var(--emerald-70);
   --success-outline-pressed: var(--emerald-10);
   --success-outline-disabled: var(--emerald-5);
   --error-fill-default: var(--red-5);
@@ -232,7 +232,7 @@
   --error-content-disabled: var(--red-30);
   --error-outline-default: var(--red-5);
   --error-outline-hover: var(--red-10);
-  --error-outline-focused: var(--red-50);
+  --error-outline-focused: var(--red-70);
   --error-outline-pressed: var(--red-10);
   --error-outline-disabled: var(--red-5);
   --info-fill-default: var(--blue-5);
@@ -346,7 +346,7 @@
   --warning-content-disabled: var(--orange-30);
   --warning-outline-default: var(--orange-5);
   --warning-outline-hover: var(--orange-10);
-  --warning-outline-focused: var(--orange-50);
+  --warning-outline-focused: var(--orange-70);
   --warning-outline-pressed: var(--orange-10);
   --warning-outline-disabled: var(--orange-5);
   --success-fill-default: var(--emerald-5);
@@ -361,7 +361,7 @@
   --success-content-disabled: var(--emerald-30);
   --success-outline-default: var(--emerald-5);
   --success-outline-hover: var(--emerald-10);
-  --success-outline-focused: var(--emerald-50);
+  --success-outline-focused: var(--emerald-70);
   --success-outline-pressed: var(--emerald-10);
   --success-outline-disabled: var(--emerald-5);
   --error-fill-default: var(--red-5);
@@ -376,7 +376,7 @@
   --error-content-disabled: var(--red-30);
   --error-outline-default: var(--red-5);
   --error-outline-hover: var(--red-10);
-  --error-outline-focused: var(--red-50);
+  --error-outline-focused: var(--red-70);
   --error-outline-pressed: var(--red-10);
   --error-outline-disabled: var(--red-5);
   --info-fill-default: var(--blue-5);
@@ -568,6 +568,9 @@
   --color-text-chat-bubble-other-sub: var(--default-hint-default);
   --color-text-chat-bubble-other-sub-selected: var(--accent-content-default);
   --color-text-chat-bubble-other-sub-quote: var(--default-hint-default);
+  --color-border-button-primary-focused: var(--accent-outline-focused);
+  --color-border-button-secondary-focused: var(--s-accent-outline-focused);
+  --color-border-button-tritery-focused: var(--s-default-outline-focused);
   --color-border-block-primary-default: var(--default-outline-default);
   --color-border-block-primary-hover: var(--default-outline-hover);
   --color-border-block-primary-focused: var(--default-outline-focused);
@@ -743,4 +746,22 @@ div {
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ui3n-ripple {
+  --ui3n-ripple-duration: 400ms;
+  --ui3n-ripple-bg-color: rgba(255, 255, 255, 0.7);
+  
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple var(--ui3n-ripple-duration) linear;
+  background-color: var(--ui3n-ripple-bg-color);
 }
