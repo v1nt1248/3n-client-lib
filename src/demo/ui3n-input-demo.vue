@@ -27,6 +27,8 @@ function onInputComponentEvent(eventName: string, value?: unknown) {
           @focus="onInputComponentEvent('focus', $event)"
           @blur="onInputComponentEvent('blur', $event)"
           @change="onInputComponentEvent('change', $event)"
+          @enter="onInputComponentEvent('enter', $event)"
+          @escape="onInputComponentEvent('escape', $event)"
         />
       </demo-layout-cell>
       <demo-layout-cell :label="`Default use, disabled, value: <i>${val1}</i>`">

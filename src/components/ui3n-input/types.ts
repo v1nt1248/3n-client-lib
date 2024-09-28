@@ -15,12 +15,20 @@ export interface Ui3nInputProps {
 }
 
 export interface Ui3nInputEmits {
-  (ev: 'init', value: HTMLInputElement): void;
-  (ev: 'input', value: string): void;
-  (ev: 'focus', value: Event): void;
-  (ev: 'blur', value: Event): void;
-  (ev: 'clear'): void;
-  (ev: 'change', value: string): void;
-  (ev: 'update:modelValue', value: string): void;
-  (ev: 'update:valid', value: boolean): void;
+  (event: 'init', value: HTMLInputElement): void;
+  (event: 'input', value: string): void;
+  (event: 'focus', value: Event): void;
+  (event: 'blur', value: Event): void;
+  (event: 'clear'): void;
+  (event: 'change', value: string): void;
+  (event: 'enter', value: {
+    value: string;
+    altKey: boolean;
+    ctrlKey: boolean;
+    shiftKey: boolean;
+    metaKey: boolean;
+  }): void;
+  (event: 'escape', value: Event): void;
+  (event: 'update:modelValue', value: string): void;
+  (event: 'update:valid', value: boolean): void;
 }

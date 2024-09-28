@@ -40,7 +40,7 @@ watch(
   { immediate: true },
 );
 
-const validate = (text: string) => {
+function validate(text: string) {
   errorMessage.value = '';
   if (props.rules && props.rules.length) {
     for (const validateFunction of props.rules) {
@@ -52,24 +52,45 @@ const validate = (text: string) => {
       }
     }
   }
-};
+}
 
-const onFocus = (event: Event) => {
+function onFocus(event: Event) {
   isFocused.value = true;
   emit('focus', event);
-};
+}
 
-const onBlur = (event: Event) => {
+function onBlur(event: Event) {
   isFocused.value = false;
+  const value = (event.target as HTMLInputElement).value;
+  validate(value);
   emit('blur', event);
-};
+  emit('change', value);
+  emit('update:text', value);
+}
 
-const onInput = (ev: Event) => {
-  const value = (ev.target as HTMLInputElement).value;
+function onInput(event: Event) {
+  console.log('onInput!');
+  const value = (event.target as HTMLInputElement).value;
   validate(value);
   emit('update:text', value);
   emit('input', value);
-};
+}
+
+function onEnterKeydown(event: KeyboardEvent) {
+  console.log('onEnterKeydown: ', event);
+  const { altKey, ctrlKey, shiftKey, metaKey, target } = event;
+  const value = (target as HTMLInputElement).value;
+  validate(value);
+  emit('update:text', value);
+  emit('enter', { value , altKey, ctrlKey, shiftKey, metaKey });
+}
+
+function onEscapeKeydown(event: KeyboardEvent) {
+  const value = (event.target as HTMLInputElement).value;
+  validate(value);
+  emit('update:text', value);
+  emit('escape', event);
+}
 </script>
 
 <template>
@@ -89,6 +110,8 @@ const onInput = (ev: Event) => {
         :disabled="disabled"
         v-bind="$attrs"
         @input="onInput"
+        @keydown.enter="onEnterKeydown"
+        @keydown.escape="onEscapeKeydown"
         @focusin="onFocus"
         @focusout="onBlur"
       />

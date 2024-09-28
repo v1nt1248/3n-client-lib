@@ -222,7 +222,7 @@ function onResize(val: Ui3nResizeCbArg) {
     </div>
 
     <ui3n-input-demo />
-    <ui3n-button-demo />
+    <!-- <ui3n-button-demo /> -->
 
 
     <!-- BADGE -->

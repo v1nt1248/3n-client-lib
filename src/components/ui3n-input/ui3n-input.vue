@@ -77,6 +77,21 @@ function onInput(ev: Event) {
   emits('input', value);
 }
 
+function onEnterKeydown(event: KeyboardEvent) {
+  const { altKey, ctrlKey, metaKey, shiftKey, target } = event;
+  const value = (target as HTMLInputElement).value;
+  validate(value);
+  emits('update:modelValue', value);
+  emits('enter', { value , altKey, ctrlKey, metaKey, shiftKey });
+}
+
+function onEscapeKeydown(event: KeyboardEvent) {
+  const value = (event.target as HTMLInputElement).value;
+  validate(value);
+  emits('update:modelValue', value);
+  emits('escape', event);
+}
+
 function clearValue() {
   text.value = '';
   validate('');
@@ -127,6 +142,8 @@ function validate(text: string) {
       :disabled="disabled"
       :class="$style.field"
       @input="onInput"
+      @keydown.enter="onEnterKeydown"
+      @keydown.escape="onEscapeKeydown"
       @focusin="onFocus"
       @focusout="onBlur"
       @change="onChange"

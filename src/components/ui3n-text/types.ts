@@ -9,10 +9,19 @@ export interface Ui3nTextProps {
 }
 
 export interface Ui3nTextEmits {
-  (ev: 'init', value: HTMLTextAreaElement): void;
-  (ev: 'input', value: string): void;
-  (ev: 'focus', value: Event): void;
-  (ev: 'blur', value: Event): void;
-  (ev: 'update:text', value: string): void;
-  (ev: 'update:valid', value: boolean): void;
+  (event: 'init', value: HTMLTextAreaElement): void;
+  (event: 'input', value: string): void;
+  (event: 'change', value: string): void;
+  (event: 'enter', value: {
+    value: string;
+    altKey: boolean;
+    ctrlKey: boolean;
+    shiftKey: boolean;
+    metaKey: boolean;
+  }): void;
+  (event: 'escape', value: Event): void;
+  (event: 'focus', value: Event): void;
+  (event: 'blur', value: Event): void;
+  (event: 'update:text', value: string): void;
+  (event: 'update:valid', value: boolean): void;
 }
