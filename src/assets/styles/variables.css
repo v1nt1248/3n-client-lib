@@ -8,6 +8,8 @@
   --spacing-xxl: 48px;
   --white-0: #fff;
   --white-inf: rgba(255, 255, 255, 0);
+  --black-0: #000;
+  --black-inf: rgba(0, 0, 0, 0);
   --red-0: #feeeed;
   --red-5: #fcd9d6;
   --red-10: #fbc3bf;
