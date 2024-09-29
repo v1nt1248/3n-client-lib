@@ -26,7 +26,7 @@ declare module 'vue' {
     $locale: string;
     $tr: (key: string, placeholders?: Record<string, string>) => string;
     $changeLocale: (lang: string) => void;
-    $emitter: VueEventBus;
+    $emitter: VueEventBus<any>;
   }
 }
 
@@ -36,13 +36,7 @@ declare module 'pinia' {
       params: Ui3nDialogComponentProps<T, P>,
     ) => DialogInstance | undefined;
     $createNotice: (params: Ui3nNotificationProps) => void;
-    $emitter: {
-      on: (type: string | symbol, handler: CbFunction) => void;
-      off: (type: string | symbol, handler?: CbFunction) => void;
-      emit: (type: string | symbol, arguments?: any) => void;
-      once: (type: string | symbol, handler: CbFunction) => void;
-      clear: () => void;
-    };
+    $emitter: VueEventBus<any>;
     $i18n: {
       locale: string;
       changeLocale: (lang: string) => void;

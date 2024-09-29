@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { InjectionKey } from 'vue';
 
-export type CbFunction = (...args: any[]) => void;
+export type CbFunction<T> = (args?: T) => void;
 
-export interface VueEventBus {
-  on: (type: string | symbol, handler: CbFunction) => void;
-  off: (type: string | symbol, handler?: CbFunction) => void;
-  emit: (type: string | symbol, arg?: any) => void;
-  once: (type: string | symbol, handler: CbFunction) => void;
+export interface VueEventBus<T extends object> {
+  on: <Ev extends keyof T>(type: Ev, handler: CbFunction<T[Ev]>) => void;
+  off: <Ev extends keyof T>(type: Ev, handler?: CbFunction<T[Ev]>) => void;
+  emit: <Ev extends keyof T>(type: Ev, arg?: T[Ev]) => void;
+  once: <Ev extends keyof T>(type: Ev, handler: CbFunction<T[Ev]>) => void;
   clear: () => void;
 }
 
-export interface VueBusPlugin {
-  $emitter: VueEventBus;
+export interface VueBusPlugin<T extends object> {
+  $emitter: VueEventBus<T>;
 }
 
-export const VUEBUS_KEY = Symbol() as InjectionKey<VueBusPlugin>;
+export const VUEBUS_KEY = Symbol() as InjectionKey<VueBusPlugin<any>>;

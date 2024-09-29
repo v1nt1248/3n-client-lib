@@ -32,7 +32,7 @@ import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
 import type Ui3nResize from './directives/ui3n-resize';
 import type Ui3nRipple from './directives/ui3n-ripple';
-import type { CbFunction, VueEventBus } from './plugins/vue-bus/types';
+import type { VueEventBus } from './plugins/vue-bus/types';
 import type { DialogInstance } from './plugins/dialogs/types';
 
 export * from './constants';
@@ -52,7 +52,7 @@ declare module 'vue' {
     $locale: string;
     $tr: (key: string, placeholders?: Record<string, string>) => string;
     $changeLocale: (lang: string) => void;
-    $emitter: VueEventBus;
+    $emitter: VueEventBus<any>;
   }
 
   interface GlobalComponents {
@@ -97,13 +97,7 @@ declare module 'pinia' {
       params: Ui3nDialogComponentProps<T, P>,
     ) => DialogInstance | undefined;
     $createNotice: (params: Ui3nNotificationProps) => void;
-    $emitter: {
-      on: (type: string | symbol, handler: CbFunction) => void;
-      off: (type: string | symbol, handler?: CbFunction) => void;
-      emit: (type: string | symbol, arguments?: any) => void;
-      once: (type: string | symbol, handler: CbFunction) => void;
-      clear: () => void;
-    };
+    $emitter: VueEventBus<any>;
     $i18n: {
       locale: string;
       changeLocale: (lang: string) => void;
