@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { InjectionKey } from 'vue';
 
-export type CbFunction<T> = (args?: T) => void;
+export type CbFunction<T> = (arg: T) => void;
 
 export interface VueEventBus<T extends object> {
   on: <Ev extends keyof T>(type: Ev, handler: CbFunction<T[Ev]>) => void;
