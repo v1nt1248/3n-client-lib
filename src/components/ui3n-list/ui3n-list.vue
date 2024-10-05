@@ -1,7 +1,7 @@
 <script lang="ts" setup generic="T extends { id?: string }">
 import type { Ui3nListEmits, Ui3nListProps, Ui3nListSlots } from './types';
 
-const props = withDefaults(defineProps<Ui3nListProps<T>>(), {
+withDefaults(defineProps<Ui3nListProps<T>>(), {
   title: '',
   sticky: true,
   disabled: false,
@@ -12,16 +12,16 @@ defineSlots<Ui3nListSlots<T>>();
 </script>
 
 <template>
-  <div ref="listElement" :class="$style.list">
-    <div :class="[$style.title, sticky && $style.stickyTitle]">
+  <div ref="listElement" :class="$style.ui3nList">
+    <div :class="[$style.ui3nListTitle, sticky && $style.ui3nListTitleSticky]">
       <slot name="title">
-        <div v-if="props.title" :class="$style.titleContent">
+        <div v-if="title" :class="$style.ui3nListTitleContent">
           {{ title }}
         </div>
       </slot>
     </div>
 
-    <div :class="$style.content">
+    <div :class="$style.ui3nListContent">
       <div
         v-for="(item, index) in items"
         :key="item.id ?? index"
@@ -29,7 +29,7 @@ defineSlots<Ui3nListSlots<T>>();
       >
         <slot name="item" :item="item" :index="index">
           <div
-            :class="[$style.itemContent, disabled && $style.itemContentDisabled]"
+            :class="[$style.ui3nListItemContent, disabled && $style.ui3nListItemContentDisabled]"
             @click.stop="emits('select', { value: item, index })"
           >
             {{ item }}
@@ -41,7 +41,7 @@ defineSlots<Ui3nListSlots<T>>();
 </template>
 
 <style lang="scss" module>
-.list {
+.ui3nList {
   --ui3n-list-item-height: 28px;
   --ui3n-list-bg-color: transparent;
 
@@ -55,23 +55,23 @@ defineSlots<Ui3nListSlots<T>>();
   align-items: stretch;
 }
 
-.title {
+.ui3nListTitle {
   position: relative;
   top: 0;
   z-index: 1;
 }
 
-.stickyTitle {
+.ui3nListTitleSticky {
   position: sticky;
 }
 
-.content {
+.ui3nListContent {
   position: relative;
   flex-grow: 1;
 }
 
-.titleContent,
-.item {
+.ui3nListTitleContent,
+.ui3nListItem {
   position: relative;
   width: 100%;
   min-height: var(--ui3n-list-item-height);
@@ -81,20 +81,20 @@ defineSlots<Ui3nListSlots<T>>();
   align-items: center;
 }
 
-.titleContent {
+.ui3nListTitleContent {
   z-index: 1;
   font-size: 16px;
   font-weight: 600;
   background-color: var(--ui3n-list-bg-color);
 }
 
-.itemContent {
+.ui3nListItemContent {
   font-size: 14px;
   font-weight: 400;
   cursor: pointer;
 }
 
-.itemContentDisabled {
+.ui3nListItemContentDisabled {
   pointer-events: none;
   cursor: default;
 }

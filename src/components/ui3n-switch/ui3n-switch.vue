@@ -42,7 +42,7 @@ function change() {
 <template>
   <div
     ref="switchEl"
-    :class="[$style.switch, val && $style.checked, !slots.default && $style.noLabel, disabled && $style.disabled]"
+    :class="[$style.ui3nSwitch, val && $style.checked, !slots.default && $style.noLabel, disabled && $style.disabled]"
   >
     <Transition>
       <div :class="$style.body" @click="change">
@@ -57,7 +57,7 @@ function change() {
 </template>
 
 <style lang="scss" module>
-.switch {
+.ui3nSwitch {
   --ui3n-switch-size: 16px;
   --ui3n-switch-color: var(--color-icon-control-accent-default);
   --ui3n-switch-off-color: var(--color-bg-table-cell-pressed);

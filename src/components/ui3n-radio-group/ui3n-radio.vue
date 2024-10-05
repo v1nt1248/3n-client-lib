@@ -66,7 +66,7 @@ function change() {
     emits('change', val.value);
     emits('update:modelValue', val.value);
   }
-};
+}
 
 onBeforeMount(() => {
   if (
@@ -125,7 +125,7 @@ watch(
   <div
     ref="radioEl"
     :class="[
-      $style.radio,
+      $style.ui3nRadio,
       disabled && $style.disabled,
       !slots.default && $style.noLabel,
     ]"
@@ -180,7 +180,7 @@ watch(
 <style lang="scss" module>
 @import "../../assets/styles/mixins";
 
-.radio {
+.ui3nRadio {
   --ui3n-radio-size: 16px;
   --ui3n-radio-color: var(--color-icon-control-accent-default);
   --ui3n-radio-text-size: 12px;

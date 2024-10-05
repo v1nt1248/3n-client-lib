@@ -10,7 +10,7 @@ withDefaults(
 </script>
 
 <template>
-  <div :class="$style.stepLineBar">
+  <div :class="$style.ui3nStepLineBar">
     <div :class="$style.label">
       {{ label }}
     </div>
@@ -22,7 +22,7 @@ withDefaults(
 </template>
 
 <style lang="scss" module>
-.stepLineBar {
+.ui3nStepLineBar {
   --ui3n-step-line-bar-steps: v-bind(steps);
 
   position: relative;

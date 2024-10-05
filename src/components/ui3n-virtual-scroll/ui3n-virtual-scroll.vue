@@ -45,7 +45,7 @@ onMounted(() => {
 <template>
   <div
     ref="wrapElement"
-    :class="$style.virtualScroll"
+    :class="$style.ui3nVirtualScroll"
     @scroll="onScroll"
   >
     <div
@@ -74,7 +74,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss" module>
-.virtualScroll {
+.ui3nVirtualScroll {
   position: relative;
   width: 100%;
   height: 100%;

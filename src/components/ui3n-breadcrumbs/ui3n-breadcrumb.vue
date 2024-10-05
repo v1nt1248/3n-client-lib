@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, getCurrentInstance } from 'vue';
+import { computed, getCurrentInstance, useCssModule } from 'vue';
 import type { Ui3nBreadcrumbEmits, Ui3nBreadcrumbProps, Ui3nBreadcrumbSlots } from './types';
 
 const props = withDefaults(defineProps<Ui3nBreadcrumbProps>(), {
@@ -9,6 +9,8 @@ const props = withDefaults(defineProps<Ui3nBreadcrumbProps>(), {
 });
 const emits = defineEmits<Ui3nBreadcrumbEmits>();
 defineSlots<Ui3nBreadcrumbSlots>();
+
+const $css = useCssModule();
 
 const separatorValue = computed(() => {
   if (props.separator) {
@@ -24,6 +26,14 @@ const parentDisabled = computed(() => {
   return instance?.parent?.props.disabled || false;
 });
 
+const cssClasses = computed(() => {
+  const val = [$css.ui3nBreadcrumb];
+  props.isActive && val.push($css.ui3nBreadcrumbActive);
+  (props.disabled || parentDisabled.value) && val.push($css.ui3nBreadcrumbDisabled);
+
+  return val;
+});
+
 const onClick = (ev: Event) => {
   emits('click', ev);
 };
@@ -31,13 +41,13 @@ const onClick = (ev: Event) => {
 
 <template>
   <div
-    :class="[$style.breadcrumb, isActive && $style.active, (disabled || parentDisabled) && $style.disabled]"
+    :class="cssClasses"
     v-on="isActive && !(disabled || parentDisabled) ? { click: onClick } : {}"
   >
     <slot />
     <div
       v-if="isActive"
-      :class="$style.separator"
+      :class="$style.ui3nBreadcrumbSeparator"
     >
       <slot name="separator">
         <span>{{ separatorValue }}</span>
@@ -47,7 +57,7 @@ const onClick = (ev: Event) => {
 </template>
 
 <style lang="scss" module>
-.breadcrumb {
+.ui3nBreadcrumb {
   --ui3n-breadcrumb-font-size: var(--spacing-m);
   --ui3n-breadcrumb-color-default: var(--color-text-block-primary-default);
   --ui3n-breadcrumb-color-selected: var(--color-text-block-accent-default);
@@ -63,7 +73,7 @@ const onClick = (ev: Event) => {
   margin: 0 var(--spacing-s);
 }
 
-.active {
+.ui3nBreadcrumbActive {
   font-size: var(--ui3n-breadcrumb-font-size);
   line-height: 1.25;
   color: var(--ui3n-breadcrumb-color-default);
@@ -72,13 +82,13 @@ const onClick = (ev: Event) => {
     cursor: pointer;
     color: var(--ui3n-breadcrumb-color-selected);
 
-    .separator {
+    .ui3nBreadcrumbSeparator {
       color: var(--ui3n-breadcrumb-color-default);
     }
   }
 }
 
-.disabled {
+.ui3nBreadcrumbDisabled {
   cursor: default;
   pointer-events: none;
 }

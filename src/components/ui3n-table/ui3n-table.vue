@@ -36,7 +36,7 @@ const eventsHandlers = {
 </script>
 
 <template>
-  <div ref="tableEl" :class="$style.table">
+  <div ref="tableEl" :class="$style.ui3nTable">
     <div :class="[$style.header, showGroupActionsRow && $style.withGroupActions]">
       <!-- group actions -->
       <div v-if="showGroupActionsRow" :class="$style.groupActions">
@@ -161,7 +161,7 @@ const eventsHandlers = {
 <style lang="scss" module>
 @import "../../assets/styles/mixins.scss";
 
-.table {
+.ui3nTable {
   --ui3n-table-columns-width: auto;
   --ui3n-table-base-head-height: 36px;
   --ui3n-table-group-actions-height: 48px;

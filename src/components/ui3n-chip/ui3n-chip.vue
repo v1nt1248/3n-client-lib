@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, useSlots } from 'vue';
+import { computed, useCssModule, useSlots } from 'vue';
 import Ui3nButton from '../ui3n-button/ui3n-button.vue';
 import type { Ui3nChipEmits, Ui3nChipProps, Ui3nChipSlots } from './types';
 
@@ -21,6 +21,7 @@ const emits = defineEmits<Ui3nChipEmits>();
 defineSlots<Ui3nChipSlots>();
 
 const slots = useSlots();
+const $css = useCssModule();
 
 const height = computed(() => `${props.height}px`);
 const iconHeight = computed(() => props.height ? Number(props.height) - 2 : Number(props.height));
@@ -30,23 +31,26 @@ const bgColor = computed(() => props.color);
 const textSize = computed(() => `${props.textSize}px`);
 const textColor = computed(() => props.textColor);
 const hasLeftSlot = computed(() => !!slots.left);
+
+const mainCssClasses = computed(() => {
+  const val = [$css.ui3nChip];
+
+  props.round && val.push($css.round);
+  props.plain && val.push($css.plain);
+  props.closeable && val.push($css.closeable);
+  hasLeftSlot.value && val.push($css.withIcon);
+
+  return val;
+});
 </script>
 
 <template>
-  <div
-    :class="[
-      $style.chip,
-      round && $style.round,
-      plain && $style.plain,
-      closeable && $style.closable,
-      hasLeftSlot && $style.withIcon,
-    ]"
-  >
-    <div :class="$style.icon">
+  <div :class="mainCssClasses">
+    <div :class="$style.ui3nChipIcon">
       <slot name="left" :size="iconHeight" :color="props.textColor" />
     </div>
 
-    <div :class="$style.body">
+    <div :class="$style.ui3nChipBody">
       <slot />
     </div>
 
@@ -66,7 +70,7 @@ const hasLeftSlot = computed(() => !!slots.left);
 <style lang="scss" module>
 @import "../../assets/styles/mixins";
 
-.chip {
+.ui3nChip {
   position: relative;
   display: flex;
   height: v-bind('height');
@@ -96,7 +100,7 @@ const hasLeftSlot = computed(() => !!slots.left);
   }
 }
 
-.body {
+.ui3nChipBody {
   font-size: v-bind('textSize');
   line-height: 1;
   font-weight: 400;
@@ -111,7 +115,7 @@ const hasLeftSlot = computed(() => !!slots.left);
 }
 
 .withIcon {
-  .icon {
+  .ui3nChipIcon {
     display: flex;
     flex-grow: 0;
     flex-shrink: 0;

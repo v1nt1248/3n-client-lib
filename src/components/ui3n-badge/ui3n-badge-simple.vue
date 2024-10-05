@@ -39,11 +39,11 @@ function getElementSize() {
 <template>
   <div
     ref="element"
-    :class="[$style.badgeSimple, dot && $style.dot]"
+    :class="[$style.ui3nBadgeSimple, dot && $style.ui3nBadgeDot]"
   >
     <span
       v-if="!dot"
-      :class="$style.text"
+      :class="$style.ui3nBadgeText"
     >
       {{ value }}
     </span>
@@ -51,7 +51,7 @@ function getElementSize() {
 </template>
 
 <style lang="scss" module>
-.badgeSimple {
+.ui3nBadgeSimple {
   --ui3n-badge-size: 20px;
 
   position: relative;
@@ -59,7 +59,7 @@ function getElementSize() {
   background-color: v-bind(color);
   outline: 1px var(--white-0) solid;
 
-  &:not(.dot) {
+  &:not(.ui3nBadgeDot) {
     min-height: var(--ui3n-badge-size);
     height: var(--ui3n-badge-size);
     width: max-content;
@@ -68,7 +68,7 @@ function getElementSize() {
   }
 }
 
-.dot {
+.ui3nBadgeDot {
   min-width: var(--spacing-s);
   width: var(--spacing-s);
   max-width: var(--spacing-s);
@@ -78,7 +78,7 @@ function getElementSize() {
   border-radius: 50%;
 }
 
-.text {
+.ui3nBadgeText {
   display: block;
   color: v-bind(textColor);
   font-size: var(--font-12);

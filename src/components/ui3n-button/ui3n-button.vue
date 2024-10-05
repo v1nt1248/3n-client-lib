@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch, useCssModule } from 'vue';
 import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
 import Ui3nRipple from '../..//directives/ui3n-ripple';
 import type { Ui3nButtonEmits, Ui3nButtonProps, Ui3nButtonEventName } from './types';
@@ -17,9 +17,21 @@ const props = withDefaults(
 );
 const emits = defineEmits<Ui3nButtonEmits>();
 
+const $css = useCssModule();
+
 const buttonEl = ref<HTMLButtonElement | null>(null);
 
-async function handleButtonEvent(eventName: Ui3nButtonEventName, value?: Event ) {
+const mainCssClasses = computed(() => {
+  const val = [$css.ui3nButton, $css[props.size], $css[props.type]];
+
+  props.block && props.type !== 'icon' && val.push($css.block);
+  props.icon && val.push($css[`withIcon-${props.iconPosition}`]);
+  props.elevation && val.push($css.elevation);
+
+  return val;
+});
+
+async function handleButtonEvent(eventName: Ui3nButtonEventName, value?: Event) {
   if (['init', 'enter'].includes(eventName)) {
     // @ts-ignore
     emits(eventName, buttonEl.value);
@@ -39,20 +51,30 @@ watch(
 
     (props.type === 'custom' || props.type === 'icon')
     && color !== prevColor
-    && buttonEl.value.style.setProperty('--ui3n-button-bg-color-custom', color ?? 'var(--color-bg-button-primary-default)');
+    && buttonEl.value.style.setProperty(
+      '--ui3n-button-bg-color-custom',
+      color ?? 'var(--color-bg-button-primary-default)',
+    );
 
     props.type === 'custom'
     && textColor !== prevTextColor
-    && buttonEl.value.style.setProperty('--ui3n-button-text-color-custom', textColor ?? 'var(--color-text-button-primary-default');
+    && buttonEl.value.style.setProperty(
+      '--ui3n-button-text-color-custom',
+      textColor ?? 'var(--color-text-button-primary-default',
+    );
   },
 );
 
 onMounted(() => {
   if (!buttonEl.value) return;
 
-  (props.type === 'custom' || props.type === 'icon') && props.color && buttonEl.value.style.setProperty('--ui3n-button-bg-color-custom', props.color);
+  (props.type === 'custom' || props.type === 'icon')
+  && props.color
+  && buttonEl.value.style.setProperty('--ui3n-button-bg-color-custom', props.color);
 
-  props.type === 'custom' && props.textColor && buttonEl.value.style.setProperty('--ui3n-button-text-color-custom', props.textColor);
+  props.type === 'custom'
+  && props.textColor
+  && buttonEl.value.style.setProperty('--ui3n-button-text-color-custom', props.textColor);
 
   handleButtonEvent('init');
 });
@@ -62,14 +84,7 @@ onMounted(() => {
   <button
     ref="buttonEl"
     v-ui3n-ripple
-    :class="[
-      $style.button,
-      $style[size!],
-      $style[type!],
-      block && type !== 'icon' && $style.block,
-      icon && $style[`withIcon-${iconPosition}`],
-      elevation && $style.elevation,
-    ]"
+    :class="mainCssClasses"
     type="button"
     :disabled="disabled"
     @click="handleButtonEvent('click', $event)"
@@ -95,7 +110,7 @@ onMounted(() => {
 <style lang="scss" module>
 @import "../../assets/styles/mixins";
 
-.button {
+.ui3nButton {
   --ui3n-button-padding: var(--spacing-m);
   --ui3n-button-text-size: var(--font-12);
   --ui3n-button-text-color-custom: var(--color-text-button-primary-default);

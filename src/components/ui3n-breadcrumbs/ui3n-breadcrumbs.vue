@@ -11,13 +11,13 @@ withDefaults(
 </script>
 
 <template>
-  <div :class="$style.breadcrumbs">
+  <div :class="$style.ui3nBreadcrumbs">
     <slot/>
   </div>
 </template>
 
 <style lang="scss" module>
-.breadcrumbs {
+.ui3nBreadcrumbs {
   position: relative;
   display: flex;
   flex-wrap: wrap;

@@ -69,10 +69,10 @@ watch(
 </script>
 
 <template>
-  <div ref="menuElement" :class="$style.menu">
+  <div ref="menuElement" :class="$style.ui3nMenu">
     <div
       ref="menuTriggerElement"
-      :class="$style.trigger"
+      :class="$style.ui3nMenuTrigger"
       @click.stop="toggleMenu"
     >
       <slot />
@@ -83,8 +83,8 @@ watch(
       ref="menuContentElement"
       v-click-outside="onClickOutside"
       :style="floatingStyles"
-      :class="$style.content"
-      v-on="props.closeOnClick ? { click: onContentClick } : {}"
+      :class="$style.ui3nMenuContent"
+      v-on="closeOnClick ? { click: onContentClick } : {}"
     >
       <slot name="menu" />
     </div>
@@ -94,7 +94,7 @@ watch(
 <style lang="scss" module>
 @import "../../assets/styles/mixins";
 
-.menu {
+.ui3nMenu {
   --ui3n-menu-content-bg: var(--color-bg-control-secondary-default);
 
   position: relative;
@@ -102,12 +102,12 @@ watch(
   overflow: visible;
 }
 
-.trigger {
+.ui3nMenuTrigger {
   position: relative;
   max-width: max-content;
 }
 
-.content {
+.ui3nMenuContent {
   position: absolute;
   border-radius: 4px;
   background-color: var(--ui3n-menu-content-bg);

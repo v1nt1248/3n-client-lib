@@ -24,7 +24,7 @@ export interface Ui3nRadioSlots {
 
 export interface Ui3nRadioGroupProps {
   name: string;
-  modelValue?: Ui3nRadioValue;
+  modelValue: Ui3nRadioValue;
   direction?: 'horizontal' | 'vertical';
   disabled?: boolean;
 }

@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch, useCssModule } from 'vue';
 import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
 import Ui3nButton from '../ui3n-button/ui3n-button.vue';
 import type { Ui3nInputEmits, Ui3nInputProps } from './types';
 
 const props = defineProps<Ui3nInputProps>();
 const emits = defineEmits<Ui3nInputEmits>();
+
+const $css = useCssModule();
 
 const inputElement = ref<HTMLInputElement | null>(null);
 const text = ref<string>('');
@@ -20,6 +22,7 @@ const cssIconColor = computed(() => {
 
   return props.iconColor || 'var(--color-icon-control-primary-default)';
 });
+
 const isValid = computed(() => {
   if (!text.value) {
     return true;
@@ -28,28 +31,33 @@ const isValid = computed(() => {
   return !errorMessage.value;
 });
 
-onMounted(() => {
-  if (props.autofocus && inputElement.value) {
-    inputElement.value.focus();
-  }
+const mainCssClasses = computed(() => {
+  const val = [$css.ui3nInput];
+  props.label && val.push($css.withLabel);
+  props.icon && val.push($css.withIcon);
+  props.clearable && text.value && val.push($css.clearable);
+  props.disabled && val.push($css.disabled);
+  (!!errorMessage.value || props.displayStateMode === 'error') && val.push($css.error);
+  props.displayStateMode === 'success' && val.push($css.success);
 
-  emits('init', inputElement.value!);
+  return val;
 });
 
-watch(
-  () => props.modelValue,
-  val => {
-    text.value = val;
-    validate(text.value);
-  },
-  { immediate: true },
-);
+const iconCssClasses = computed(() => {
+  const val = [$css.ui3nInputIcon];
+  props.disabled && val.push($css.ui3nInputIconDisabled);
 
-watch(
-  () => isValid.value,
-  val => emits('update:valid', val),
-  { immediate: true },
-);
+  return val;
+});
+
+const messageCssClasses = computed(() => {
+  const val = [$css.ui3nInputFieldMessage];
+  (errorMessage.value || (props.displayStateMode === 'error' && !!props.displayStateMessage))
+  && val.push($css.ui3nInputErrorMessage);
+ props.displayStateMode === 'success' && props.displayStateMessage && val.push($css.ui3nInputSuccessMessage);
+
+  return val;
+});
 
 function onFocus(event: Event) {
   isFocused.value = true;
@@ -114,22 +122,37 @@ function validate(text: string) {
     }
   }
 }
+
+onMounted(() => {
+  if (props.autofocus && inputElement.value) {
+    inputElement.value.focus();
+  }
+
+  emits('init', inputElement.value!);
+});
+
+watch(
+  () => props.modelValue,
+  val => {
+    text.value = val;
+    validate(text.value);
+  },
+  { immediate: true },
+);
+
+watch(
+  () => isValid.value,
+  val => emits('update:valid', val),
+  { immediate: true },
+);
 </script>
 
 <template>
   <div
     ref="wrapperElement"
-    :class="[
-      $style.input,
-      label && $style.withLabel,
-      icon && $style.withIcon,
-      clearable && text && $style.clearable,
-      disabled && $style.disabled,
-      (!!errorMessage || (displayStateMode === 'error')) && $style.error,
-      displayStateMode === 'success' && $style.success,
-    ]"
+    :class="mainCssClasses"
   >
-    <label v-if="label" :class="$style.label">
+    <label v-if="label" :class="$style.ui3nInputLabel">
       {{ label }}
     </label>
 
@@ -140,7 +163,7 @@ function validate(text: string) {
       :value="text"
       :placeholder="placeholder"
       :disabled="disabled"
-      :class="$style.field"
+      :class="$style.ui3nInputField"
       @input="onInput"
       @keydown.enter="onEnterKeydown"
       @keydown.escape="onEscapeKeydown"
@@ -154,7 +177,7 @@ function validate(text: string) {
       :icon="icon"
       :width="16"
       :height="16"
-      :class="[$style.icon, disabled && $style.iconDisabled]"
+      :class="iconCssClasses"
     />
 
     <ui3n-icon
@@ -163,7 +186,7 @@ function validate(text: string) {
       :width="16"
       :height="16"
       color="var(--success-content-default)"
-      :class="$style.successIcon"
+      :class="$style.ui3nInputSuccessIcon"
     />
 
     <ui3n-button
@@ -180,11 +203,7 @@ function validate(text: string) {
 
     <div
       v-if="errorMessage || displayStateMessage"
-      :class="[
-        $style.fieldMessage,
-        (errorMessage || (displayStateMode === 'error' && !!displayStateMessage)) && $style.errorMessage,
-        displayStateMode === 'success' && displayStateMessage && $style.successMessage,
-      ]"
+      :class="messageCssClasses"
     >
       {{ errorMessage || displayStateMessage }}
     </div>
@@ -194,7 +213,7 @@ function validate(text: string) {
 <style lang="scss" module>
 @import "../../assets/styles/mixins";
 
-.input {
+.ui3nInput {
   --ui3n-input-height: var(--spacing-l);
   --ui3n-input-padding-left: var(--spacing-s);
   --ui3n-input-padding-right: var(--spacing-s);
@@ -205,7 +224,7 @@ function validate(text: string) {
   border-radius: var(--spacing-xs);
 
   &:hover {
-    .field:not(:focus-within) {
+    .ui3nInputField:not(:focus-within) {
       background-color: var(--color-bg-control-secondary-hover);
 
       &::placeholder {
@@ -215,18 +234,18 @@ function validate(text: string) {
   }
 
   &:focus-within {
-    .field {
+    .ui3nInputField {
       background-color: var(--color-bg-control-secondary-focused);
       outline: 1px solid var(--color-border-control-accent-focused);
     }
 
-    .icon {
+    .ui3nInputIcon {
       color: v-bind(cssIconColor) !important;
     }
   }
 }
 
-.label {
+.ui3nInputLabel {
   display: block;
   width: 100%;
   font-size: var(--font-12);
@@ -236,7 +255,7 @@ function validate(text: string) {
   margin-bottom: var(--spacing-xs);
 }
 
-.field {
+.ui3nInputField {
   display: block;
   box-sizing: border-box;
   width: 100%;
@@ -267,14 +286,14 @@ function validate(text: string) {
   }
 }
 
-.icon {
+.ui3nInputIcon {
   position: absolute;
   left: var(--half-size, 4px);
   top: calc((var(--ui3n-input-height) - 16px) / 2);
   color: var(--color-icon-control-secondary-default) !important;
 }
 
-.iconDisabled {
+.ui3nInputIconDisabled {
   color: v-bind(cssIconColor) !important;
 }
 
@@ -285,18 +304,18 @@ function validate(text: string) {
   z-index: 2;
 }
 
-.fieldMessage {
+.ui3nInputFieldMessage {
   font-style: italic;
   font-size: var(--font-10);
   font-weight: 400;
   line-height: 1.4;
   margin-top: 2px;
 
-  &.errorMessage {
+  &.ui3nInputErrorMessage {
     color: var(--error-content-default);
   }
 
-  &.successMessage {
+  &.ui3nInputSuccessMessage {
     color: var(--success-content-default)
   }
 }
@@ -310,22 +329,22 @@ function validate(text: string) {
 }
 
 .error {
-  .label {
+  .ui3nInputLabel {
     color: var(--error-content-default) !important;
   }
 
-  .field {
+  .ui3nInputField {
     outline: 1px solid var(--error-content-default) !important;
   }
 }
 
 .success {
-  .label {
+  .ui3nInputLabel {
     color: var(--success-content-default) !important;
   }
 }
 
-.successIcon {
+.ui3nInputSuccessIcon {
   position: absolute;
   right: var(--spacing-s);
   bottom: var(--spacing-s);
@@ -337,11 +356,11 @@ function validate(text: string) {
 }
 
 .withLabel {
-  .icon {
+  .ui3nInputIcon {
     top: calc((var(--ui3n-input-height) - 16px) / 2 + 20px);
   }
 
-  .successIcon {
+  .ui3nInputSuccessIcon {
     bottom: auto;
     top: calc((var(--ui3n-input-height) - 16px) / 2 + 20px);
   }

@@ -75,7 +75,7 @@ const onClick = (ev: MouseEvent) => {
 <template>
   <div
     ref="tabs"
-    :class="[$style.tabs, itemDirection === 'vertical' && $style.vertical]"
+    :class="[$style.ui3nTabs, itemDirection === 'vertical' && $style.vertical]"
     v-on="children ? { click: onClick } : {}"
   >
     <slot />
@@ -85,7 +85,7 @@ const onClick = (ev: MouseEvent) => {
 <style lang="scss" module>
 @import "../../assets/styles/mixins";
 
-.tabs {
+.ui3nTabs {
   --ui3n-tabs-height: 48px;
 
   position: relative;

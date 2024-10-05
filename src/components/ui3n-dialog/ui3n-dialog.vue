@@ -53,19 +53,19 @@ onMounted(() => {
   }
 });
 
-const selectData = (value: any) => {
+function selectData(value: any) {
   data.value = value;
   if (!dialogProps.value.confirmButton && !dialogProps.value.cancelButton && props.dialogProps?.onConfirm) {
     props.dialogProps?.onConfirm(data.value);
     closeDialog();
   }
-};
+}
 
-const validate = (value: boolean) => {
+function validate(value: boolean) {
   isValid.value = value;
-};
+}
 
-const closeDialog = (arg?: { ev?: Event; withAction?: boolean }) => {
+function closeDialog(arg?: { ev?: Event; withAction?: boolean }) {
   const { ev, withAction = true } = arg || {};
   if (ev) {
     ev.stopImmediatePropagation();
@@ -76,9 +76,9 @@ const closeDialog = (arg?: { ev?: Event; withAction?: boolean }) => {
   if (withAction) {
     emits('close');
   }
-};
+}
 
-const startEmit = (event: Ui3nDialogEvent) => {
+function startEmit(event: Ui3nDialogEvent) {
   if (event === 'click-overlay') {
     emits(event);
     closeDialog();
@@ -101,13 +101,13 @@ const startEmit = (event: Ui3nDialogEvent) => {
     // @ts-ignore
     emits(event);
   }
-};
+}
 
-const handleEvent = (event: Event, eventName: Ui3nDialogEvent) => {
+function handleEvent(event: Event, eventName: Ui3nDialogEvent) {
   event.stopImmediatePropagation();
   event.preventDefault();
   startEmit(eventName);
-};
+}
 </script>
 
 <template>

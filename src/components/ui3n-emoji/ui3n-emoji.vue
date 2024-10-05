@@ -49,7 +49,7 @@ const onClick = (ev: Event) => {
 <template>
   <div
     ref="emojiElement"
-    :class="[$style.emoji, readonly && $style.readonly]"
+    :class="[$style.Ui3nEmoji, readonly && $style.readonly]"
     v-on="readonly ? {} : { 'click': onClick }"
   >
     {{ emojiData && emojiData.value }}
@@ -57,7 +57,7 @@ const onClick = (ev: Event) => {
 </template>
 
 <style lang="scss" module>
-.emoji {
+.Ui3nEmoji {
   --ui3n-emoji-size: 16px;
 
   display: flex;

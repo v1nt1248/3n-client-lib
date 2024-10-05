@@ -37,9 +37,9 @@ const style = computed(() => {
   <!-- eslint-disable vue/no-multiple-template-root -->
   <div
     v-if="hasDefaultSlot"
-    :class="$style.badge"
+    :class="$style.ui3nBadge"
   >
-    <div :class="$style.wrapper">
+    <div :class="$style.ui3nBadgeWrapper">
       <slot />
 
       <ui3n-badge-simple
@@ -48,7 +48,7 @@ const style = computed(() => {
         :color="color"
         :text-color="textColor"
         :style="style"
-        :class="$style.content"
+        :class="$style.ui3nBadgeContent"
         @change:size="badgeElementSize = $event"
       />
     </div>
@@ -64,18 +64,18 @@ const style = computed(() => {
 </template>
 
 <style lang="scss" module>
-.badge {
+.ui3nBadge {
   --ui3n-badge-size: 20px;
 
   position: relative;
 }
 
-.wrapper {
+.ui3nBadgeWrapper {
   position: relative;
   width: max-content;
 }
 
-.content {
+.ui3nBadgeContent {
   position: absolute;
   z-index: 5;
 }

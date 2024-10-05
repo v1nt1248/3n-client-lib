@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, onMounted, watch, onBeforeMount, ref, useSlots } from 'vue';
+import { computed, onMounted, watch, onBeforeMount, ref, useCssModule, useSlots } from 'vue';
 import type { Ui3nCheckboxEmits, Ui3nCheckboxProps, Ui3nCheckboxSlots, Ui3nCheckboxValue } from './types';
 
 const props = withDefaults(
@@ -18,6 +18,8 @@ const emits = defineEmits<Ui3nCheckboxEmits>();
 defineSlots<Ui3nCheckboxSlots>();
 
 const slots = useSlots();
+const $css = useCssModule();
+
 const checkboxEl = ref<HTMLDivElement | null>(null);
 const val = ref<Ui3nCheckboxValue>(props.uncheckedValue || false);
 const uncertain = ref(false);
@@ -30,6 +32,23 @@ const checkBoxValue = computed(() => {
   return val.value === props.checkedValue
     ? 'checked'
     : 'unchecked';
+});
+
+const mainCssClasses = computed(() => {
+  const val = [$css.ui3nCheckbox];
+
+  props.disabled && val.push($css.disabled);
+  !slots.default && val.push($css.noLabel);
+
+  return val;
+});
+
+const bodyCssClasses = computed(() => {
+  const val = [$css.ui3nCheckboxBody];
+
+  checkBoxValue.value === 'unchecked' ? val.push($css.unfilled) : val.push($css.filled);
+
+  return val;
 });
 
 onBeforeMount(() => {
@@ -99,10 +118,10 @@ function change() {
 <template>
   <div
     ref="checkboxEl"
-    :class="[$style.checkbox, disabled && $style.disabled, !slots.default && $style.noLabel]"
+    :class="mainCssClasses"
   >
     <div
-      :class="[$style.body, checkBoxValue === 'unchecked' ? $style.unfilled : $style.filled]"
+      :class="bodyCssClasses"
       @click="change"
     >
       <svg
@@ -112,7 +131,7 @@ function change() {
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        :class="$style.icon"
+        :class="$style.ui3nCheckboxIcon"
       >
         <g id="SVGRepo_bgCarrier" stroke-width="0" />
         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
@@ -128,7 +147,7 @@ function change() {
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        :class="$style.icon"
+        :class="$style.ui3nCheckboxIcon"
       >
         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -139,7 +158,7 @@ function change() {
     </div>
 
     <div
-      :class="$style.label"
+      :class="$style.ui3nCheckboxLabel"
       @click="change"
     >
       <slot />
@@ -150,7 +169,7 @@ function change() {
 <style lang="scss" module>
 @import "../../assets/styles/mixins";
 
-.checkbox {
+.ui3nCheckbox {
   --ui3n-checkbox-size: 16px;
   --ui3n-checkbox-color: var(--color-icon-control-accent-default);
   --ui3n-checkbox-text-size: 12px;
@@ -169,7 +188,7 @@ function change() {
   gap: 0;
 }
 
-.body {
+.ui3nCheckboxBody {
   position: relative;
   display: flex;
   width: var(--ui3n-checkbox-size);
@@ -201,12 +220,12 @@ function change() {
   }
 }
 
-.icon {
+.ui3nCheckboxIcon {
   min-height: calc(var(--ui3n-checkbox-size) - 4px);
   min-width: calc(var(--ui3n-checkbox-size) - 4px);
 }
 
-.label {
+.ui3nCheckboxLabel {
   font-size: var(--ui3n-checkbox-text-size);
   font-weight: var(--ui3n-checkbox-text-weight);
   color: var(--ui3n-checkbox-text-color);

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted } from 'vue';
+import { computed, onMounted, useCssModule } from 'vue';
 import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
 import Ui3nButton from '../ui3n-button/ui3n-button.vue';
 import type { Ui3nNotificationProps } from './types';
@@ -43,6 +43,19 @@ const stylesByTypes = {
   },
 };
 
+const $css = useCssModule();
+
+const mainCssClasses = computed(() => {
+  const val = [$css.ui3nNotification, $css[`${props.type}Type`], $css[`${props.position}Position`]];
+  props.withIcon && val.push($css.withIcon);
+
+  return val;
+});
+
+function closeNotification() {
+  props.onClose();
+}
+
 onMounted(() => {
   if (props.duration > 500) {
     setTimeout(() => {
@@ -50,29 +63,25 @@ onMounted(() => {
     }, props.duration);
   }
 });
-
-const closeNotification = () => {
-  props.onClose();
-};
 </script>
 
 <template>
   <div
     :id="id"
-    :class="[$style.notification, $style[`${type}Type`], $style[`${position}Position`], withIcon && $style.withIcon]"
+    :class="mainCssClasses"
   >
-    <div v-if="withIcon" :class="$style.icon">
+    <div v-if="withIcon" :class="$style.ui3nNotificationIcon">
       <ui3n-icon
-        :icon="stylesByTypes[type].icon"
+        :icon="stylesByTypes[type!].icon"
         width="16"
         height="16"
-        :rotate="stylesByTypes[type].iconRotate"
-        :color="stylesByTypes[type].iconColor"
+        :rotate="stylesByTypes[type!].iconRotate"
+        :color="stylesByTypes[type!].iconColor"
       />
     </div>
 
 
-    <div :class="$style.content">
+    <div :class="$style.ui3nNotificationContent">
       {{ content }}
     </div>
 
@@ -82,7 +91,7 @@ const closeNotification = () => {
       size="small"
       color="transparent"
       icon="round-close"
-      :icon-color="stylesByTypes[type].color"
+      :icon-color="stylesByTypes[type!].color"
       :class="$style.closeBtn"
       @click="closeNotification"
     />
@@ -90,7 +99,7 @@ const closeNotification = () => {
 </template>
 
 <style lang="scss" module>
-.notification {
+.ui3nNotification {
   --ui3n-notification-width: 380px;
 
   display: flex;
@@ -110,7 +119,7 @@ const closeNotification = () => {
   justify-content: flex-start;
 }
 
-.icon {
+.ui3nNotificationIcon {
   position: relative;
   min-width: var(--spacing-l);
   width: var(--spacing-l);
@@ -122,7 +131,7 @@ const closeNotification = () => {
   align-items: center;
 }
 
-.content {
+.ui3nNotificationContent {
   position: relative;
   flex-grow: 2;
   font-size: var(--font-12);
@@ -140,11 +149,11 @@ const closeNotification = () => {
 .infoType {
   background-color: var(--info-fill-default);
 
-  .icon {
+  .ui3nNotificationIcon {
     background-color: var(--info-content-default);
   }
 
-  .content {
+  .ui3nNotificationContent {
     color: var(--info-content-default);
   }
 }
@@ -152,11 +161,11 @@ const closeNotification = () => {
 .successType {
   background-color: var(--success-fill-default);
 
-  .icon {
+  .ui3nNotificationIcon {
     background-color: var(--success-content-default);
   }
 
-  .content {
+  .ui3nNotificationContent {
     color: var(--success-content-default);
   }
 }
@@ -164,11 +173,11 @@ const closeNotification = () => {
 .warningType {
   background-color: var(--warning-fill-default);
 
-  .icon {
+  .ui3nNotificationIcon {
     background-color: var(--warning-content-default);
   }
 
-  .content {
+  .ui3nNotificationContent {
     color: var(--warning-content-default);
   }
 }
@@ -176,11 +185,11 @@ const closeNotification = () => {
 .errorType {
   background-color: var(--error-fill-default);
 
-  .icon {
+  .ui3nNotificationIcon {
     background-color: var(--error-content-default);
   }
 
-  .content {
+  .ui3nNotificationContent {
     color: var(--error-content-default);
   }
 }

@@ -93,7 +93,7 @@ watch(isPositioned, val => {
 </script>
 
 <template>
-  <div :class="$style.tooltip">
+  <div :class="$style.ui3nTooltip">
     <div
       ref="referenceEl"
       :class="$style.reference"
@@ -126,7 +126,7 @@ watch(isPositioned, val => {
 </template>
 
 <style lang="scss" module>
-.tooltip {
+.ui3nTooltip {
   --ui3n-tooltip-bg-color: v-bind(color);
   --ui3n-tooltip-text-color: v-bind(textColor);
 

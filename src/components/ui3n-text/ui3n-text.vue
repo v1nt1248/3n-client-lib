@@ -94,7 +94,7 @@ function onEscapeKeydown(event: KeyboardEvent) {
 </script>
 
 <template>
-  <div :class="[$style.text, disabled && $style.disabled, isFocused && $style.focused]">
+  <div :class="[$style.ui3nText, disabled && $style.disabled, isFocused && $style.focused]">
     <label v-if="label" :class="$style.label">
       {{ label }}
     </label>
@@ -120,7 +120,7 @@ function onEscapeKeydown(event: KeyboardEvent) {
 </template>
 
 <style lang="scss" module>
-.text {
+.ui3nText {
   position: relative;
   width: 100%;
   border-radius: var(--spacing-xs);

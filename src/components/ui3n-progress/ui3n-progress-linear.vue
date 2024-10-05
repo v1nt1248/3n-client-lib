@@ -27,7 +27,7 @@ const displayValue = computed(() => props.indeterminate
 </script>
 
 <template>
-  <div :class="[$style.progress, indeterminate && $style.indeterminate]">
+  <div :class="[$style.ui3nProgressLinear, indeterminate && $style.indeterminate]">
     <div
       v-if="isValueShown && innerHeight < thresholdHeight"
       :class="[$style.text, $style.above]"
@@ -49,7 +49,7 @@ const displayValue = computed(() => props.indeterminate
 </template>
 
 <style lang="scss" module>
-.progress {
+.ui3nProgressLinear {
   --ui3n-progress-linear-height: v-bind(cssHeight);
   --ui3n-progress-linear-bg: v-bind(bgColor);
   --ui3n-progress-linear-color: v-bind(color);

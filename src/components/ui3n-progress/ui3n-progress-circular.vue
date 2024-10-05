@@ -80,7 +80,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="element" :class="[$style.progress, indeterminate && $style.indeterminate]">
+  <div ref="element" :class="[$style.ui3nProgressCircular, indeterminate && $style.indeterminate]">
     <svg :height="innerSize" :width="innerSize" :class="$style.pie" xmlns="http://www.w3.org/2000/svg">
       <circle :class="$style.background" :r="circleRadius" cx="50%" cy="50%" />
       <circle :class="$style.chart" :r="circleRadius" cx="50%" cy="50%" :stroke-dasharray="strokeDasharray" />
@@ -96,7 +96,7 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss" module>
-.progress {
+.ui3nProgressCircular {
   --ui3n-progress-circular-size: v-bind(cssSize);
   --ui3n-progress-circular-width: v-bind(cssWidth);
   --ui3n-progress-circular-font-size: v-bind(fontSize);

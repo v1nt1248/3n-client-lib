@@ -8,7 +8,6 @@ import type {
 } from './types';
 
 const props = withDefaults(defineProps<Ui3nRadioGroupProps>(), {
-  modelValue: false,
   direction: 'vertical',
   disabled: false,
 });
@@ -41,7 +40,7 @@ watch(
 <template>
   <div
     :class="[
-      $style.radioGroup,
+      $style.ui3nRadioGroup,
       direction === 'horizontal' && $style.horizontal,
     ]"
   >
@@ -50,17 +49,17 @@ watch(
 </template>
 
 <style lang="scss" module>
-.radioGroup {
+.ui3nRadioGroup {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 4px;
+  gap: var(--spacing-xs);
 
   &.horizontal {
     flex-direction: row;
-    column-gap: 8px;
+    column-gap: var(--spacing-s);
   }
 }
 </style>

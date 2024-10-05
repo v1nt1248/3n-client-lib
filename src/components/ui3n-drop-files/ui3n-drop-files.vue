@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import type { Ui3nDropFilesEmits, Ui3nDropFilesProps, Ui3nDropFilesSlots } from './types';
 
-const props = withDefaults(
+withDefaults(
   defineProps<Ui3nDropFilesProps>(),
   {
     title: 'Upload',
@@ -67,7 +67,7 @@ const onDrop = (ev: DragEvent) => {
   <!-- eslint-disable max-len -->
   <div
     ref="wrapperElement"
-    :class="$style.dropFiles"
+    :class="$style.ui3nDropFiles"
     @dragenter="onDragenter"
     @dragleave="onDragleave"
   >
@@ -75,17 +75,17 @@ const onDrop = (ev: DragEvent) => {
 
     <div
       v-if="isOverDropPlace || isOverDropZone"
-      :class="$style.dropzone"
+      :class="$style.ui3nDropFilesDropzone"
       @dragenter="onDropzoneDragenter"
       @dragover="onDropzoneDragover"
       @dragleave="onDropzoneDragleave"
       @drop="onDrop"
     >
-      <div :class="$style.dropzoneBorder" />
-      <h3 :class="$style.dropzoneTitle">
+      <div :class="$style.ui3nDropFilesDropzoneBorder" />
+      <h3 :class="$style.ui3nDropFilesDropzoneTitle">
         {{ title }}
       </h3>
-      <div :class="$style.dropzoneIcon">
+      <div :class="$style.ui3nDropFilesDropzoneIcon">
         <svg
           :width="wrapperElementHeight / 2"
           :height="wrapperElementHeight / 2"
@@ -99,18 +99,18 @@ const onDrop = (ev: DragEvent) => {
           />
         </svg>
       </div>
-      <div v-if="props.text" :class="$style.dropzoneText">
-        {{ props.text }}
+      <div v-if="text" :class="$style.ui3nDropFilesDropzoneText">
+        {{ text }}
       </div>
-      <div v-if="props.additionalText" :class="$style.dropzoneText">
-        {{ props.additionalText }}
+      <div v-if="additionalText" :class="$style.ui3nDropFilesDropzoneText">
+        {{ additionalText }}
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" module>
-.dropFiles {
+.ui3nDropFiles {
   --dropzone-height: 0;
   --dropzone-title-font: 0;
 
@@ -120,7 +120,7 @@ const onDrop = (ev: DragEvent) => {
   height: 100%;
 }
 
-.dropzone {
+.ui3nDropFilesDropzone {
   box-sizing: border-box;
   position: absolute;
   background-color: var(--white-0);
@@ -133,7 +133,7 @@ const onDrop = (ev: DragEvent) => {
   z-index: 5;
 }
 
-.dropzoneBorder {
+.ui3nDropFilesDropzoneBorder {
   box-sizing: border-box;
   position: absolute;
   top: calc(var(--spacing-s) + 1px);
@@ -145,7 +145,7 @@ const onDrop = (ev: DragEvent) => {
   pointer-events: none;
 }
 
-.dropzoneTitle {
+.ui3nDropFilesDropzoneTitle {
   margin: 0 0 var(--dropzone-title-font);
   font-size: var(--dropzone-title-font);
   font-weight: 600;
@@ -153,7 +153,7 @@ const onDrop = (ev: DragEvent) => {
   pointer-events: none;
 }
 
-.dropzoneIcon {
+.ui3nDropFilesDropzoneIcon {
   position: relative;
   width: calc(var(--dropzone-height) * 0.4);
   height: calc(var(--dropzone-height) * 0.4);
@@ -165,7 +165,7 @@ const onDrop = (ev: DragEvent) => {
   pointer-events: none;
 }
 
-.dropzoneText {
+.ui3nDropFilesDropzoneText {
   margin-top: var(--spacing-ml);
   font-size: var(--font-12);
   line-height: var(--font-16);
@@ -173,7 +173,7 @@ const onDrop = (ev: DragEvent) => {
   color: var(--fill-pressed);
 }
 
-.dropzoneAdditional {
+.ui3nDropFilesDropzoneAdditional {
   margin-top: var(--spacing-xs);
   font-size: var(--font-12);
   font-weight: 500;
