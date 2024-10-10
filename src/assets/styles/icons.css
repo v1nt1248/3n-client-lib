@@ -16,12 +16,28 @@
   mask-size: 100% 100%;
 }
 
+.ui3n-icon__ad-group-outline {
+  --svg: url('../icons/material-symbols--ad-group-outline.svg');
+}
+
+.ui3n-icon__drag-pan {
+  --svg: url('../icons/material-symbols--drag-pan.svg');
+}
+
+.ui3n-icon__expand-screen {
+  --svg: url('../icons/ci--expand.svg');
+}
+
 .ui3n-icon__outline-account-circle {
   --svg: url('../icons/ic--outline-account-circle.svg');
 }
 
 .ui3n-icon__outline-arrow-drop-down {
   --svg: url('../icons/ic--outline-arrow-drop-down.svg');
+}
+
+.ui3n-icon__outline-bookmark-add {
+  --svg: url('../icons/ic--outline-bookmark-add.svg');
 }
 
 .ui3n-icon__outline-chat {
@@ -52,6 +68,14 @@
   --svg: url('../icons/ic--outline-folder.svg');
 }
 
+.ui3n-icon__outline-folder-open {
+  --svg: url('../icons/material-symbols--folder-open-outline.svg');
+}
+
+.ui3n-icon__outline-image {
+  --svg: url('../icons/ic--outline-image.svg');
+}
+
 .ui3n-icon__outline-info {
   --svg: url('../icons/ic--outline-info.svg');
 }
@@ -64,6 +88,14 @@
   --svg: url('../icons/ic--outline-mail.svg');
 }
 
+.ui3n-icon__outline-markdown-copy {
+  --svg: url('../icons/material-symbols--markdown-copy-outline-rounded.svg');
+}
+
+.ui3n-icon__outline-person-add {
+  --svg: url('../icons/ic--outline-person-add-alt.svg');
+}
+
 .ui3n-icon__outline-reply-all {
   --svg: url('../icons/ic--outline-reply-all.svg');
 }
@@ -72,12 +104,32 @@
   --svg: url('../icons/ic--outline-reply.svg');
 }
 
+.ui3n-icon__outline-screen-share {
+  --svg: url('../icons/ic--outline-screen-share.svg');
+}
+
 .ui3n-icon__outline-settings {
   --svg: url('../icons/ic--outline-settings.svg');
 }
 
+.ui3n-icon__outline-stop-screen-share {
+  --svg: url('../icons/ic--outline-stop-screen-share.svg');
+}
+
+.ui3n-icon__outline-table-chart {
+  --svg: url('../icons/ic--outline-table-chart.svg');
+}
+
 .ui3n-icon__outline-upload-file {
   --svg: url('../icons/ic--outline-upload-file.svg');
+}
+
+.ui3n-icon__outline-videocam-off {
+  --svg: url('../icons/ic--outline-videocam-off.svg');
+}
+
+.ui3n-icon__outline-videocam {
+  --svg: url('../icons/ic--outline-videocam.svg');
 }
 
 .ui3n-icon__outline-wb-sunny {
@@ -86,6 +138,10 @@
 
 .ui3n-icon__round-add-circle-outline {
   --svg: url('../icons/ic--round-add-circle-outline.svg');
+}
+
+.ui3n-icon__round-add {
+  --svg: url('../icons/ic--round-add.svg');
 }
 
 .ui3n-icon__round-arrow-back {
@@ -114,6 +170,10 @@
 
 .ui3n-icon__round-brush {
   --svg: url('../icons/ic--round-brush.svg');
+}
+
+.ui3n-icon__round-call-end {
+  --svg: url('../icons/ic--round-call-end.svg');
 }
 
 .ui3n-icon__round-check-box-outline-blank {
@@ -160,6 +220,10 @@
   --svg: url('../icons/ic--round-folder.svg');
 }
 
+.ui3n-icon__round-headphones {
+  --svg: url('../icons/ic--round-headphones.svg');
+}
+
 .ui3n-icon__round-home {
   --svg: url('../icons/ic--round-home.svg');
 }
@@ -180,12 +244,44 @@
   --svg: url('../icons/ic--round-logout.svg');
 }
 
+.ui3n-icon__round-mic-none {
+  --svg: url('../icons/ic--round-mic-none.svg');
+}
+
+.ui3n-icon__round-mic-off {
+  --svg: url('../icons/ic--round-mic-off.svg');
+}
+
 .ui3n-icon__round-person-outline {
   --svg: url('../icons/ic--round-person-outline.svg');
 }
 
 .ui3n-icon__round-person {
   --svg: url('../icons/ic--round-person.svg');
+}
+
+.ui3n-icon__round-phone-disabled {
+  --svg: url('../icons/ic--round-phone-disabled.svg');
+}
+
+.ui3n-icon__round-phone-in-talk {
+  --svg: url('../icons//ic--round-phone-in-talk.svg');
+}
+
+.ui3n-icon__round-phone-locked {
+  --svg: url('../icons/ic--round-phone-locked.svg');
+}
+
+.ui3n-icon__round-phone-missed {
+  --svg: url('../icons/ic--round-phone-missed.svg');
+}
+
+.ui3n-icon__round-phone-paused {
+  --svg: url('../icons/ic--round-phone-paused.svg');
+}
+
+.ui3n-icon__round-phone {
+  --svg: url('../icons/ic--round-phone.svg');
 }
 
 .ui3n-icon__round-refresh {
@@ -208,6 +304,10 @@
   --svg: url('../icons/ic--round-send.svg');
 }
 
+.ui3n-icon__round-share {
+  --svg: url('../icons/ic--round-share.svg');
+}
+
 .ui3n-icon__round-subject {
   --svg: url('../icons/ic--round-subject.svg');
 }
@@ -216,6 +316,14 @@
   --svg: url('../icons/ic--round-system-update-alt.svg');
 }
 
+.ui3n-icon__round-table-chart {
+  --svg: url('../icons/ic--round-table-chart.svg');
+}
+
 .ui3n-icon__round-warning {
   --svg: url('../icons/ic--round-warning.svg');
+}
+
+.ui3n-icon__sharp-people {
+  --svg: url('../icons/ic--sharp-people.svg');
 }
