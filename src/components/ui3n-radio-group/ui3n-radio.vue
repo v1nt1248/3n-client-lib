@@ -57,15 +57,30 @@ const val = ref<Ui3nRadioValue>(groupName ? groupValue!.value : props.modelValue
 
 const isOn = computed(() => val.value === props.checkedValue);
 
-function change() {
-  val.value = isOn.value ? props.uncheckedValue : props.checkedValue;
+function change(ev: Event) {
+  ev.preventDefault();
 
-  if (groupName) {
-    isOn.value && updateGroupValue!(val.value);
-  } else {
+  if (!groupName) {
+    val.value = isOn.value ? props.uncheckedValue : props.checkedValue;
     emits('change', val.value);
     emits('update:modelValue', val.value);
+    return;
   }
+
+  if (isOn.value) {
+    return;
+  }
+
+  val.value = props.checkedValue;
+  updateGroupValue!(val.value);
+
+
+  // if (groupName) {
+  //   isOn.value && updateGroupValue!(val.value);
+  // } else {
+  //   emits('change', val.value);
+  //   emits('update:modelValue', val.value);
+  // }
 }
 
 onBeforeMount(() => {
@@ -132,6 +147,9 @@ watch(
   >
     <div
       :class="[$style.body, disabled && $style.bodyDisabled]"
+      :tabindex="disabled ? -1 : 0"
+      @keydown.enter="change"
+      @keydown.space="change"
       @click="change"
     >
       <slot

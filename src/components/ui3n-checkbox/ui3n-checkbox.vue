@@ -101,7 +101,9 @@ watch(
   },
 );
 
-function change() {
+function change(ev: Event) {
+  ev.preventDefault();
+
   val.value = checkBoxValue.value !== 'unchecked'
     ? props.uncheckedValue
     : props.checkedValue;
@@ -122,6 +124,9 @@ function change() {
   >
     <div
       :class="bodyCssClasses"
+      :tabindex="disabled ? -1 : 0"
+      @keydown.space="change"
+      @keydown.enter="change"
       @click="change"
     >
       <svg

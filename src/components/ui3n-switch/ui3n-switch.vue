@@ -32,7 +32,9 @@ watch(
   { immediate: true },
 );
 
-function change() {
+function change(ev: Event) {
+  ev.preventDefault();
+
   val.value = !val.value;
   emits('change', val.value);
   emits('update:modelValue', val.value);
@@ -45,7 +47,13 @@ function change() {
     :class="[$style.ui3nSwitch, val && $style.checked, !slots.default && $style.noLabel, disabled && $style.disabled]"
   >
     <Transition>
-      <div :class="$style.body" @click="change">
+      <div
+        :class="$style.body"
+        :tabindex="disabled ? -1 : 0"
+        @keydown.enter="change"
+        @keydown.space="change"
+        @click="change"
+      >
         <div :class="[$style.dot, val ? $style.right : $style.left]" />
       </div>
     </Transition>
