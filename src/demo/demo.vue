@@ -186,6 +186,7 @@ function prepareVList() {
 
 function openDialog() {
   const component = defineAsyncComponent(() => import('./test-dialog.vue'));
+  // @ts-ignore
   dialogs.$openDialog<typeof component, ExtractComponentProps<typeof component>>({
     component,
     componentProps: {

@@ -78,10 +78,11 @@ function closeDialog(arg?: { ev?: Event; withAction?: boolean }) {
   }
 }
 
-function startEmit(event: Ui3nDialogEvent) {
+function startEmit(event: Ui3nDialogEvent, ev?: Event) {
   if (event === 'click-overlay') {
     emits(event);
-    closeDialog();
+    dialogProps.value.closeOnClickOverlay && closeDialog({ ev });
+    return;
   }
 
   if (event === 'confirm') {
@@ -114,7 +115,7 @@ function handleEvent(event: Event, eventName: Ui3nDialogEvent) {
   <div
     v-if="show"
     :class="$style.overlay"
-    @click="dialogProps.closeOnClickOverlay ? closeDialog({ ev: $event }) : startEmit('click-overlay')"
+    @click="startEmit('click-overlay', $event)"
   >
     <div
       ref="dialogElement"
