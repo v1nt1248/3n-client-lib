@@ -69,7 +69,6 @@ function onBlur(event: Event) {
 }
 
 function onInput(event: Event) {
-  console.log('onInput!');
   const value = (event.target as HTMLInputElement).value;
   validate(value);
   emit('update:text', value);
@@ -77,7 +76,6 @@ function onInput(event: Event) {
 }
 
 function onEnterKeydown(event: KeyboardEvent) {
-  console.log('onEnterKeydown: ', event);
   const { altKey, ctrlKey, shiftKey, metaKey, target } = event;
   const value = (target as HTMLInputElement).value;
   validate(value);
