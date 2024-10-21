@@ -172,7 +172,7 @@ function change(ev: Event) {
 </template>
 
 <style lang="scss" module>
-@import "../../assets/styles/mixins";
+@use '../../assets/styles/mixins' as mixins;
 
 .ui3nCheckbox {
   --ui3n-checkbox-size: 16px;
@@ -213,7 +213,7 @@ function change(ev: Event) {
   &:hover {
     border-color: hsl(from var(--ui3n-checkbox-color) h s calc(l - 10));
     background-color: hsl(from var(--ui3n-checkbox-color) h s calc(l - 10));
-    @include ripple(hsl(from var(--ui3n-checkbox-color) h s calc(l - 10)));
+    @include mixins.ripple(hsl(from var(--ui3n-checkbox-color) h s calc(l - 10)));
   }
 }
 
@@ -221,7 +221,7 @@ function change(ev: Event) {
   &:hover {
     border-color: hsl(from var(--ui3n-checkbox-color) h s calc(l - 10));
     background-color: hsl(from transparent h s calc(l - 10));
-    @include ripple(hsl(from transparent h s calc(l - 10)));
+    @include mixins.ripple(hsl(from transparent h s calc(l - 10)));
   }
 }
 

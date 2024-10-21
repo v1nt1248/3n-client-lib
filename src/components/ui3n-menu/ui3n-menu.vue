@@ -92,7 +92,7 @@ watch(
 </template>
 
 <style lang="scss" module>
-@import "../../assets/styles/mixins";
+@use '../../assets/styles/mixins' as mixins;
 
 .ui3nMenu {
   --ui3n-menu-content-bg: var(--color-bg-control-secondary-default);
@@ -112,6 +112,6 @@ watch(
   border-radius: 4px;
   background-color: var(--ui3n-menu-content-bg);
   z-index: 1000;
-  @include elevation(3);
+  @include mixins.elevation(3);
 }
 </style>

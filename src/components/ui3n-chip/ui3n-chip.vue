@@ -68,8 +68,6 @@ const mainCssClasses = computed(() => {
 </template>
 
 <style lang="scss" module>
-@import "../../assets/styles/mixins";
-
 .ui3nChip {
   position: relative;
   display: flex;

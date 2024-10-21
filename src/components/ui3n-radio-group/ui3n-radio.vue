@@ -196,7 +196,7 @@ watch(
 </template>
 
 <style lang="scss" module>
-@import "../../assets/styles/mixins";
+@use '../../assets/styles/mixins' as mixins;
 
 .ui3nRadio {
   --ui3n-radio-size: 16px;
@@ -241,7 +241,7 @@ watch(
   &:hover {
     cursor: pointer;
     background-color: hsl(from transparent h s calc(l - 10));
-    @include ripple(hsl(from transparent h s calc(l - 10)));
+    @include mixins.ripple(hsl(from transparent h s calc(l - 10)));
   }
 }
 

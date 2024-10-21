@@ -98,7 +98,8 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     if (isEmpty(props.body.rowsStyle) || !isRowKeyUsed.value) return {};
 
     const rowKey = row[currentConfig.value.fieldAsRowKey as keyof T] as string | number;
-    return get(props, ['body', 'rowsStyle', rowKey], {});
+    // @ts-expect-error
+    return get(props, ['body', 'rowsStyle', rowKey], {} as Record<string, string>);
   }
 
   function closeGroupActionsRow() {

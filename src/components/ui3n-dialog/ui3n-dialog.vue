@@ -192,7 +192,7 @@ function handleEvent(event: Event, eventName: Ui3nDialogEvent) {
 </template>
 
 <style lang="scss" module>
-@import '../../assets/styles/mixins';
+@use '../../assets/styles/mixins' as mixins;
 
 .overlay {
   position: fixed;
@@ -222,7 +222,8 @@ function handleEvent(event: Event, eventName: Ui3nDialogEvent) {
   background-color: var(--color-bg-block-primary-default);
   border-radius: var(--dialog-border-radius);
   outline: none;
-  @include elevation();
+
+  @include mixins.elevation();
 }
 
 .title {
@@ -238,7 +239,7 @@ function handleEvent(event: Event, eventName: Ui3nDialogEvent) {
   line-height: 1.2;
   color: var(--color-text-control-primary-default);
   border-bottom: 1px solid var(--color-border-block-primary-default);
-  @include text-overflow-ellipsis();
+  @include mixins.text-overflow-ellipsis();
 }
 
 .closeBtn {

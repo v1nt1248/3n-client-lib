@@ -83,7 +83,7 @@ const onClick = (ev: MouseEvent) => {
 </template>
 
 <style lang="scss" module>
-@import "../../assets/styles/mixins";
+@use '../../assets/styles/mixins' as mixins;
 
 .ui3nTabs {
   --ui3n-tabs-height: 48px;
@@ -101,7 +101,7 @@ const onClick = (ev: MouseEvent) => {
   position: relative;
   user-select: none;
   color: v-bind(inactiveColorValue);
-  @include ripple(var(--color-bg-control-secondary-default));
+  @include mixins.ripple(var(--color-bg-control-secondary-default));
 
   &:hover {
     background-color: var(--color-bg-control-secondary-default);

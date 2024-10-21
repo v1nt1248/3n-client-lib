@@ -211,8 +211,6 @@ watch(
 </template>
 
 <style lang="scss" module>
-@import "../../assets/styles/mixins";
-
 .ui3nInput {
   --ui3n-input-height: var(--spacing-l);
   --ui3n-input-padding-left: var(--spacing-s);

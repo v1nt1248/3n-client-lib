@@ -159,7 +159,7 @@ const eventsHandlers = {
 </template>
 
 <style lang="scss" module>
-@import "../../assets/styles/mixins.scss";
+@use '../../assets/styles/mixins' as mixins;
 
 .ui3nTable {
   --ui3n-table-columns-width: auto;
@@ -225,7 +225,7 @@ const eventsHandlers = {
   font-size: var(--font-14);
   font-weight: 500;
   color: var(--color-text-table-primary-default);
-  @include text-overflow-ellipsis;
+  @include mixins.text-overflow-ellipsis();
 }
 
 .sortableActive {

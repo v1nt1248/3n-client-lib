@@ -108,7 +108,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss" module>
-@import "../../assets/styles/mixins";
+@use '../../assets/styles/mixins' as mixins;
 
 .ui3nButton {
   --ui3n-button-padding: var(--spacing-m);
@@ -296,6 +296,6 @@ onMounted(() => {
 }
 
 .elevation {
-  @include elevation();
+  @include mixins.elevation();
 }
 </style>
