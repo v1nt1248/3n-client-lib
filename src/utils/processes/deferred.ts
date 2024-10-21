@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2015, 2017, 2019 - 2022 3NSoft Inc.
+ Copyright (C) 2015, 2017 3NSoft Inc.
  
  This program is free software: you can redistribute it and/or modify it under
  the terms of the GNU General Public License as published by the Free Software
@@ -15,6 +15,7 @@
  this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 export interface Deferred<T> {
 	promise: Promise<T>;
 	resolve: (result?: T|PromiseLike<T>) => void;
@@ -24,7 +25,7 @@ export interface Deferred<T> {
 export function defer<T>(): Deferred<T> {
 	const d = <Deferred<T>> {};
 	d.promise = new Promise<T>((resolve, reject) => {
-		d.resolve = resolve as Deferred<T>['resolve'];
+		d.resolve = resolve as (r: any) => void;
 		d.reject = reject;
 	});
 	Object.freeze(d);

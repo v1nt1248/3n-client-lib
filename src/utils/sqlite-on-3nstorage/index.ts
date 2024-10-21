@@ -16,7 +16,7 @@
 */
 import initSqljs from './sqljs';
 import { Database as DBClass, BindParams as QueryParams, QueryExecResult as QueryResult } from './types';
-import { SingleProc, Action } from './synced';
+import { SingleProc, Action } from '../processes/single';
 
 export type Database = DBClass;
 export type BindParams = QueryParams;
