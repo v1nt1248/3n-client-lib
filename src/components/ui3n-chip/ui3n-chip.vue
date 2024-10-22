@@ -47,7 +47,7 @@ const mainCssClasses = computed(() => {
 <template>
   <div :class="mainCssClasses">
     <div :class="$style.ui3nChipIcon">
-      <slot name="left" :size="iconHeight" :color="props.textColor" />
+      <slot name="left" :size="iconHeight" :color="textColor" />
     </div>
 
     <div :class="$style.ui3nChipBody">

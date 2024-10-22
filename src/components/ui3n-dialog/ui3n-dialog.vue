@@ -145,7 +145,7 @@ function handleEvent(event: Event, eventName: Ui3nDialogEvent) {
       />
 
       <div
-        v-if="props.component"
+        v-if="component"
         :class="[$style.content, ...dialogProps.contentCssClass]"
         :style="dialogProps.contentCssStyle"
         @click.stop

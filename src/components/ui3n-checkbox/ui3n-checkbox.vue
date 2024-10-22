@@ -185,7 +185,7 @@ function change(ev: Event) {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  min-height: var(--spacing-vl);
+  min-height: var(--spacing-m);
   gap: var(--spacing-s);
 }
 

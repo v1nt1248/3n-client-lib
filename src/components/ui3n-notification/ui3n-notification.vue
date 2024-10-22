@@ -86,7 +86,7 @@ onMounted(() => {
     </div>
 
     <ui3n-button
-      v-if="!props.duration"
+      v-if="!duration"
       type="icon"
       size="small"
       color="transparent"

@@ -110,7 +110,7 @@ watch(isPositioned, val => {
     >
       <slot name="content">
         <div :class="$style.content">
-          {{ props.content }}
+          {{ content }}
           <div
             ref="floatingArrowEl"
             :class="[$style.arrow, $style[`arrow-${mainPlacement}`]]"
