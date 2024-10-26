@@ -110,7 +110,7 @@ function change(ev: Event) {
   width: var(--ui3n-switch-dot-size);
   height: var(--ui3n-switch-dot-size);
   border-radius: 50%;
-  background-color: var(--white-0);
+  background-color: var(--color-bg-control-primary-default);
   top: 0;
   margin: calc(var(--ui3n-switch-size) / 8);
   transition: all 250ms ease-in-out;

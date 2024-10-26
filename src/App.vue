@@ -13,7 +13,7 @@ import Demo from './demo/demo.vue';
 #ui-3n-lib {
   position: fixed;
   inset: 0;
-  background-color: var(--white-0);
+  background-color: var(--white-100);
 }
 </style>
 

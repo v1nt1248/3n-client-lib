@@ -123,7 +123,7 @@ const onDrop = (ev: DragEvent) => {
 .ui3nDropFilesDropzone {
   box-sizing: border-box;
   position: absolute;
-  background-color: var(--white-0);
+  background-color: var(--color-bg-block-primary-default);
   display: flex;
   flex-direction: column;
   justify-content: center;

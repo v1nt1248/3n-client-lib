@@ -550,7 +550,7 @@ function onResize(val: Ui3nResizeCbArg) {
         height="16"
         max-width="150"
         color="var(--color-icon-table-accent-default)"
-        text-color="var(--white-0)"
+        text-color="var(--white-100)"
         text-size="9"
       >
         DOCX
@@ -1099,7 +1099,7 @@ function onResize(val: Ui3nResizeCbArg) {
     position: relative;
     width: 720px;
     height: 360px;
-    background-color: var(--white-0);
+    background-color: var(--white-100);
     overflow-y: hidden;
   }
 

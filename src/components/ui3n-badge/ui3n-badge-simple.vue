@@ -57,7 +57,7 @@ function getElementSize() {
   position: relative;
   box-sizing: border-box;
   background-color: v-bind(color);
-  outline: 1px var(--white-0) solid;
+  outline: 1px var(--white-100) solid;
 
   &:not(.ui3nBadgeDot) {
     min-height: var(--ui3n-badge-size);

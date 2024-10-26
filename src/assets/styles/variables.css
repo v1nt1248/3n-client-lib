@@ -6,10 +6,15 @@
   --spacing-l: 32px;
   --spacing-xl: 40px;
   --spacing-xxl: 48px;
-  --white-0: #fff;
+
   --white-inf: rgba(255, 255, 255, 0);
-  --black-0: #000;
+  --white-100: #fff;
   --black-inf: rgba(0, 0, 0, 0);
+  --black-4: rgba(0, 0, 0, 0.04);
+  --black-8: rgba(0, 0, 0, 0.08);
+  --black-12: rgba(0, 0, 0, 0.12);
+  --black-24: rgba(0, 0, 0, 0.24);
+  --black-100: #000;
   --red-0: #feeeed;
   --red-5: #fcd9d6;
   --red-10: #fbc3bf;
@@ -95,6 +100,7 @@
   --files-pdf-secondary: #fdc7c3;
   --files-image-primary: #4744e4;
   --files-image-secondary: #c9c8ff;
+
   --font-6: 6px;
   --font-8: 8px;
   --font-9: 9px;
@@ -111,12 +117,15 @@
 }
 
 .default-theme {
+  --shadow-close: var(--black-4);
+  --shadow-far: var(--black-8);
   --global-default: var(--grey-5);
-  --default-fill-default: var(--white-0);
+  --global-subdefault: var(--grey-10);
+  --default-fill-default: var(--white-100);
   --default-fill-hover: var(--grey-10);
-  --default-fill-focused: var(--white-0);
+  --default-fill-focused: var(--white-100);
   --default-fill-pressed: var(--grey-20);
-  --default-fill-disabled: var(--white-0);
+  --default-fill-disabled: var(--white-100);
   --default-content-default: var(--grey-95);
   --default-content-hover: var(--grey-95);
   --default-content-focused: var(--grey-95);
@@ -132,7 +141,7 @@
   --default-outline-focused: var(--grey-50);
   --default-outline-pressed: var(--grey-10);
   --default-outline-disabled: var(--grey-5);
-  --default-outline-ghost: var(--white-0);
+  --default-outline-ghost: var(--white-100);
   --s-default-fill-default: var(--grey-5);
   --s-default-fill-hover: var(--grey-15);
   --s-default-fill-focused: var(--grey-0);
@@ -190,9 +199,9 @@
   --accent-outline-pressed: var(--blue-70);
   --accent-outline-disabled: var(--blue-10);
   --accent-outline-ghost: var(--white-inf);
-  --s-accent-fill-default: var(--white-0);
+  --s-accent-fill-default: var(--white-100);
   --s-accent-fill-hover: var(--blue-10);
-  --s-accent-fill-focused: var(--white-0);
+  --s-accent-fill-focused: var(--white-100);
   --s-accent-fill-pressed: var(--blue-70);
   --s-accent-fill-disabled: var(--blue-0);
   --s-accent-content-default: var(--blue-50);
@@ -270,7 +279,10 @@
 }
 
 .dark-theme {
-  --global-default: var(--blue-90);
+  --shadow-close: var(--black-12);
+  --shadow-far: var(--black-24);
+  --global-default: var(--blue-95);
+  --global-subdefault: var(--blue-90);
   --default-fill-default: var(--blue-100);
   --default-fill-hover: var(--blue-85);
   --default-fill-focused: var(--blue-100);
@@ -496,6 +508,7 @@
   --color-bg-table-header-selected: var(--s-accent-fill-hover);
   --color-bg-table-header-unselected: var(--s-accent-fill-hover);
   --color-bg-chat-bubble-general-bg: var(--global-default);
+  --color-bg-chat-bubble-general-subbg: var(--global-subdefault);
   --color-bg-chat-bubble-user-default: var(--s-accent-fill-hover);
   --color-bg-chat-bubble-user-quote: var(--s-accent-fill-hover);
   --color-bg-chat-bubble-user-selected: var(--accent-fill-pressed);
@@ -731,6 +744,8 @@
   --color-icon-chat-bubble-user-selected: var(--accent-content-default);
   --color-icon-chat-bubble-other-default: var(--default-content-default);
   --color-icon-chat-bubble-other-selected: var(--accent-content-selected);
+
+  --effect-dropdown-shadow: 0 0 4px 0 var(--shadow-close), 0 4px 12px 0 var(--shadow-far);
 }
 
 html {

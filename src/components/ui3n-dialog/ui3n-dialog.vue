@@ -246,6 +246,7 @@ function handleEvent(event: Event, eventName: Ui3nDialogEvent) {
   position: absolute;
   right: 4px;
   top: 12px;
+  z-index: 5;
 }
 
 .content {
