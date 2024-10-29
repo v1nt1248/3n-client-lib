@@ -41,6 +41,7 @@ export const iconList: string[] = [
   'round-check-box-outline-blank',
   'round-check-box',
   'round-check-circle-outline',
+  'round-check-circle',
   'round-check',
   'round-close',
   'round-content-copy',

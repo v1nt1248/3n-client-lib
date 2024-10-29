@@ -188,6 +188,10 @@
   --svg: url('../icons/ic--round-check-circle-outline.svg');
 }
 
+.ui3n-icon__round-check-circle {
+  --svg: url('../icons/ic--round-check-circle.svg');
+}
+
 .ui3n-icon__round-check {
   --svg: url('../icons/ic--round-check.svg');
 }

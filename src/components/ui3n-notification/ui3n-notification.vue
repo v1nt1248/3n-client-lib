@@ -19,7 +19,7 @@ const props = withDefaults(
 const stylesByTypes = {
   success: {
     color: 'var(--success-content-default)',
-    icon: 'round-warning',
+    icon: 'round-check-circle',
     iconColor: 'var(--success-fill-default)',
     iconRotate: 0,
   },
