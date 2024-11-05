@@ -331,3 +331,7 @@
 .ui3n-icon__sharp-people {
   --svg: url('../icons/ic--sharp-people.svg');
 }
+
+.ui3n-icon__shrink {
+  --svg: url('../icons/ci--shrink.svg');
+}

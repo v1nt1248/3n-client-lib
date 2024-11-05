@@ -77,4 +77,5 @@ export const iconList: string[] = [
   'round-table-chart',
   'round-warning',
   'sharp-people',
+  'shrink',
 ];
