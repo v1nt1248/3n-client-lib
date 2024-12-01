@@ -57,15 +57,21 @@ module.exports = {
     ],
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
-    '@typescript-eslint/ban-types': [
-      'error',
-      {
-        'types': {
-          'Function': false,
-        },
-        'extendDefaults': true,
-      },
-    ],
+    // '@typescript-eslint/ban-types': [
+    //   'error',
+    //   {
+    //     'types': {
+    //       'Function': false,
+    //       '{}': false,
+    //     },
+    //     'extendDefaults': true,
+    //   },
+    // ],
+    '@typescript-eslint/no-unused-expressions': ['error', {
+      'allowTernary': true,
+      'allowShortCircuit': true,
+      'allowTaggedTemplates': true,
+    }],
 
     'vue/no-v-model-argument': 'off',
     'vue/multi-word-component-names': 'off',

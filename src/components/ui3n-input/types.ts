@@ -7,7 +7,7 @@ export interface Ui3nInputProps {
   autofocus?: boolean;
   icon?: string;
   iconColor?: string;
-  rules?: Array<(v: string) => any>;
+  rules?: Array<(v: unknown) => boolean | string>;
   displayStateMode?: 'error' | 'success';
   displayStateWithIcon?: boolean;
   displayStateMessage?: string;
@@ -21,13 +21,16 @@ export interface Ui3nInputEmits {
   (event: 'blur', value: Event): void;
   (event: 'clear'): void;
   (event: 'change', value: string): void;
-  (event: 'enter', value: {
-    value: string;
-    altKey: boolean;
-    ctrlKey: boolean;
-    shiftKey: boolean;
-    metaKey: boolean;
-  }): void;
+  (
+    event: 'enter',
+    value: {
+      value: string;
+      altKey: boolean;
+      ctrlKey: boolean;
+      shiftKey: boolean;
+      metaKey: boolean;
+    },
+  ): void;
   (event: 'escape', value: Event): void;
   (event: 'update:modelValue', value: string): void;
   (event: 'update:valid', value: boolean): void;

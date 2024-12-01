@@ -12,6 +12,7 @@ const $css = useCssModule();
 
 const inputElement = ref<HTMLInputElement | null>(null);
 const text = ref<string>('');
+const isDirty = ref(false);
 const isFocused = ref(false);
 const errorMessage = ref('');
 
@@ -24,7 +25,7 @@ const cssIconColor = computed(() => {
 });
 
 const isValid = computed(() => {
-  if (!text.value) {
+  if (!isDirty.value) {
     return true;
   }
 
@@ -37,7 +38,7 @@ const mainCssClasses = computed(() => {
   props.icon && val.push($css.withIcon);
   props.clearable && text.value && val.push($css.clearable);
   props.disabled && val.push($css.disabled);
-  (!!errorMessage.value || props.displayStateMode === 'error') && val.push($css.error);
+  ((!!errorMessage.value && !isValid.value) || props.displayStateMode === 'error') && val.push($css.error);
   props.displayStateMode === 'success' && val.push($css.success);
 
   return val;
@@ -52,9 +53,9 @@ const iconCssClasses = computed(() => {
 
 const messageCssClasses = computed(() => {
   const val = [$css.ui3nInputFieldMessage];
-  (errorMessage.value || (props.displayStateMode === 'error' && !!props.displayStateMessage))
-  && val.push($css.ui3nInputErrorMessage);
- props.displayStateMode === 'success' && props.displayStateMessage && val.push($css.ui3nInputSuccessMessage);
+  (errorMessage.value || (props.displayStateMode === 'error' && !!props.displayStateMessage)) &&
+  val.push($css.ui3nInputErrorMessage);
+  props.displayStateMode === 'success' && props.displayStateMessage && val.push($css.ui3nInputSuccessMessage);
 
   return val;
 });
@@ -80,6 +81,7 @@ function onChange(event: Event) {
 function onInput(ev: Event) {
   const value = (ev.target as HTMLInputElement).value;
   text.value = value;
+  isDirty.value = true;
   validate(value);
   emits('update:modelValue', value);
   emits('input', value);
@@ -88,13 +90,15 @@ function onInput(ev: Event) {
 function onEnterKeydown(event: KeyboardEvent) {
   const { altKey, ctrlKey, metaKey, shiftKey, target } = event;
   const value = (target as HTMLInputElement).value;
+  isDirty.value = true;
   validate(value);
   emits('update:modelValue', value);
-  emits('enter', { value , altKey, ctrlKey, metaKey, shiftKey });
+  emits('enter', { value, altKey, ctrlKey, metaKey, shiftKey });
 }
 
 function onEscapeKeydown(event: KeyboardEvent) {
   const value = (event.target as HTMLInputElement).value;
+  isDirty.value = true;
   validate(value);
   emits('update:modelValue', value);
   emits('escape', event);
@@ -102,6 +106,7 @@ function onEscapeKeydown(event: KeyboardEvent) {
 
 function clearValue() {
   text.value = '';
+  isDirty.value = false;
   validate('');
   emits('update:modelValue', '');
   emits('input', '');
@@ -123,6 +128,12 @@ function validate(text: string) {
   }
 }
 
+defineExpose({
+  isDirty,
+  isFocused,
+  clearValue,
+})
+
 onMounted(() => {
   if (props.autofocus && inputElement.value) {
     inputElement.value.focus();
@@ -142,7 +153,9 @@ watch(
 
 watch(
   () => isValid.value,
-  val => emits('update:valid', val),
+  val => {
+    emits('update:valid', val);
+  },
   { immediate: true },
 );
 </script>
@@ -152,7 +165,10 @@ watch(
     ref="wrapperElement"
     :class="mainCssClasses"
   >
-    <label v-if="label" :class="$style.ui3nInputLabel">
+    <label
+      v-if="label"
+      :class="$style.ui3nInputLabel"
+    >
       {{ label }}
     </label>
 
@@ -170,7 +186,7 @@ watch(
       @focusin="onFocus"
       @focusout="onBlur"
       @change="onChange"
-    >
+    />
 
     <ui3n-icon
       v-if="icon"
@@ -202,7 +218,7 @@ watch(
     />
 
     <div
-      v-if="errorMessage || displayStateMessage"
+      v-if="(isDirty && errorMessage) || (displayStateMode && displayStateMessage)"
       :class="messageCssClasses"
     >
       {{ errorMessage || displayStateMessage }}
@@ -314,7 +330,7 @@ watch(
   }
 
   &.ui3nInputSuccessMessage {
-    color: var(--success-content-default)
+    color: var(--success-content-default);
   }
 }
 
