@@ -14,7 +14,7 @@ defineProps<{
 .test-dialog {
   font-size: var(--font-14);
   font-weight: 400;
-  color: var(--grey-95);
+  color: rgba(0, 0, 0, 0.87);
   text-align: center;
   padding: 32px 16px;
 }

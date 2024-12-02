@@ -9,9 +9,9 @@ export type DialogInstance = {
 };
 
 export interface DialogsPlugin {
-  $openDialog: <T extends Component, P extends Record<string, unknown>>(
-    params: Ui3nDialogComponentProps<T, P>,
-  ) => DialogInstance | undefined;
+  $openDialog: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+  $closeDialog: (id: string) => void;
+  $closeDialogs: () => void;
 }
 
 export const DIALOGS_KEY = Symbol() as InjectionKey<DialogsPlugin>;

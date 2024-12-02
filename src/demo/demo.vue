@@ -2,7 +2,7 @@
 import { defineAsyncComponent, inject, ref, watch } from 'vue';
 import { DIALOGS_KEY, type DialogsPlugin } from '../plugins/dialogs/types';
 import Ui3nInputDemo from './ui3n-input-demo.vue';
-import Ui3nButtonDemo from './ui3n-button-demo.vue';
+// import Ui3nButtonDemo from './ui3n-button-demo.vue';
 
 import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
 import Ui3nButton from '../components/ui3n-button/ui3n-button.vue';
@@ -27,7 +27,6 @@ import Ui3nRadio from '../components/ui3n-radio-group/ui3n-radio.vue'
 import Ui3nRadioGroup from '../components/ui3n-radio-group/ui3n-radio-group.vue';
 import Ui3nResize, { type Ui3nResizeCbArg } from '../directives/ui3n-resize';
 import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '../components/ui3n-table/types';
-import type { ExtractComponentProps } from '../components/types';
 import { iconList } from './constants';
 
 const vUi3nResize = Ui3nResize;
@@ -160,7 +159,7 @@ function changeProgressValue() {
 }
 
 function prepareList() {
-  const res: any[] = [];
+  const res: unknown[] = [];
   for (let i = 0; i < 26; i++) {
     const char = String.fromCharCode(65 + i);
     res.push({
@@ -185,15 +184,14 @@ function prepareVList() {
 }
 
 function openDialog() {
-  const component = defineAsyncComponent(() => import('./test-dialog.vue'));
-  // @ts-ignore
-  dialogs.$openDialog<typeof component, ExtractComponentProps<typeof component>>({
+  const component = defineAsyncComponent(() => import('./test-dialog-1.vue'));
+  dialogs.$openDialog<typeof component>({
     component,
     componentProps: {
       text: 'This is the place for any text!',
     },
     dialogProps: {
-      title: 'TEST DIALOG TITLE',
+      title: 'THE TEST DIALOG-1 TITLE',
       closeOnClickOverlay: false,
     },
   });
@@ -208,8 +206,8 @@ function onResize(val: Ui3nResizeCbArg) {
 Ï
 <template>
   <section
-    class="demo"
     v-ui3n-resize="onResize"
+    class="demo"
   >
     <h3>Components</h3>
     <div class="theme">
@@ -369,31 +367,31 @@ function onResize(val: Ui3nResizeCbArg) {
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- CHECKBOX ---</div>
       <ui3n-checkbox
-        size="20"
         v-model="checkValue[0]"
+        size="20"
       />
       <ui3n-checkbox
-        size="20"
         v-model="checkValue[0]"
+        size="20"
       >
         Checked
       </ui3n-checkbox>
       <ui3n-checkbox
+        v-model="checkValue[0]"
         size="20"
         disabled
-        v-model="checkValue[0]"
       >
         Checked (disabled)
       </ui3n-checkbox>
       <ui3n-checkbox
-        size="20"
         v-model="checkValue[1]"
+        size="20"
       >
         Unchecked
       </ui3n-checkbox>
       <ui3n-checkbox
-        size="20"
         v-model="checkValue[2]"
+        size="20"
         indeterminate
       >
         Indeterminate
@@ -404,21 +402,21 @@ function onResize(val: Ui3nResizeCbArg) {
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- SWITCH ---</div>
       <ui3n-switch
-        size="24"
         v-model="switchValue[0]"
+        size="24"
       />
       <ui3n-switch
+        v-model="switchValue[0]"
         size="24"
         disabled
-        v-model="switchValue[0]"
       />
       <ui3n-switch
-        size="24"
         v-model="switchValue[1]"
+        size="24"
       />
       <ui3n-switch
-        size="24"
         v-model="switchValue[1]"
+        size="24"
       >
         With label
       </ui3n-switch>
@@ -594,7 +592,7 @@ function onResize(val: Ui3nResizeCbArg) {
           :items="listV"
           :min-child-height="32"
         >
-          <template v-slot:item="{ value, index }">
+          <template #item="{ value, index }">
             <div class="demo-row__virtual-scroll-item">
               {{ `(${index}) ${value.id}_${value.title}` }}
             </div>
@@ -643,9 +641,9 @@ function onResize(val: Ui3nResizeCbArg) {
       <div class="demo-row__title">--- TABS ---</div>
       <div class="demo-row__cell">
         <ui3n-tabs
+          v-model="tabsValue"
           item-direction="vertical"
           indicator-position="reverse"
-          v-model="tabsValue"
         >
           <div class="tabs__item">Option 1</div>
           <div class="tabs__item">Option 2</div>
@@ -861,9 +859,9 @@ function onResize(val: Ui3nResizeCbArg) {
     <div class="demo-icons">
       <div class="demo-row__title">--- ICON ---</div>
       <div
-        class="demo-icons__item"
         v-for="icon in iconList.sort()"
         :key="icon"
+        class="demo-icons__item"
       >
         <ui3n-icon
           :icon="icon"
@@ -878,23 +876,23 @@ function onResize(val: Ui3nResizeCbArg) {
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- RADIO ---</div>
       <ui3n-radio
-        size="40"
         v-model="radioValue1"
+        size="40"
       >
         Current value: {{ radioValue1 }}
       </ui3n-radio>
 
       <ui3n-radio
+        v-model="radioValue1"
         size="40"
         color="#ff8800"
-        v-model="radioValue1"
       >
         Current value: {{ radioValue1 }}
       </ui3n-radio>
 
       <ui3n-radio
-        size="40"
         v-model="radioValue1"
+        size="40"
       >
         <template #checkedIcon>
           <ui3n-icon
@@ -918,8 +916,8 @@ function onResize(val: Ui3nResizeCbArg) {
       </ui3n-radio>
 
       <ui3n-radio
-        size="40"
         v-model="radioValue1"
+        size="40"
         :disabled="true"
       >
         <template #checkedIcon>
@@ -944,20 +942,20 @@ function onResize(val: Ui3nResizeCbArg) {
       </ui3n-radio>
 
       <ui3n-radio
+        v-model="radioValue2"
         size="40"
         :unchecked-value="0"
         :checked-value="1"
-        v-model="radioValue2"
       >
         Current value: {{ radioValue2 }}
       </ui3n-radio>
 
       <ui3n-radio
+        v-model="radioValue2"
         size="40"
         :unchecked-value="0"
         :checked-value="1"
         :disabled="true"
-        v-model="radioValue2"
       >
         Disabled (current value: {{ radioValue2 }})
       </ui3n-radio>
@@ -966,7 +964,7 @@ function onResize(val: Ui3nResizeCbArg) {
     <!-- RADIO GROUP -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- RADIO GROUP ---</div>
-      <ui3n-radio-group name="test" v-model="radioGroupValue">
+      <ui3n-radio-group v-model="radioGroupValue" name="test">
         <ui3n-radio size="32" :checked-value="0">AAAAA</ui3n-radio>
         <ui3n-radio size="32" :checked-value="2">BBBBB</ui3n-radio>
       </ui3n-radio-group>

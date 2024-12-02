@@ -1,21 +1,31 @@
-<script lang="ts" setup generic="T extends Component, P extends Record<string, unknown>">
-/* eslint-disable @typescript-eslint/no-explicit-any */
+<script lang="ts" setup generic="T extends Component">
 import { type Component, computed, nextTick, onMounted, ref } from 'vue';
 import Ui3nButton from '../ui3n-button/ui3n-button.vue';
 import type { Ui3nDialogEvent, Ui3nDialogProps, Ui3nDialogComponentProps, Ui3nDialogComponentEmits } from './types';
+import { ExtractComponentProps } from '@/components/types';
 
-const props = defineProps<Ui3nDialogComponentProps<T, P>>();
+const props = defineProps<Ui3nDialogComponentProps<T>>();
 const emits = defineEmits<Ui3nDialogComponentEmits>();
 
 const show = ref(true);
-const data = ref(null);
+const data = ref<unknown>(null);
 const isValid = ref(true);
+const dialogOverlayElement = ref<HTMLElement | null>(null);
 const dialogElement = ref<HTMLDivElement | null>(null);
+const isMousedown = ref(false);
+const dragData = ref({
+  left: 0,
+  top: 0,
+  shiftX: 0,
+  shiftY: 0,
+});
 
 const dialogProps = computed<Required<Omit<Ui3nDialogProps, 'onClose' | 'onConfirm' | 'onCancel'>>>(() => ({
+  id: props.dialogProps.id,
   teleport: props.dialogProps?.teleport ?? 'body',
   title: props.dialogProps?.title ?? '',
   width: props.dialogProps?.width ?? 380,
+  draggable: props.dialogProps.draggable,
   cssClass: props.dialogProps?.cssClass ?? [],
   cssStyle: props.dialogProps?.cssStyle ?? {},
   contentCssClass: props.dialogProps?.contentCssClass ?? [],
@@ -30,7 +40,18 @@ const dialogProps = computed<Required<Omit<Ui3nDialogProps, 'onClose' | 'onConfi
   cancelButtonBackground: props.dialogProps?.cancelButtonBackground ?? 'var(--color-bg-button-secondary-default)',
   closeOnClickOverlay: props.dialogProps?.closeOnClickOverlay ?? true,
 }));
-const cssStyle = computed(() => ({ width: `${dialogProps.value.width}px`, ...dialogProps.value.cssStyle }));
+const cssStyle = computed(() => {
+  const value = {
+    width: `${dialogProps.value.width}px`,
+    ...dialogProps.value.cssStyle,
+  };
+  //
+  // if (dialogProps.value.draggable) {
+  //   value
+  // }
+
+  return value;
+});
 
 onMounted(() => {
   if (dialogElement.value) {
@@ -44,16 +65,20 @@ onMounted(() => {
       '--dialog-cancel-background-color',
       dialogProps.value.cancelButtonBackground!,
     );
-  }
 
-  if (dialogElement.value) {
     nextTick(() => {
       dialogElement.value!.focus();
+
+      const overlayClientRect = dialogOverlayElement.value!.getBoundingClientRect();
+      const dialogClientRect = dialogElement.value!.getBoundingClientRect();
+      dragData.value.left = dialogClientRect.left;
+      dragData.value.top = dialogClientRect.top;
+      console.log('EL: ', overlayClientRect, dialogClientRect);
     });
   }
 });
 
-function selectData(value: any) {
+function selectData(value: unknown) {
   data.value = value;
   if (!dialogProps.value.confirmButton && !dialogProps.value.cancelButton && props.dialogProps?.onConfirm) {
     props.dialogProps?.onConfirm(data.value);
@@ -109,21 +134,50 @@ function handleEvent(event: Event, eventName: Ui3nDialogEvent) {
   event.preventDefault();
   startEmit(eventName);
 }
+
+/* drag */
+function onDragstart() {
+  return false;
+}
+
+function onMouseup() {
+  isMousedown.value = false;
+  return false;
+}
+
+function onMousedown(ev: MouseEvent) {
+  console.log('onMousedown', ev);
+  isMousedown.value = true;
+  dragData.value.shiftX = ev.clientX - dialogElement.value.getBoundingClientRect().left;
+  dragData.value.shiftY = ev.clientY - dialogElement.value.getBoundingClientRect().top;
+}
+
+function onMousemove(ev: MouseEvent) {
+  if (!isMousedown.value) {
+    return;
+  }
+  console.log('onMousemove', ev, ev.pageX, ev.pageY);
+}
 </script>
 
 <template>
   <div
     v-if="show"
+    ref="dialogOverlayElement"
     :class="$style.overlay"
     @click="startEmit('click-overlay', $event)"
   >
     <div
+      :id="dialogProps.id"
       ref="dialogElement"
       tabindex="1"
-      :class="[$style.dialog, ...dialogProps.cssClass]"
+      :class="[$style.dialog, dialogProps.draggable && $style.draggable, ...dialogProps.cssClass]"
       :style="cssStyle"
       @keydown.esc.stop="startEmit('cancel')"
       @keydown.enter.stop="isValid && startEmit('confirm')"
+      v-on="dialogProps.draggable
+        ? { dragstart: onDragstart, mousedown: onMousedown, mouseup: onMouseup,  mousemove: onMousemove }
+        : {}"
     >
       <div
         v-if="dialogProps.title"
@@ -153,7 +207,7 @@ function handleEvent(event: Event, eventName: Ui3nDialogEvent) {
         <!-- @vue-ignore  -->
         <component
           :is="component"
-          v-bind="componentProps as Object"
+          v-bind="componentProps as ExtractComponentProps<T>"
           @select="selectData"
           @validate="validate"
           @close="closeDialog({ ev: $event })"
@@ -224,6 +278,12 @@ function handleEvent(event: Event, eventName: Ui3nDialogEvent) {
   outline: none;
 
   @include mixins.elevation();
+
+  &.draggable {
+    .title {
+      cursor: grab;
+    }
+  }
 }
 
 .title {

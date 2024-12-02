@@ -1,11 +1,14 @@
 import type { Component } from 'vue';
+import type { ExtractComponentProps } from '../types/index';
 
 export type Ui3nDialogEvent = 'open' | 'before-close' | 'close' | 'confirm' | 'cancel' | 'click-overlay';
 
 export interface Ui3nDialogProps {
+  id: string;
   teleport?: string;
   title?: string;
   width?: string | number;
+  draggable?: boolean;
   cssClass?: string[];
   cssStyle?: Record<string, string>;
   contentCssClass?: string[];
@@ -13,8 +16,8 @@ export interface Ui3nDialogProps {
   confirmButton?: boolean;
   cancelButton?: boolean;
   onClose?: () => void;
-  onConfirm?: (data: any) => void;
-  onCancel?: (data: any) => void;
+  onConfirm?: (data: unknown) => void;
+  onCancel?: (data: unknown) => void;
   confirmButtonText?: string;
   cancelButtonText?: string;
   confirmButtonColor?: string;
@@ -24,17 +27,17 @@ export interface Ui3nDialogProps {
   closeOnClickOverlay?: boolean;
 }
 
-export interface Ui3nDialogComponentProps<T extends Component, P extends Record<string, unknown>> {
+export interface Ui3nDialogComponentProps<T extends Component> {
   component: T;
-  componentProps?: P;
+  componentProps?: ExtractComponentProps<T>;
   dialogProps?: Ui3nDialogProps;
 }
 
 export interface Ui3nDialogComponentEmits {
-  (ev: 'open', value?: any): void;
-  (ev: 'before-close', value?: any): void;
-  (ev: 'close', value?: any): void;
-  (ev: 'confirm', value?: any): void;
-  (ev: 'cancel', value?: any): void;
-  (ev: 'click-overlay', value?: any): void;
+  (ev: 'open', value?: unknown): void;
+  (ev: 'before-close', value?: unknown): void;
+  (ev: 'close', value?: unknown): void;
+  (ev: 'confirm', value?: unknown): void;
+  (ev: 'cancel', value?: unknown): void;
+  (ev: 'click-overlay', value?: unknown): void;
 }
