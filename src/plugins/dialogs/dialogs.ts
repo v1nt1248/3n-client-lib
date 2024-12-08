@@ -3,9 +3,9 @@ import { createVNode, render } from 'vue';
 import type { App, Component, Plugin, VNode } from 'vue';
 import isEmpty from 'lodash/isEmpty';
 import values from 'lodash/values';
-import { getRandomId } from '../../utils';
+import { getRandomId } from '@/utils';
 import Ui3nDialog from '../../components/ui3n-dialog/ui3n-dialog.vue';
-import type { Ui3nDialogComponentProps } from '@/components/ui3n-dialog/types';
+import type { Ui3nDialogComponentProps, Ui3nDialogProps } from '@/components/ui3n-dialog/types';
 import { DIALOGS_KEY, type DialogInstance, type DialogsPlugin } from './types';
 import { ExtractComponentProps } from '@/components/types';
 
@@ -14,21 +14,17 @@ export const dialogs: Plugin = {
     let openDialogs: Record<string, { destroy: () => void }> = {};
 
     const $openDialog = <T extends Component>(params: Ui3nDialogComponentProps<T>): DialogInstance | undefined => {
-      // TODO In the current version you cannot open a dialog from another dialog
-      // if (!isEmpty(openDialogs)) {
-      //   for (const d of values(openDialogs)) {
-      //     d.destroy && d.destroy();
-      //   }
-      //   openDialogs = {};
-      // }
-
-      const { component, componentProps = {} as ExtractComponentProps<T>, dialogProps = {} } = params;
+      const {
+        component,
+        componentProps = {} as ExtractComponentProps<T>,
+        dialogProps = {} as Ui3nDialogProps,
+      } = params;
 
       if (!component) {
         throw Error('[Dialog plugin] The dialog component missing');
       }
 
-      const { teleport } = dialogProps || {};
+      const { teleport } = dialogProps || ({} as Ui3nDialogProps);
 
       const parentElement = !teleport || teleport === 'body' ? document.body : document.querySelector(teleport);
 

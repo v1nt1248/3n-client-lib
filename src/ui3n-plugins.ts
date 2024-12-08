@@ -19,9 +19,9 @@ import type { PiniaActionTree, PiniaGetterTree } from './plugins/types';
 
 declare module 'vue' {
   interface ComponentCustomProperties {
-    $openDialog: <T extends Component, P extends Record<string, unknown>>(
-      params: Ui3nDialogComponentProps<T, P>,
-    ) => DialogInstance | undefined;
+    $openDialog: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+    $closeDialog: (id: string) => void;
+    $closeDialogs: () => void;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $locale: string;
     $tr: (key: string, placeholders?: Record<string, string>) => string;
@@ -32,9 +32,9 @@ declare module 'vue' {
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
-    $openDialog: <T extends Component, P extends Record<string, unknown>>(
-      params: Ui3nDialogComponentProps<T, P>,
-    ) => DialogInstance | undefined;
+    $openDialog: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+    $closeDialog: (id: string) => void;
+    $closeDialogs: () => void;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: VueEventBus<any>;
     $i18n: {

@@ -212,6 +212,10 @@
   --svg: url('../icons/ic--round-done.svg');
 }
 
+.ui3n-icon__round-drag-handle {
+  --svg: url('../icons/ic--round-drag-handle.svg');
+}
+
 .ui3n-icon__round-edit {
   --svg: url('../icons/ic--round-edit.svg');
 }
@@ -269,7 +273,7 @@
 }
 
 .ui3n-icon__round-phone-in-talk {
-  --svg: url('../icons//ic--round-phone-in-talk.svg');
+  --svg: url('../icons/ic--round-phone-in-talk.svg');
 }
 
 .ui3n-icon__round-phone-locked {
@@ -334,4 +338,8 @@
 
 .ui3n-icon__shrink {
   --svg: url('../icons/ci--shrink.svg');
+}
+
+.ui3n-icon__spinner {
+  --svg: url('../icons/svg-spinners.svg');
 }

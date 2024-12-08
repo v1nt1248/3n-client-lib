@@ -1,11 +1,30 @@
 <script lang="ts" setup generic="T extends Component">
 import { type Component, computed, nextTick, onMounted, ref } from 'vue';
 import Ui3nButton from '../ui3n-button/ui3n-button.vue';
-import type { Ui3nDialogEvent, Ui3nDialogProps, Ui3nDialogComponentProps, Ui3nDialogComponentEmits } from './types';
+import type { Ui3nDialogEvent, Ui3nDialogComponentProps, Ui3nDialogComponentEmits } from './types';
 import { ExtractComponentProps } from '@/components/types';
 
 const props = defineProps<Ui3nDialogComponentProps<T>>();
 const emits = defineEmits<Ui3nDialogComponentEmits>();
+
+const currentDialogProps = computed(() => ({
+  teleport: props.dialogProps?.teleport || 'body',
+  title: props.dialogProps?.title || '',
+  width: props.dialogProps?.width || 380,
+  cssClass: props.dialogProps?.cssClass || [],
+  cssStyle: props.dialogProps?.cssStyle || {},
+  contentCssClass: props.dialogProps?.contentCssClass || [],
+  contentCssStyle: props.dialogProps?.contentCssStyle || {},
+  confirmButton: props.dialogProps?.confirmButton || true,
+  cancelButton: props.dialogProps?.cancelButton || true,
+  confirmButtonText: props.dialogProps?.confirmButtonText || 'Done',
+  cancelButtonText: props.dialogProps?.cancelButtonText || 'Cancel',
+  confirmButtonColor: props.dialogProps?.confirmButtonColor || 'var(--color-text-button-primary-default)',
+  cancelButtonColor: props.dialogProps?.cancelButtonColor || 'var(--color-text-button-secondary-default)',
+  confirmButtonBackground: props.dialogProps?.confirmButtonBackground || 'var(--color-bg-button-primary-default)',
+  cancelButtonBackground: props.dialogProps?.cancelButtonBackground || 'var(--color-bg-button-secondary-default)',
+  closeOnClickOverlay: props.dialogProps?.closeOnClickOverlay || true,
+}));
 
 const show = ref(true);
 const data = ref<unknown>(null);
@@ -14,73 +33,30 @@ const dialogOverlayElement = ref<HTMLElement | null>(null);
 const dialogElement = ref<HTMLDivElement | null>(null);
 const isMousedown = ref(false);
 const dragData = ref({
+  initialLeft: 0,
+  initialTop: 0,
   left: 0,
   top: 0,
   shiftX: 0,
   shiftY: 0,
 });
 
-const dialogProps = computed<Required<Omit<Ui3nDialogProps, 'onClose' | 'onConfirm' | 'onCancel'>>>(() => ({
-  id: props.dialogProps.id,
-  teleport: props.dialogProps?.teleport ?? 'body',
-  title: props.dialogProps?.title ?? '',
-  width: props.dialogProps?.width ?? 380,
-  draggable: props.dialogProps.draggable,
-  cssClass: props.dialogProps?.cssClass ?? [],
-  cssStyle: props.dialogProps?.cssStyle ?? {},
-  contentCssClass: props.dialogProps?.contentCssClass ?? [],
-  contentCssStyle: props.dialogProps?.contentCssStyle ?? {},
-  confirmButton: props.dialogProps?.confirmButton ?? true,
-  cancelButton: props.dialogProps?.confirmButton ?? true,
-  confirmButtonText: props.dialogProps?.confirmButtonText ?? 'Done',
-  cancelButtonText: props.dialogProps?.cancelButtonText ?? 'Cancel',
-  confirmButtonColor: props.dialogProps?.confirmButtonColor ?? 'var(--color-text-button-primary-default)',
-  cancelButtonColor: props.dialogProps?.cancelButtonColor ?? 'var(--color-text-button-secondary-default)',
-  confirmButtonBackground: props.dialogProps?.confirmButtonBackground ?? 'var(--color-bg-button-primary-default)',
-  cancelButtonBackground: props.dialogProps?.cancelButtonBackground ?? 'var(--color-bg-button-secondary-default)',
-  closeOnClickOverlay: props.dialogProps?.closeOnClickOverlay ?? true,
+const cssStyle = computed(() => ({
+  ...currentDialogProps.value.cssStyle,
+  width: `${currentDialogProps.value.width}px`,
+  ...(props.dialogProps?.draggable && {
+    left: `${dragData.value.left}px`,
+    top: `${dragData.value.top}px`,
+  }),
 }));
-const cssStyle = computed(() => {
-  const value = {
-    width: `${dialogProps.value.width}px`,
-    ...dialogProps.value.cssStyle,
-  };
-  //
-  // if (dialogProps.value.draggable) {
-  //   value
-  // }
-
-  return value;
-});
-
-onMounted(() => {
-  if (dialogElement.value) {
-    dialogElement.value.style.setProperty('--dialog-confirm-button-color', dialogProps.value.confirmButtonColor!);
-    dialogElement.value.style.setProperty('--dialog-cancel-button-color', dialogProps.value.cancelButtonColor!);
-    dialogElement.value.style.setProperty(
-      '--dialog-confirm-background-color',
-      dialogProps.value.confirmButtonBackground!,
-    );
-    dialogElement.value.style.setProperty(
-      '--dialog-cancel-background-color',
-      dialogProps.value.cancelButtonBackground!,
-    );
-
-    nextTick(() => {
-      dialogElement.value!.focus();
-
-      const overlayClientRect = dialogOverlayElement.value!.getBoundingClientRect();
-      const dialogClientRect = dialogElement.value!.getBoundingClientRect();
-      dragData.value.left = dialogClientRect.left;
-      dragData.value.top = dialogClientRect.top;
-      console.log('EL: ', overlayClientRect, dialogClientRect);
-    });
-  }
-});
 
 function selectData(value: unknown) {
   data.value = value;
-  if (!dialogProps.value.confirmButton && !dialogProps.value.cancelButton && props.dialogProps?.onConfirm) {
+  if (
+    !currentDialogProps.value.confirmButton &&
+    !currentDialogProps.value.cancelButton &&
+    props.dialogProps?.onConfirm
+  ) {
     props.dialogProps?.onConfirm(data.value);
     closeDialog();
   }
@@ -106,7 +82,7 @@ function closeDialog(arg?: { ev?: Event; withAction?: boolean }) {
 function startEmit(event: Ui3nDialogEvent, ev?: Event) {
   if (event === 'click-overlay') {
     emits(event);
-    dialogProps.value.closeOnClickOverlay && closeDialog({ ev });
+    currentDialogProps.value.closeOnClickOverlay && closeDialog({ ev });
     return;
   }
 
@@ -142,22 +118,56 @@ function onDragstart() {
 
 function onMouseup() {
   isMousedown.value = false;
+  dragData.value.shiftX = 0;
+  dragData.value.shiftY = 0;
   return false;
 }
 
 function onMousedown(ev: MouseEvent) {
-  console.log('onMousedown', ev);
   isMousedown.value = true;
-  dragData.value.shiftX = ev.clientX - dialogElement.value.getBoundingClientRect().left;
-  dragData.value.shiftY = ev.clientY - dialogElement.value.getBoundingClientRect().top;
+  const dialogElementRect = dialogElement.value!.getBoundingClientRect();
+  dragData.value.shiftX = ev.clientX - dialogElementRect.left;
+  dragData.value.shiftY = ev.clientY - dialogElementRect.top;
 }
 
 function onMousemove(ev: MouseEvent) {
   if (!isMousedown.value) {
     return;
   }
-  console.log('onMousemove', ev, ev.pageX, ev.pageY);
+  dragData.value.left = ev.clientX - dragData.value.shiftX - dragData.value.initialLeft;
+  dragData.value.top = ev.clientY - dragData.value.shiftY - dragData.value.initialTop;
 }
+
+onMounted(() => {
+  if (dialogElement.value) {
+    dialogElement.value.style.setProperty(
+      '--dialog-confirm-button-color',
+      currentDialogProps.value.confirmButtonColor!,
+    );
+    dialogElement.value.style.setProperty(
+      '--dialog-cancel-button-color',
+      currentDialogProps.value.cancelButtonColor!,
+    );
+    dialogElement.value.style.setProperty(
+      '--dialog-confirm-background-color',
+      currentDialogProps.value.confirmButtonBackground!,
+    );
+    dialogElement.value.style.setProperty(
+      '--dialog-cancel-background-color',
+      currentDialogProps.value.cancelButtonBackground!,
+    );
+
+    nextTick(() => {
+      dialogElement.value!.focus();
+
+      setTimeout(() => {
+        const dialogClientRect = dialogElement.value!.getBoundingClientRect();
+        dragData.value.initialLeft = dialogClientRect.left;
+        dragData.value.initialTop = dialogClientRect.top;
+      }, 100);
+    });
+  }
+});
 </script>
 
 <template>
@@ -168,23 +178,27 @@ function onMousemove(ev: MouseEvent) {
     @click="startEmit('click-overlay', $event)"
   >
     <div
-      :id="dialogProps.id"
+      :id="dialogProps?.id"
       ref="dialogElement"
       tabindex="1"
-      :class="[$style.dialog, dialogProps.draggable && $style.draggable, ...dialogProps.cssClass]"
+      :class="[
+        $style.dialog,
+        dialogProps?.draggable && isMousedown && $style.draggable,
+        ...currentDialogProps.cssClass!,
+      ]"
       :style="cssStyle"
+      v-on="dialogProps?.draggable
+          ? { dragstart: onDragstart, mousedown: onMousedown, mouseup: onMouseup, mousemove: onMousemove }
+          : {}"
       @keydown.esc.stop="startEmit('cancel')"
       @keydown.enter.stop="isValid && startEmit('confirm')"
-      v-on="dialogProps.draggable
-        ? { dragstart: onDragstart, mousedown: onMousedown, mouseup: onMouseup,  mousemove: onMousemove }
-        : {}"
     >
       <div
-        v-if="dialogProps.title"
+        v-if="currentDialogProps.title"
         :class="$style.title"
         @click.stop
       >
-        <span>{{ dialogProps.title }}</span>
+        <span>{{ currentDialogProps.title }}</span>
       </div>
 
       <ui3n-button
@@ -200,8 +214,8 @@ function onMousemove(ev: MouseEvent) {
 
       <div
         v-if="component"
-        :class="[$style.content, ...dialogProps.contentCssClass]"
-        :style="dialogProps.contentCssStyle"
+        :class="[$style.content, ...currentDialogProps.contentCssClass!]"
+        :style="currentDialogProps.contentCssStyle"
         @click.stop
       >
         <!-- @vue-ignore  -->
@@ -217,28 +231,31 @@ function onMousemove(ev: MouseEvent) {
       </div>
 
       <div
-        v-if="dialogProps.confirmButton || dialogProps.cancelButton"
-        :class="[$style.actions, dialogProps.confirmButton && dialogProps.cancelButton && $style.bothBtns]"
+        v-if="currentDialogProps.confirmButton || currentDialogProps.cancelButton"
+        :class="[
+          $style.actions,
+          currentDialogProps.confirmButton && currentDialogProps.cancelButton && $style.bothBtns
+        ]"
         @click.stop
       >
         <ui3n-button
-          v-if="dialogProps.cancelButton"
+          v-if="currentDialogProps.cancelButton"
           type="secondary"
-          :color="dialogProps.cancelButtonBackground"
-          :text-color="dialogProps.cancelButtonColor"
+          :color="currentDialogProps.cancelButtonBackground"
+          :text-color="currentDialogProps.cancelButtonColor"
           @click="handleEvent($event, 'cancel')"
         >
-          {{ dialogProps.cancelButtonText }}
+          {{ currentDialogProps.cancelButtonText }}
         </ui3n-button>
 
         <ui3n-button
-          v-if="dialogProps.confirmButton"
-          :color="dialogProps.confirmButtonBackground"
-          :text-color="dialogProps.confirmButtonColor"
+          v-if="currentDialogProps.confirmButton"
+          :color="currentDialogProps.confirmButtonBackground"
+          :text-color="currentDialogProps.confirmButtonColor"
           :disabled="!isValid"
           @click="handleEvent($event, 'confirm')"
         >
-          {{ dialogProps.confirmButtonText }}
+          {{ currentDialogProps.confirmButtonText }}
         </ui3n-button>
       </div>
     </div>
@@ -280,9 +297,7 @@ function onMousemove(ev: MouseEvent) {
   @include mixins.elevation();
 
   &.draggable {
-    .title {
-      cursor: grab;
-    }
+    cursor: move;
   }
 }
 
@@ -300,6 +315,12 @@ function onMousemove(ev: MouseEvent) {
   color: var(--color-text-control-primary-default);
   border-bottom: 1px solid var(--color-border-block-primary-default);
   @include mixins.text-overflow-ellipsis();
+}
+
+.dragHandleIcon {
+  position: absolute;
+  left: 0;
+  top: 16px;
 }
 
 .closeBtn {

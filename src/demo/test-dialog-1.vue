@@ -18,6 +18,7 @@ function openDialog() {
     dialogProps: {
       title: 'THE TEST DIALOG-2 TITLE',
       draggable: true,
+      closeOnClickOverlay: false,
     },
   });
 }

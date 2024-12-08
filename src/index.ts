@@ -5,7 +5,7 @@ import type Ui3nButton from './components/ui3n-button/ui3n-button.vue';
 import type Ui3nChip from './components/ui3n-chip/ui3n-chip.vue';
 import type Ui3nCheckbox from './components/ui3n-checkbox/ui3n-checkbox.vue';
 import type Ui3nDialog from './components/ui3n-dialog/ui3n-dialog.vue';
-import type { Ui3nDialogComponentProps } from './components/ui3n-dialog/types';
+import type { Ui3nDialogComponentProps } from '@/components';
 import type Ui3nDropFiles from './components/ui3n-drop-files/ui3n-drop-files.vue';
 import type Ui3nEmoji from './components/ui3n-emoji/ui3n-emoji.vue';
 import type Ui3nIcon from './components/ui3n-icon/ui3n-icon.vue';
@@ -45,9 +45,9 @@ export * from './components/types';
 
 declare module 'vue' {
   interface ComponentCustomProperties {
-    $openDialog: <T extends Component, P extends Record<string, unknown>>(
-      params: Ui3nDialogComponentProps<T, P>,
-    ) => DialogInstance | undefined;
+    $openDialog: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+    $closeDialog: (id: string) => void;
+    $closeDialogs: () => void;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $locale: string;
     $tr: (key: string, placeholders?: Record<string, string>) => string;
@@ -93,9 +93,9 @@ declare module 'vue' {
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
-    $openDialog: <T extends Component, P extends Record<string, unknown>>(
-      params: Ui3nDialogComponentProps<T, P>,
-    ) => DialogInstance | undefined;
+    $openDialog: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+    $closeDialog: (id: string) => void;
+    $closeDialogs: () => void;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: VueEventBus<any>;
     $i18n: {

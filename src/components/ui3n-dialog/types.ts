@@ -4,7 +4,7 @@ import type { ExtractComponentProps } from '../types/index';
 export type Ui3nDialogEvent = 'open' | 'before-close' | 'close' | 'confirm' | 'cancel' | 'click-overlay';
 
 export interface Ui3nDialogProps {
-  id: string;
+  id?: string;
   teleport?: string;
   title?: string;
   width?: string | number;

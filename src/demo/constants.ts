@@ -47,6 +47,7 @@ export const iconList: string[] = [
   'round-content-copy',
   'round-done-all',
   'round-done',
+  'round-drag-handle',
   'round-edit',
   'round-file-upload',
   'round-folder',
@@ -78,4 +79,5 @@ export const iconList: string[] = [
   'round-warning',
   'sharp-people',
   'shrink',
+  'spinner',
 ];
