@@ -77,6 +77,7 @@ const onClick = (ev: Event) => {
   font-size: var(--ui3n-breadcrumb-font-size);
   line-height: 1.25;
   color: var(--ui3n-breadcrumb-color-default);
+  padding-right: var(--spacing-xs);
 
   &:hover {
     cursor: pointer;
@@ -86,6 +87,10 @@ const onClick = (ev: Event) => {
       color: var(--ui3n-breadcrumb-color-default);
     }
   }
+}
+
+.ui3nBreadcrumbSeparator {
+  padding-left: var(--spacing-xs);
 }
 
 .ui3nBreadcrumbDisabled {
