@@ -108,7 +108,7 @@
             :row-index="rowIndex"
             :is-row-selected="isRowSelected(row)"
             :column-style="config?.columnStyle"
-            :event-handlers-="eventHandlers"
+            :event-handlers="eventHandlers"
           />
         </div>
       </template>

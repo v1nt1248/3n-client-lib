@@ -53,17 +53,15 @@ export type Ui3nTableHeaderCellSlot<T extends Ui3nTableBodyBaseItem, K extends s
   [p in `header-cell-${K}`]: () => VNode;
 };
 
-export type Ui3nTableBodyRowEventHandlers<T extends Ui3nTableBodyBaseItem> = {
-  select: (row: T, withoutEvents?: boolean) => void;
-};
-
 export type Ui3nTableBodyRowSlotScope<T extends Ui3nTableBodyBaseItem, K extends keyof T = keyof T> = {
   row: T;
   rowStyle?: Record<string, string>;
   rowIndex: number;
   isRowSelected?: boolean;
   columnStyle?: { [P in Omit<K, 'id'> as string | number]: Record<string, string> };
-  eventHandlers?: Ui3nTableBodyRowEventHandlers<T>;
+  eventHandlers?: {
+    select: (row: T, withoutEvents?: boolean) => void;
+  };
 };
 
 export type Ui3nTableBodyRowSlot<T extends Ui3nTableBodyBaseItem> = {
