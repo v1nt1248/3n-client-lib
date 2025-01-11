@@ -25,7 +25,7 @@
     changeSortOrder,
   } = useTable(props, emits);
 
-  const eventsHandlers = {
+  const eventHandlers = {
     select: processSelection,
   };
 </script>
@@ -108,7 +108,7 @@
             :row-index="rowIndex"
             :is-row-selected="isRowSelected(row)"
             :column-style="config?.columnStyle"
-            :events="eventsHandlers"
+            :event-handlers-="eventHandlers"
           />
         </div>
       </template>
