@@ -64,7 +64,10 @@
         </ui3n-button>
       </div>
       <!-- table header  -->
-      <template v-for="h in visibleColumns" :key="h.key">
+      <template
+        v-for="h in visibleColumns"
+        :key="h.key"
+      >
         <div
           :class="[
             $style.headerItemWrapper,
@@ -108,7 +111,7 @@
             :row-index="rowIndex"
             :is-row-selected="isRowSelected(row)"
             :column-style="config?.columnStyle"
-            :event-handlers="eventHandlers"
+            :events="eventHandlers"
           />
         </div>
       </template>

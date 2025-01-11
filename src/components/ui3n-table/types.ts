@@ -59,7 +59,7 @@ export type Ui3nTableBodyRowSlotScope<T extends Ui3nTableBodyBaseItem, K extends
   rowIndex: number;
   isRowSelected?: boolean;
   columnStyle?: { [P in Omit<K, 'id'> as string | number]: Record<string, string> };
-  eventHandlers?: {
+  events?: {
     select: (row: T, withoutEvents?: boolean) => void;
   };
 };

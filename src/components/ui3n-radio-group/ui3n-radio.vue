@@ -1,41 +1,25 @@
 <script lang="ts" setup>
-import {
-  computed,
-  getCurrentInstance,
-  inject,
-  onBeforeMount,
-  onMounted,
-  ref,
-  useSlots,
-  watch,
-} from 'vue';
+import { computed, getCurrentInstance, inject, onBeforeMount, onMounted, ref, useSlots, watch } from 'vue';
 import type { Ref } from 'vue';
 import type { Nullable } from '../types';
-import type {
-  Ui3nRadioEmits,
-  Ui3nRadioProps,
-  Ui3nRadioSlots,
-  Ui3nRadioValue,
-} from './types';
+import type { Ui3nRadioEmits, Ui3nRadioProps, Ui3nRadioSlots, Ui3nRadioValue } from './types';
 
-const props = withDefaults(
-  defineProps<Ui3nRadioProps>(),
-  {
-    modelValue: false,
-    checkedValue: true,
-    uncheckedValue: false,
-    size: '16',
-    color: 'var(--color-icon-control-accent-default)',
-    disabled: false,
-  },
-);
+const props = withDefaults(defineProps<Ui3nRadioProps>(), {
+  modelValue: false,
+  checkedValue: true,
+  uncheckedValue: false,
+  size: '16',
+  color: 'var(--color-icon-control-accent-default)',
+  disabled: false,
+});
 const emits = defineEmits<Ui3nRadioEmits>();
 defineSlots<Ui3nRadioSlots>();
 
 const slots = useSlots();
 
 const instance = getCurrentInstance();
-const isComponentPartOfGroup = instance?.parent?.type.__name === 'Ui3nRadioGroup' || instance?.parent?.type.__name === 'ui3n-radio-group';
+const isComponentPartOfGroup =
+  instance?.parent?.type.__name === 'Ui3nRadioGroup' || instance?.parent?.type.__name === 'ui3n-radio-group';
 const groupName = isComponentPartOfGroup ? instance?.parent?.props.name : '';
 
 const radioEl = ref<HTMLDivElement | null>(null);
@@ -49,9 +33,9 @@ const {
 } = groupName
   ? inject(`radio-group-${groupName}`)!
   : {
-      groupValue: null,
-      updateGroupValue: null,
-    };
+    groupValue: null,
+    updateGroupValue: null,
+  };
 
 const val = ref<Ui3nRadioValue>(groupName ? groupValue!.value : props.modelValue);
 
@@ -74,7 +58,6 @@ function change(ev: Event) {
   val.value = props.checkedValue;
   updateGroupValue!(val.value);
 
-
   // if (groupName) {
   //   isOn.value && updateGroupValue!(val.value);
   // } else {
@@ -85,7 +68,9 @@ function change(ev: Event) {
 
 onBeforeMount(() => {
   if (
+    // @ts-ignore
     (slots.checkedIcon && !slots.uncheckedIcon) ||
+    // @ts-ignore
     (!slots.checkedIcon && slots.uncheckedIcon)
   ) {
     throw Error('[Ui3nRadio] Both checkedIcon and uncheckedIcon slots must have values ​​defined.');
@@ -137,13 +122,10 @@ watch(
 </script>
 
 <template>
+  <!-- eslint-disable max-len -->
   <div
     ref="radioEl"
-    :class="[
-      $style.ui3nRadio,
-      disabled && $style.disabled,
-      !slots.default && $style.noLabel,
-    ]"
+    :class="[$style.ui3nRadio, disabled && $style.disabled, !slots.default && $style.noLabel]"
   >
     <div
       :class="[$style.body, disabled && $style.bodyDisabled]"
