@@ -107,6 +107,7 @@
             :row-style="getRowStyle(row)"
             :row-index="rowIndex"
             :is-row-selected="isRowSelected(row)"
+            :column-style="config?.columnStyle"
             :events="eventsHandlers"
           />
         </div>
@@ -139,6 +140,7 @@
                 :row="row"
                 :row-index="rowIndex"
                 :is-row-selected="isRowSelected(row)"
+                :column-style="config?.columnStyle"
                 :cell="row[col.key]"
               >
                 <span :class="$style.cell">
