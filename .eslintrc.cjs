@@ -75,6 +75,8 @@ module.exports = {
 
     'vue/no-v-model-argument': 'off',
     'vue/multi-word-component-names': 'off',
+    'vue/no-v-for-template-key': 'off',
+    'vue/no-v-for-template-key-on-child': 'error',
     'vue/no-duplicate-attributes': [
       'error',
       { allowCoexistClass: true, allowCoexistStyle: true },

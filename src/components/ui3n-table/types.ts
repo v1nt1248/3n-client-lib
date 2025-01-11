@@ -57,21 +57,23 @@ export type Ui3nTableBodyRowSlotScope<T extends Ui3nTableBodyBaseItem> = {
   row: T;
   rowStyle?: Record<string, string>;
   rowIndex: number;
+  isRowSelected?: boolean;
   events?: Record<string, (value: unknown) => unknown>;
 };
 
 export type Ui3nTableBodyRowSlot<T extends Ui3nTableBodyBaseItem> = {
-  'body-row': (scope: Ui3nTableBodyRowSlotScope<T>) => VNode;
+  row: (scope: Ui3nTableBodyRowSlotScope<T>) => VNode;
 };
 
 export type Ui3nTableBodyRowCellSlotScope<T extends Ui3nTableBodyBaseItem, K extends string & keyof T> = {
   row: T;
   rowIndex: number;
+  isRowSelected?: boolean;
   cell: T[K];
 };
 
 export type Ui3nTableBodyRowCellSlot<T extends Ui3nTableBodyBaseItem, K extends string & keyof T> = {
-  [p in `body-row-cell-${K}`]: (scope: Ui3nTableBodyRowCellSlotScope<T, K>) => VNode;
+  [p in `row-cell-${K}`]: (scope: Ui3nTableBodyRowCellSlotScope<T, K>) => VNode;
 };
 
 export type Ui3nTableSlots<T extends Ui3nTableBodyBaseItem, K extends string & keyof T> = Ui3nTableGroupActionsSlot &
