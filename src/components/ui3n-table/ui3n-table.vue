@@ -260,6 +260,7 @@
   .body {
     position: relative;
     width: 100%;
+    background-color: var(--color-bg-table-cell-default);
   }
 
   .row {
