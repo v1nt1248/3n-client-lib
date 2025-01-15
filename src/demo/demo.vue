@@ -83,6 +83,7 @@ const tableValue = ref<Ui3nTableProps<TableDemoItem>>({
       size: { width: '10%' },
       date: { width: '20%' },
     },
+    showNoDataMessage: true,
   },
   head: [
     { key: 'name', text: 'Name', sortable: true },
@@ -781,7 +782,11 @@ function onResize(val: Ui3nResizeCbArg) {
           :config="tableValue.config"
           :head="tableValue.head"
           :body="tableValue.body"
-        />
+        >
+          <template #no-data>
+            <h4>No data yet!</h4>
+          </template>
+        </ui3n-table>
       </div>
     </div>
 

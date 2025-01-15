@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="T extends Ui3nTableBodyBaseItem">
+  import size from 'lodash/size';
   import { useTable } from './composables/useTable';
   import type { Ui3nTableBodyBaseItem, Ui3nTableEmits, Ui3nTableProps, Ui3nTableSlots } from './types';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
@@ -98,61 +99,69 @@
 
     <!-- table body -->
     <div :class="$style.body">
-      <template v-if="$slots['row']">
-        <div
-          v-for="(row, rowIndex) in body.content"
-          :key="getRowKey(row, rowIndex)"
-          :class="[$style.row, isRowSelected(row) && $style.selected, config.selectable && $style.selectable]"
-        >
-          <slot
-            name="row"
-            :row="row"
-            :row-style="getRowStyle(row)"
-            :row-index="rowIndex"
-            :is-row-selected="isRowSelected(row)"
-            :column-style="config?.columnStyle"
-            :events="eventHandlers"
-          />
-        </div>
+      <template v-if="config?.showNoDataMessage && !size(body.content)">
+        <slot name="no-data">
+          <div :class="$style.noData">No data</div>
+        </slot>
       </template>
 
       <template v-else>
-        <div
-          v-for="(row, rowIndex) in body.content"
-          :key="getRowKey(row, rowIndex)"
-          :class="[$style.row, isRowSelected(row) && $style.selected, config.selectable && $style.selectable]"
-          :style="getRowStyle(row)"
-        >
+        <template v-if="$slots['row']">
           <div
-            v-if="config.selectable"
-            :class="$style.rowCheckbox"
+            v-for="(row, rowIndex) in body.content"
+            :key="getRowKey(row, rowIndex)"
+            :class="[$style.row, isRowSelected(row) && $style.selected, config.selectable && $style.selectable]"
           >
-            <ui3n-checkbox
-              :model-value="isRowSelected(row)"
-              @change="processSelection(row)"
+            <slot
+              name="row"
+              :row="row"
+              :row-style="getRowStyle(row)"
+              :row-index="rowIndex"
+              :is-row-selected="isRowSelected(row)"
+              :column-style="config?.columnStyle"
+              :events="eventHandlers"
             />
           </div>
+        </template>
 
-          <template
-            v-for="(col, colIndex) in visibleColumns"
-            :key="col.key"
+        <template v-else>
+          <div
+            v-for="(row, rowIndex) in body.content"
+            :key="getRowKey(row, rowIndex)"
+            :class="[$style.row, isRowSelected(row) && $style.selected, config.selectable && $style.selectable]"
+            :style="getRowStyle(row)"
           >
-            <div :class="[$style.bodyItem, colIndex === 0 && $style.bodyItemFirst]">
-              <slot
-                :name="`row-cell-${col.key as string & keyof T}`"
-                :row="row"
-                :row-index="rowIndex"
-                :is-row-selected="isRowSelected(row)"
-                :column-style="config?.columnStyle"
-                :cell="row[col.key]"
-              >
+            <div
+              v-if="config.selectable"
+              :class="$style.rowCheckbox"
+            >
+              <ui3n-checkbox
+                :model-value="isRowSelected(row)"
+                @change="processSelection(row)"
+              />
+            </div>
+
+            <template
+              v-for="(col, colIndex) in visibleColumns"
+              :key="col.key"
+            >
+              <div :class="[$style.bodyItem, colIndex === 0 && $style.bodyItemFirst]">
+                <slot
+                  :name="`row-cell-${col.key as string & keyof T}`"
+                  :row="row"
+                  :row-index="rowIndex"
+                  :is-row-selected="isRowSelected(row)"
+                  :column-style="config?.columnStyle"
+                  :cell="row[col.key]"
+                >
                 <span :class="$style.cell">
                   {{ row[col.key] }}
                 </span>
-              </slot>
-            </div>
-          </template>
-        </div>
+                </slot>
+              </div>
+            </template>
+          </div>
+        </template>
       </template>
     </div>
   </div>
@@ -316,5 +325,18 @@
     font-size: var(--font-12);
     font-weight: 400;
     color: var(--color-text-table-primary-default);
+  }
+
+  .noData {
+    position: relative;
+    width: 100%;
+    height: var(--spacing-xxl);
+    padding-top: var(--spacing-ml);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-12);
+    font-weight: 600;
+    color: var(--color-text-control-secondary-default);
   }
 </style>

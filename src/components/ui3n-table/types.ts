@@ -17,6 +17,7 @@ export type Ui3nTableConfig<T extends Ui3nTableBodyBaseItem, K extends keyof T =
   // draggableColumns?: boolean; // ToDo this will be done in the next version
   columnStyle?: { [P in Omit<K, 'id'> as string | number]: Record<string, string> };
   fieldAsRowKey?: keyof T;
+  showNoDataMessage?: boolean;
 };
 
 export type Ui3nTableHeadProps<T extends Ui3nTableBodyBaseItem> = {
@@ -42,8 +43,13 @@ export interface Ui3nTableProps<T extends Ui3nTableBodyBaseItem> {
 
 export interface Ui3nTableEmits<T extends Ui3nTableBodyBaseItem> {
   (ev: 'change:sort', val: Ui3nTableSort<T>): void;
+
   (ev: 'select:row', val: T[]): void;
 }
+
+export type Ui3nTableNoDataSlot = {
+  'no-data': () => VNode;
+};
 
 export type Ui3nTableGroupActionsSlot = {
   'group-actions': () => VNode;
@@ -80,7 +86,8 @@ export type Ui3nTableBodyRowCellSlot<T extends Ui3nTableBodyBaseItem, K extends 
   [p in `row-cell-${K}`]: (scope: Ui3nTableBodyRowCellSlotScope<T, K>) => VNode;
 };
 
-export type Ui3nTableSlots<T extends Ui3nTableBodyBaseItem, K extends string & keyof T> = Ui3nTableGroupActionsSlot &
+export type Ui3nTableSlots<T extends Ui3nTableBodyBaseItem, K extends string & keyof T> = Ui3nTableNoDataSlot &
+  Ui3nTableGroupActionsSlot &
   Ui3nTableHeaderCellSlot<T, K> &
   Ui3nTableBodyRowSlot<T> &
   Ui3nTableBodyRowCellSlot<T, K>;
