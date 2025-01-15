@@ -29,6 +29,12 @@
   const eventHandlers = {
     select: processSelection,
   };
+
+  defineExpose({
+    getRowStyle,
+    selectedRowsArray,
+    closeGroupActionsRow,
+  });
 </script>
 
 <template>
