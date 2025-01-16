@@ -10,6 +10,7 @@ import type Ui3nDropFiles from './components/ui3n-drop-files/ui3n-drop-files.vue
 import type Ui3nEmoji from './components/ui3n-emoji/ui3n-emoji.vue';
 import type Ui3nIcon from './components/ui3n-icon/ui3n-icon.vue';
 import type Ui3nInput from './components/ui3n-input/ui3n-input.vue';
+import type Ui3nInputFile from './components/ui3n-input-file/ui3n-input-file.vue';
 import type Ui3nList from './components/ui3n-list/ui3n-list.vue';
 import type Ui3nMenu from './components/ui3n-menu/ui3n-menu.vue';
 import type Ui3nNotification from './components/ui3n-notification/ui3n-notification.vue';
@@ -67,6 +68,7 @@ declare module 'vue' {
     Ui3nEmoji: typeof Ui3nEmoji;
     Ui3nIcon: typeof Ui3nIcon;
     Ui3nInput: typeof Ui3nInput;
+    Ui3nInputFile: typeof Ui3nInputFile;
     Ui3nList: typeof Ui3nList;
     Ui3nMenu: typeof Ui3nMenu;
     Ui3nNotification: typeof Ui3nNotification;

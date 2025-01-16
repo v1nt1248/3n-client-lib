@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { defineAsyncComponent, inject, ref, watch } from 'vue';
-import { DIALOGS_KEY, type DialogsPlugin } from '../plugins/dialogs/types';
+import { DIALOGS_KEY, type DialogsPlugin } from '@/plugins/dialogs/types';
 import Ui3nInputDemo from './ui3n-input-demo.vue';
+import Ui3nDropFilesDemo from './ui3n-drop-files-demo.vue';
 // import Ui3nButtonDemo from './ui3n-button-demo.vue';
 
 import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
@@ -26,7 +27,7 @@ import Ui3nTooltip from '../components/ui3n-tooltip/ui3n-tooltip.vue';
 import Ui3nRadio from '../components/ui3n-radio-group/ui3n-radio.vue'
 import Ui3nRadioGroup from '../components/ui3n-radio-group/ui3n-radio-group.vue';
 import Ui3nResize, { type Ui3nResizeCbArg } from '../directives/ui3n-resize';
-import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '../components/ui3n-table/types';
+import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '@/components/ui3n-table/types';
 import { iconList } from './constants';
 
 const vUi3nResize = Ui3nResize;
@@ -222,6 +223,8 @@ function onResize(val: Ui3nResizeCbArg) {
     </div>
 
     <ui3n-input-demo />
+
+    <ui3n-drop-files-demo />
     <!-- <ui3n-button-demo /> -->
 
 

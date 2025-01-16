@@ -1,7 +1,7 @@
 import { Comment, Text, Slot, VNode } from 'vue';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { colorsMap } from '../constants/general';
+import { colorsMap } from '@/constants/general';
 
 export function hasSlotContent(slot?: Slot, slotProps = {}) {
   if (!slot) return false;
@@ -66,4 +66,15 @@ export function prepareDateAsSting(ts: number): string {
 
 export function capitalize(text: string): string {
   return `${text[0].toLocaleUpperCase()}${text.slice(1)}`;
+}
+
+const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+export function formatFileSize(size: number) {
+  let formatedSize = size;
+  let unitIndex = 0;
+  while (formatedSize >= 1024 && unitIndex < units.length - 1) {
+    formatedSize = formatedSize / 1024;
+    unitIndex++;
+  }
+  return `${formatedSize.toFixed(1)} ${units[unitIndex]}`;
 }

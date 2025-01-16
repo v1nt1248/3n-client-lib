@@ -11,6 +11,8 @@ import Ui3nEmoji from './ui3n-emoji/ui3n-emoji.vue';
 import type { Ui3nEmojiProps, Ui3nEmojiEmits } from './ui3n-emoji/types';
 import Ui3nInput from './ui3n-input/ui3n-input.vue';
 import type { Ui3nInputProps, Ui3nInputEmits } from './ui3n-input/types';
+import Ui3nInputFile from './ui3n-input-file/ui3n-input-file.vue';
+import type { Ui3nInputFileProps, Ui3nInputFileEmits } from './ui3n-input-file/types';
 import Ui3nText from './ui3n-text/ui3n-text.vue';
 import type { Ui3nTextProps, Ui3nTextEmits } from './ui3n-text/types';
 import Ui3nCheckbox from './ui3n-checkbox/ui3n-checkbox.vue';
@@ -101,6 +103,9 @@ export {
   Ui3nInput,
   Ui3nInputProps,
   Ui3nInputEmits,
+  Ui3nInputFile,
+  Ui3nInputFileProps,
+  Ui3nInputFileEmits,
   Ui3nText,
   Ui3nTextProps,
   Ui3nTextEmits,
