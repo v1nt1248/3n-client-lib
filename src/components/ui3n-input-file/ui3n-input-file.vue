@@ -3,7 +3,7 @@
     <label
       :for="id"
       :class="[$style.label, disabled && $style.disabled]"
-      v-on="disabled ? {} : { click: selectFiles }"
+      @click.stop.prevent="selectFiles"
     >
       {{ buttonText }}
     </label>
@@ -42,6 +42,10 @@
   const fileInput = ref<Nullable<HTMLInputElement>>(null);
 
   function selectFiles(ev: MouseEvent) {
+    if (props.disabled) {
+      return;
+    }
+
     ev.stopImmediatePropagation();
     fileInput.value!.click();
   }
@@ -57,10 +61,7 @@
 
     const { name, size } = file;
     if (size > props.maxFileSize) {
-      emits(
-        'error',
-        `The [${name}] file is too big. Maximum file size ${formatFileSize(props.maxFileSize)}`
-      );
+      emits('error', `The [${name}] file is too big. Maximum file size ${formatFileSize(props.maxFileSize)}`);
       return false;
     }
     return true;
@@ -73,12 +74,9 @@
 
     const { name } = file;
     const fileExt = `.${last(name.split('.'))}`.toLowerCase();
-    const allowedFileTypes = props.allowedFileTypes
-      .split(',')
-      .map(type => trim(type).toLowerCase());
+    const allowedFileTypes = props.allowedFileTypes.split(',').map(type => trim(type).toLowerCase());
 
-    const isValid =
-      allowedFileTypes.includes('*') || allowedFileTypes.includes(fileExt);
+    const isValid = allowedFileTypes.includes('*') || allowedFileTypes.includes(fileExt);
     if (!isValid) {
       emits('error', `The [${name}] file type is not valid.`);
     }
@@ -91,9 +89,7 @@
     }
 
     const { name } = file;
-    const isFoundDuplicate = [...props.modelValue].find(
-      file => file.name === name
-    );
+    const isFoundDuplicate = [...props.modelValue].find(file => file.name === name);
 
     if (isFoundDuplicate) {
       emits('error', `The [${name}] file has already been downloaded.`);
@@ -117,10 +113,7 @@
 
     const isValid = total <= Number(props.maxNumberOfFiles);
     if (!isValid) {
-      emits(
-        'error',
-        `You cannot select more than ${props.maxNumberOfFiles} files.`
-      );
+      emits('error', `You cannot select more than ${props.maxNumberOfFiles} files.`);
     }
     return isValid;
   }
