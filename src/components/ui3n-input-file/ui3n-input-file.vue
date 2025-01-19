@@ -47,7 +47,7 @@
     }
 
     ev.stopImmediatePropagation();
-    fileInput.value!.click();
+    fileInput.value?.click();
   }
 
   function validateFileSize(file: File) {
@@ -136,8 +136,10 @@
   }
 
   function onChange() {
-    processFiles([...fileInput.value!.files!]);
-    fileInput.value!.value = '';
+    console.log('Ui3nInputFiles:onChange');
+
+    fileInput.value && fileInput.value.files && processFiles([...fileInput.value.files]);
+    fileInput.value && (fileInput.value!.value = '');
   }
 </script>
 
