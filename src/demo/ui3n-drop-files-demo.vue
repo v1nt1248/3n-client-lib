@@ -6,26 +6,37 @@
   import Ui3nDropFiles from '@/components/ui3n-drop-files/ui3n-drop-files.vue';
   import Ui3nInputFile from '@/components/ui3n-input-file/ui3n-input-file.vue';
 
-
   const val1 = ref<Nullable<File[] | FileList>>(null);
+  const val2 = ref<Nullable<File[] | FileList>>(null);
 
-  function onSelect(v: File[] | FileList) {
+  function onSelect1(v: File[] | FileList) {
     val1.value = v;
+    console.log('FILES WERE SELECTED: ', v);
+  }
+
+  function onSelect2(v: File[] | FileList) {
+    val2.value = v;
     console.log('FILES WERE SELECTED: ', v);
   }
 </script>
 
 <template>
   <demo-layout title="Ui3nDropFiles, Ui3nInputFile">
-    <demo-layout-cell label="Default use">
+    <demo-layout-cell label="Ui3nDropFiles (default)">
       <div :class="$style.block">
-        <ui3n-drop-files @select="onSelect">
-          <div :class="$style.body">
+        <ui3n-drop-files permanent-display @select="onSelect1" />
+      </div>
+    </demo-layout-cell>
+
+    <demo-layout-cell label="Ui3nDropFiles + Ui3nInputFile">
+      <div :class="$style.block">
+        <ui3n-drop-files @select="onSelect2">
+          <template #additional-text>
             <div :class="$style.info">
               <span>You can <b>drag&drop</b> files here or</span>&nbsp;
-              <ui3n-input-file multiple button-text="Upload Files" @update:model-value="onSelect" />
+              <ui3n-input-file multiple button-text="Upload Files" @update:model-value="onSelect2" />
             </div>
-          </div>
+          </template>
         </ui3n-drop-files>
       </div>
     </demo-layout-cell>
@@ -38,18 +49,6 @@
     width: 300px;
     height: 300px;
     margin-bottom: 20px;
-  }
-
-  .body {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: var(--space-s);
-    border: 2px dashed var(--color-border-block-primary-default);
-    border-radius: var(--space-s);
   }
 
   .info {
