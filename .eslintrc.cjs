@@ -45,6 +45,16 @@ module.exports = {
     'no-return-assign': 'off',
     'arrow-parens': ['error', 'as-needed'],
     'object-curly-newline': ['error', { 'consistent': true }],
+    'prettier/prettier': [
+      'error',
+      {
+        singleQuote: true,
+        semi: true,
+        printWidth: 120,
+        vueIndentScriptAndStyle: true,
+        trailingComma: 'all',
+      }
+    ],
 
     '@typescript-eslint/triple-slash-reference': 'off',
     '@typescript-eslint/no-inferrable-types': [
