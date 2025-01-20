@@ -1,209 +1,209 @@
 <script setup lang="ts">
-import { defineAsyncComponent, inject, ref, watch } from 'vue';
-import { DIALOGS_KEY, type DialogsPlugin } from '@/plugins/dialogs/types';
-import Ui3nInputDemo from './ui3n-input-demo.vue';
-import Ui3nDropFilesDemo from './ui3n-drop-files-demo.vue';
-// import Ui3nButtonDemo from './ui3n-button-demo.vue';
+  import { defineAsyncComponent, inject, ref, watch } from 'vue';
+  import { DIALOGS_KEY, type DialogsPlugin } from '@/plugins/dialogs/types';
+  import Ui3nInputDemo from './ui3n-input-demo.vue';
+  import Ui3nDropFilesDemo from './ui3n-drop-files-demo.vue';
+  // import Ui3nButtonDemo from './ui3n-button-demo.vue';
 
-import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
-import Ui3nButton from '../components/ui3n-button/ui3n-button.vue';
-import Ui3nSwitch from '../components/ui3n-switch/ui3n-switch.vue';
-import Ui3nBreadcrumb from '../components/ui3n-breadcrumbs/ui3n-breadcrumb.vue';
-import Ui3nIcon from '../components/ui3n-icon/ui3n-icon.vue';
-import Ui3nBreadcrumbs from '../components/ui3n-breadcrumbs/ui3n-breadcrumbs.vue';
-import Ui3nCheckbox from '../components/ui3n-checkbox/ui3n-checkbox.vue';
-import Ui3nChip from '../components/ui3n-chip/ui3n-chip.vue';
-import Ui3nStepLineBar from '../components/ui3n-step-line-bar/ui3n-step-line-bar.vue';
-import Ui3nList from '../components/ui3n-list/ui3n-list.vue';
-import Ui3nMenu from '../components/ui3n-menu/ui3n-menu.vue';
-import Ui3nNotification from '../components/ui3n-notification/ui3n-notification.vue';
-import Ui3nTabs from '../components/ui3n-tabs/ui3n-tabs.vue';
-import Ui3nText from '../components/ui3n-text/ui3n-text.vue';
-import Ui3nProgressLinear from '../components/ui3n-progress/ui3n-progress-linear.vue';
-import Ui3nVirtualScroll from '../components/ui3n-virtual-scroll/ui3n-virtual-scroll.vue';
-import Ui3nProgressCircular from '../components/ui3n-progress/ui3n-progress-circular.vue';
-import Ui3nTable from '../components/ui3n-table/ui3n-table.vue';
-import Ui3nTooltip from '../components/ui3n-tooltip/ui3n-tooltip.vue';
-import Ui3nRadio from '../components/ui3n-radio-group/ui3n-radio.vue'
-import Ui3nRadioGroup from '../components/ui3n-radio-group/ui3n-radio-group.vue';
-import Ui3nResize, { type Ui3nResizeCbArg } from '../directives/ui3n-resize';
-import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '@/components/ui3n-table/types';
-import { iconList } from './constants';
+  import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
+  import Ui3nButton from '../components/ui3n-button/ui3n-button.vue';
+  import Ui3nSwitch from '../components/ui3n-switch/ui3n-switch.vue';
+  import Ui3nBreadcrumb from '../components/ui3n-breadcrumbs/ui3n-breadcrumb.vue';
+  import Ui3nIcon from '../components/ui3n-icon/ui3n-icon.vue';
+  import Ui3nBreadcrumbs from '../components/ui3n-breadcrumbs/ui3n-breadcrumbs.vue';
+  import Ui3nCheckbox from '../components/ui3n-checkbox/ui3n-checkbox.vue';
+  import Ui3nChip from '../components/ui3n-chip/ui3n-chip.vue';
+  import Ui3nStepLineBar from '../components/ui3n-step-line-bar/ui3n-step-line-bar.vue';
+  import Ui3nList from '../components/ui3n-list/ui3n-list.vue';
+  import Ui3nMenu from '../components/ui3n-menu/ui3n-menu.vue';
+  import Ui3nNotification from '../components/ui3n-notification/ui3n-notification.vue';
+  import Ui3nTabs from '../components/ui3n-tabs/ui3n-tabs.vue';
+  import Ui3nText from '../components/ui3n-text/ui3n-text.vue';
+  import Ui3nProgressLinear from '../components/ui3n-progress/ui3n-progress-linear.vue';
+  import Ui3nVirtualScroll from '../components/ui3n-virtual-scroll/ui3n-virtual-scroll.vue';
+  import Ui3nProgressCircular from '../components/ui3n-progress/ui3n-progress-circular.vue';
+  import Ui3nTable from '../components/ui3n-table/ui3n-table.vue';
+  import Ui3nTooltip from '../components/ui3n-tooltip/ui3n-tooltip.vue';
+  import Ui3nRadio from '../components/ui3n-radio-group/ui3n-radio.vue';
+  import Ui3nRadioGroup from '../components/ui3n-radio-group/ui3n-radio-group.vue';
+  import Ui3nResize, { type Ui3nResizeCbArg } from '../directives/ui3n-resize';
+  import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '@/components/ui3n-table/types';
+  import { iconList } from './constants';
 
-const vUi3nResize = Ui3nResize;
-const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
+  const vUi3nResize = Ui3nResize;
+  const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 
-const darkTheme = ref(false);
-const checkValue = ref([true, false, false]);
-const switchValue = ref([true, false]);
-const stepValue = ref(1);
-const textValue = ref('');
-const list = ref<
-  {
-    id: string;
-    title: string;
-    children: {
+  const darkTheme = ref(false);
+  const checkValue = ref([true, false, false]);
+  const switchValue = ref([true, false]);
+  const stepValue = ref(1);
+  const textValue = ref('');
+  const list = ref<
+    {
       id: string;
       title: string;
-    }[];
-  }[]
->(prepareList());
-const listV = ref<
-  {
-    id: string;
-    title: string;
-  }[]
->(prepareVList());
-const tabsValue = ref(0);
-const radioValue1 = ref(false);
-const radioValue2 = ref(0);
-const radioGroupValue = ref(0);
+      children: {
+        id: string;
+        title: string;
+      }[];
+    }[]
+  >(prepareList());
+  const listV = ref<
+    {
+      id: string;
+      title: string;
+    }[]
+  >(prepareVList());
+  const tabsValue = ref(0);
+  const radioValue1 = ref(false);
+  const radioValue2 = ref(0);
+  const radioGroupValue = ref(0);
 
-const timerId = ref();
-const progressValue = ref(0);
+  const timerId = ref();
+  const progressValue = ref(0);
 
-interface TableDemoItem extends Ui3nTableBodyBaseItem {
-  name: string;
-  type: string;
-  size?: string;
-  date: string;
-}
+  interface TableDemoItem extends Ui3nTableBodyBaseItem {
+    name: string;
+    type: string;
+    size?: string;
+    date: string;
+  }
 
-const tableValue = ref<Ui3nTableProps<TableDemoItem>>({
-  config: {
-    tableName: 'test',
-    sortOrder: {
-      field: 'name',
-      direction: 'desc',
+  const tableValue = ref<Ui3nTableProps<TableDemoItem>>({
+    config: {
+      tableName: 'test',
+      sortOrder: {
+        field: 'name',
+        direction: 'desc',
+      },
+      fieldAsRowKey: 'name',
+      selectable: 'multiple',
+      columnStyle: {
+        name: { width: '60%' },
+        type: { width: '10%' },
+        size: { width: '10%' },
+        date: { width: '20%' },
+      },
+      showNoDataMessage: true,
     },
-    fieldAsRowKey: 'name',
-    selectable: 'multiple',
-    columnStyle: {
-      name: { width: '60%' },
-      type: { width: '10%' },
-      size: { width: '10%' },
-      date: { width: '20%' },
-    },
-    showNoDataMessage: true,
-  },
-  head: [
-    { key: 'name', text: 'Name', sortable: true },
-    { key: 'type', text: 'Type' },
-    { key: 'size', text: 'Size' },
-    { key: 'date', text: 'Date', sortable: true },
-  ],
-  body: {
-    content: [
-      { name: 'Documents', type: 'folder', date: '2024-07-20' },
-      { name: 'Downloads', type: 'folder', date: '2022-07-20' },
-      { name: 'Images', type: 'folder', date: '2022-07-20' },
-      { name: 'Video', type: 'folder', date: '2022-07-20' },
-      { name: 'Dump', type: 'folder', date: '2022-07-20' },
-      { name: 'calendar.docx', type: 'docx', size: '84 KB', date: '2022-07-22' },
-      { name: 'cars.xlsx', type: 'xlsx', size: '26 KB', date: '2022-07-22' },
-      { name: 'nature.jpg', type: 'jpg', size: '176 KB', date: '2022-07-22' },
-      { name: 'rocket.jpg', type: 'jpg', size: '14 KB', date: '2022-07-22' },
-      { name: 'стич.jpg', type: 'jpg', size: '76 KB', date: '2022-07-22' },
-      { name: 'favicon.png', type: 'png', size: '690 B', date: '2022-07-22' },
-      { name: 'asmail.d.ts', type: 'd.ts', size: '840 B', date: '2024-08-11' },
-      { name: 'common-caps.d.ts', type: 'd.ts', size: '2 KB', date: '2024-08-11' },
-      { name: 'files.d.ts', type: 'd.ts', size: '38 KB', date: '2024-08-11' },
-      { name: 'storage.d.ts', type: 'd.ts', size: '2 KB', date: '2024-08-11' },
+    head: [
+      { key: 'name', text: 'Name', sortable: true },
+      { key: 'type', text: 'Type' },
+      { key: 'size', text: 'Size' },
+      { key: 'date', text: 'Date', sortable: true },
     ],
-  },
-});
-
-watch(
-  () => tabsValue.value,
-  (val, oldValue) => {
-    console.log(`CHANGE TAB FROM ${oldValue} TO ${val} INDEX`);
-  },
-  { immediate: true },
-);
-
-watch(
-  () => progressValue.value,
-  val => {
-    if (val >= 100) {
-      clearInterval(timerId.value);
-      setTimeout(() => {
-        progressValue.value = 0;
-        changeProgressValue();
-      }, 2000);
-    }
-  },
-);
-
-const notificationsExamples = {
-  warning: `Warning message with short Description for on or two lines and default view.`,
-  error: `Error message with short Description for on or two lines and default view.`,
-  success: `Successes message with short Description for on or two lines and default view.`,
-  info: `Info message with short Description for on or two lines and default view.`,
-};
-
-function changeColorTheme(val: boolean) {
-  const htmlEl = document.querySelector('html');
-  if (!htmlEl) return;
-
-  htmlEl.classList.remove(val ? 'default-theme' : 'dark-theme');
-  htmlEl.classList.add(val ? 'dark-theme' : 'default-theme');
-}
-
-function getRandomInt(max: number): number {
-  return Math.floor(Math.random() * max);
-}
-
-function changeProgressValue() {
-  timerId.value = setInterval(() => {
-    const increment = getRandomInt(8);
-    progressValue.value = progressValue.value + increment > 100 ? 100 : progressValue.value + increment;
-  }, 500);
-}
-
-function prepareList() {
-  const res: unknown[] = [];
-  for (let i = 0; i < 26; i++) {
-    const char = String.fromCharCode(65 + i);
-    res.push({
-      id: char,
-      title: `${char}`,
-      children: [
-        { id: `${char}-01`, title: `01 ${char} item` },
-        { id: `${char}-02`, title: `02 ${char} item` },
-        { id: `${char}-03`, title: `03 ${char} item` },
+    body: {
+      content: [
+        { name: 'Documents', type: 'folder', date: '2024-07-20' },
+        { name: 'Downloads', type: 'folder', date: '2022-07-20' },
+        { name: 'Images', type: 'folder', date: '2022-07-20' },
+        { name: 'Video', type: 'folder', date: '2022-07-20' },
+        { name: 'Dump', type: 'folder', date: '2022-07-20' },
+        { name: 'calendar.docx', type: 'docx', size: '84 KB', date: '2022-07-22' },
+        { name: 'cars.xlsx', type: 'xlsx', size: '26 KB', date: '2022-07-22' },
+        { name: 'nature.jpg', type: 'jpg', size: '176 KB', date: '2022-07-22' },
+        { name: 'rocket.jpg', type: 'jpg', size: '14 KB', date: '2022-07-22' },
+        { name: 'стич.jpg', type: 'jpg', size: '76 KB', date: '2022-07-22' },
+        { name: 'favicon.png', type: 'png', size: '690 B', date: '2022-07-22' },
+        { name: 'asmail.d.ts', type: 'd.ts', size: '840 B', date: '2024-08-11' },
+        { name: 'common-caps.d.ts', type: 'd.ts', size: '2 KB', date: '2024-08-11' },
+        { name: 'files.d.ts', type: 'd.ts', size: '38 KB', date: '2024-08-11' },
+        { name: 'storage.d.ts', type: 'd.ts', size: '2 KB', date: '2024-08-11' },
       ],
+    },
+  });
+
+  watch(
+    () => tabsValue.value,
+    (val, oldValue) => {
+      console.log(`CHANGE TAB FROM ${oldValue} TO ${val} INDEX`);
+    },
+    { immediate: true },
+  );
+
+  watch(
+    () => progressValue.value,
+    val => {
+      if (val >= 100) {
+        clearInterval(timerId.value);
+        setTimeout(() => {
+          progressValue.value = 0;
+          changeProgressValue();
+        }, 2000);
+      }
+    },
+  );
+
+  const notificationsExamples = {
+    warning: `Warning message with short Description for on or two lines and default view.`,
+    error: `Error message with short Description for on or two lines and default view.`,
+    success: `Successes message with short Description for on or two lines and default view.`,
+    info: `Info message with short Description for on or two lines and default view.`,
+  };
+
+  function changeColorTheme(val: boolean) {
+    const htmlEl = document.querySelector('html');
+    if (!htmlEl) return;
+
+    htmlEl.classList.remove(val ? 'default-theme' : 'dark-theme');
+    htmlEl.classList.add(val ? 'dark-theme' : 'default-theme');
+  }
+
+  function getRandomInt(max: number): number {
+    return Math.floor(Math.random() * max);
+  }
+
+  function changeProgressValue() {
+    timerId.value = setInterval(() => {
+      const increment = getRandomInt(8);
+      progressValue.value = progressValue.value + increment > 100 ? 100 : progressValue.value + increment;
+    }, 500);
+  }
+
+  function prepareList() {
+    const res: unknown[] = [];
+    for (let i = 0; i < 26; i++) {
+      const char = String.fromCharCode(65 + i);
+      res.push({
+        id: char,
+        title: `${char}`,
+        children: [
+          { id: `${char}-01`, title: `01 ${char} item` },
+          { id: `${char}-02`, title: `02 ${char} item` },
+          { id: `${char}-03`, title: `03 ${char} item` },
+        ],
+      });
+    }
+
+    return res;
+  }
+
+  function prepareVList() {
+    return Array.from({ length: 5000 }, (_, i) => ({
+      id: `${i}i`,
+      title: `Item ${i}`,
+    }));
+  }
+
+  function openDialog() {
+    const component = defineAsyncComponent(() => import('./test-dialog-1.vue'));
+    dialogs.$openDialog<typeof component>({
+      component,
+      componentProps: {
+        text: 'This is the place for any text!',
+      },
+      dialogProps: {
+        title: 'THE TEST DIALOG-1 TITLE',
+        closeOnClickOverlay: false,
+      },
     });
   }
 
-  return res;
-}
+  changeProgressValue();
 
-function prepareVList() {
-  return Array.from({ length: 5000 }, (_, i) => ({
-    id: `${i}i`,
-    title: `Item ${i}`,
-  }));
-}
-
-function openDialog() {
-  const component = defineAsyncComponent(() => import('./test-dialog-1.vue'));
-  dialogs.$openDialog<typeof component>({
-    component,
-    componentProps: {
-      text: 'This is the place for any text!',
-    },
-    dialogProps: {
-      title: 'THE TEST DIALOG-1 TITLE',
-      closeOnClickOverlay: false,
-    },
-  });
-}
-
-changeProgressValue();
-
-function onResize(val: Ui3nResizeCbArg) {
-  console.log('ON_RESIZE', val);
-}
+  function onResize(val: Ui3nResizeCbArg) {
+    console.log('ON_RESIZE', val);
+  }
 </script>
 Ï
 <template>
@@ -252,7 +252,7 @@ function onResize(val: Ui3nResizeCbArg) {
         >
           Projects
         </ui3n-breadcrumb>
-        <ui3n-breadcrumb> Folder </ui3n-breadcrumb>
+        <ui3n-breadcrumb> Folder</ui3n-breadcrumb>
       </ui3n-breadcrumbs>
     </div>
 
@@ -274,12 +274,14 @@ function onResize(val: Ui3nResizeCbArg) {
         <ui3n-button
           type="secondary"
           disabled
-          >Secondary</ui3n-button
+        >Secondary
+        </ui3n-button
         >
         <ui3n-button
           type="secondary"
           size="small"
-          >Secondary</ui3n-button
+        >Secondary
+        </ui3n-button
         >
       </div>
       <div class="demo-row">
@@ -287,12 +289,14 @@ function onResize(val: Ui3nResizeCbArg) {
         <ui3n-button
           type="tertiary"
           disabled
-          >Tertiary</ui3n-button
+        >Tertiary
+        </ui3n-button
         >
         <ui3n-button
           type="tertiary"
           size="small"
-          >Tertiary</ui3n-button
+        >Tertiary
+        </ui3n-button
         >
       </div>
       <div class="demo-row">
@@ -300,21 +304,24 @@ function onResize(val: Ui3nResizeCbArg) {
           type="custom"
           color="#2ca089"
           text-color="#e3f4f1"
-          >Custom</ui3n-button
+        >Custom
+        </ui3n-button
         >
         <ui3n-button
           type="custom"
           color="#2ca089"
           text-color="#e3f4f1"
           disabled
-          >Custom</ui3n-button
+        >Custom
+        </ui3n-button
         >
         <ui3n-button
           type="custom"
           color="var(--warning-content-default)"
           text-color="#ffefe9"
           size="small"
-          >Custom</ui3n-button
+        >Custom
+        </ui3n-button
         >
       </div>
       <div class="demo-row">
@@ -322,31 +329,36 @@ function onResize(val: Ui3nResizeCbArg) {
         <ui3n-button
           icon="round-logout"
           disabled
-          >Primary</ui3n-button
+        >Primary
+        </ui3n-button
         >
         <ui3n-button
           icon="round-logout"
           size="small"
-          >Primary</ui3n-button
+        >Primary
+        </ui3n-button
         >
       </div>
       <div class="demo-row">
         <ui3n-button
           icon="round-home"
           icon-position="left"
-          >Primary</ui3n-button
+        >Primary
+        </ui3n-button
         >
         <ui3n-button
           icon="round-home"
           icon-position="left"
           disabled
-          >Primary</ui3n-button
+        >Primary
+        </ui3n-button
         >
         <ui3n-button
           icon="round-home"
           icon-position="left"
           size="small"
-          >Primary</ui3n-button
+        >Primary
+        </ui3n-button
         >
       </div>
       <div class="demo-row">
@@ -444,7 +456,8 @@ function onResize(val: Ui3nResizeCbArg) {
         <ui3n-button
           :disabled="stepValue === 5"
           @click="stepValue++"
-          >Next step</ui3n-button
+        >Next step
+        </ui3n-button
         >
         <ui3n-button
           type="secondary"
@@ -655,7 +668,8 @@ function onResize(val: Ui3nResizeCbArg) {
           <ui3n-button
             type="secondary"
             class="tabs__item"
-            >Option 4</ui3n-button
+          >Option 4
+          </ui3n-button
           >
         </ui3n-tabs>
       </div>
@@ -982,159 +996,159 @@ function onResize(val: Ui3nResizeCbArg) {
 </template>
 
 <style lang="scss">
-.demo {
-  position: relative;
-  width: 100%;
-  padding-bottom: 400px;
-
-  .theme {
-    position: fixed;
-    top: 24px;
-    right: 24px;
-    z-index: 10000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  &__body-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 300px);
-    column-gap: 8px;
-    row-gap: 16px;
-  }
-
-  &-icons {
+  .demo {
     position: relative;
-    padding-top: 32px;
-    display: grid;
-    gap: var(--spacing-m);
-    grid-template-columns: repeat(8, 96px);
-    margin-bottom: 16px;
+    width: 100%;
+    padding-bottom: 400px;
 
-    &__item {
+    .theme {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 10000;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      gap: var(--spacing-s);
-      font-size: var(--font-12);
-      color: var(--color-icon-control-secondary-default);
-
-      span {
-        text-align: center;
-      }
-    }
-  }
-
-  &-row {
-    position: relative;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-
-    &--with-title {
-      padding-top: 32px;
-    }
-  }
-
-  &-row__title {
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 20px;
-  }
-
-  &-row__cell {
-    position: relative;
-    width: 300px;
-  }
-
-  &-row__cell-text {
-    display: flex;
-    width: 500px;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 8px;
-  }
-
-  &-row__cell-long {
-    position: relative;
-    width: 500px;
-  }
-
-  &-row__list {
-    position: relative;
-    width: 300px;
-    height: 360px;
-    overflow-y: auto;
-    background-color: var(--grey-5);
-
-    .list {
-      &-title {
-        font-size: 14px;
-        font-weight: 600;
-        z-index: 10;
-        position: relative;
-        width: 24px;
-      }
-
-      &-item {
-        padding-left: 24px;
-        cursor: pointer;
-      }
-    }
-  }
-
-  &-row__virtual-scroll-item {
-    position: relative;
-    display: flex;
-    height: 32px;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  &-row__table {
-    position: relative;
-    width: 720px;
-    height: 360px;
-    background-color: var(--white-100);
-    overflow-y: hidden;
-  }
-
-  &-menu {
-    &__item {
-      position: relative;
-      width: max-content;
-      height: 24px;
-      padding: 0 8px;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      font-size: 14px;
-
-      &:hover {
-        cursor: pointer;
-        opacity: 0.75;
-      }
-    }
-  }
-
-  .tabs {
-    &__item {
-      display: flex;
-      width: 100px;
       justify-content: center;
       align-items: center;
-      min-height: 32px;
+      gap: 16px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    &__body-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 300px);
+      column-gap: 8px;
+      row-gap: 16px;
+    }
+
+    &-icons {
+      position: relative;
+      padding-top: 32px;
+      display: grid;
+      gap: var(--spacing-m);
+      grid-template-columns: repeat(8, 96px);
+      margin-bottom: 16px;
+
+      &__item {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: var(--spacing-s);
+        font-size: var(--font-12);
+        color: var(--color-icon-control-secondary-default);
+
+        span {
+          text-align: center;
+        }
+      }
+    }
+
+    &-row {
+      position: relative;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+
+      &--with-title {
+        padding-top: 32px;
+      }
+    }
+
+    &-row__title {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+    }
+
+    &-row__cell {
+      position: relative;
+      width: 300px;
+    }
+
+    &-row__cell-text {
+      display: flex;
+      width: 500px;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 8px;
+    }
+
+    &-row__cell-long {
+      position: relative;
+      width: 500px;
+    }
+
+    &-row__list {
+      position: relative;
+      width: 300px;
+      height: 360px;
+      overflow-y: auto;
+      background-color: var(--grey-5);
+
+      .list {
+        &-title {
+          font-size: 14px;
+          font-weight: 600;
+          z-index: 10;
+          position: relative;
+          width: 24px;
+        }
+
+        &-item {
+          padding-left: 24px;
+          cursor: pointer;
+        }
+      }
+    }
+
+    &-row__virtual-scroll-item {
+      position: relative;
+      display: flex;
+      height: 32px;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    &-row__table {
+      position: relative;
+      width: 720px;
+      height: 360px;
+      background-color: var(--white-100);
+      overflow-y: hidden;
+    }
+
+    &-menu {
+      &__item {
+        position: relative;
+        width: max-content;
+        height: 24px;
+        padding: 0 8px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 14px;
+
+        &:hover {
+          cursor: pointer;
+          opacity: 0.75;
+        }
+      }
+    }
+
+    .tabs {
+      &__item {
+        display: flex;
+        width: 100px;
+        justify-content: center;
+        align-items: center;
+        min-height: 32px;
+      }
     }
   }
-}
 </style>

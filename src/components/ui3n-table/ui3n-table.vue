@@ -116,7 +116,12 @@
           <div
             v-for="(row, rowIndex) in body.content"
             :key="getRowKey(row, rowIndex)"
-            :class="[$style.row, isRowSelected(row) && $style.selected, config.selectable && $style.selectable]"
+            :class="[
+              $style.row,
+              $slots['row'] && $style.customRow,
+              isRowSelected(row) && $style.selected,
+              config.selectable && $style.selectable,
+            ]"
           >
             <slot
               name="row"
@@ -282,13 +287,16 @@
     position: relative;
     width: 100%;
     min-height: var(--ui3n-table-body-row-height);
-    display: grid;
-    grid-template-columns: var(--ui3n-table-columns-width);
-    padding-left: var(--spacing-m);
     border-left: 1px solid var(--color-border-table-primary-default);
     border-right: 1px solid var(--color-border-table-primary-default);
     border-bottom: 1px solid var(--color-border-block-primary-default);
     background-color: transparent;
+
+    &:not(.customRow) {
+      padding-left: var(--spacing-m);
+      display: grid;
+      grid-template-columns: var(--ui3n-table-columns-width);
+    }
 
     &.selectable {
       cursor: pointer;
