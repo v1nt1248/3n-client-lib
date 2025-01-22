@@ -1,55 +1,55 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from 'vue';
-import { emoticons } from '@/constants/emoticons';
-import type { Ui3nEmojiEmits, Ui3nEmojiProps } from './types';
+  import { computed, onMounted, ref, watch } from 'vue';
+  import { emoticons } from '@/constants/emoticons';
+  import type { Ui3nEmojiEmits, Ui3nEmojiProps } from './types';
 
-const props = withDefaults(
-  defineProps<Ui3nEmojiProps>(),
-  {
-    size: 16,
-    readonly: false,
-  },
-);
-const emits = defineEmits<Ui3nEmojiEmits>();
+  const props = withDefaults(
+    defineProps<Ui3nEmojiProps>(),
+    {
+      size: 16,
+      readonly: false,
+    },
+  );
+  const emits = defineEmits<Ui3nEmojiEmits>();
 
-const emojiElement = ref<HTMLDivElement | null>(null);
-const emojiData = computed(() => emoticons[props.emoji]);
+  const emojiElement = ref<HTMLDivElement | null>(null);
+  const emojiData = computed(() => emoticons[props.emoji]);
 
-onMounted(() => {
-  if (emojiElement.value) {
-    emojiElement.value.style.setProperty('--emoji-size', `${props.size}px`);
-  }
-});
-
-watch(
-  () => props.emoji,
-  newValue => {
-    if (!Object.keys(emoticons).includes(newValue)) {
-      console.error(`[Ui3nEmoji] Invalid emoticon: ${newValue}`);
+  onMounted(() => {
+    if (emojiElement.value) {
+      emojiElement.value.style.setProperty('--emoji-size', `${props.size}px`);
     }
-  },
-  { immediate: true },
-);
+  });
 
-watch(
-  () => props.size,
-  (newValue, prevValue) => {
-    if (emojiElement.value && newValue && newValue !== prevValue) {
-      emojiElement.value.style.setProperty('--ui3n-emoji-size', `${newValue}px`);
-    }
-  },
-);
+  watch(
+    () => props.emoji,
+    newValue => {
+      if (!Object.keys(emoticons).includes(newValue)) {
+        console.error(`[Ui3nEmoji] Invalid emoticon: ${newValue}`);
+      }
+    },
+    { immediate: true },
+  );
 
-const onClick = (ev: Event) => {
-  ev.stopImmediatePropagation();
-  emits('click', ev);
-};
+  watch(
+    () => props.size,
+    (newValue, prevValue) => {
+      if (emojiElement.value && newValue && newValue !== prevValue) {
+        emojiElement.value.style.setProperty('--ui3n-emoji-size', `${newValue}px`);
+      }
+    },
+  );
+
+  const onClick = (ev: Event) => {
+    ev.stopImmediatePropagation();
+    emits('click', ev);
+  };
 </script>
 
 <template>
   <div
     ref="emojiElement"
-    :class="[$style.Ui3nEmoji, readonly && $style.readonly]"
+    :class="[$style.ui3nEmoji, readonly && $style.readonly]"
     v-on="readonly ? {} : { 'click': onClick }"
   >
     {{ emojiData && emojiData.value }}
@@ -57,21 +57,21 @@ const onClick = (ev: Event) => {
 </template>
 
 <style lang="scss" module>
-.Ui3nEmoji {
-  --ui3n-emoji-size: 16px;
+  .ui3nEmoji {
+    --ui3n-emoji-size: 16px;
 
-  display: flex;
-  min-width: var(--ui3n-emoji-size);
-  width: var(--ui3n-emoji-size);
-  min-height: var(--ui3n-emoji-size);
-  height: var(--ui3n-emoji-size);
-  font-size: var(--ui3n-emoji-size);
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
+    display: flex;
+    min-width: var(--ui3n-emoji-size);
+    width: var(--ui3n-emoji-size);
+    min-height: var(--ui3n-emoji-size);
+    height: var(--ui3n-emoji-size);
+    font-size: var(--ui3n-emoji-size);
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
 
-.readonly {
-  cursor: default;
-}
+  .readonly {
+    cursor: default;
+  }
 </style>

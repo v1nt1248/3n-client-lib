@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch, useCssModule } from 'vue';
 import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
-import Ui3nRipple from '../..//directives/ui3n-ripple';
+import Ui3nRipple from '../../directives/ui3n-ripple';
 import type { Ui3nButtonEmits, Ui3nButtonProps, Ui3nButtonEventName } from './types';
 
 const vUi3nRipple = Ui3nRipple;
