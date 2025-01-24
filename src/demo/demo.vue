@@ -2,6 +2,7 @@
   import { defineAsyncComponent, inject, ref, watch } from 'vue';
   import { DIALOGS_KEY, type DialogsPlugin } from '@/plugins/dialogs/types';
   import Ui3nInputDemo from './ui3n-input-demo.vue';
+  import Ui3nEditableDemo from './ui3n-editable-demo.vue';
   import Ui3nDropFilesDemo from './ui3n-drop-files-demo.vue';
   // import Ui3nButtonDemo from './ui3n-button-demo.vue';
 
@@ -223,6 +224,8 @@
     </div>
 
     <ui3n-input-demo />
+
+    <ui3n-editable-demo />
 
     <ui3n-drop-files-demo />
     <!-- <ui3n-button-demo /> -->

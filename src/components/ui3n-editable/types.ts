@@ -27,16 +27,17 @@ export interface Ui3nEditableProps {
   placeholder?: string;
   search?: string;
   maxLength?: number;
-  maxWidth?: string;
+  maxWidth?: string | number;
+
   disabled?: boolean;
   autoFocus?: boolean;
   selectAllOnFocus?: boolean;
-  isMultiline?: boolean;
   disallowEmptyValue?: boolean;
 }
 
 export interface Ui3nEditableEmits {
   (event: 'update:modelValue', value: Nullable<string>): void;
+  (event: 'done'): void;
   (event: 'cancel'): void;
   (event: 'focusin', value: FocusEvent): void;
   (event: 'focusout', value: FocusEvent): void;
