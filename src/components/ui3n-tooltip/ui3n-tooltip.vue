@@ -103,10 +103,10 @@ watch(isPositioned, val => {
     </div>
 
     <div
+      v-if="showTooltip"
       ref="floatingEl"
       :class="$style.floating"
       :style="floatingStyles"
-      v-if="showTooltip"
     >
       <slot name="content">
         <div :class="$style.content">

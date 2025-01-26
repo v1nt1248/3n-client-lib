@@ -822,3 +822,21 @@ div {
   animation: ripple var(--ui3n-ripple-duration) linear;
   background-color: var(--ui3n-ripple-bg-color);
 }
+
+.ui3n-title {
+  position: fixed;
+  width: max-content;
+  top: 0;
+  left: 0;
+  padding: var(--spacing-xs) var(--spacing-s);
+  border-radius: var(--spacing-xs);
+  font-size: var(--font-11);
+  line-height: var(--font-12);
+  font-weight: 400;
+  background-color: var(--color-bg-control-secondary-default);
+  color: var(--color-text-control-primary-default);
+  box-shadow:
+      0 2px 1px -1px rgba(0, 0, 0, 0.2),
+      0 1px 1px 0 rgba(0, 0, 0, 0.14),
+      0 1px 3px 0 rgba(0, 0, 0, 0.12);
+}

@@ -1,21 +1,29 @@
 <script lang="ts" setup>
-  import { computed, onMounted, ref, watch } from 'vue';
-  import Ui3nRipple from '@/directives/ui3n-ripple';
+  import { computed, nextTick, ref, watch } from 'vue';
   import Ui3nIcon from '@/components/ui3n-icon/ui3n-icon.vue';
+  import Ui3nRipple from '@/directives/ui3n-ripple';
+  import Ui3nClickOutside from '@/directives/ui3n-click-outside';
   import type { Ui3nEditableProps, Ui3nEditableEmits } from './types';
   import type { Nullable } from '@/components/types';
 
   const vUi3nRipple = Ui3nRipple;
+  const vUi3nClickOutside = Ui3nClickOutside;
 
   const props = defineProps<Ui3nEditableProps>();
   const emits = defineEmits<Ui3nEditableEmits>();
 
+  const minWidth = 60;
+
   const inputEl = ref<Nullable<HTMLInputElement>>(null);
-  const contentEl = ref<Nullable<HTMLSpanElement>>(null);
+  const hiddenEl = ref<Nullable<HTMLSpanElement>>(null);
+  const inputElWidth = ref('auto');
+  const contentValueEl = ref<Nullable<HTMLSpanElement>>(null);
   const value = ref<string>(props.modelValue);
   const initialValue = ref<string>(props.modelValue);
 
   const inEdit = ref(false);
+
+  const cssMinWidth = computed(() => `${minWidth}px`);
 
   const cssMaxWidth = computed(() => {
     if (!props.maxWidth) {
@@ -30,23 +38,55 @@
     return `${maxWidthAsNumber}px`;
   });
 
-  const isTruncated = computed(() => {
-    if (!contentEl.value) {
+  const isContentTruncated = computed(() => {
+    if (!contentValueEl.value) {
       return false;
     }
 
-    return contentEl.value.scrollWidth > contentEl.value.clientWidth;
-  })
+    return contentValueEl.value.scrollWidth > contentValueEl.value.clientWidth;
+  });
 
-  function onInput(ev: InputEvent) {
+  const isValid = computed(() => {
+    if (!props.disallowEmptyValue) {
+      return true;
+    }
+
+    return !!value.value;
+  });
+
+  function setInputWidth() {
+    hiddenEl.value!.textContent = value.value || props.placeholder || '...';
+    const newWidth = Math.max(hiddenEl.value!.scrollWidth, minWidth);
+    inputElWidth.value = `${newWidth}px`;
+  }
+
+  function turnOnEditMode() {
+    inEdit.value = true;
+    initialValue.value = value.value;
+
+    nextTick(() => {
+      if (inputEl.value) {
+        setInputWidth();
+        inputEl.value.focus();
+        props.selectAllOnFocus && inputEl.value.select();
+      }
+    });
+  }
+
+  function onInput(ev: Event) {
     // @ts-ignore
     value.value = ev.target!.value || '';
+    setInputWidth();
   }
 
   function done() {
+    if (props.disallowEmptyValue && !isValid.value) {
+      return;
+    }
+
     if (value.value !== initialValue.value) {
       initialValue.value = value.value;
-      emits('update:modelValue', value.value)
+      emits('update:modelValue', value.value);
     }
     emits('done');
     inEdit.value = false;
@@ -54,16 +94,19 @@
 
   function cancel() {
     if (value.value !== initialValue.value) {
-      value.value = initialValue.value
-      emits('update:modelValue', value.value)
+      value.value = initialValue.value;
+      emits('update:modelValue', value.value);
     }
     emits('cancel');
     inEdit.value = false;
   }
 
-  onMounted(() => {
-    inputEl.value && props.autoFocus && inputEl.value.focus();
-  });
+  function onClickOutside() {
+    if (inEdit.value) {
+      emits('focusout');
+      done();
+    }
+  }
 
   watch(
     () => props.modelValue,
@@ -74,47 +117,50 @@
       }
     },
   );
-
-  watch(
-    () => isTruncated.value,
-    () => {
-      console.log('isTruncated: ', isTruncated.value);
-    }, {
-      immediate: true,
-    }
-  );
 </script>
 
 <template>
-  <div :class="[$style.ui3nEditable, inEdit && $style.inEdit]">
+  <div
+    v-ui3n-click-outside="onClickOutside"
+    :class="$style.ui3nEditable"
+    @focusin="emits('focusin', $event);"
+  >
     <template v-if="inEdit">
+      <span ref="hiddenEl" :class="$style.hidden" />
+
       <input
         ref="inputEl"
-        :class="$style.input"
+        :class="[$style.input, inEdit && $style.inEdit, inEdit && !isValid && $style.inEditWarning]"
+        :style="{ width: inputElWidth }"
         :value="value"
         :placeholder="placeholder"
         :disabled="disabled"
         @input="onInput"
+        @keydown.enter="done"
+        @keydown.tab="done"
+        @keydown.esc="cancel"
       />
 
-      <div v-ui3n-ripple :class="[$style.btn, $style.doneBtn]" @click.stop.prevent="done">
+      <div v-ui3n-ripple :class="[$style.btn, $style.doneBtn]" @click="done">
         <ui3n-icon icon="round-done" size="12" color="var(--color-icon-table-accent-default)" />
       </div>
 
-      <div v-ui3n-ripple :class="[$style.btn, $style.cancelBtn]" @click.stop.prevent="cancel">
+      <div v-ui3n-ripple :class="[$style.btn, $style.cancelBtn]" @click="cancel">
         <ui3n-icon icon="round-close" size="12" color="var(--color-icon-table-secondary-default)" />
       </div>
     </template>
 
     <template v-else>
-      <span ref="contentEl" :class="$style.content">
-        {{ value }}
-      </span>
+      <div :class="[$style.content, !value && $style.contentEmpty]" :title="isContentTruncated ? value : undefined">
+        <span ref="contentValueEl">{{ value || placeholder || '...' }}</span>
 
-      <div v-ui3n-ripple :class="[$style.btn, $style.editBtn]" @click.stop.prevent="inEdit = true">
-        <ui3n-icon icon="round-edit" size="12" color="var(--color-icon-control-accent-unselected)" />
+        <div v-ui3n-ripple :class="[$style.btn, $style.editBtn]" @click.stop.prevent="turnOnEditMode">
+          <ui3n-icon icon="round-edit" size="12" color="var(--color-icon-control-accent-unselected)" />
+        </div>
       </div>
     </template>
+
+
   </div>
 </template>
 
@@ -122,54 +168,90 @@
   @use '../../assets/styles/mixins' as mixins;
 
   .ui3nEditable {
-    --ui3n-editable-min-width: 104px;
+    --ui3n-editable-min-width: v-bind(cssMinWidth);
     --ui3n-editable-max-width: v-bind(cssMaxWidth);
+    --ui3n-editable-height: 24px;
 
     position: relative;
     box-sizing: border-box;
-    min-width: var(--ui3n-editable-min-width);
     width: max-content;
+    max-width: var(--ui3n-editable-max-width);
+    height: var(--ui3n-editable-height);
+    border-radius: var(--spacing-xs);
+    font-size: var(--font-12);
+    font-weight: 400;
+    line-height: var(--font-16);
+    color: var(--color-text-table-primary-default);
+    overflow: hidden;
+  }
+
+  .content {
+    position: relative;
+    height: var(--ui3n-editable-height);
+    min-width: var(--ui3n-editable-min-width);
     max-width: var(--ui3n-editable-max-width);
     padding: var(--spacing-xs) 44px var(--spacing-xs) var(--spacing-xs);
     border-radius: var(--spacing-xs);
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    column-gap: var(--spacing-s);
-    font-size: var(--font-12);
-    font-weight: 400;
-    line-height: var(--font-16);
-    color: var(--color-text-table-primary-default);
+    cursor: pointer;
+
+    &.contentEmpty {
+      color: var(--color-text-table-secondary-default);
+    }
 
     &:hover {
+      background-color: var(--color-bg-control-primary-hover);
+
       .btn.editBtn {
         opacity: 1;
       }
+    }
 
-      &:not(.inEdit) {
-        background-color: var(--color-bg-control-primary-hover);
-      }
+    span {
+      display: block;
+      max-width: 100%;
+      @include mixins.text-overflow-ellipsis();
     }
   }
 
-  .inEdit {
-    padding-top: calc(var(--spacing-xs) - 1px);
-    padding-bottom: calc(var(--spacing-xs) - 1px);
-    border: 1px solid var(--color-border-table-accent-default);
-  }
-
-  .content {
-    display: inline-block;
-    @include mixins.text-overflow-ellipsis();
-  }
-
   .input {
-    padding: 0;
+    position: relative;
+    min-width: var(--ui3n-editable-min-width);
+    max-width: calc(100% - 52px);
+    padding: var(--spacing-xs) 44px var(--spacing-xs) var(--spacing-xs);
     font-size: var(--font-12);
     font-weight: 400;
     line-height: var(--font-16);
-    border: none;
-    outline: none;
+    border-radius: var(--spacing-xs);
+
+    &::placeholder {
+      color: var(--color-text-table-secondary-default);
+    }
+
+    &.inEdit {
+      padding-top: calc(var(--spacing-xs) - 1px);
+      padding-bottom: calc(var(--spacing-xs) - 1px);
+
+      &:not(.inEditWarning) {
+        border: 1px solid var(--color-border-table-accent-default);
+      }
+
+      &.inEditWarning {
+        border: 1px solid var(--error-content-default);
+      }
+    }
+
+    &:focus-visible {
+      border: none;
+      outline: none;
+    }
+  }
+
+  .hidden {
+    position: absolute;
+    visibility: hidden;
   }
 
   .btn {
@@ -186,6 +268,7 @@
     align-items: center;
     overflow: hidden;
     transition: opacity 0.2s ease-in-out;
+    z-index: 1;
 
     &:hover {
       cursor: pointer;

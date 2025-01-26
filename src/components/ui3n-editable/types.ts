@@ -25,12 +25,10 @@ export interface Ui3nContentEditableEmits {
 export interface Ui3nEditableProps {
   modelValue: string;
   placeholder?: string;
-  search?: string;
   maxLength?: number;
   maxWidth?: string | number;
-
+  tooltipWidth?: number;
   disabled?: boolean;
-  autoFocus?: boolean;
   selectAllOnFocus?: boolean;
   disallowEmptyValue?: boolean;
 }
@@ -40,15 +38,5 @@ export interface Ui3nEditableEmits {
   (event: 'done'): void;
   (event: 'cancel'): void;
   (event: 'focusin', value: FocusEvent): void;
-  (event: 'focusout', value: FocusEvent): void;
-  (
-    event: 'enter',
-    value: {
-      value: string;
-      altKey: boolean;
-      ctrlKey: boolean;
-      shiftKey: boolean;
-      metaKey: boolean;
-    },
-  ): void;
+  (event: 'focusout'): void;
 }

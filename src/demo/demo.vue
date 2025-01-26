@@ -315,9 +315,9 @@
           color="#2ca089"
           text-color="#e3f4f1"
           disabled
-        >Custom
-        </ui3n-button
         >
+          Custom
+        </ui3n-button>
         <ui3n-button
           type="custom"
           color="var(--warning-content-default)"

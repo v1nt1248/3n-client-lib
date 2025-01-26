@@ -81,6 +81,8 @@ import type {
   Ui3nRadioGroupSlots,
   Ui3nRadioValue,
 } from './ui3n-radio-group/types';
+import Ui3nEditable from './ui3n-editable/ui3n-editable.vue';
+import type { Ui3nEditableProps, Ui3nEditableEmits } from './ui3n-editable/types';
 
 export {
   Ui3nIcon,
@@ -183,4 +185,7 @@ export {
   Ui3nRadioGroupEmits,
   Ui3nRadioGroupProps,
   Ui3nRadioGroupSlots,
+  Ui3nEditable,
+  Ui3nEditableProps,
+  Ui3nEditableEmits,
 };

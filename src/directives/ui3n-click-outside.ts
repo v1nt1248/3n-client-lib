@@ -6,6 +6,7 @@ interface ExtendedHTMLElement extends HTMLElement {
   clickOutside: ClickOutside;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 function clickOutside(this: ExtendedHTMLElement, binding: DirectiveBinding<Function>): ClickOutside {
   return (event: MouseEvent) => {
     if (event.target instanceof Element) {

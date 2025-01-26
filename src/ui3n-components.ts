@@ -24,6 +24,7 @@ import type Ui3nProgressCircular from './components/ui3n-progress/ui3n-progress-
 import type Ui3nTooltip from './components/ui3n-tooltip/ui3n-tooltip.vue';
 import type Ui3nRadio from './components/ui3n-radio-group/ui3n-radio.vue';
 import type Ui3nRadioGroup from './components/ui3n-radio-group/ui3n-radio-group.vue';
+import type Ui3nEditable from './components/ui3n-editable/ui3n-editable.vue';
 import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
 import type Ui3nResize from './directives/ui3n-resize';
@@ -43,6 +44,7 @@ declare module 'vue' {
     Ui3nChip: typeof Ui3nChip;
     Ui3nDialog: typeof Ui3nDialog;
     Ui3nDropFiles: typeof Ui3nDropFiles;
+    Ui3nEditable: typeof Ui3nEditable;
     Ui3nEmoji: typeof Ui3nEmoji;
     Ui3nIcon: typeof Ui3nIcon;
     Ui3nInput: typeof Ui3nInput;
