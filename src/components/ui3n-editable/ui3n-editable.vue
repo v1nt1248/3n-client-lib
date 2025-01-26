@@ -141,11 +141,11 @@
         @keydown.esc="cancel"
       />
 
-      <div v-ui3n-ripple :class="[$style.btn, $style.doneBtn]" @click="done">
+      <div v-ui3n-ripple :class="[$style.btn, $style.doneBtn]" @click.stop.prevent="done">
         <ui3n-icon icon="round-done" size="12" color="var(--color-icon-table-accent-default)" />
       </div>
 
-      <div v-ui3n-ripple :class="[$style.btn, $style.cancelBtn]" @click="cancel">
+      <div v-ui3n-ripple :class="[$style.btn, $style.cancelBtn]" @click.stop.prevent="cancel">
         <ui3n-icon icon="round-close" size="12" color="var(--color-icon-table-secondary-default)" />
       </div>
     </template>
