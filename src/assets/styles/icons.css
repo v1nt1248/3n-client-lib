@@ -28,6 +28,10 @@
   --svg: url('../icons/ci--expand.svg');
 }
 
+.ui3n-icon__vertical-align-top {
+  --svg: url('../icons/ic--baseline-vertical-align-top.svg');
+}
+
 .ui3n-icon__outline-account-circle {
   --svg: url('../icons/ic--outline-account-circle.svg');
 }
@@ -342,4 +346,8 @@
 
 .ui3n-icon__spinner {
   --svg: url('../icons/svg-spinners.svg');
+}
+
+.ui3n-icon__grid-view-line {
+  --svg: url('../icons/si--grid-view-line.svg');
 }
