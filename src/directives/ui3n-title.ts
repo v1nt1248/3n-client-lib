@@ -20,11 +20,14 @@ export type Ui3nTitleDirectivePlacement =
 export interface Ui3nTitleDirectiveProps {
   text: string;
   maxWidth?: number;
+  color?: string;
+  bgColor?: string;
   placement?: Ui3nTitleDirectivePlacement;
   positionStrategy?: 'absolute' | 'fixed';
   offsetX?: string | number;
   offsetY?: string | number;
   trigger?: 'click' | 'hover';
+  style?: Record<string, string>;
   disabled?: boolean;
 }
 
@@ -98,10 +101,13 @@ function makeTooltip(el: HTMLElement, props: Ui3nTitleDirectiveProps, isOpen: bo
   const {
     text,
     maxWidth = 200,
+    color = 'var(--color-text-control-primary-default)',
+    bgColor = 'var(--color-bg-control-secondary-default)',
     placement = 'top',
     positionStrategy = 'absolute',
     offsetX = 0,
     offsetY = 0,
+    style = {},
   } = props || {};
 
   showTitle = isOpen;
@@ -113,9 +119,16 @@ function makeTooltip(el: HTMLElement, props: Ui3nTitleDirectiveProps, isOpen: bo
 
   const tooltipElement = document.createElement('div');
   tooltipElement.id = id;
-  tooltipElement.innerText = text;
+  tooltipElement.innerHTML = text;
   tooltipElement.classList.add('ui3n-title');
   tooltipElement.style.maxWidth = `${maxWidth}px`;
+  tooltipElement.style.color = color;
+  tooltipElement.style.backgroundColor = bgColor;
+
+  if (Object.keys(style).length) {
+    Object.assign(tooltipElement.style, style);
+  }
+
   el.insertAdjacentElement('beforeend', tooltipElement);
 
   cleanup = autoUpdate(el, tooltipElement, () => {
@@ -133,7 +146,6 @@ function makeTooltip(el: HTMLElement, props: Ui3nTitleDirectiveProps, isOpen: bo
 }
 
 function onClick(el: HTMLElement, props: Ui3nTitleDirectiveProps) {
-  console.log('onClick => ', props.disabled);
   if (props.disabled) {
     removeTooltipElement(id);
     showTitle = false;
@@ -144,7 +156,6 @@ function onClick(el: HTMLElement, props: Ui3nTitleDirectiveProps) {
 }
 
 function onMouseEnter(el: HTMLElement, props: Ui3nTitleDirectiveProps) {
-  console.log('onMouseEnter => ', props.disabled);
   if (props.disabled) {
     removeTooltipElement(id);
     showTitle = false;
@@ -155,7 +166,6 @@ function onMouseEnter(el: HTMLElement, props: Ui3nTitleDirectiveProps) {
 }
 
 function onMouseLeave(el: HTMLElement, props: Ui3nTitleDirectiveProps) {
-  console.log('onMouseLeave => ', props.disabled);
   if (props.disabled) {
     removeTooltipElement(id);
     showTitle = false;
@@ -176,11 +186,9 @@ function handle(el: HTMLElement, props: Ui3nTitleDirectiveProps) {
 
 export default {
   mounted(el: HTMLElement, binding: Ui3nTitleDirectiveBinding) {
-    console.log('[ui3n-title] MOUNTED', el, binding.value);
     handle(el, binding.value);
   },
   updated: (el: HTMLElement, binding: Ui3nTitleDirectiveBinding) => {
-    console.log('[ui3n-title] UPDATED', el, binding.value);
     handle(el, binding.value);
   },
   beforeUnmount() {

@@ -290,8 +290,13 @@ onMounted(() => {
   flex-direction: row-reverse;
 }
 
-.buttonIcon,
+.buttonIcon {
+  pointer-events: none;
+}
+
 .text {
+  display: inline-block;
+  max-width: 100%;
   pointer-events: none;
 }
 

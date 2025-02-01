@@ -6,7 +6,6 @@
   --spacing-l: 32px;
   --spacing-xl: 40px;
   --spacing-xxl: 48px;
-  
   --white-inf: rgba(255, 255, 255, 0);
   --white-100: #fff;
   --black-inf: rgba(0, 0, 0, 0);
@@ -100,7 +99,6 @@
   --files-pdf-secondary: #fdc7c3;
   --files-image-primary: #4744e4;
   --files-image-secondary: #c9c8ff;
-  
   --font-6: 6px;
   --font-8: 8px;
   --font-9: 9px;
@@ -744,7 +742,6 @@
   --color-icon-chat-bubble-user-selected: var(--accent-content-default);
   --color-icon-chat-bubble-other-default: var(--default-content-default);
   --color-icon-chat-bubble-other-selected: var(--accent-content-selected);
-  
   --effect-dropdown-shadow: 0 0 4px 0 var(--shadow-close), 0 4px 12px 0 var(--shadow-far);
 }
 
@@ -833,9 +830,10 @@ div {
   font-size: var(--font-11);
   line-height: var(--font-12);
   font-weight: 400;
-  background-color: var(--color-bg-control-secondary-default);
-  color: var(--color-text-control-primary-default);
+  word-wrap: break-word;
+  white-space: break-spaces;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
   0 1px 1px 0 rgba(0, 0, 0, 0.14),
   0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  z-index: 1000;
 }

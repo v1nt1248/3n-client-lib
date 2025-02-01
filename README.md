@@ -17,6 +17,7 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nEmoji
   - Ui3nIcon
   - Ui3nInput
+  - Ui3nInputFile
   - Ui3nList
   - Ui3nMenu
   - Ui3nNotification
@@ -38,6 +39,7 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nClickOutside
   - Ui3nResize
   - Ui3nRipple
+  - Ui3nTitle
 
 ### Plugins
   - i18n

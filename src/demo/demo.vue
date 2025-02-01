@@ -4,6 +4,7 @@
   import Ui3nInputDemo from './ui3n-input-demo.vue';
   import Ui3nEditableDemo from './ui3n-editable-demo.vue';
   import Ui3nDropFilesDemo from './ui3n-drop-files-demo.vue';
+  import Ui3nTitleDemo from './ui3n-title-demo.vue';
   // import Ui3nButtonDemo from './ui3n-button-demo.vue';
 
   import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
@@ -222,6 +223,8 @@
       />
       <span>Dark theme</span>
     </div>
+
+    <ui3n-title-demo />
 
     <ui3n-input-demo />
 

@@ -12,8 +12,8 @@
 <template>
   <transition mode="out-in" name="fade">
     <ui3n-icon
-      :key="value === 'asc' ? 'round-arrow-downward' : 'round-arrow-upward'"
-      :icon="value === 'asc' ? 'round-arrow-downward' : 'round-arrow-upward'"
+      :key="value === 'asc' ? 'round-arrow-upward' : 'round-arrow-downward'"
+      :icon="value === 'asc' ? 'round-arrow-upward' : 'round-arrow-downward'"
       :width="iconSize"
       :height="iconSize"
       :color="iconColor"

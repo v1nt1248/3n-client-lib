@@ -29,6 +29,7 @@ import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
 import type Ui3nResize from './directives/ui3n-resize';
 import type Ui3nRipple from './directives/ui3n-ripple';
+import type Ui3nTitle from './directives/ui3n-title';
 
 export * from './directives';
 export * from './components';
@@ -70,5 +71,6 @@ declare module 'vue' {
     Ui3nClickOutside: typeof Ui3nClickOutside;
     Ui3nResize: typeof Ui3nResize;
     Ui3nRipple: typeof Ui3nRipple;
+    Ui3nTitle: typeof Ui3nTitle;
   }
 }
