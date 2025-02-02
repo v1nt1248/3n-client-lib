@@ -8,6 +8,10 @@
   --spacing-xxl: 48px;
   --white-inf: rgba(255, 255, 255, 0);
   --white-100: #fff;
+  --white-4: rgba(250, 250, 250, 0.04);
+  --white-8: rgba(250, 250, 250, 0.08);
+  --white-12: rgba(250, 250, 250, 0.12);
+  --white-24: rgba(250, 250, 250, 0.24);
   --black-inf: rgba(0, 0, 0, 0);
   --black-4: rgba(0, 0, 0, 0.04);
   --black-8: rgba(0, 0, 0, 0.08);
@@ -749,7 +753,7 @@ html {
   --shadow-key-umbra-opacity: rgba(0, 0, 0, 0.2);
   --shadow-key-penumbra-opacity: rgba(0, 0, 0, 0.14);
   --shadow-key-ambient-opacity: rgba(0, 0, 0, 0.12);
-  
+
   overflow: hidden;
   font-family: Manrope, sans-serif;
 }
@@ -812,7 +816,7 @@ div {
 .ui3n-ripple {
   --ui3n-ripple-duration: 400ms;
   --ui3n-ripple-bg-color: rgba(255, 255, 255, 0.7);
-  
+
   position: absolute;
   border-radius: 50%;
   transform: scale(0);

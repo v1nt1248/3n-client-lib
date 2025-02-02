@@ -17,7 +17,7 @@
 
   onMounted(() => {
     if (emojiElement.value) {
-      emojiElement.value.style.setProperty('--emoji-size', `${props.size}px`);
+      emojiElement.value.style.setProperty('--ui3n-emoji-size', `${props.size}px`);
     }
   });
 

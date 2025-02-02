@@ -75,41 +75,45 @@
     :class="[
       $style.ui3nDropFiles,
       permanentDisplay && $style.ui3nDropFilesWithBorder,
-      isOverDropPlace || isOverDropZone && $style.ui3nDropFilesWithAccentBorder
+      (isOverDropPlace || isOverDropZone) && $style.ui3nDropFilesWithAccentBorder
     ]"
     @dragenter="onDragenter"
     @dragleave="onDragleave"
   >
     <slot />
+
     <div
+      v-if="permanentDisplay || isOverDropPlace || isOverDropZone"
       :class="$style.ui3nDropFilesDropzone"
       @dragenter="onDropzoneDragenter"
       @dragover="onDropzoneDragover"
       @dragleave="onDropzoneDragleave"
       @drop="onDrop"
     >
-      <template v-if="permanentDisplay || isOverDropPlace || isOverDropZone">
-        <h3 :class="$style.ui3nDropFilesDropzoneTitle">
-          {{ title }}
-        </h3>
+      <h3 :class="$style.ui3nDropFilesDropzoneTitle">
+        {{ title }}
+      </h3>
 
-        <div :class="$style.ui3nDropFilesDropzoneIcon">
-          <svg
-            :width="wrapperElementMinSize * 0.35"
-            :height="wrapperElementMinSize * 0.35"
-            viewBox="0 0 192 192"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M51 152C47.9333 152 45.3333 150.934 43.2 148.8C41.0667 146.667 40 144.067 40 141V119.8H46.2V141C46.2 142.2 46.7 143.3 47.7 144.3C48.7 145.3 49.8 145.8 51 145.8H141C142.2 145.8 143.3 145.3 144.3 144.3C145.3 143.3 145.8 142.2 145.8 141V119.8H152V141C152 144.067 150.933 146.667 148.8 148.8C146.667 150.934 144.067 152 141 152H51ZM93 122.4V49.2002L72.8 69.2002L68.4 65.0002L96 37.2002L123.6 65.0002L119.2 69.2002L99 49.2002V122.4H93Z"
-              fill="var(--color-icon-control-primary-default)"
-            />
-          </svg>
-        </div>
-      </template>
+      <div :class="$style.ui3nDropFilesDropzoneIcon">
+        <svg
+          :width="wrapperElementMinSize * 0.35"
+          :height="wrapperElementMinSize * 0.35"
+          viewBox="0 0 192 192"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M51 152C47.9333 152 45.3333 150.934 43.2 148.8C41.0667 146.667 40 144.067 40 141V119.8H46.2V141C46.2 142.2 46.7 143.3 47.7 144.3C48.7 145.3 49.8 145.8 51 145.8H141C142.2 145.8 143.3 145.3 144.3 144.3C145.3 143.3 145.8 142.2 145.8 141V119.8H152V141C152 144.067 150.933 146.667 148.8 148.8C146.667 150.934 144.067 152 141 152H51ZM93 122.4V49.2002L72.8 69.2002L68.4 65.0002L96 37.2002L123.6 65.0002L119.2 69.2002L99 49.2002V122.4H93Z"
+            fill="var(--color-icon-control-primary-default)"
+          />
+        </svg>
+      </div>
 
-      <div :class="$style.ui3nDropFilesDropzoneAdditional">
+      <div
+        :class="$style.ui3nDropFilesDropzoneAdditional"
+        @dragenter.stop.prevent
+        @dragleave.stop.prevent
+      >
         <slot name="additional-text" />
       </div>
     </div>
