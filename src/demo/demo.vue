@@ -540,7 +540,6 @@
       <ui3n-chip
         closeable
         max-width="150"
-        color="var(--blue-10)"
       >
         simpleuser@test.com
         <template #left="{ size, color }">

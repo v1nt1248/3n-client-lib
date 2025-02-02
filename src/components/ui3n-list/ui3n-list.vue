@@ -43,12 +43,12 @@ defineSlots<Ui3nListSlots<T>>();
 <style lang="scss" module>
 .ui3nList {
   --ui3n-list-item-height: 28px;
-  --ui3n-list-bg-color: transparent;
+  --ui3n-list-bg-color: var(--color-bg-block-primary-default);
 
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: transparent;
+  background-color: var(--ui3n-list-bg-color);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
