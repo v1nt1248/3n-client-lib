@@ -117,6 +117,13 @@
       }
     },
   );
+
+  watch(
+    () => inEdit.value,
+    val => {
+      emits('toggle:editMode', val);
+    },
+  );
 </script>
 
 <template>

@@ -35,6 +35,7 @@ export interface Ui3nEditableProps {
 
 export interface Ui3nEditableEmits {
   (event: 'update:modelValue', value: Nullable<string>): void;
+  (event: 'toggle:editMode', value: boolean): void;
   (event: 'done'): void;
   (event: 'cancel'): void;
   (event: 'focusin', value: FocusEvent): void;
