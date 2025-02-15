@@ -51,8 +51,8 @@ export type Ui3nTableNoDataSlot = {
   'no-data': () => VNode;
 };
 
-export type Ui3nTableGroupActionsSlot = {
-  'group-actions': () => VNode;
+export type Ui3nTableGroupActionsSlot<T extends Ui3nTableBodyBaseItem> = {
+  'group-actions': ({ selectedRows }: { selectedRows: T[] }) => VNode;
 };
 
 export type Ui3nTableHeaderCellSlot<T extends Ui3nTableBodyBaseItem, K extends string & keyof T> = {
@@ -87,7 +87,7 @@ export type Ui3nTableBodyRowCellSlot<T extends Ui3nTableBodyBaseItem, K extends 
 };
 
 export type Ui3nTableSlots<T extends Ui3nTableBodyBaseItem, K extends string & keyof T> = Ui3nTableNoDataSlot &
-  Ui3nTableGroupActionsSlot &
+  Ui3nTableGroupActionsSlot<T> &
   Ui3nTableHeaderCellSlot<T, K> &
   Ui3nTableBodyRowSlot<T> &
   Ui3nTableBodyRowCellSlot<T, K>;
