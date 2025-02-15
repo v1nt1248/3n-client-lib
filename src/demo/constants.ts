@@ -82,4 +82,5 @@ export const iconList: string[] = [
   'sharp-people',
   'shrink',
   'spinner',
+  'splitscreen-right',
 ];

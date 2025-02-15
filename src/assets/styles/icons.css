@@ -348,6 +348,10 @@
   --svg: url('../icons/svg-spinners.svg');
 }
 
+.ui3n-icon__splitscreen-right {
+  --svg: url('../icons/material-symbols--splitscreen-right.svg')
+}
+
 .ui3n-icon__grid-view-line {
   --svg: url('../icons/si--grid-view-line.svg');
 }
