@@ -187,6 +187,11 @@
     --ui3n-table-group-actions-height: 48px;
     --ui3n-table-body-row-height: 28px;
     --ui3n-table-group-actions-bg-color: var(--color-bg-block-primary-default);
+    --ui3n-table-header-bg-color: var(--color-bg-table-header-default);
+    --ui3n-table-header-color: var(--color-text-table-primary-default);
+    --ui3n-table-row-color: var(--color-text-table-primary-default);
+    --ui3n-table-row-bg-color-selected: var(--color-bg-control-primary-hover);
+    --ui3n-table-nodata-color: var(--color-text-control-secondary-default);
 
     position: relative;
     width: 100%;
@@ -203,7 +208,7 @@
     height: var(--ui3n-table-base-head-height);
     display: grid;
     grid-template-columns: var(--ui3n-table-columns-width);
-    background-color: var(--color-bg-table-header-default);
+    background-color: var(--ui3n-table-header-bg-color);
     padding-left: var(--spacing-m);
     z-index: 5;
 
@@ -244,7 +249,7 @@
     display: block;
     font-size: var(--font-14);
     font-weight: 500;
-    color: var(--color-text-table-primary-default);
+    color: var(--ui3n-table-header-color);
     @include mixins.text-overflow-ellipsis();
   }
 
@@ -308,7 +313,7 @@
   }
 
   .selected {
-    background-color: var(--color-bg-control-primary-hover);
+    background-color: var(--ui3n-table-row-bg-color-selected);
   }
 
   .rowCheckbox {
@@ -338,7 +343,7 @@
   .cell {
     font-size: var(--font-12);
     font-weight: 400;
-    color: var(--color-text-table-primary-default);
+    color: var(--ui3n-table-row-color);
   }
 
   .noData {
@@ -351,6 +356,6 @@
     align-items: center;
     font-size: var(--font-12);
     font-weight: 600;
-    color: var(--color-text-control-secondary-default);
+    color: var(--ui3n-table-nodata-color);
   }
 </style>
