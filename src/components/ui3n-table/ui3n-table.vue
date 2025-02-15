@@ -204,7 +204,7 @@
     position: sticky;
     top: 0;
     width: 100%;
-    min-height: var(--ui3n-table-header-height);
+    min-height: var(--ui3n-table-base-head-height);
     height: var(--ui3n-table-base-head-height);
     display: grid;
     grid-template-columns: var(--ui3n-table-columns-width);
