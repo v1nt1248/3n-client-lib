@@ -14,6 +14,7 @@
     tableEl,
     currentConfig,
     visibleColumns,
+    hasGroupActionsRow,
     showGroupActionsRow,
     selectedRowsArray,
     selectedRowsSize,
@@ -33,6 +34,7 @@
   defineExpose({
     getRowStyle,
     selectedRowsArray,
+    hasGroupActionsRow,
     closeGroupActionsRow,
   });
 </script>
