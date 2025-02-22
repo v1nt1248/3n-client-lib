@@ -127,7 +127,7 @@
           icon="round-search"
           placeholder="Enter any text less than 5 characters"
           clearable
-          :rules="[(v: string) => (v.length <= 5 ? true : 'Not more than 5 characters')]"
+          :rules="[(v: unknown) => ((v as string).length <= 5 ? true : 'Not more than 5 characters')]"
           @input="onInputComponentEvent('input', $event)"
           @focus="onInputComponentEvent('focus', $event)"
           @blur="onInputComponentEvent('blur', $event)"

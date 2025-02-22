@@ -61,6 +61,10 @@
   }
 
   function turnOnEditMode() {
+    if (props.disabled) {
+      return;
+    }
+
     inEdit.value = true;
     initialValue.value = value.value;
 
@@ -80,6 +84,10 @@
   }
 
   function done() {
+    if (props.disabled) {
+      return;
+    }
+
     if (props.disallowEmptyValue && !isValid.value) {
       return;
     }
@@ -93,6 +101,10 @@
   }
 
   function cancel() {
+    if (props.disabled) {
+      return;
+    }
+
     if (value.value !== initialValue.value) {
       value.value = initialValue.value;
       emits('update:modelValue', value.value);
@@ -102,6 +114,10 @@
   }
 
   function onClickOutside() {
+    if (props.disabled) {
+      return;
+    }
+
     if (inEdit.value) {
       emits('focusout');
       done();
@@ -121,7 +137,7 @@
   watch(
     () => inEdit.value,
     val => {
-      emits('toggle:editMode', val);
+      !props.disabled && emits('toggle:editMode', val);
     },
   );
 </script>
@@ -129,7 +145,7 @@
 <template>
   <div
     v-ui3n-click-outside="onClickOutside"
-    :class="$style.ui3nEditable"
+    :class="[$style.ui3nEditable, disabled && $style.ui3nEditableDisabled]"
     @focusin="emits('focusin', $event);"
   >
     <template v-if="inEdit">
@@ -148,11 +164,19 @@
         @keydown.esc="cancel"
       />
 
-      <div v-ui3n-ripple :class="[$style.btn, $style.doneBtn]" @click.stop.prevent="done">
+      <div
+        v-ui3n-ripple
+        :class="[$style.btn, $style.doneBtn, disabled && $style.btnDisabled]"
+        @click.stop.prevent="done"
+      >
         <ui3n-icon icon="round-done" size="12" color="var(--color-icon-table-accent-default)" />
       </div>
 
-      <div v-ui3n-ripple :class="[$style.btn, $style.cancelBtn]" @click.stop.prevent="cancel">
+      <div
+        v-ui3n-ripple
+        :class="[$style.btn, $style.cancelBtn, disabled && $style.btnDisabled]"
+        @click.stop.prevent="cancel"
+      >
         <ui3n-icon icon="round-close" size="12" color="var(--color-icon-table-secondary-default)" />
       </div>
     </template>
@@ -190,6 +214,11 @@
     line-height: var(--font-16);
     color: var(--color-text-table-primary-default);
     overflow: hidden;
+  }
+
+  .ui3nEditableDisabled {
+    cursor: default;
+    pointer-events: none;
   }
 
   .content {
@@ -299,5 +328,11 @@
       right: var(--spacing-ml);
       opacity: 1;
     }
+  }
+
+  .btnDisabled {
+    cursor: default;
+    pointer-events: none;
+    opacity: 0.75;
   }
 </style>
