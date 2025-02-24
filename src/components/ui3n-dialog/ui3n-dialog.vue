@@ -85,6 +85,16 @@
     }
   }
 
+  function onKeydown(event: KeyboardEvent) {
+    const { code } = event;
+    console.log('onKeydown: ', code, props.dialogProps?.closeOnEsc);
+    if (code === 'Escape' && props.dialogProps?.closeOnEsc) {
+      event.preventDefault();
+      event.stopPropagation();
+      startEmit('cancel');
+    }
+  }
+
   function startEmit(event: Ui3nDialogEvent, ev?: Event) {
     if (event === 'click-overlay') {
       emits(event);
@@ -195,11 +205,15 @@
       :style="cssStyle"
       v-on="
         dialogProps?.draggable
-          ? { dragstart: onDragstart, mousedown: onMousedown, mouseup: onMouseup, mousemove: onMousemove }
-          : {}
+          ? {
+            dragstart: onDragstart,
+            mousedown: onMousedown,
+            mouseup: onMouseup,
+            mousemove: onMousemove,
+            keydown: onKeydown
+        }
+          : { keydown: onKeydown }
       "
-      @keydown.esc.stop="startEmit('cancel')"
-      @keydown.enter.stop="isValid && startEmit('confirm')"
     >
       <div
         v-if="currentDialogProps.title"

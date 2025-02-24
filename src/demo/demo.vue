@@ -197,6 +197,7 @@
       dialogProps: {
         title: 'THE TEST DIALOG-1 TITLE',
         closeOnClickOverlay: false,
+        closeOnEsc: true,
       },
     });
   }
@@ -627,7 +628,7 @@
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- MENU ---</div>
       <div class="demo-row__cell">
-        <ui3n-menu>
+        <ui3n-menu :disabled="true">
           <ui3n-button>Menu</ui3n-button>
           <template #menu>
             <div

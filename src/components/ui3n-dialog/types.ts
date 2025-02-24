@@ -5,7 +5,6 @@ export type Ui3nDialogEvent = 'open' | 'before-close' | 'close' | 'confirm' | 'c
 
 export interface Ui3nDialogProps {
   id?: string;
-  teleport?: string;
   title?: string;
   width?: string | number;
   draggable?: boolean;
@@ -25,6 +24,7 @@ export interface Ui3nDialogProps {
   confirmButtonBackground?: string;
   cancelButtonBackground?: string;
   closeOnClickOverlay?: boolean;
+  closeOnEsc?: boolean;
 }
 
 export interface Ui3nDialogComponentProps<T extends Component> {

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createVNode, render } from 'vue';
+import { h, render } from 'vue';
 import type { App, Component, Plugin, VNode } from 'vue';
 import isEmpty from 'lodash/isEmpty';
 import values from 'lodash/values';
@@ -24,48 +24,43 @@ export const dialogs: Plugin = {
         throw Error('[Dialog plugin] The dialog component missing');
       }
 
-      const { teleport } = dialogProps || ({} as Ui3nDialogProps);
+      const randomString = getRandomId(5);
+      const id = `dialog-wrapper-${randomString}`;
+      let vNode: VNode | null = h(Ui3nDialog, {
+        component,
+        componentProps,
+        dialogProps: {
+          ...dialogProps,
+          id: `dialog-${randomString}`,
+          onClose: dialogProps.onClose
+            ? () => {
+                dialogProps.onClose!();
+                destroy();
+              }
+            : () => destroy(),
+        },
+      });
 
-      const parentElement = !teleport || teleport === 'body' ? document.body : document.querySelector(teleport);
+      vNode.appContext = app._context;
+      let el: HTMLDivElement | null = document.createElement('div');
+      el.id = id;
+      render(vNode, el);
 
-      if (parentElement) {
-        const randomString = getRandomId(5);
-        const id = `dialog-wrapper-${randomString}`;
-        let vNode: VNode | null = createVNode(Ui3nDialog, {
-          component,
-          componentProps,
-          dialogProps: {
-            ...dialogProps,
-            id: `dialog-${randomString}`,
-            onClose: dialogProps.onClose
-              ? () => {
-                  dialogProps.onClose!();
-                  destroy();
-                }
-              : () => destroy(),
-          },
-        });
-        vNode.appContext = app._context;
-        let el: HTMLDivElement | null = document.createElement('div');
-        el.id = id;
-        render(vNode, el);
+      const destroy = () => {
+        if (el) {
+          const closedDialogId = el.id;
+          render(null, el);
+          el.remove();
+          closedDialogId && delete openDialogs[closedDialogId];
+        }
+        el = null;
+        vNode = null;
+      };
 
-        const destroy = () => {
-          if (el) {
-            const closedDialogId = el.id;
-            render(null, el);
-            document.body.removeChild(el);
-            closedDialogId && delete openDialogs[closedDialogId];
-          }
-          el = null;
-          vNode = null;
-        };
+      app._container.appendChild(el);
+      openDialogs[id] = { destroy };
 
-        document.body.appendChild(el);
-        openDialogs[id] = { destroy };
-
-        return { id, el, vNode, destroy };
-      }
+      return { id, el, vNode, destroy };
     };
 
     const $closeDialog = (id: string) => {

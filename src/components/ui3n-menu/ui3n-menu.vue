@@ -1,71 +1,75 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-import { autoUpdate, flip, useFloating, offset, shift } from '@floating-ui/vue';
-import { default as vClickOutside } from '../../directives/ui3n-click-outside';
-import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots } from './types';
+  import { ref, watch } from 'vue';
+  import { autoUpdate, flip, useFloating, offset, shift } from '@floating-ui/vue';
+  import { default as vClickOutside } from '../../directives/ui3n-click-outside';
+  import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots } from './types';
 
-const props = withDefaults(defineProps<Ui3nMenuProps>(), {
-  positionStrategy: 'absolute',
-  offsetX: 0,
-  offsetY: 0,
-  closeOnClick: true,
-  closeOnClickOutside: true,
-  disabled: false,
-});
-const emits = defineEmits<Ui3nMenuEmits>();
-defineSlots<Ui3nMenuSlots>();
+  const props = withDefaults(defineProps<Ui3nMenuProps>(), {
+    positionStrategy: 'absolute',
+    offsetX: 0,
+    offsetY: 0,
+    closeOnClick: true,
+    closeOnClickOutside: true,
+    disabled: false,
+  });
+  const emits = defineEmits<Ui3nMenuEmits>();
+  defineSlots<Ui3nMenuSlots>();
 
-const menuElement = ref<HTMLDivElement | null>(null);
-const menuTriggerElement = ref<HTMLDivElement | null>(null);
-const menuContentElement = ref<HTMLDivElement | null>(null);
-const isShow = ref(false);
+  const menuElement = ref<HTMLDivElement | null>(null);
+  const menuTriggerElement = ref<HTMLDivElement | null>(null);
+  const menuContentElement = ref<HTMLDivElement | null>(null);
+  const isShow = ref(false);
 
-const { floatingStyles, isPositioned } = useFloating(
-  menuTriggerElement,
-  menuContentElement,
-  {
-    placement: 'bottom-start',
-    strategy: props.positionStrategy,
-    middleware: [
-      offset({
-        mainAxis: props.offsetY,
-        crossAxis: props.offsetX + 2,
-      }),
-      flip({
-        fallbackAxisSideDirection: 'end',
-        flipAlignment: false,
-        fallbackPlacements: ['bottom-end'],
-      }),
-      shift(),
-    ],
-    whileElementsMounted: props.positionStrategy === 'fixed' ? autoUpdate : undefined,
-  },
-);
+  const { floatingStyles, isPositioned } = useFloating(
+    menuTriggerElement,
+    menuContentElement,
+    {
+      placement: 'bottom-start',
+      strategy: props.positionStrategy,
+      middleware: [
+        offset({
+          mainAxis: props.offsetY,
+          crossAxis: props.offsetX + 2,
+        }),
+        flip({
+          fallbackAxisSideDirection: 'end',
+          flipAlignment: false,
+          fallbackPlacements: ['bottom-end'],
+        }),
+        shift(),
+      ],
+      whileElementsMounted: props.positionStrategy === 'fixed' ? autoUpdate : undefined,
+    },
+  );
 
-function toggleMenu() {
-  isShow.value = !isShow.value;
-  isShow.value ? emits('open') : emits('close');
-}
+  function toggleMenu() {
+    if (props.disabled) {
+      return;
+    }
 
-function onContentClick() {
-  isShow.value = false;
-  emits('close');
-}
+    isShow.value = !isShow.value;
+    isShow.value ? emits('open') : emits('close');
+  }
 
-function onClickOutside() {
-  emits('click-outside');
-  if (props.closeOnClickOutside) {
+  function onContentClick() {
     isShow.value = false;
     emits('close');
   }
-}
 
-watch(
-  isPositioned,
-  (val) => {
-    val ? emits('opened') : emits('closed');
-  },
-);
+  function onClickOutside() {
+    emits('click-outside');
+    if (props.closeOnClickOutside) {
+      isShow.value = false;
+      emits('close');
+    }
+  }
+
+  watch(
+    isPositioned,
+    val => {
+      val ? emits('opened') : emits('closed');
+    },
+  );
 </script>
 
 <template>
@@ -92,26 +96,26 @@ watch(
 </template>
 
 <style lang="scss" module>
-@use '../../assets/styles/mixins' as mixins;
+  @use '../../assets/styles/mixins' as mixins;
 
-.ui3nMenu {
-  --ui3n-menu-content-bg: var(--color-bg-control-secondary-default);
+  .ui3nMenu {
+    --ui3n-menu-content-bg: var(--color-bg-control-secondary-default);
 
-  position: relative;
-  max-width: max-content;
-  overflow: visible;
-}
+    position: relative;
+    max-width: max-content;
+    overflow: visible;
+  }
 
-.ui3nMenuTrigger {
-  position: relative;
-  max-width: max-content;
-}
+  .ui3nMenuTrigger {
+    position: relative;
+    max-width: max-content;
+  }
 
-.ui3nMenuContent {
-  position: absolute;
-  border-radius: 4px;
-  background-color: var(--ui3n-menu-content-bg);
-  z-index: 1000;
-  @include mixins.elevation(3);
-}
+  .ui3nMenuContent {
+    position: absolute;
+    border-radius: 4px;
+    background-color: var(--ui3n-menu-content-bg);
+    z-index: 1000;
+    @include mixins.elevation(3);
+  }
 </style>
