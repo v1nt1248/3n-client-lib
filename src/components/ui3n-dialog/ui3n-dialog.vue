@@ -10,7 +10,6 @@
   const emits = defineEmits<Ui3nDialogComponentEmits>();
 
   const currentDialogProps = computed(() => ({
-    teleport: props.dialogProps?.teleport || 'body',
     title: props.dialogProps?.title || '',
     cssClass: props.dialogProps?.cssClass || [],
     cssStyle: props.dialogProps?.cssStyle || {},
