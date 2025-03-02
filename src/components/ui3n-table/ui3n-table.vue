@@ -105,7 +105,7 @@
       </template>
     </div>
 
-    <!-- table body -->
+    <!-- table: body -->
     <div :class="$style.body">
       <template v-if="config?.showNoDataMessage && !size(body.content)">
         <slot name="no-data">
@@ -177,6 +177,11 @@
         </template>
       </template>
     </div>
+
+    <!-- table: unused space-->
+    <div :class="$style.unusedPlace">
+      <slot name="unused-place" />
+    </div>
   </div>
 </template>
 
@@ -200,6 +205,10 @@
     height: 100%;
     background-color: transparent;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
   }
 
   .header {
@@ -359,5 +368,9 @@
     font-size: var(--font-12);
     font-weight: 600;
     color: var(--ui3n-table-nodata-color);
+  }
+
+  .unusedPlace {
+    flex-grow: 1;
   }
 </style>
