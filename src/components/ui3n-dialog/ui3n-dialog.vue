@@ -86,7 +86,7 @@
 
   function onKeydown(event: KeyboardEvent) {
     const { code } = event;
-    console.log('onKeydown: ', code, props.dialogProps?.closeOnEsc);
+
     if (code === 'Escape' && props.dialogProps?.closeOnEsc) {
       event.preventDefault();
       event.stopPropagation();
@@ -205,12 +205,12 @@
       v-on="
         dialogProps?.draggable
           ? {
-            dragstart: onDragstart,
-            mousedown: onMousedown,
-            mouseup: onMouseup,
-            mousemove: onMousemove,
-            keydown: onKeydown
-        }
+              dragstart: onDragstart,
+              mousedown: onMousedown,
+              mouseup: onMouseup,
+              mousemove: onMousemove,
+              keydown: onKeydown,
+            }
           : { keydown: onKeydown }
       "
     >
@@ -261,7 +261,7 @@
       >
         <ui3n-button
           v-if="currentDialogProps.cancelButton"
-          type="secondary"
+          type="custom"
           :color="currentDialogProps.cancelButtonBackground"
           :text-color="currentDialogProps.cancelButtonColor"
           @click="handleEvent($event, 'cancel')"
@@ -271,6 +271,7 @@
 
         <ui3n-button
           v-if="currentDialogProps.confirmButton"
+          type="custom"
           :color="currentDialogProps.confirmButtonBackground"
           :text-color="currentDialogProps.confirmButtonColor"
           :disabled="!isValid"
