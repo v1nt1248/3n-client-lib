@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Component } from 'vue';
 import 'pinia';
-import { i18n } from './plugins/i18n/i18n';
-import { storeI18n } from './plugins/i18n/store-i18n';
-import { I18N_KEY, type I18nOptions, type I18nPlugin } from './plugins/i18n/types';
+import { i18n } from '@/plugins';
+import { storeI18n } from '@/plugins';
+import { I18N_KEY, type I18nOptions, type I18nPlugin } from '@/plugins';
 import type { Ui3nNotificationProps } from './components/ui3n-notification/types';
-import { notifications } from './plugins/notifications/notifications';
-import { storeNotifications } from './plugins/notifications/store-notifications';
-import { NOTIFICATIONS_KEY, type NotificationsPlugin } from './plugins/notifications/types';
-import { dialogs } from './plugins/dialogs/dialogs';
-import { storeDialogs } from './plugins/dialogs/store-dialogs';
+import { notifications } from '@/plugins';
+import { storeNotifications } from '@/plugins';
+import { NOTIFICATIONS_KEY, type NotificationsPlugin } from '@/plugins';
+import { dialogs } from '@/plugins';
+import { storeDialogs } from '@/plugins';
 import { DIALOGS_KEY, type DialogInstance, type DialogsPlugin } from './plugins/dialogs/types';
-import type { Ui3nDialogComponentProps } from './components/ui3n-dialog/types';
-import { vueBus } from './plugins/vue-bus/vue-bus';
-import { storeVueBus } from './plugins/vue-bus/store-vue-bus';
+import type { Ui3nDialogComponentProps } from '@/components';
+import { vueBus } from '@/plugins';
+import { storeVueBus } from '@/plugins';
 import { VUEBUS_KEY, type CbFunction, type VueEventBus, type VueBusPlugin } from './plugins/vue-bus/types';
 import type { PiniaActionTree, PiniaGetterTree } from './plugins/types';
 
@@ -32,15 +32,17 @@ declare module 'vue' {
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
-    $openDialog: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
-    $closeDialog: (id: string) => void;
-    $closeDialogs: () => void;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: VueEventBus<any>;
     $i18n: {
       locale: string;
       changeLocale: (lang: string) => void;
       tr: (key: string, placeholders?: Record<string, string>) => string;
+    };
+    $dialogs: {
+      open: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+      close: (id: string) => void;
+      closeAll: () => void;
     };
   }
 }
