@@ -127,7 +127,6 @@ onMounted(() => {
   border-radius: var(--spacing-xs);
   font-size: var(--ui3n-button-text-size);
   font-weight: 600;
-  line-height: calc(var(--ui3n-button-text-size) * 1.25);
   user-select: none;
   overflow: hidden;
 
@@ -209,6 +208,7 @@ onMounted(() => {
 .tertiary {
   background: transparent;
   color: var(--color-text-button-secondary-default);
+  line-height: calc(var(--ui3n-button-text-size) * 1.25);
   padding: 0;
 
   &:hover {
