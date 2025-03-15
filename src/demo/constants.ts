@@ -69,6 +69,7 @@ export const iconList: string[] = [
   'round-phone-missed',
   'round-phone-locked',
   'round-phone-disabled',
+  'round-plus',
   'round-refresh',
   'round-report-gmailerrorred',
   'round-schedule',
