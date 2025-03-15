@@ -300,6 +300,10 @@
   --svg: url('../icons/ic--round-phone.svg');
 }
 
+.ui3n-icon__round-plus {
+  --svg: url('../icons/ic--round-plus.svg');
+}
+
 .ui3n-icon__round-refresh {
   --svg: url('../icons/ic--round-refresh.svg');
 }
