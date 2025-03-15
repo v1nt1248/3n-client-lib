@@ -256,6 +256,10 @@
   --svg: url('../icons/ic--round-logout.svg');
 }
 
+.ui3n-icon__round-mail {
+  --svg: url('../icons/ic--round-mail.svg');
+}
+
 .ui3n-icon__round-mic-none {
   --svg: url('../icons/ic--round-mic-none.svg');
 }
@@ -336,8 +340,16 @@
   --svg: url('../icons/ic--round-warning.svg');
 }
 
+.ui3n-icon__send-variant-outline {
+  --svg: url('../icons/mdi--send-variant-outline.svg');
+}
+
 .ui3n-icon__sharp-people {
   --svg: url('../icons/ic--sharp-people.svg');
+}
+
+.ui3n-icon__schedule {
+  --svg: url('../icons/material-symbols--schedule-rounded.svg');
 }
 
 .ui3n-icon__shrink {
@@ -352,6 +364,14 @@
   --svg: url('../icons/material-symbols--splitscreen-right.svg')
 }
 
+.ui3n-icon__stylus {
+  --svg: url('../icons/material-symbols--stylus.svg');
+}
+
 .ui3n-icon__grid-view-line {
   --svg: url('../icons/si--grid-view-line.svg');
+}
+
+.ui3n-icon__trash-can {
+  --svg: url('../icons/mdi--trash-can.svg');
 }
