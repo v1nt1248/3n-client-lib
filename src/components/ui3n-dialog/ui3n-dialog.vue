@@ -2,6 +2,7 @@
   import { type Component, computed, nextTick, onMounted, ref } from 'vue';
   import omit from 'lodash/omit';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
+  import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
   import type { Ui3nDialogEvent, Ui3nDialogComponentProps, Ui3nDialogComponentEmits } from './types';
   import { ExtractComponentProps } from '@/components/types';
   import { determineWindowWidth } from './util';
@@ -54,6 +55,26 @@
       top: `${dragData.value.top}px`,
     }),
   }));
+
+  const iconData = computed(() => {
+    if (!props.dialogProps?.icon) return null;
+
+    if (typeof props.dialogProps.icon === 'string') {
+      return {
+        icon: props.dialogProps.icon,
+        width: 14,
+        height: 14,
+        color: 'var(--color-icon-control-secondary-default)',
+      };
+    }
+
+    return {
+      icon: props.dialogProps.icon.icon,
+      width: props.dialogProps.icon.size || 14,
+      height: props.dialogProps.icon.size || 14,
+      color: props.dialogProps.icon.color || 'var(--color-icon-control-secondary-default)',
+    };
+  });
 
   function selectData(value: unknown) {
     data.value = value;
@@ -219,6 +240,12 @@
         :class="$style.title"
         @click.stop
       >
+        <ui3n-icon
+          v-if="iconData"
+          v-bind="iconData"
+          :class="$style.icon"
+        />
+
         <span>{{ currentDialogProps.title }}</span>
       </div>
 
@@ -299,7 +326,7 @@
 
   .dialog {
     --dialog-border-radius: 8px;
-    --dialog-title-padding: 16px 32px 16px 16px;
+    --dialog-title-padding: 0 32px 0 16px;
     --dialog-title-font-size: 14px;
     --dialog-actions-padding: 16px;
     --dialog-confirm-button-color: var(--color-text-button-primary-default);
@@ -330,13 +357,25 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    column-gap: var(--spacing-s);
     padding: var(--dialog-title-padding);
-    font-size: var(--dialog-title-font-size);
-    font-weight: 600;
-    line-height: 1.2;
-    color: var(--color-text-control-primary-default);
     border-bottom: 1px solid var(--color-border-block-primary-default);
-    @include mixins.text-overflow-ellipsis();
+
+    span {
+      display: block;
+      position: relative;
+      height: var(--dialog-title-font-size);
+      flex-grow: 1;
+      font-size: var(--dialog-title-font-size);
+      font-weight: 600;
+      color: var(--color-text-control-primary-default);
+      @include mixins.text-overflow-ellipsis();
+    }
+
+    .icon {
+      position: relative;
+      top: -1px;
+    }
   }
 
   .dragHandleIcon {

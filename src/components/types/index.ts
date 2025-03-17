@@ -7,3 +7,9 @@ export type ExtractComponentProps<TComponent> = TComponent extends new () => {
   : never;
 
 export type Nullable<T> = T | null;
+
+export type Ui3nIconField = {
+  icon: string;
+  size?: string | number;
+  color?: string;
+};
