@@ -1,6 +1,7 @@
 import { VNode } from 'vue';
 
 export interface Ui3nMenuProps {
+  modelValue?: boolean;
   positionStrategy?: 'absolute' | 'fixed';
   offsetX?: number;
   offsetY?: number;
@@ -15,6 +16,7 @@ export interface Ui3nMenuEmits {
   (ev: 'close'): void;
   (ev: 'closed'): void;
   (ev: 'click-outside'): void;
+  (ev: 'update:modelValue', value: boolean): void;
 }
 
 export interface Ui3nMenuSlots {

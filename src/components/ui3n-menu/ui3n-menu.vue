@@ -49,11 +49,13 @@
 
     isShow.value = !isShow.value;
     isShow.value ? emits('open') : emits('close');
+    emits('update:modelValue', isShow.value);
   }
 
   function onContentClick() {
     isShow.value = false;
     emits('close');
+    emits('update:modelValue', isShow.value);
   }
 
   function onClickOutside() {
@@ -61,6 +63,7 @@
     if (props.closeOnClickOutside) {
       isShow.value = false;
       emits('close');
+      emits('update:modelValue', isShow.value);
     }
   }
 
@@ -70,13 +73,22 @@
       val ? emits('opened') : emits('closed');
     },
   );
+
+  watch(
+    () => props.modelValue,
+    val => {
+      if (isShow.value !== val) {
+        isShow.value = val;
+      }
+    }, { immediate: true },
+  );
 </script>
 
 <template>
   <div ref="menuElement" :class="$style.ui3nMenu">
     <div
       ref="menuTriggerElement"
-      :class="$style.ui3nMenuTrigger"
+      :class="[$style.ui3nMenuTrigger, disabled && $style.ui3nMenuTriggerDisabled]"
       @click.stop="toggleMenu"
     >
       <slot />
@@ -109,6 +121,11 @@
   .ui3nMenuTrigger {
     position: relative;
     max-width: max-content;
+
+    &.ui3nMenuTriggerDisabled {
+      pointer-events: none;
+      cursor: default;
+    }
   }
 
   .ui3nMenuContent {
