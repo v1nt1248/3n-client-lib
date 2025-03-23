@@ -30,6 +30,7 @@ import type Ui3nProgressCircular from './components/ui3n-progress/ui3n-progress-
 import type Ui3nRadio from './components/ui3n-radio-group/ui3n-radio.vue';
 import type Ui3nRadioGroup from './components/ui3n-radio-group/ui3n-radio-group.vue';
 import type Ui3nEditable from './components/ui3n-editable/ui3n-editable.vue';
+import type Ui3nAutocomplete from './components/ui3n-autocomplete/ui3n-autocomplete.vue';
 import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
 import type Ui3nResize from './directives/ui3n-resize';
@@ -59,6 +60,7 @@ declare module 'vue' {
   }
 
   interface GlobalComponents {
+    Ui3nAutocomplete: typeof Ui3nAutocomplete;
     Ui3nBadge: typeof Ui3nBadge;
     Ui3nBreadcrumb: typeof Ui3nBreadcrumb;
     Ui3nBreadcrumbs: typeof Ui3nBreadcrumbs;

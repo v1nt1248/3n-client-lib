@@ -6,6 +6,7 @@ Components, directives and plugins for Vue3 projects and some helpers methods (u
 You can run the project as `pnpm dev` or `npm run dev`.
 
 ### Components
+  - Ui3nAutocomplete,
   - Ui3nBadge,
   - Ui3nBreadcrumb
   - Ui3nBreadcrumbs
@@ -14,6 +15,7 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nChip
   - Ui3nDialog
   - Ui3nDroopFiles
+  - Ui3nEditable,
   - Ui3nEmoji
   - Ui3nIcon
   - Ui3nInput
@@ -31,7 +33,6 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nTable
   - Ui3nTabs
   - Ui3nText
-  - Ui3nTooltip
   - Ui3nVirtualScroll  
 
 ### Directives
