@@ -35,6 +35,6 @@ export interface Ui3nAutocompleteEmits<T extends Ui3nAutocompleteOptionBase> {
 export interface Ui3nAutocompleteSlots<T extends Ui3nAutocompleteOptionBase> {
   item: (props: { item: T; index: number; query?: string }) => VNode;
   chip: (props: { item: T | T[keyof T]; index: number }) => VNode;
-  noData: () => VNode;
+  noDataText: () => VNode;
   selection: (props: { value: T[] | Array<T[keyof T]> }) => VNode;
 }
