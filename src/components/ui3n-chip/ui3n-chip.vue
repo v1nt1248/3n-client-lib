@@ -42,6 +42,10 @@ const mainCssClasses = computed(() => {
 
   return val;
 });
+
+function onClick() {
+  emits('close');
+}
 </script>
 
 <template>
@@ -62,7 +66,7 @@ const mainCssClasses = computed(() => {
       color="transparent"
       icon="round-close"
       icon-color="var(--color-icon-control-primary-default)"
-      @click="emits('close')"
+      @click.stop.prevent="onClick"
     />
   </div>
 </template>

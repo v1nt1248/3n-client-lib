@@ -14,11 +14,24 @@
  You should have received a copy of the GNU General Public License along with
  this program. If not, see <http://www.gnu.org/licenses/>.
 -->
-<script setup lang="ts" generic="T extends { id: string; name: string }">
-  import { computed, ref } from 'vue';
+<script setup lang="ts" generic="T extends Ui3nAutocompleteOptionBase">
+  import { computed, ref, watch } from 'vue';
+  import cloneDeep from 'lodash/cloneDeep';
+  import isEmpty from 'lodash/isEmpty';
+  import size from 'lodash/size';
   import Ui3nChip from '../ui3n-chip/ui3n-chip.vue';
   import Ui3nMenu from '../ui3n-menu/ui3n-menu.vue';
-  import type { Ui3nAutocompleteProps, Ui3nAutocompleteEmits, Ui3nAutocompleteSlots } from './types';
+  import Ui3nHtml from '../../directives/ui3n-html';
+  import { markSearch, getRandomId } from '@/utils';
+  import type { Nullable } from '@/components/types';
+  import {
+    Ui3nAutocompleteOptionBase,
+    Ui3nAutocompleteProps,
+    Ui3nAutocompleteEmits,
+    Ui3nAutocompleteSlots,
+  } from './types';
+
+  const vUi3nHtml = Ui3nHtml;
 
   const props = withDefaults(defineProps<Ui3nAutocompleteProps<T>>(), {
     clearOnSelect: false,
@@ -32,28 +45,194 @@
   const emits = defineEmits<Ui3nAutocompleteEmits<T>>();
   defineSlots<Ui3nAutocompleteSlots<T>>();
 
+  const componentId = `auto-${getRandomId(4)}`;
+
   const query = ref('');
+  const isMenuOpen = ref(false);
+  const activatorEl = ref<Nullable<HTMLDivElement>>(null);
+  const inputEl = ref<Nullable<HTMLInputElement>>(null);
+  const menuBodyEl = ref<Nullable<HTMLDivElement>>(null);
+  const activeItemsIndex = ref<Nullable<number>>(null);
+
+  const ids = computed(() => props.returnObject
+    ? (props.modelValue as T[]).map(item => item.id)
+    : (props.modelValue as Array<T[keyof T]>));
 
   const displayValue = computed(() => {
     if (props.chips) return '';
 
-    if (!props.returnObject) {
-      return props.modelValue.map(v => v[props.itemTitle] || '?').join(', ');
+    if (props.returnObject) {
+      return (props.modelValue as T[]).map(v => v[props.itemTitle] || '?').join(', ');
     }
 
     return props.modelValue.join(', ');
   });
+
+  const filteredItems = computed(() => {
+    if (props.customFilter) {
+      return props.items
+        .filter(item => props.customFilter!(item, query.value))
+        .filter(item => {
+          if (!props.hideSelected) return true;
+
+          return props.returnObject
+            ? !(ids.value as string[]).includes(item.id as string)
+            : !(ids.value as Array<T[keyof T]>).includes(item as T[keyof T]);
+        });
+    }
+
+    return props.items
+      .filter(item => (item[props.itemTitle] as string).toLowerCase().includes(query.value.toLowerCase()))
+      .filter(item => {
+        if (!props.hideSelected) return true;
+
+        return props.returnObject
+          ? !(ids.value as string[]).includes(item.id as string)
+          : !(ids.value as Array<T[keyof T]>).includes(item as T[keyof T]);
+      });
+  });
+
+  function onInput() {
+    emits('update:search', query.value);
+  }
+
+  function onBlur() {
+    emits('update:focused', false)
+    activeItemsIndex.value = null;
+    query.value = '';
+  }
+
+  function onItemClick(item: T) {
+    if (props.disabled) return;
+
+    if (!props.multiple) {
+      const newValue = props.returnObject ? [item] : [item[props.itemValue]];
+      emits('update:modelValue', newValue);
+      return;
+    }
+
+    const updatedValue = cloneDeep(props.modelValue);
+    const index = props.returnObject
+      ? (props.modelValue as T[]).findIndex(v => v.id === item.id)
+      : props.modelValue.findIndex(v => v === item[props.itemValue]);
+
+    if (index > -1) {
+      updatedValue.splice(index, 1);
+    } else {
+      // @ts-ignore
+      updatedValue.push(props.returnObject ? item : item[props.itemValue]);
+    }
+    emits('update:modelValue', updatedValue);
+
+    props.clearOnSelect && (query.value = '');
+  }
+
+  function onChipClose(item: T | T[keyof T]) {
+    if (props.disabled) return;
+
+    const index = props.returnObject
+      ? (props.modelValue as T[]).findIndex(v => v.id === (item as T).id)
+      : (props.modelValue as Array<T[keyof T]>).findIndex(v => v === item);
+    const updatedModelValue = cloneDeep(props.modelValue);
+    updatedModelValue.splice(index, 1);
+    emits('update:modelValue', updatedModelValue);
+  }
+
+  function handlePressingDownKey() {
+    if (activeItemsIndex.value === null) {
+      activeItemsIndex.value = 0;
+      menuBodyEl.value && menuBodyEl.value.focus();
+      return;
+    }
+
+    if (activeItemsIndex.value >= 0 && activeItemsIndex.value < size(filteredItems.value) - 1) {
+      activeItemsIndex.value += 1;
+    }
+  }
+
+  function handlePressingUpKey() {
+    if (activeItemsIndex.value === null) {
+      activeItemsIndex.value = size(filteredItems.value) - 1;
+      menuBodyEl.value && menuBodyEl.value.focus();
+      return;
+    }
+
+    if (activeItemsIndex.value > 0 && activeItemsIndex.value < size(filteredItems.value)) {
+      activeItemsIndex.value -= 1;
+    }
+  }
+
+  function handlePressingEscOrTabKeys() {
+    emits('update:focused', false)
+    isMenuOpen.value = false;
+    activeItemsIndex.value = null;
+    query.value = '';
+    inputEl.value && inputEl.value.blur();
+    activatorEl.value && activatorEl.value.blur();
+  }
+
+  function handlePressingEnterKey() {
+    if (activeItemsIndex.value === null) {
+      isMenuOpen.value = true;
+      activeItemsIndex.value = 0;
+      menuBodyEl.value && menuBodyEl.value.focus();
+      return;
+    }
+
+    const item = filteredItems.value[activeItemsIndex.value!];
+    onItemClick(item);
+    activeItemsIndex.value = null;
+  }
+
+  function onKeydown(event: KeyboardEvent, key: 'down' | 'up' | 'esc' | 'enter' | 'tab') {
+    if (isEmpty(filteredItems.value)) return;
+
+    switch (key) {
+      case 'down':
+        event.preventDefault();
+        event.stopPropagation();
+        handlePressingDownKey();
+        break;
+      case 'up':
+        event.preventDefault();
+        event.stopPropagation();
+        handlePressingUpKey();
+        break;
+      case 'esc':
+      case 'tab':
+        handlePressingEscOrTabKeys();
+        break;
+      case 'enter':
+        event.preventDefault();
+        event.stopPropagation();
+        handlePressingEnterKey();
+        break;
+    }
+  }
+
+  watch(
+    () => size(filteredItems.value),
+    (val, oVal) => {
+      if (val !== oVal) {
+        activeItemsIndex.value = null;
+      }
+    },
+  );
 </script>
 
 <template>
   <div :class="$style.ui3nAutocomplete">
-    <ui3n-menu>
-      <div :class="$style.trigger">
+    <ui3n-menu v-model="isMenuOpen" :offset-x="2" :offset-y="4" :disabled="disabled">
+      <div ref="activatorEl" :class="$style.trigger">
         <template v-if="chips">
           <template v-for="(item, index) in modelValue" :key="item.id">
             <slot name="chip" :item="item" :index="index">
-              <ui3n-chip round closeable>
-                {{ item[props.itemTitle] }}
+              <ui3n-chip
+                round
+                closeable
+                @close="onChipClose(item)"
+              >
+                {{ returnObject ? (item as T)[props.itemTitle] : item }}
               </ui3n-chip>
             </slot>
           </template>
@@ -63,17 +242,49 @@
           <div :class="$style.displayValue">{{ displayValue }}</div>
         </template>
 
-        <input v-model="query" :class="$style.input" type="text" />
+        <input
+          ref="inputEl"
+          v-model="query"
+          type="text"
+          :class="$style.input"
+          :disabled="disabled"
+          @input="onInput"
+          @focusin="emits('update:focused', true)"
+          @focusout="onBlur"
+          @keydown.down="onKeydown($event, 'down')"
+          @keydown.up="onKeydown($event, 'up')"
+          @keydown.esc="onKeydown($event, 'esc')"
+          @keydown.enter="onKeydown($event, 'enter')"
+          @keydown.tab="onKeydown($event, 'tab')"
+        />
       </div>
 
       <template #menu>
-        <template v-for="(item, index) in items" :key="item.id">
-          <slot name="item" :item="item" :index="index">
-            <div :class="$style.item">
-              {{ item[props.itemTitle] }}
-            </div>
-          </slot>
-        </template>
+        <div ref="menuBodyEl" :class="$style.body">
+          <template v-if="size(filteredItems)">
+            <template v-for="(item, index) in filteredItems" :key="item.id">
+              <div
+                :id="`${componentId}-${index}`"
+                :class="[
+                  $style.item,
+                  activeItemsIndex === index && $style.itemSelected,
+                  disabled && $style.itemDisabled
+                ]"
+                @click.stop.prevent="onItemClick(item)"
+              >
+                <slot name="item" :item="item" :index="index" :query="query">
+                  <span v-ui3n-html="markSearch(item[props.itemTitle] as string, query)" />
+                </slot>
+              </div>
+            </template>
+          </template>
+
+          <div v-if="!size(filteredItems) && noDataText" :class="$style.noData">
+            <slot name="noDataText">
+              {{ noDataText }}
+            </slot>
+          </div>
+        </div>
       </template>
     </ui3n-menu>
   </div>
@@ -86,6 +297,11 @@
     position: relative;
     width: 100%;
     min-height: var(--autocomplete-min-height);
+
+    :global(.match-search) {
+      font-weight: 600;
+      color: var(--color-text-control-accent-default) !important;
+    }
   }
 
   .trigger {
@@ -99,7 +315,7 @@
 
   .displayValue {
     font-size: var(--font-12);
-    line-height: var(--font-16);
+    line-height: var(--autocomplete-min-height);
     font-weight: 400;
     color: var(--color-text-control-primary-default);
   }
@@ -127,15 +343,48 @@
     }
   }
 
+  .body {
+    position: relative;
+    background-color: var(--color-bg-control-secondary-default);
+    padding: var(--spacing-xs);
+  }
+
   .item {
     display: flex;
     min-height: var(--spacing-l);
     justify-content: flex-start;
     align-items: center;
-    padding: 0 var(--spacing-s);
+    padding: var(--spacing-xs) var(--spacing-s);
     font-size: var(--font-13);
     line-height: var(--font-16);
     font-weight: 500;
     color: var(--color-text-control-primary-default);
+    border-radius: var(--spacing-xs);
+    user-select: none;
+    cursor: pointer;
+
+    &.itemSelected,
+    &:hover {
+      background-color: var(--color-bg-control-primary-hover);
+      color: var(--color-text-control-accent-default);
+    }
+
+    &.itemDisabled {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+  }
+
+  .noData {
+    display: flex;
+    min-height: var(--spacing-l);
+    justify-content: flex-start;
+    align-items: center;
+    padding: var(--spacing-xs) var(--spacing-s);
+    font-size: var(--font-13);
+    line-height: var(--font-16);
+    font-weight: 500;
+    color: var(--color-text-control-primary-default);
+    border-radius: var(--spacing-xs);
   }
 </style>

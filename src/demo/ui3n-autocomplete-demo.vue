@@ -3,14 +3,19 @@
   import DemoLayout from './demo-layout.vue';
   import DemoLayoutCell from './demo-layout-cell.vue';
   import Ui3nAutocomplete from '../components/ui3n-autocomplete/ui3n-autocomplete.vue';
+  import Ui3nHtml from '../directives/ui3n-html';
+  import { markSearch } from '@/utils';
+  import { Ui3nAutocompleteOptionBase } from '../components/ui3n-autocomplete/types';
 
-  type ContactListItem = {
+  const vUi3nHtml = Ui3nHtml;
+
+  interface ContactListItem extends Ui3nAutocompleteOptionBase {
     id: string;
     name?: string,
     mail: string;
     avatarMini: string | null;
     displayName: string;
-  };
+  }
 
   const contactList: ContactListItem[] = [
     {
@@ -82,6 +87,10 @@
     const { name = '', mail } = value;
     return name.toLowerCase().includes(query.toLowerCase()) || mail.toLowerCase().includes(query.toLowerCase());
   }
+
+  function getDiaplayItem(item: ContactListItem): string {
+    return `${item.mail} (${item.name || '-'})`;
+  }
 </script>
 
 <template>
@@ -95,10 +104,20 @@
           no-data-text="The list is empty"
           clear-on-select
           hide-selected
+          chips
           multiple
           return-object
-        />
+        >
+          <template #item="{ item, query }">
+            <div
+              v-ui3n-html="markSearch(getDiaplayItem(item), query || '')"
+              style="position: relative; width: max-content"
+            />
+          </template>
+        </ui3n-autocomplete>
       </demo-layout-cell>
+
+      <div>{{ JSON.stringify(value, null, 2) }}</div>
     </div>
   </demo-layout>
 </template>
@@ -106,6 +125,8 @@
 <style lang="scss" scoped>
   .wrapper {
     position: relative;
-    width: 500px;
+    display: grid;
+    grid-template-columns: 500px auto;
+    column-gap: 16px;
   }
 </style>
