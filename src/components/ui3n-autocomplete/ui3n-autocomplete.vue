@@ -21,7 +21,8 @@
   import size from 'lodash/size';
   import Ui3nChip from '../ui3n-chip/ui3n-chip.vue';
   import Ui3nMenu from '../ui3n-menu/ui3n-menu.vue';
-  import Ui3nHtml from '../../directives/ui3n-html';
+  import Ui3nHtml from '@/directives/ui3n-html';
+  import Ui3nClickOutside from '@/directives/ui3n-click-outside';
   import { markSearch, getRandomId } from '@/utils';
   import type { Nullable } from '@/components/types';
   import {
@@ -32,6 +33,7 @@
   } from './types';
 
   const vUi3nHtml = Ui3nHtml;
+  const vUi3nClickOutside = Ui3nClickOutside;
 
   const props = withDefaults(defineProps<Ui3nAutocompleteProps<T>>(), {
     clearOnSelect: false,
@@ -210,6 +212,10 @@
     }
   }
 
+  function onClickOutside() {
+    handlePressingEscOrTabKeys();
+  }
+
   watch(
     () => size(filteredItems.value),
     (val, oVal) => {
@@ -260,7 +266,7 @@
       </div>
 
       <template #menu>
-        <div ref="menuBodyEl" :class="$style.body">
+        <div ref="menuBodyEl" v-ui3n-click-outside="onClickOutside" :class="$style.body">
           <template v-if="size(filteredItems)">
             <template v-for="(item, index) in filteredItems" :key="item.id">
               <div
