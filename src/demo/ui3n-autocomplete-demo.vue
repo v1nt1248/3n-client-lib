@@ -99,14 +99,17 @@
       <demo-layout-cell label="Default">
         <ui3n-autocomplete
           v-model="value"
+          placeholder="Enter email address"
           :items="contactList"
           :custom-filter="filterContactList"
-          no-data-text="The list is empty"
           clear-on-select
           hide-selected
           chips
           multiple
-          return-object
+          item-title="displayName"
+          item-value="mail"
+          add-new-value
+          :new-value-validator="(v) => v.includes('@')"
         >
           <template #item="{ item, query }">
             <div

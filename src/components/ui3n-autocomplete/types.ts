@@ -20,6 +20,8 @@ export interface Ui3nAutocompleteProps<T extends Ui3nAutocompleteOptionBase> {
   itemTitle?: keyof T;
   itemValue?: keyof T;
   modelValue: T[] | Array<T[keyof T]>;
+  addNewValue?: boolean;
+  newValueValidator?: (value: string) => boolean;
   multiple?: boolean;
   noDataText?: string;
   placeholder?: string;
@@ -30,6 +32,7 @@ export interface Ui3nAutocompleteEmits<T extends Ui3nAutocompleteOptionBase> {
   (event: 'update:modelValue', value: T[] | Array<T[keyof T]>): void;
   (event: 'update:search', value: string): void;
   (event: 'update:focused', value: boolean): void;
+  (event: 'valid:new-value', value: boolean): void;
 }
 
 export interface Ui3nAutocompleteSlots<T extends Ui3nAutocompleteOptionBase> {

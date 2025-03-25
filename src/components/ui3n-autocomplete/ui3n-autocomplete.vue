@@ -52,6 +52,7 @@
   const inputEl = ref<Nullable<HTMLInputElement>>(null);
   const menuBodyEl = ref<Nullable<HTMLDivElement>>(null);
   const activeItemsIndex = ref<Nullable<number>>(null);
+  const isNewValueValid = ref(true);
 
   const ids = computed(() => props.returnObject
     ? (props.modelValue as T[]).map(item => item.id)
@@ -96,7 +97,7 @@
   }
 
   function onBlur() {
-    emits('update:focused', false)
+    emits('update:focused', false);
     activeItemsIndex.value = null;
 
     setTimeout(() => {
@@ -166,7 +167,7 @@
   }
 
   function handlePressingEscOrTabKeys() {
-    emits('update:focused', false)
+    emits('update:focused', false);
     isMenuOpen.value = false;
     activeItemsIndex.value = null;
     query.value = '';
@@ -175,21 +176,35 @@
   }
 
   function handlePressingEnterKey() {
-    if (activeItemsIndex.value === null) {
+    if (activeItemsIndex.value === null && !isMenuOpen.value) {
       isMenuOpen.value = true;
       activeItemsIndex.value = 0;
       menuBodyEl.value && menuBodyEl.value.focus();
       return;
     }
 
-    const item = filteredItems.value[activeItemsIndex.value!];
-    onItemClick(item);
-    activeItemsIndex.value = null;
+    if (activeItemsIndex.value === null && isMenuOpen.value && query.value) {
+      isNewValueValid.value = !props.newValueValidator ? true : props.newValueValidator(query.value);
+      emits('valid:new-value', isNewValueValid.value);
+      if (isNewValueValid.value) {
+        const item =  {
+          id: getRandomId(6),
+          [props.itemTitle]: query.value,
+          [props.itemValue]: query.value,
+        };
+        onItemClick(item as unknown as T);
+      }
+      return;
+    }
+
+    if (activeItemsIndex.value !== null) {
+      const item = filteredItems.value[activeItemsIndex.value!];
+      onItemClick(item);
+      activeItemsIndex.value = null;
+    }
   }
 
   function onKeydown(event: KeyboardEvent, key: 'down' | 'up' | 'esc' | 'enter' | 'tab') {
-    if (isEmpty(filteredItems.value)) return;
-
     switch (key) {
       case 'down':
         event.preventDefault();
@@ -218,6 +233,10 @@
     (val, oVal) => {
       if (val !== oVal) {
         activeItemsIndex.value = null;
+      }
+
+      if (val && !isNewValueValid.value) {
+        isNewValueValid.value = true;
       }
     },
   );
@@ -249,7 +268,8 @@
           ref="inputEl"
           v-model="query"
           type="text"
-          :class="$style.input"
+          :class="[$style.input, !isNewValueValid && $style.inputWithError]"
+          :placeholder="isEmpty(modelValue) && placeholder ? placeholder : ''"
           :disabled="disabled"
           @input="onInput"
           @focusin="emits('update:focused', true)"
@@ -343,7 +363,12 @@
     &:hover,
     &:focus {
       height: calc(var(--autocomplete-min-height) - 2px);
-      border: 1px solid var(--color-border-control-accent-focused);
+
+      &:not(.inputWithError) {
+        border: 1px solid var(--color-border-control-accent-focused);
+      }
+
+      border: 1px solid var(--error-content-default);
     }
   }
 
