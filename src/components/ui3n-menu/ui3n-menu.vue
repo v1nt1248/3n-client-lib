@@ -50,7 +50,7 @@
         }),
         shift(),
       ],
-      whileElementsMounted: props.positionStrategy === 'fixed' ? autoUpdate : undefined,
+      whileElementsMounted: props.positionAutoupdate || props.positionStrategy === 'fixed' ? autoUpdate : undefined,
     },
   );
 

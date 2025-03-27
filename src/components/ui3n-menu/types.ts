@@ -3,6 +3,7 @@ import { VNode } from 'vue';
 export interface Ui3nMenuProps {
   modelValue?: boolean;
   positionStrategy?: 'absolute' | 'fixed';
+  positionAutoupdate?: boolean;
   offsetX?: number;
   offsetY?: number;
   contentBorderRadius?: number | number[];

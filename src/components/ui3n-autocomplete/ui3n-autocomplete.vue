@@ -77,7 +77,7 @@
 
           return props.returnObject
             ? !(ids.value as string[]).includes(item.id as string)
-            : !(ids.value as Array<T[keyof T]>).includes(item as T[keyof T]);
+            : !(ids.value as Array<T[keyof T]>).includes(item[props.itemValue]);
         });
     }
 
@@ -88,7 +88,7 @@
 
         return props.returnObject
           ? !(ids.value as string[]).includes(item.id as string)
-          : !(ids.value as Array<T[keyof T]>).includes(item as T[keyof T]);
+          : !(ids.value as Array<T[keyof T]>).includes(item[props.itemValue]);
       });
   });
 
@@ -187,7 +187,7 @@
       isNewValueValid.value = !props.newValueValidator ? true : props.newValueValidator(query.value);
       emits('valid:new-value', isNewValueValid.value);
       if (isNewValueValid.value) {
-        const item =  {
+        const item = {
           id: getRandomId(6),
           [props.itemTitle]: query.value,
           [props.itemValue]: query.value,
@@ -248,6 +248,7 @@
       v-model="isMenuOpen"
       :offset-x="2"
       :offset-y="4"
+      position-autoupdate
       :content-border-radius="[0, 0, 8, 8]"
       :disabled="disabled"
     >
@@ -290,7 +291,11 @@
       </div>
 
       <template #menu>
-        <div ref="menuBodyEl" :class="$style.body">
+        <div
+          v-if="!isEmpty(filteredItems) || (isEmpty(filteredItems) && noDataText)"
+          ref="menuBodyEl"
+          :class="$style.body"
+        >
           <template v-if="size(filteredItems)">
             <template v-for="(item, index) in filteredItems" :key="item.id">
               <div
@@ -303,7 +308,10 @@
                 @click.stop.prevent="onItemClick(item)"
               >
                 <slot name="item" :item="item" :index="index" :query="query">
-                  <span v-ui3n-html="markSearch(item[props.itemTitle] as string, query)" />
+                  <div
+                    v-ui3n-html="markSearch(item[props.itemTitle] as string, query)"
+                    :class="$style.simpleItem"
+                  />
                 </slot>
               </div>
             </template>
@@ -409,6 +417,11 @@
       opacity: 0.7;
       pointer-events: none;
     }
+  }
+
+  .simpleItem {
+    position: relative;
+    width: max-content;
   }
 
   .noData {

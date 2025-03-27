@@ -88,7 +88,7 @@
     return name.toLowerCase().includes(query.toLowerCase()) || mail.toLowerCase().includes(query.toLowerCase());
   }
 
-  function getDiaplayItem(item: ContactListItem): string {
+  function getDisplayItem(item: ContactListItem): string {
     return `${item.mail} (${item.name || '-'})`;
   }
 </script>
@@ -113,7 +113,7 @@
         >
           <template #item="{ item, query }">
             <div
-              v-ui3n-html="markSearch(getDiaplayItem(item), query || '')"
+              v-ui3n-html="markSearch(getDisplayItem(item), query || '')"
               style="position: relative; width: max-content"
             />
           </template>
