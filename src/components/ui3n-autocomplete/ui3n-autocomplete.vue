@@ -244,12 +244,19 @@
 
 <template>
   <div :class="$style.ui3nAutocomplete">
-    <ui3n-menu v-model="isMenuOpen" :offset-x="2" :offset-y="4" :disabled="disabled">
+    <ui3n-menu
+      v-model="isMenuOpen"
+      :offset-x="2"
+      :offset-y="4"
+      :content-border-radius="[0, 0, 8, 8]"
+      :disabled="disabled"
+    >
       <div ref="activatorEl" :class="$style.trigger">
         <template v-if="chips">
           <template v-for="(item, index) in modelValue" :key="item.id">
             <slot name="chip" :item="item" :index="index">
               <ui3n-chip
+                height="32"
                 round
                 closeable
                 @close="onChipClose(item)"
@@ -315,7 +322,7 @@
 
 <style lang="scss" module>
   .ui3nAutocomplete {
-    --autocomplete-min-height: var(--spacing-ml);
+    --autocomplete-min-height: var(--spacing-l);
 
     position: relative;
     width: 100%;
@@ -349,7 +356,7 @@
     flex-grow: 1;
     height: var(--autocomplete-min-height);
     font-size: var(--font-12);
-    line-height: var(--font-16);
+    line-height: var(--autocomplete-min-height);
     font-weight: 400;
     color: var(--color-text-control-primary-default);
     background-color: transparent;
@@ -362,19 +369,19 @@
 
     &:hover,
     &:focus {
+      background-color: var(--color-bg-control-secondary-default);
+    }
+
+    &.inputWithError {
       height: calc(var(--autocomplete-min-height) - 2px);
-
-      &:not(.inputWithError) {
-        border: 1px solid var(--color-border-control-accent-focused);
-      }
-
+      padding: 0 calc(var(--spacing-s) - 1px);
       border: 1px solid var(--error-content-default);
     }
   }
 
   .body {
     position: relative;
-    background-color: var(--color-bg-control-secondary-default);
+    background-color: var(--color-bg-block-primary-default);
     padding: var(--spacing-xs);
   }
 

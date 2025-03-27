@@ -5,6 +5,8 @@ export interface Ui3nMenuProps {
   positionStrategy?: 'absolute' | 'fixed';
   offsetX?: number;
   offsetY?: number;
+  contentBorderRadius?: number | number[];
+  zIndex?: number;
   closeOnClick?: boolean;
   closeOnClickOutside?: boolean;
   disabled?: boolean;

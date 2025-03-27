@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { ref, watch } from 'vue';
+  import { computed, ref, watch } from 'vue';
   import { autoUpdate, flip, useFloating, offset, shift } from '@floating-ui/vue';
   import { default as vClickOutside } from '../../directives/ui3n-click-outside';
   import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots } from './types';
@@ -8,6 +8,8 @@
     positionStrategy: 'absolute',
     offsetX: 0,
     offsetY: 0,
+    contentBorderRadius: 4,
+    zIndex: 1000,
     closeOnClick: true,
     closeOnClickOutside: true,
     disabled: false,
@@ -19,6 +21,16 @@
   const menuTriggerElement = ref<HTMLDivElement | null>(null);
   const menuContentElement = ref<HTMLDivElement | null>(null);
   const isShow = ref(false);
+
+  const contentBorderRadiusCss = computed(() => {
+    if (typeof props.contentBorderRadius === 'number') {
+      return `${props.contentBorderRadius}px`;
+    }
+
+    const [tl, tr, br, bl] = props.contentBorderRadius;
+    return `${tl}px ${tr}px ${br}px ${bl}px`;
+  });
+  const zIndexCss = computed(() => props.zIndex);
 
   const { floatingStyles, isPositioned } = useFloating(
     menuTriggerElement,
@@ -112,6 +124,7 @@
 
   .ui3nMenu {
     --ui3n-menu-content-bg: var(--color-bg-control-secondary-default);
+    --ui3n-menu-content-border-raduis: v-bind(contentBorderRadiusCss);
 
     position: relative;
     max-width: max-content;
@@ -130,9 +143,10 @@
 
   .ui3nMenuContent {
     position: absolute;
-    border-radius: 4px;
+    border-radius: var(--ui3n-menu-content-border-raduis);
     background-color: var(--ui3n-menu-content-bg);
-    z-index: 1000;
-    @include mixins.elevation(3);
+    z-index: v-bind(zIndexCss);
+    overflow: hidden;
+    @include mixins.dropShadow();
   }
 </style>
