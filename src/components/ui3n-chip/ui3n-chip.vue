@@ -24,13 +24,23 @@ const slots = useSlots();
 const $css = useCssModule();
 
 const height = computed(() => `${props.height}px`);
-const iconHeight = computed(() => props.height ? Number(props.height) - 2 : Number(props.height));
-const padding = computed(() => `${Math.round(Number(props.height) / 3)}px`);
+const iconHeight = computed(() => Number(props.height) - 4);
+
 const maxWidth = computed(() => `${props.maxWidth}px`);
 const bgColor = computed(() => props.color);
 const textSize = computed(() => `${props.textSize}px`);
 const textColor = computed(() => props.textColor);
 const hasLeftSlot = computed(() => !!slots.left);
+
+const padding = computed(() => {
+  const padValue = Math.round(Number(props.height) / 3);
+
+  if (hasLeftSlot.value) {
+    return `0 ${padValue}px 0 4px`;
+  }
+
+  return `0 ${padValue}px`;
+});
 
 const mainCssClasses = computed(() => {
   const val = [$css.ui3nChip];
@@ -76,7 +86,7 @@ function onClick() {
   position: relative;
   display: flex;
   height: v-bind('height');
-  padding: 0 v-bind('padding');
+  padding: v-bind('padding');
   width: max-content;
   max-width: v-bind('maxWidth');
   background-color: v-bind('bgColor');
