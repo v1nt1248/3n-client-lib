@@ -210,7 +210,7 @@
   --s-accent-fill-default: var(--white-100);
   --s-accent-fill-hover: var(--blue-10);
   --s-accent-fill-focused: var(--white-100);
-  --s-accent-fill-pressed: var(--blue-70);
+  --s-accent-fill-pressed: var(--blue-20);
   --s-accent-fill-disabled: var(--blue-0);
   --s-accent-content-default: var(--blue-50);
   --s-accent-content-hover: var(--blue-50);
