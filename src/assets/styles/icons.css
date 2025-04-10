@@ -440,6 +440,26 @@
   --svg: url('../icons/ic--round-warning.svg');
 }
 
+.ui3n-icon__cancel {
+  --svg: url('../icons/mdi--cancel.svg');
+}
+
+.ui3n-icon__forward-outline {
+  --svg: url('../icons/mdi--forward-outline.svg');
+}
+
+.ui3n-icon__forward-off-outline {
+  --svg: url('../icons/mdi--forward-off-outline.svg');
+}
+
+.ui3n-icon__reply-all-outline {
+  --svg: url('../icons/mdi--reply-all-outline.svg');
+}
+
+.ui3n-icon__reply-outline {
+  --svg: url('../icons/mdi--reply-outline.svg');
+}
+
 .ui3n-icon__send-variant-outline {
   --svg: url('../icons/mdi--send-variant-outline.svg');
 }
