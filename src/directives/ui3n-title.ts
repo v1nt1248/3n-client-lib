@@ -34,36 +34,13 @@ export interface Ui3nTitleDirectiveProps {
 export type Ui3nTitleDirectiveBinding = DirectiveBinding<Ui3nTitleDirectiveProps>;
 
 const baseOffset = 8;
-const controllers: Record<string, AbortController> = {};
 let showTitle = false;
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 let cleanup: Nullable<Function> = null;
 const id = getRandomId(3);
 
-function addEventListener(
-  eventName: 'click' | 'mouseenter' | 'mouseleave',
-  el: HTMLElement,
-  props: Ui3nTitleDirectiveProps,
-) {
-  controllers[eventName] = new AbortController();
-  el.addEventListener(
-    eventName,
-    function () {
-      switch (eventName) {
-        case 'click':
-          onClick(el, props);
-          break;
-        case 'mouseenter':
-          onMouseEnter(el, props);
-          break;
-        case 'mouseleave':
-          onMouseLeave(el, props);
-          break;
-      }
-    },
-    { signal: controllers[eventName].signal },
-  );
-}
+const elsBinding = new WeakMap();
+const elsHandlers = new WeakMap();
 
 function getOffsetOptions(placement: Ui3nTitleDirectivePlacement, offsetX: string | number, offsetY: string | number) {
   const mainPlacement = placement.split('-')[0];
@@ -117,10 +94,14 @@ function makeTooltip(el: HTMLElement, props: Ui3nTitleDirectiveProps, isOpen: bo
     return;
   }
 
-  const tooltipElement = document.createElement('div');
-  tooltipElement.id = id;
+  const possibleTooltipElement = document.getElementById(id);
+  const tooltipElement = possibleTooltipElement || document.createElement('div');
+  if (!possibleTooltipElement) {
+    tooltipElement.id = id;
+    tooltipElement.classList.add('ui3n-title');
+  }
+
   tooltipElement.innerHTML = text;
-  tooltipElement.classList.add('ui3n-title');
   tooltipElement.style.maxWidth = `${maxWidth}px`;
   tooltipElement.style.color = color;
   tooltipElement.style.backgroundColor = bgColor;
@@ -145,61 +126,61 @@ function makeTooltip(el: HTMLElement, props: Ui3nTitleDirectiveProps, isOpen: bo
   });
 }
 
-function onClick(el: HTMLElement, props: Ui3nTitleDirectiveProps) {
-  if (props.disabled) {
-    removeTooltipElement(id);
-    showTitle = false;
-    return;
-  }
-
-  makeTooltip(el, props, !showTitle);
-}
-
-function onMouseEnter(el: HTMLElement, props: Ui3nTitleDirectiveProps) {
-  if (props.disabled) {
-    removeTooltipElement(id);
-    showTitle = false;
-    return;
-  }
-
-  makeTooltip(el, props, true);
-}
-
-function onMouseLeave(el: HTMLElement, props: Ui3nTitleDirectiveProps) {
-  if (props.disabled) {
-    removeTooltipElement(id);
-    showTitle = false;
-    return;
-  }
-
-  makeTooltip(el, props, false);
-}
-
-function handle(el: HTMLElement, props: Ui3nTitleDirectiveProps) {
-  if (props.trigger === 'click') {
-    addEventListener('click', el, props);
-  } else {
-    addEventListener('mouseenter', el, props);
-    addEventListener('mouseleave', el, props);
-  }
-}
-
 export default {
   mounted(el: HTMLElement, binding: Ui3nTitleDirectiveBinding) {
-    handle(el, binding.value);
+    elsBinding.set(el, binding.value);
+
+    const handler = (ev: MouseEvent) => {
+      const props = elsBinding.get(el) as Ui3nTitleDirectiveProps;
+
+      if (props.disabled) {
+        removeTooltipElement(id);
+        showTitle = false;
+        return;
+      }
+
+      switch (ev.type) {
+        case 'click':
+          makeTooltip(el, props, !showTitle);
+          break;
+        case 'mouseenter':
+          makeTooltip(el, props, true);
+          break;
+        case 'mouseleave':
+          makeTooltip(el, props, false);
+          break;
+      }
+    };
+
+    elsHandlers.set(el, handler);
+
+    if (binding.value.trigger === 'click') {
+      el.addEventListener('click', handler);
+    } else {
+      el.addEventListener('mouseenter', handler);
+      el.addEventListener('mouseleave', handler);
+    }
   },
-  updated: (el: HTMLElement, binding: Ui3nTitleDirectiveBinding) => {
-    handle(el, binding.value);
+  updated(el: HTMLElement, binding: Ui3nTitleDirectiveBinding) {
+    const isBindingPresent = elsBinding.has(el);
+    if (isBindingPresent) {
+      elsBinding.delete(el);
+    }
+    elsBinding.set(el, binding.value);
   },
-  beforeUnmount() {
+  beforeUnmount(el: HTMLElement, binding: Ui3nTitleDirectiveBinding) {
     cleanup && cleanup();
     cleanup = null;
 
     removeTooltipElement(id);
     showTitle = false;
 
-    Object.keys(controllers).forEach(key => {
-      controllers[key].abort();
-    });
+    const handler = elsHandlers.get(el);
+    if (binding.value.trigger === 'click') {
+      el.removeEventListener('click', handler);
+    } else {
+      el.removeEventListener('mouseenter', handler);
+      el.removeEventListener('mouseleave', handler);
+    }
   },
 };

@@ -16,7 +16,7 @@
       <demo-layout-cell label="Default use">
         <ui3n-button
           v-ui3n-title="{
-            text: content,
+            text: `${Date.now()} -> ${content}`,
             maxWidth: 300,
             bgColor: '#770044',
             color: '#fff',
