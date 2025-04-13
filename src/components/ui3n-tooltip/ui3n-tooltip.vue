@@ -8,8 +8,8 @@
   const baseOffset = 5;
 
   const props = withDefaults(defineProps<Ui3nTooltipProps>(), {
-    color: 'var(--color-bg-control-secondary-default)',
-    textColor: 'var(--color-text-control-primary-default)',
+    color: 'var(--color-bg-block-tritery-default)',
+    textColor: 'var(--color-text-block-darkery-default)',
     placement: 'top',
     positionStrategy: 'absolute',
     offsetX: 0,
@@ -201,8 +201,8 @@
   .content {
     position: relative;
     max-width: 400px;
-    padding: var(--spacing-xs) var(--spacing-s);
-    border-radius: var(--spacing-xs);
+    padding: 6px var(--spacing-s);
+    border-radius: 6px;
     font-size: var(--font-11);
     line-height: var(--font-12);
     font-weight: 400;
