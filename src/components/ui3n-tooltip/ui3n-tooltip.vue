@@ -96,6 +96,8 @@
 
     referenceEl.value = el.nodeName === '#text' ? el.nextElementSibling : el;
 
+    if (!referenceEl.value) return;
+
     if (props.trigger === 'hover') {
       referenceEl.value!.addEventListener('mouseenter', onMouseenter);
       referenceEl.value!.addEventListener('mouseleave', onMouseleave);
@@ -105,6 +107,8 @@
   });
 
   onBeforeUnmount(() => {
+    if (!referenceEl.value) return;
+
     if (props.trigger === 'hover') {
       referenceEl.value!.removeEventListener('mouseenter', onMouseenter);
       referenceEl.value!.removeEventListener('mouseleave', onMouseleave);

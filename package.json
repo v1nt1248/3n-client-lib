@@ -2,7 +2,7 @@
   "name": "@v1nt1248/3nclient-lib",
   "license": "AGPL-3.0-or-later",
   "author": "v1nt1248",
-  "version": "0.1.90",
+  "version": "0.1.91",
   "description": "Library for 3NWeb clients",
   "type": "module",
   "files": [
@@ -70,7 +70,7 @@
     "@types/sanitize-html": "2.13.0",
     "@typescript-eslint/eslint-plugin": "8.0.1",
     "@typescript-eslint/parser": "8.0.1",
-    "@vitejs/plugin-vue": "5.2.1",
+    "@vitejs/plugin-vue": "5.2.3",
     "@vue/compiler-core": "3.5.13",
     "@vue/eslint-config-typescript": "13.0.0",
     "@vue/runtime-core": "3.5.13",
@@ -93,22 +93,25 @@
     "stylelint-config-recommended-vue": "1.5.0",
     "stylelint-config-standard": "36.0.1",
     "stylelint-scss": "6.5.0",
-    "typescript": "5.7.3",
-    "vite": "5.4.14",
+    "typescript": "5.8.3",
+    "vite": "6.2.6",
     "vite-plugin-css-injected-by-js": "3.5.2",
     "vite-plugin-dts": "4.5.0",
-    "vite-plugin-vue-devtools": "^7.7.0",
+    "vite-plugin-vue-devtools": "^7.7.2",
     "vitepress": "1.5.0",
     "vue": "3.5.13",
     "vue-tsc": "2.2.0"
   },
-  "packageManager": "pnpm@10.7.0",
+  "packageManager": "pnpm@10.8.1",
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [
         "@algolia/client-search",
         "search-insights"
       ]
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }
