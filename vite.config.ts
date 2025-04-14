@@ -51,6 +51,7 @@ export default defineConfig({
       ...currentConfig,
       formats: ['es'],
       name: 'Ui3nLib',
+      cssFileName: 'style',
     },
     rollupOptions: {
       external: ['vue', 'pinia'],
