@@ -9,6 +9,7 @@ export interface Ui3nChipProps {
   color?: string;
   textSize?: number | string;
   textColor?: string;
+  disabled?: boolean;
 }
 export interface Ui3nChipEmits {
   (ev: 'close'): void;

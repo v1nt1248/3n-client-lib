@@ -76,6 +76,7 @@ function onClick() {
       color="transparent"
       icon="round-close"
       icon-color="var(--color-icon-control-primary-default)"
+      :disabled="disabled"
       @click.stop.prevent="onClick"
     />
   </div>
