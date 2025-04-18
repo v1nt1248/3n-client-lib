@@ -101,7 +101,7 @@
     show.value = false;
     props.dialogProps?.onClose && props.dialogProps.onClose();
     if (withAction) {
-      emits('close');
+      emits('close', data.value);
     }
   }
 

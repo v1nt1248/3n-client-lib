@@ -15,7 +15,7 @@ export interface Ui3nDialogProps {
   contentCssStyle?: Record<string, string>;
   confirmButton?: boolean;
   cancelButton?: boolean;
-  onClose?: () => void;
+  onClose?: (data?: unknown) => void;
   onConfirm?: (data: unknown) => void;
   onCancel?: (data: unknown) => void;
   confirmButtonText?: string;
