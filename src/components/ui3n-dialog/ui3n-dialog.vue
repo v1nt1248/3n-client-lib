@@ -99,7 +99,7 @@
       ev.preventDefault();
     }
     show.value = false;
-    props.dialogProps?.onClose && props.dialogProps.onClose();
+    props.dialogProps?.onClose && props.dialogProps.onClose(data.value);
     if (withAction) {
       emits('close', data.value);
     }
