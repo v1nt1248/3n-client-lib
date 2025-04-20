@@ -364,7 +364,6 @@
     span {
       display: block;
       position: relative;
-      height: var(--dialog-title-font-size);
       flex-grow: 1;
       font-size: var(--dialog-title-font-size);
       font-weight: 600;
