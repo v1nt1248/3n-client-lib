@@ -121,7 +121,7 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: var(--spacing-s);
+  column-gap: var(--spacing-xs);
   border: none;
   outline: none;
   border-radius: var(--spacing-xs);
