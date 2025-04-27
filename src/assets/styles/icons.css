@@ -436,6 +436,10 @@
   --svg: url('../icons/ic--round-text-increase.svg');
 }
 
+.ui3n-icon__round-unfold-more {
+  --svg: url('../icons/ic--round-unfold-more.svg');
+}
+
 .ui3n-icon__round-warning {
   --svg: url('../icons/ic--round-warning.svg');
 }

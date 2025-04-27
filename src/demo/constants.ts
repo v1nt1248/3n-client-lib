@@ -103,6 +103,7 @@ export const iconList: string[] = [
   'round-table-chart',
   'round-text-decrease',
   'round-text-increase',
+  'round-unfold-more',
   'round-warning',
   'cancel',
   'forward-outline',
