@@ -71,6 +71,7 @@ export const iconList: string[] = [
   'round-format-list-bulleted',
   'round-format-list-numbered',
   'round-format-quote',
+  'round-format-size',
   'round-format-underlined',
   'round-headphones',
   'round-home',

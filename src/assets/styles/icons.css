@@ -308,6 +308,10 @@
   --svg: url('../icons/ic--round-format-quote.svg');
 }
 
+.ui3n-icon__round-format-size {
+  --svg: url('../icons/ic--round-format-size.svg');
+}
+
 .ui3n-icon__round-format-underlined {
   --svg: url('../icons/ic--round-format-underlined.svg');
 }
