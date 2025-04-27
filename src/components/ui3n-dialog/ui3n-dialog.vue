@@ -211,7 +211,7 @@
     v-if="show"
     ref="dialogOverlayElement"
     :class="$style.overlay"
-    @click="startEmit('click-overlay', $event)"
+    @click.self.prevent="startEmit('click-overlay', $event)"
   >
     <div
       :id="dialogProps?.id"
@@ -238,7 +238,6 @@
       <div
         v-if="currentDialogProps.title"
         :class="$style.title"
-        @click.stop
       >
         <ui3n-icon
           v-if="iconData"
@@ -264,7 +263,6 @@
         v-if="component"
         :class="[$style.content, ...currentDialogProps.contentCssClass!]"
         :style="currentDialogProps.contentCssStyle"
-        @click.stop
       >
         <!-- @vue-ignore  -->
         <component
@@ -284,7 +282,6 @@
           $style.actions,
           currentDialogProps.confirmButton && currentDialogProps.cancelButton && $style.bothBtns,
         ]"
-        @click.stop
       >
         <ui3n-button
           v-if="currentDialogProps.cancelButton"
