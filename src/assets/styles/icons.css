@@ -332,6 +332,22 @@
   --svg: url('../icons/ic--round-info.svg');
 }
 
+.ui3n-icon__round-keyboard-arrow-down {
+  --svg: url('../icons/ic--round-keyboard-arrow-down.svg');
+}
+
+.ui3n-icon__round-keyboard-arrow-left {
+  --svg: url('../icons/ic--round-keyboard-arrow-left.svg');
+}
+
+.ui3n-icon__round-keyboard-arrow-right {
+  --svg: url('../icons/ic--round-keyboard-arrow-right.svg');
+}
+
+.ui3n-icon__round-keyboard-arrow-up {
+  --svg: url('../icons/ic--round-keyboard-arrow-up.svg');
+}
+
 .ui3n-icon__round-language {
   --svg: url('../icons/ic--round-language.svg');
 }
