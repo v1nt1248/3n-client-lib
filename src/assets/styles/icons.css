@@ -432,6 +432,14 @@
   --svg: url('../icons/ic--round-share.svg');
 }
 
+.ui3n-icon__round-subdirectory-arrow-left {
+  --svg: url('../icons/ic--round-subdirectory-arrow-left.svg');
+}
+
+.ui3n-icon__round-subdirectory-arrow-right {
+  --svg: url('../icons/ic--round-subdirectory-arrow-right.svg');
+}
+
 .ui3n-icon__round-strikethrough {
   --svg: url('../icons/ic--round-strikethrough-s.svg');
 }

@@ -101,6 +101,8 @@ export const iconList: string[] = [
   'round-schedule',
   'round-search',
   'round-share',
+  'round-subdirectory-arrow-left',
+  'round-subdirectory-arrow-right',
   'round-strikethrough',
   'round-send',
   'round-subject',
