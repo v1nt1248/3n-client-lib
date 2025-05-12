@@ -364,6 +364,10 @@
   --svg: url('../icons/ic--round-mail.svg');
 }
 
+.ui3n-icon__round-menu {
+  --svg: url('../icons/ic--round-menu.svg');
+}
+
 .ui3n-icon__round-mic-none {
   --svg: url('../icons/ic--round-mic-none.svg');
 }

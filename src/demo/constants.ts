@@ -85,6 +85,7 @@ export const iconList: string[] = [
   'round-link',
   'round-logout',
   'round-mail',
+  'round-menu',
   'round-mic-none',
   'round-mic-off',
   'round-person-outline',
