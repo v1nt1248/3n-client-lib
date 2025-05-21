@@ -1,7 +1,8 @@
-import { VNode } from 'vue';
+import type { VNode } from 'vue';
 
 export interface Ui3nMenuProps {
   modelValue?: boolean;
+  triggerElement?: HTMLElement;
   positionStrategy?: 'absolute' | 'fixed';
   positionAutoupdate?: boolean;
   offsetX?: number;

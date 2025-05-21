@@ -22,6 +22,8 @@
   const menuContentElement = ref<HTMLDivElement | null>(null);
   const isShow = ref(false);
 
+  const outerTriggerElement = computed(() => props.triggerElement || null);
+
   const contentBorderRadiusCss = computed(() => {
     if (typeof props.contentBorderRadius === 'number') {
       return `${props.contentBorderRadius}px`;
@@ -32,27 +34,23 @@
   });
   const zIndexCss = computed(() => props.zIndex);
 
-  const { floatingStyles, isPositioned } = useFloating(
-    menuTriggerElement,
-    menuContentElement,
-    {
-      placement: 'bottom-start',
-      strategy: props.positionStrategy,
-      middleware: [
-        offset({
-          mainAxis: props.offsetY,
-          crossAxis: props.offsetX + 2,
-        }),
-        flip({
-          fallbackAxisSideDirection: 'end',
-          flipAlignment: false,
-          fallbackPlacements: ['bottom-end'],
-        }),
-        shift(),
-      ],
-      whileElementsMounted: props.positionAutoupdate || props.positionStrategy === 'fixed' ? autoUpdate : undefined,
-    },
-  );
+  const { floatingStyles, isPositioned } = useFloating(outerTriggerElement || menuTriggerElement, menuContentElement, {
+    placement: 'bottom-start',
+    strategy: props.positionStrategy,
+    middleware: [
+      offset({
+        mainAxis: props.offsetY,
+        crossAxis: props.offsetX + 2,
+      }),
+      flip({
+        fallbackAxisSideDirection: 'end',
+        flipAlignment: false,
+        fallbackPlacements: ['bottom-end'],
+      }),
+      shift(),
+    ],
+    whileElementsMounted: props.positionAutoupdate || props.positionStrategy === 'fixed' ? autoUpdate : undefined,
+  });
 
   function toggleMenu() {
     if (props.disabled) {
@@ -79,12 +77,9 @@
     }
   }
 
-  watch(
-    isPositioned,
-    val => {
-      val ? emits('opened') : emits('closed');
-    },
-  );
+  watch(isPositioned, val => {
+    val ? emits('opened') : emits('closed');
+  });
 
   watch(
     () => props.modelValue,
@@ -92,12 +87,16 @@
       if (isShow.value !== val) {
         isShow.value = val;
       }
-    }, { immediate: true },
+    },
+    { immediate: true },
   );
 </script>
 
 <template>
-  <div ref="menuElement" :class="$style.ui3nMenu">
+  <div
+    ref="menuElement"
+    :class="$style.ui3nMenu"
+  >
     <div
       ref="menuTriggerElement"
       :class="[$style.ui3nMenuTrigger, disabled && $style.ui3nMenuTriggerDisabled]"
