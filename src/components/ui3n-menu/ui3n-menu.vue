@@ -3,6 +3,7 @@
   import { autoUpdate, flip, useFloating, offset, shift } from '@floating-ui/vue';
   import { default as vClickOutside } from '../../directives/ui3n-click-outside';
   import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots } from './types';
+  import { Nullable } from '@/components/types';
 
   const props = withDefaults(defineProps<Ui3nMenuProps>(), {
     positionStrategy: 'absolute',
@@ -22,7 +23,9 @@
   const menuContentElement = ref<HTMLDivElement | null>(null);
   const isShow = ref(false);
 
-  const outerTriggerElement = computed(() => props.triggerElement || null);
+  const outerTriggerElement = ref<Nullable<HTMLElement>>(props.triggerElement || null);
+
+  const usedTriggerElement = computed(() => outerTriggerElement.value || menuTriggerElement.value);
 
   const contentBorderRadiusCss = computed(() => {
     if (typeof props.contentBorderRadius === 'number') {
@@ -34,7 +37,13 @@
   });
   const zIndexCss = computed(() => props.zIndex);
 
-  const { floatingStyles, isPositioned } = useFloating(outerTriggerElement || menuTriggerElement, menuContentElement, {
+  const {
+    floatingStyles,
+    isPositioned,
+  } = useFloating(
+    usedTriggerElement,
+    menuContentElement,
+    {
     placement: 'bottom-start',
     strategy: props.positionStrategy,
     middleware: [
@@ -90,6 +99,15 @@
     },
     { immediate: true },
   );
+
+  watch(
+    () => props.triggerElement,
+    val => {
+      if (val) {
+        outerTriggerElement.value = val;
+      }
+    },
+  )
 </script>
 
 <template>
