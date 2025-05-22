@@ -160,6 +160,10 @@
   --svg: url('../icons/ic--round-add-circle-outline.svg');
 }
 
+.ui3n-icon__round-apps {
+  --svg: url('../icons/ic--round-apps.svg');
+}
+
 .ui3n-icon__round-add {
   --svg: url('../icons/ic--round-add.svg');
 }
@@ -522,6 +526,10 @@
 
 .ui3n-icon__stylus {
   --svg: url('../icons/material-symbols--stylus.svg');
+}
+
+.ui3n-icon__app-store {
+  --svg: url('../icons/ri--app-store-line.svg');
 }
 
 .ui3n-icon__grid-view-line {

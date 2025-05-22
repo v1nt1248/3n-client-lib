@@ -36,6 +36,7 @@ export const iconList: string[] = [
   'outline-videocam',
   'outline-wb-sunny',
   'round-add-circle-outline',
+  'round-apps',
   'round-arrow-back',
   'round-arrow-downward',
   'round-arrow-upward',
@@ -127,4 +128,5 @@ export const iconList: string[] = [
   'splitscreen-right',
   'stylus',
   'trash-can',
+  'app-store',
 ];
