@@ -121,7 +121,7 @@ function validate(text: string) {
       if (typeof validateFunction === 'function') {
         const res = validateFunction(text);
         if (typeof res === 'string') {
-          errorMessage.value += res;
+          errorMessage.value += `${res} `;
         }
       }
     }
