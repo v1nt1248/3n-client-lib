@@ -92,6 +92,10 @@
   --svg: url('../icons/material-symbols--folder-open-outline.svg');
 }
 
+.ui3n-icon__outline-hard-drive {
+  --svg: url('../icons/material-symbols--hard-drive-outline.svg');
+}
+
 .ui3n-icon__outline-image {
   --svg: url('../icons/ic--outline-image.svg');
 }
