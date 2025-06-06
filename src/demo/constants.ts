@@ -60,6 +60,7 @@ export const iconList: string[] = [
   'round-edit',
   'round-file-upload',
   'round-folder',
+  'round-folder-data',
   'round-format-align-center',
   'round-format-align-justify',
   'round-format-align-left',

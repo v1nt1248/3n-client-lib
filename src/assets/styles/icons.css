@@ -88,6 +88,10 @@
   --svg: url('../icons/ic--outline-folder.svg');
 }
 
+.ui3n-icon__round-folder-data {
+  --svg: url('../icons/material-symbols--folder-data-rounded.svg');
+}
+
 .ui3n-icon__outline-folder-open {
   --svg: url('../icons/material-symbols--folder-open-outline.svg');
 }
