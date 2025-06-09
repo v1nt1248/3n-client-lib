@@ -131,4 +131,6 @@ export const iconList: string[] = [
   'stylus',
   'trash-can',
   'app-store',
+  'rectangles-two',
+  'squares-four',
 ];
