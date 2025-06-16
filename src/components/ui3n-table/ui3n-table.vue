@@ -225,6 +225,7 @@
 
     &.withGroupActions {
       height: calc(var(--ui3n-table-base-head-height) + var(--ui3n-table-group-actions-height));
+      min-height: calc(var(--ui3n-table-base-head-height) + var(--ui3n-table-group-actions-height));
       padding-top: var(--ui3n-table-group-actions-height);
     }
 
