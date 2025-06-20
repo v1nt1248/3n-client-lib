@@ -344,6 +344,14 @@
   --svg: url('../icons/ic--round-info.svg');
 }
 
+.ui3n-icon__round-key {
+  --svg: url('../icons/ic--round-key.svg');
+}
+
+.ui3n-icon__round-key-off {
+  --svg: url('../icons/ic--round-key-off.svg');
+}
+
 .ui3n-icon__round-keyboard-arrow-down {
   --svg: url('../icons/ic--round-keyboard-arrow-down.svg');
 }
@@ -366,6 +374,10 @@
 
 .ui3n-icon__round-link {
   --svg: url('../icons/ic--round-link.svg');
+}
+
+.ui3n-icon__round-lock {
+  --svg: url('../icons/ic--round-lock.svg');
 }
 
 .ui3n-icon__round-logout {
@@ -446,6 +458,10 @@
 
 .ui3n-icon__round-share {
   --svg: url('../icons/ic--round-share.svg');
+}
+
+.ui3n-icon__round-shield {
+  --svg: url('../icons/ic--round-shield.svg');
 }
 
 .ui3n-icon__round-subdirectory-arrow-left {
