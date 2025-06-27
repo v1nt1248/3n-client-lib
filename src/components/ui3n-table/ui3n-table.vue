@@ -16,6 +16,7 @@
     visibleColumns,
     hasGroupActionsRow,
     showGroupActionsRow,
+    selectedRows,
     selectedRowsArray,
     selectedRowsSize,
     closeGroupActionsRow,
@@ -33,6 +34,7 @@
 
   defineExpose({
     getRowStyle,
+    selectedRows,
     selectedRowsArray,
     hasGroupActionsRow,
     closeGroupActionsRow,
