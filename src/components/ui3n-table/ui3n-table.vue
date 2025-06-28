@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T extends Ui3nTableBodyBaseItem">
   import size from 'lodash/size';
   import { useTable } from './composables/useTable';
-  import type { Ui3nTableBodyBaseItem, Ui3nTableEmits, Ui3nTableProps, Ui3nTableSlots } from './types';
+  import type { Ui3nTableBodyBaseItem, Ui3nTableEmits, Ui3nTableProps, Ui3nTableSlots, Ui3nTableExpose } from './types';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
   import Ui3nCheckbox from '../ui3n-checkbox/ui3n-checkbox.vue';
   import Ui3nTableSortIcon from './ui3n-table-sort-icon.vue';
@@ -32,7 +32,7 @@
     select: processSelection,
   };
 
-  defineExpose({
+  defineExpose<Ui3nTableExpose>({
     getRowStyle,
     selectedRows,
     selectedRowsArray,

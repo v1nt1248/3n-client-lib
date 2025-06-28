@@ -1,4 +1,4 @@
-import { VNode } from 'vue';
+import { VNode, type Ref, type ComputedRef } from 'vue';
 
 export interface Ui3nTableBodyBaseItem {
   id?: string | number | symbol;
@@ -97,3 +97,11 @@ export interface Ui3nTableSortIconProps {
   color?: string;
   value: 'asc' | 'desc';
 }
+
+export type Ui3nTableExpose<T extends Ui3nTableBodyBaseItem> = {
+  selectedRows: Ref<Set<T> | Array<T[keyof T]>>;
+  selectedRowsArray: ComputedRef<T[]>;
+  hasGroupActionsRow: Ref<boolean>;
+  getRowStyle: (row: T) => Record<string, string>;
+  closeGroupActionsRow: () => void;
+};
