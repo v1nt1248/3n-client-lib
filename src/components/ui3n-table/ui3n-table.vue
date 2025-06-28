@@ -32,7 +32,7 @@
     select: processSelection,
   };
 
-  defineExpose<Ui3nTableExpose>({
+  defineExpose<Ui3nTableExpose<T>>({
     getRowStyle,
     selectedRows,
     selectedRowsArray,
