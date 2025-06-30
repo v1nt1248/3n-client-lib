@@ -25,7 +25,9 @@ export * from './files/blob-to-b64';
 export * from './files/b64-to-blob';
 export * from './files/uint8-to-b64';
 export * from './files/resize-image';
+export * from './files/file-to-uint8array';
 export * from './files/create-video-thumbnail';
+export * from './files/mime-types';
 
 export { SQLiteOn3NStorage } from './sqlite-on-3nstorage';
 export type { BindParams, Database, QueryExecResult } from './sqlite-on-3nstorage';

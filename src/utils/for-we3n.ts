@@ -1,4 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
+import { getFileExtension } from './files/get-file-extension';
+import { mimeTypes } from './files/mime-types';
 
 export function getDeliveryErrors(progress: web3n.asmail.DeliveryProgress) {
   const { recipients } = progress;
@@ -20,4 +22,14 @@ export async function transformFileToWeb3NFile(file: File): Promise<web3n.files.
   const fsItemCollection = await w3n.storage!.getSysFS!('device', path);
   const { isFile, item } = fsItemCollection;
   return isFile && item ? (item as web3n.files.File) : undefined;
+}
+
+export async function transformWeb3nFileToFile(file: web3n.files.File): Promise<File | null> {
+  const ext = getFileExtension(file.name);
+  const mimeType = mimeTypes[ext] ?? 'text/plain';
+
+  const arr = await file.readBytes();
+  if (!arr) return null;
+
+  return new File([new Blob([arr], { type: mimeType })], file.name, { type: mimeType });
 }
