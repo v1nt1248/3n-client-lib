@@ -2,7 +2,7 @@ export type Task = () => Promise<void>;
 
 export interface TaskRunnerInstance {
   addTask: (task: Task) => void;
-  cancelTask: () => void;
+  cancelTasks: () => void;
 }
 
 export class TaskRunner implements TaskRunnerInstance {
@@ -38,10 +38,10 @@ export class TaskRunner implements TaskRunnerInstance {
 
     if (this.numberOfRunners >= this.maxNumberOfRunners) return;
 
-    this.sequenceRunner(this.nextTask);
+    this.sequenceRunner(this.nextTask.bind(this));
   }
 
-  cancelTask() {
+  cancelTasks() {
     this.arrayOfTasks = [] as Task[];
   }
 }
