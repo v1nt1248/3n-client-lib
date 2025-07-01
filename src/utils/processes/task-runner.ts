@@ -1,0 +1,42 @@
+export type Task = () => Promise<void>;
+
+export class TaskRunner {
+  private readonly maxNumberOfRunners: number = 0;
+  private arrayOfTasks = [] as Task[];
+  private numberOfRunners = 0;
+
+  constructor(maxNumberOfRunners: number | undefined) {
+    this.maxNumberOfRunners = maxNumberOfRunners || 3;
+  }
+
+  private async sequenceRunner(getTask: () => Task | undefined): Promise<void> {
+    let task = getTask();
+
+    if (task) {
+      this.numberOfRunners += 1;
+    }
+
+    while (task) {
+      await task();
+      task = getTask();
+    }
+
+    this.numberOfRunners -= 1;
+  }
+
+  private nextTask(): Task | undefined {
+    return this.arrayOfTasks.shift();
+  }
+
+  addTask(task: Task) {
+    this.arrayOfTasks.push(task);
+
+    if (this.numberOfRunners >= this.maxNumberOfRunners) return;
+
+    this.sequenceRunner(this.nextTask);
+  }
+
+  cancelTask() {
+    this.arrayOfTasks = [] as Task[];
+  }
+}

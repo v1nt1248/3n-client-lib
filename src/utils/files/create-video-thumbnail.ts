@@ -14,15 +14,17 @@ export async function createVideoThumbnail(file: File, targetSize: number, seekT
     });
     // load metadata of the video to get video duration and dimensions
     videoPlayer.addEventListener('loadedmetadata', () => {
+      let newSeekTo = seekTo;
       // seek to user defined timestamp (in seconds) if possible
-      if (videoPlayer.duration < seekTo) {
-        console.error(`The video [${file.name}] is too short.`);
-        resolve(null);
-        return;
+      if (videoPlayer.duration < newSeekTo) {
+        // console.error(`The video [${file.name}] is too short.`);
+        // resolve(null);
+        // return;
+        newSeekTo = videoPlayer.duration / 2;
       }
       // delay seeking or else 'seeked' event won't fire on Safari
       setTimeout(() => {
-        videoPlayer.currentTime = seekTo;
+        videoPlayer.currentTime = newSeekTo;
       }, 200);
       // extract video thumbnail once seeking is complete
       videoPlayer.addEventListener('seeked', () => {

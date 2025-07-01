@@ -2,6 +2,7 @@ export * from './processes/deferred';
 export * from './processes/sleep';
 export * from './processes/single';
 export * from './processes/named-procs';
+export * from './processes/task-runner';
 
 export * from './round';
 export * from './get-random-id';
