@@ -1,11 +1,16 @@
 export type Task = () => Promise<void>;
 
-export class TaskRunner {
+export interface TaskRunnerInstance {
+  addTask: (task: Task) => void;
+  cancelTask: () => void;
+}
+
+export class TaskRunner implements TaskRunnerInstance {
   private readonly maxNumberOfRunners: number = 0;
   private arrayOfTasks = [] as Task[];
   private numberOfRunners = 0;
 
-  constructor(maxNumberOfRunners: number | undefined) {
+  constructor(maxNumberOfRunners?: number | undefined) {
     this.maxNumberOfRunners = maxNumberOfRunners || 3;
   }
 
