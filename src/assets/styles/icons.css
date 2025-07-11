@@ -132,6 +132,10 @@
   --svg: url('../icons/ic--outline-reply.svg');
 }
 
+.ui3n-icon__outline-report-problem {
+  --svg: url('../icons/ic--outline-report-problem.svg');
+}
+
 .ui3n-icon__outline-screen-share {
   --svg: url('../icons/ic--outline-screen-share.svg');
 }
@@ -206,6 +210,10 @@
 
 .ui3n-icon__round-call-end {
   --svg: url('../icons/ic--round-call-end.svg');
+}
+
+.ui3n-icon__round-cancel-schedule-send {
+  --svg: url('../icons/ic--round-cancel-schedule-send.svg');
 }
 
 .ui3n-icon__round-check-box-outline-blank {
