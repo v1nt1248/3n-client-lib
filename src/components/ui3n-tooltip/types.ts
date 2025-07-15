@@ -17,6 +17,7 @@ export type Ui3nTooltipPlacement =
 export interface Ui3nTooltipProps {
   modelValue?: boolean;
   content?: string;
+  maxContentWidth?: number | string;
   color?: string;
   textColor?: string;
   placement?: Ui3nTooltipPlacement;

@@ -65,6 +65,8 @@
   const timerId = ref();
   const progressValue = ref(0);
 
+  const tooltipDisable = ref(false);
+
   interface TableDemoItem extends Ui3nTableBodyBaseItem {
     name: string;
     type: string;
@@ -757,9 +759,10 @@
         </div>
         <div class="demo-row__cell">
           <ui3n-tooltip
-            content="Tooltip text"
+            content="Tooltip text (top, hover)"
             placement="top"
             trigger="hover"
+            :disabled="tooltipDisable"
           >
             <ui3n-button>Tooltip TOP (Hover)</ui3n-button>
           </ui3n-tooltip>

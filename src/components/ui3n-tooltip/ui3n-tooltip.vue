@@ -8,6 +8,7 @@
   const baseOffset = 5;
 
   const props = withDefaults(defineProps<Ui3nTooltipProps>(), {
+    maxContentWidth: 400,
     color: 'var(--color-bg-block-tritery-default)',
     textColor: 'var(--color-text-block-darkery-default)',
     placement: 'top',
@@ -24,6 +25,7 @@
   const floatingEl = ref<Nullable<HTMLElement>>(null);
   const floatingArrowEl = ref<Nullable<HTMLElement>>(null);
 
+  const maxContentWidthCssValue = computed(() => `${props.maxContentWidth}px`);
   const baseOffsetCssValue = computed(() => `${-baseOffset}px`);
   const arrowSizeCssValue = computed(() => `${baseOffset}px`);
   const mainPlacement = computed(() => {
@@ -66,18 +68,24 @@
   });
 
   function onMouseenter() {
+    if (props.disabled) return;
+
     showTooltip.value = true;
     emits('open');
     emits('update:modelValue', true);
   }
 
   function onMouseleave() {
+    if (props.disabled) return;
+
     showTooltip.value = false;
     emits('close');
     emits('update:modelValue', false);
   }
 
   function onClick() {
+    if (props.disabled) return;
+
     if (showTooltip.value) {
       onMouseleave();
     } else {
@@ -86,8 +94,6 @@
   }
 
   onMounted(() => {
-    if (props.disabled) return;
-
     const inst = getCurrentInstance();
     const el = inst?.vnode?.el;
     if (!el) {
@@ -204,7 +210,7 @@
 
   .content {
     position: relative;
-    max-width: 400px;
+    max-width: v-bind(maxContentWidthCssValue);
     padding: 6px var(--spacing-s);
     border-radius: 6px;
     font-size: var(--font-11);
