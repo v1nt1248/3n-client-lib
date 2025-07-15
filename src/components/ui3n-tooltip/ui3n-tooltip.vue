@@ -76,7 +76,7 @@
   }
 
   function onMouseleave() {
-    if (props.disabled) return;
+    if (props.disabled && !showTooltip.value) return;
 
     showTooltip.value = false;
     emits('close');
@@ -84,7 +84,7 @@
   }
 
   function onClick() {
-    if (props.disabled) return;
+    if (props.disabled && !showTooltip.value) return;
 
     if (showTooltip.value) {
       onMouseleave();
