@@ -268,6 +268,10 @@
   --svg: url('../icons/ic--round-edit.svg');
 }
 
+.ui3n-icon__round-eject {
+  --svg: url('../icons/ic--round-eject.svg');
+}
+
 .ui3n-icon__round-file-upload {
   --svg: url('../icons/ic--round-file-upload.svg');
 }
@@ -442,6 +446,10 @@
 
 .ui3n-icon__round-plus {
   --svg: url('../icons/ic--round-plus.svg');
+}
+
+.ui3n-icon__round-play-arrow {
+  --svg: url('../icons/ic--round-play-arrow.svg');
 }
 
 .ui3n-icon__round-refresh {
