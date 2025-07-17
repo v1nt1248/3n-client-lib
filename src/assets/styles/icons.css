@@ -48,6 +48,10 @@
   --svg: url('../icons/ic--outline-account-circle.svg');
 }
 
+.ui3n-icon__outline-admin-panel {
+  --svg: url('../icons/ic--outline-admin-panel-settings.svg');
+}
+
 .ui3n-icon__outline-arrow-drop-down {
   --svg: url('../icons/ic--outline-arrow-drop-down.svg');
 }
@@ -578,6 +582,14 @@
 
 .ui3n-icon__trash-can {
   --svg: url('../icons/mdi--trash-can.svg');
+}
+
+.ui3n-icon__hand {
+  --svg: url('../icons/ph--hand.svg');
+}
+
+.ui3n-icon__handshake {
+  --svg: url('../icons/ph--handshake.svg');
 }
 
 .ui3n-icon__rectangles-two {
