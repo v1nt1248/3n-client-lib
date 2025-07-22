@@ -1,4 +1,4 @@
-export function uint8ToBase64(inputData: Uint8Array, type = 'image/png'): string {
+export function uint8ToDataURL(inputData: Uint8Array, type = 'image/png'): string {
   let size = inputData.length;
   const binaryString = new Array(size);
   while (size--) {

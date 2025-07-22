@@ -24,7 +24,7 @@ export * from './files/is-file-image';
 export * from './files/is-file-video';
 export * from './files/blob-to-b64';
 export * from './files/b64-to-blob';
-export * from './files/uint8-to-b64';
+export * from './files/uint8-to-data-url';
 export * from './files/resize-image';
 export * from './files/file-to-uint8array';
 export * from './files/create-video-thumbnail';
