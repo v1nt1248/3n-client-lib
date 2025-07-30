@@ -47,6 +47,8 @@ export const iconList: string[] = [
   'round-bookmark',
   'round-brush',
   'round-call-end',
+  'round-call-made',
+  'round-call-received',
   'round-cancel-schedule-send',
   'round-check-box-outline-blank',
   'round-check-box',

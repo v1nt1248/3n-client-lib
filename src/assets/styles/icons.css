@@ -216,6 +216,14 @@
   --svg: url('../icons/ic--round-call-end.svg');
 }
 
+.ui3n-icon__round-call-made {
+  --svg: url('../icons/ic--round-call-made.svg');
+}
+
+.ui3n-icon__round-call-received {
+  --svg: url('../icons/ic--round-call-received.svg');
+}
+
 .ui3n-icon__round-cancel-schedule-send {
   --svg: url('../icons/ic--round-cancel-schedule-send.svg');
 }
