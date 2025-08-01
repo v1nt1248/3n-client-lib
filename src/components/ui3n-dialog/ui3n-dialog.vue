@@ -323,8 +323,10 @@
 
   .dialog {
     --dialog-border-radius: 8px;
+    --dialog-title-height: 48px;
     --dialog-title-padding: 0 32px 0 16px;
     --dialog-title-font-size: 14px;
+    --dialog-actions-height: 64px;
     --dialog-actions-padding: 16px;
     --dialog-confirm-button-color: var(--color-text-button-primary-default);
     --dialog-cancel-button-color: var(--color-text-button-secondary-default);
@@ -350,7 +352,8 @@
   .title {
     position: relative;
     width: 100%;
-    height: calc(var(--spacing-m) * 3);
+    min-height: var(--dialog-title-height);
+    height: var(--dialog-title-height);
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -394,6 +397,9 @@
   .actions {
     padding: var(--dialog-actions-padding);
     display: flex;
+    width: 100%;
+    min-height: var(--dialog-actions-height);
+    height: var(--dialog-actions-height);
     justify-content: flex-end;
     align-items: center;
     gap: var(--spacing-s);
