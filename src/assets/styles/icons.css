@@ -528,6 +528,22 @@
   --svg: url('../icons/ic--round-unfold-more.svg');
 }
 
+.ui3n-icon__round-volume-down {
+  --svg: url('../icons/ic--round-volume-down.svg');
+}
+
+.ui3n-icon__round-volume-mute {
+  --svg: url('../icons/ic--round-volume-mute.svg');
+}
+
+.ui3n-icon__round-volume-off {
+  --svg: url('../icons/ic--round-volume-off.svg');
+}
+
+.ui3n-icon__round-volume-up {
+  --svg: url('../icons/ic--round-volume-up.svg');
+}
+
 .ui3n-icon__round-warning {
   --svg: url('../icons/ic--round-warning.svg');
 }
