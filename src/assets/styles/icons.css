@@ -424,6 +424,18 @@
   --svg: url('../icons/ic--round-mic-off.svg');
 }
 
+.ui3n-icon__round-more-horiz {
+  --svg: url('../icons/ic--round-more-horiz.svg');
+}
+
+.ui3n-icon__round-more-time {
+  --svg: url('../icons/ic--round-more-time.svg');
+}
+
+.ui3n-icon__round-more-vert {
+  --svg: url('../icons/ic--round-more-vert.svg');
+}
+
 .ui3n-icon__round-person-outline {
   --svg: url('../icons/ic--round-person-outline.svg');
 }
@@ -526,6 +538,10 @@
 
 .ui3n-icon__round-unfold-more {
   --svg: url('../icons/ic--round-unfold-more.svg');
+}
+
+.ui3n-icon__round-unfold-more-double {
+  --svg: url('../icons/ic--round-unfold-more-double.svg');
 }
 
 .ui3n-icon__round-volume-down {
