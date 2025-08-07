@@ -2,7 +2,7 @@ import { onMounted, ref, watch } from 'vue';
 import debounce from 'lodash/debounce';
 import sanitizeHtml from 'sanitize-html';
 import { selectAll } from '@/utils';
-import type { Nullable } from '@/components/types';
+import type { Nullable } from '@/types';
 import type { Ui3nContentEditableEmits, Ui3nContentEditableProps } from '@/components/ui3n-editable/types';
 
 export function useContentEditable(props: Ui3nContentEditableProps, emits: Ui3nContentEditableEmits) {
@@ -90,7 +90,9 @@ export function useContentEditable(props: Ui3nContentEditableProps, emits: Ui3nC
         .replace(new RegExp(String.fromCharCode(160), 'g'), ' ')
         .replace(/(<([^>]+)>)/gi, '');
 
-      if (value.length >= props.maxLength) ev.preventDefault();
+      if (value.length >= props.maxLength) {
+        ev.preventDefault();
+      }
     }
   }
 
@@ -104,8 +106,9 @@ export function useContentEditable(props: Ui3nContentEditableProps, emits: Ui3nC
 
       const selection = window.getSelection();
 
-      if (value.length >= props.maxLength && ev.code !== 'Backspace' && selection?.toString().length === 0)
+      if (value.length >= props.maxLength && ev.code !== 'Backspace' && selection?.toString().length === 0) {
         ev.preventDefault();
+      }
     }
 
     emits('keydown', ev);

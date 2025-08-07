@@ -37,7 +37,6 @@ import Ui3nButton from '../components/ui3n-button/ui3n-button.vue';
 .ui3n-button-demo__body {
   display: grid;
   grid-template-columns: repeat(6, 150px);
-  column-gap: 8px;
-  row-gap: 16px;
+  gap: 16px 8px;
 }
 </style>

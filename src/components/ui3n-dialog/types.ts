@@ -1,5 +1,5 @@
 import type { Component } from 'vue';
-import type { ExtractComponentProps, Ui3nIconField } from '../types/index';
+import type { ExtractComponentProps, Ui3nIconField } from '@/types/index';
 
 export type Ui3nDialogEvent = 'open' | 'before-close' | 'close' | 'confirm' | 'cancel' | 'click-overlay';
 

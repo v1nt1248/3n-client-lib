@@ -18,7 +18,7 @@
       :accept="allowedFileTypes"
       :disabled="disabled"
       @change="onChange"
-    />
+    >
   </div>
 </template>
 
@@ -29,7 +29,7 @@
   import trim from 'lodash/trim';
   import { getRandomId, formatFileSize } from '@/utils';
   import type { Ui3nInputFileProps, Ui3nInputFileEmits } from './types';
-  import type { Nullable } from '@/components/types';
+  import type { Nullable } from '@/types';
 
   const props = withDefaults(defineProps<Ui3nInputFileProps>(), {
     modelValue: () => [],

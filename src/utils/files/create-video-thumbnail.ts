@@ -1,8 +1,12 @@
 import { blobToB64 } from './blob-to-b64';
-import type { Nullable } from '@/components/types';
+import type { Nullable } from '@/types';
 
-// @ts-ignore
-export async function createVideoThumbnail(file: File, targetSize: number, seekTo: number): Promise<Nullable<string>> {
+export async function createVideoThumbnail(
+  file: File,
+  // @ts-ignore
+  targetSize: number,
+  seekTo: number,
+): Promise<Nullable<string>> {
   return new Promise(resolve => {
     const videoPlayer = document.createElement('video');
     videoPlayer.setAttribute('src', URL.createObjectURL(file));

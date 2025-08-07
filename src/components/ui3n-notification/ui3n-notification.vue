@@ -70,7 +70,10 @@ onMounted(() => {
     :id="id"
     :class="mainCssClasses"
   >
-    <div v-if="withIcon" :class="$style.ui3nNotificationIcon">
+    <div
+      v-if="withIcon"
+      :class="$style.ui3nNotificationIcon"
+    >
       <ui3n-icon
         :icon="stylesByTypes[type!].icon"
         width="16"

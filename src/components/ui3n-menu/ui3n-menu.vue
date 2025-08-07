@@ -3,7 +3,7 @@
   import { autoUpdate, flip, useFloating, offset, shift } from '@floating-ui/vue';
   import { default as vClickOutside } from '../../directives/ui3n-click-outside';
   import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots } from './types';
-  import { Nullable } from '@/components/types';
+  import { Nullable } from '@/types';
 
   const props = withDefaults(defineProps<Ui3nMenuProps>(), {
     positionStrategy: 'absolute',

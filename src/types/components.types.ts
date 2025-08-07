@@ -1,8 +1,8 @@
 import { VNodeProps, AllowedComponentProps } from 'vue';
 
 export type ExtractComponentProps<TComponent> = TComponent extends new () => {
-  $props: infer P;
-}
+    $props: infer P;
+  }
   ? Omit<P, keyof VNodeProps | keyof AllowedComponentProps>
   : never;
 

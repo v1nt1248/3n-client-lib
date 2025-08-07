@@ -1,5 +1,7 @@
 export function markSearch(str: string, search: string): string {
-  if (!str) return '';
+  if (!str) {
+    return '';
+  }
 
   if (search) {
     const regex = new RegExp(`(${search.split(' ').join('|')})`, 'gi');

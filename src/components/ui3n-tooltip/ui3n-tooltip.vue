@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-  /* eslint-disable vue/no-multiple-template-root */
   import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-  import type { Nullable } from '@/components/types';
+  import type { Nullable } from '@/types';
   import type { Ui3nTooltipProps, Ui3nTooltipEmits, Ui3nTooltipSlots } from './types';
   import { arrow, autoUpdate, offset, useFloating } from '@floating-ui/vue';
 
@@ -150,9 +149,9 @@
           ref="floatingArrowEl"
           :class="[$style.arrow, $style[`arrow-${mainPlacement}`]]"
           :style="{
-              left: middlewareData.arrow?.x != null ? `${middlewareData.arrow?.x}px` : '',
-              top: middlewareData.arrow?.y != null ? `${middlewareData.arrow?.y}px` : '',
-            }"
+            left: middlewareData.arrow?.x != null ? `${middlewareData.arrow?.x}px` : '',
+            top: middlewareData.arrow?.y != null ? `${middlewareData.arrow?.y}px` : '',
+          }"
         />
       </div>
     </slot>

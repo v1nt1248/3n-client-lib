@@ -23,7 +23,7 @@
   import Ui3nMenu from '../ui3n-menu/ui3n-menu.vue';
   import Ui3nHtml from '@/directives/ui3n-html';
   import { markSearch, getRandomId } from '@/utils';
-  import type { Nullable } from '@/components/types';
+  import type { Nullable } from '@/types';
   import {
     Ui3nAutocompleteOptionBase,
     Ui3nAutocompleteProps,
@@ -252,10 +252,20 @@
       :content-border-radius="[0, 0, 8, 8]"
       :disabled="disabled"
     >
-      <div ref="activatorEl" :class="$style.trigger">
+      <div
+        ref="activatorEl"
+        :class="$style.trigger"
+      >
         <template v-if="chips">
-          <template v-for="(item, index) in modelValue" :key="item.id">
-            <slot name="chip" :item="item" :index="index">
+          <template
+            v-for="(item, index) in modelValue"
+            :key="item.id"
+          >
+            <slot
+              name="chip"
+              :item="item"
+              :index="index"
+            >
               <ui3n-chip
                 height="32"
                 round
@@ -269,7 +279,9 @@
         </template>
 
         <template v-else>
-          <div :class="$style.displayValue">{{ displayValue }}</div>
+          <div :class="$style.displayValue">
+            {{ displayValue }}
+          </div>
         </template>
 
         <input
@@ -287,7 +299,7 @@
           @keydown.esc="onKeydown($event, 'esc')"
           @keydown.enter="onKeydown($event, 'enter')"
           @keydown.tab="onKeydown($event, 'tab')"
-        />
+        >
       </div>
 
       <template #menu>
@@ -297,7 +309,10 @@
           :class="$style.body"
         >
           <template v-if="size(filteredItems)">
-            <template v-for="(item, index) in filteredItems" :key="item.id">
+            <template
+              v-for="(item, index) in filteredItems"
+              :key="item.id"
+            >
               <div
                 :id="`${componentId}-${index}`"
                 :class="[
@@ -307,7 +322,12 @@
                 ]"
                 @click.stop.prevent="onItemClick(item)"
               >
-                <slot name="item" :item="item" :index="index" :query="query">
+                <slot
+                  name="item"
+                  :item="item"
+                  :index="index"
+                  :query="query"
+                >
                   <div
                     v-ui3n-html="markSearch(item[props.itemTitle] as string, query)"
                     :class="$style.simpleItem"
@@ -317,7 +337,10 @@
             </template>
           </template>
 
-          <div v-if="!size(filteredItems) && noDataText" :class="$style.noData">
+          <div
+            v-if="!size(filteredItems) && noDataText"
+            :class="$style.noData"
+          >
             <slot name="noDataText">
               {{ noDataText }}
             </slot>

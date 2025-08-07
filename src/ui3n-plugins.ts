@@ -15,7 +15,6 @@ import type { Ui3nDialogComponentProps } from '@/components';
 import { vueBus } from '@/plugins';
 import { storeVueBus } from '@/plugins';
 import { VUEBUS_KEY, type CbFunction, type VueEventBus, type VueBusPlugin } from './plugins/vue-bus/types';
-import type { PiniaActionTree, PiniaGetterTree } from './plugins/types';
 
 declare module 'vue' {
   interface ComponentCustomProperties {
@@ -68,6 +67,4 @@ export {
   CbFunction,
   VueBusPlugin,
   VueEventBus,
-  PiniaActionTree,
-  PiniaGetterTree,
 };

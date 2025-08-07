@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { Nullable } from '@/components/types';
+  import { Nullable } from '@/types';
   import DemoLayout from './demo-layout.vue';
   import DemoLayoutCell from './demo-layout-cell.vue';
   import Ui3nDropFiles from '@/components/ui3n-drop-files/ui3n-drop-files.vue';

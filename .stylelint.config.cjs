@@ -11,41 +11,46 @@ module.exports = {
     'length-zero-no-unit': null,
     'at-rule-empty-line-before': ['always', {
       ignore: ['after-comment'],
+      ignoreAtRules: ['mixin'],
       except: [
         'inside-block',
-        'after-same-name'
-      ]
+        'after-same-name',
+      ],
     }],
-    "no-empty-source": null,
-    "no-descending-specificity": null,
-    "color-function-notation": null,
-    "selector-class-pattern": null,
-    "alpha-value-notation": "number",
-    "import-notation": "string",
-    "media-feature-name-no-unknown": [
+    'no-empty-source': null,
+    'no-descending-specificity': null,
+    'color-function-notation': null,
+    'selector-class-pattern': null,
+    'alpha-value-notation': 'number',
+    'import-notation': 'string',
+    'media-feature-name-no-unknown': [
       true,
       {
-        "ignoreMediaFeatureNames": [
-          "/^prefers-/"
-        ]
-      }
+        'ignoreMediaFeatureNames': [
+          '/^prefers-/',
+        ],
+      },
     ],
-    "at-rule-no-unknown": [
+    'value-keyword-case': null,
+    'at-rule-no-unknown': [
       true,
       {
-        "ignoreAtRules": [
-          "include",
-          "function",
-          "return",
-          "mixin",
-          "if",
-          "else",
-          "for",
-          "extend",
-          "each",
-          "content"
-        ]
-      }
-    ]
-  }
-}
+        'ignoreAtRules': [
+          'include',
+          'function',
+          'return',
+          'mixin',
+          'if',
+          'else',
+          'for',
+          'extend',
+          'each',
+          'content',
+          'use',
+        ],
+      },
+    ],
+    'shorthand-property-no-redundant-values': null,
+    'declaration-property-value-no-unknown': null,
+  },
+};

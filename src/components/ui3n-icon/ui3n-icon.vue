@@ -43,7 +43,7 @@ function onClick(ev: Event) {
     :title="title"
     :style="iconStyle"
     @click="onClick"
-  ></div>
+  />
 </template>
 
 <style lang="scss">

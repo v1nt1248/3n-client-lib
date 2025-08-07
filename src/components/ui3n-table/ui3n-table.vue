@@ -111,7 +111,9 @@
     <div :class="$style.body">
       <template v-if="config?.showNoDataMessage && !size(body.content)">
         <slot name="no-data">
-          <div :class="$style.noData">No data</div>
+          <div :class="$style.noData">
+            No data
+          </div>
         </slot>
       </template>
 
@@ -169,9 +171,9 @@
                   :column-style="config?.columnStyle"
                   :cell="row[col.key]"
                 >
-                <span :class="$style.cell">
-                  {{ row[col.key] }}
-                </span>
+                  <span :class="$style.cell">
+                    {{ row[col.key] }}
+                  </span>
                 </slot>
               </div>
             </template>
@@ -188,7 +190,7 @@
 </template>
 
 <style lang="scss" module>
-  @use '../../assets/styles/mixins' as mixins;
+  @use '@/assets/styles/mixins.scss' as mixins;
 
   .ui3nTable {
     --ui3n-table-columns-width: auto;

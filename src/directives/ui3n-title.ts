@@ -1,7 +1,7 @@
 import type { DirectiveBinding } from 'vue';
 import { autoUpdate, computePosition, offset } from '@floating-ui/dom';
 import { getRandomId } from '@/utils';
-import type { Nullable } from '@/components/types';
+import type { Nullable } from '@/types';
 
 export type Ui3nTitleDirectivePlacement =
   | 'top'
@@ -42,12 +42,17 @@ const id = getRandomId(3);
 const elsBinding = new WeakMap();
 const elsHandlers = new WeakMap();
 
-function getOffsetOptions(placement: Ui3nTitleDirectivePlacement, offsetX: string | number, offsetY: string | number) {
+function getOffsetOptions(
+  placement: Ui3nTitleDirectivePlacement,
+  offsetX: string | number,
+  offsetY: string | number,
+) {
   const mainPlacement = placement.split('-')[0];
   const options = {
     mainAxis: 0,
     crossAxis: 0,
   };
+
   switch (mainPlacement) {
     case 'top':
       options.mainAxis = -1 * Number(offsetY) + baseOffset;
@@ -64,6 +69,8 @@ function getOffsetOptions(placement: Ui3nTitleDirectivePlacement, offsetX: strin
     case 'right':
       options.mainAxis = Number(offsetX) + baseOffset;
       options.crossAxis = Number(offsetY);
+      break;
+    default:
       break;
   }
   return options;
@@ -148,6 +155,8 @@ export default {
           break;
         case 'mouseleave':
           makeTooltip(el, props, false);
+          break;
+        default:
           break;
       }
     };

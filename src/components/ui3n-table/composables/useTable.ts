@@ -15,7 +15,7 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     sortOrder: setInitialSortOrder(),
     fieldAsRowKey: setFieldAsRowKey(),
   });
-  const selectedRows: Ref<Set<T> | Array<T[keyof T]>> = !!currentConfig.value?.fieldAsRowKey
+  const selectedRows: Ref<Set<T> | Array<T[keyof T]>> = currentConfig.value?.fieldAsRowKey
     ? ref([])
     : (ref(new Set()) as Ref<Set<T>>);
   const hasGroupActionsRow = ref(false);
@@ -25,8 +25,8 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
   const selectedRowsArray = computed(() =>
     isRowKeyUsed.value
       ? props.body.content.filter(row =>
-          (selectedRows.value as Array<T[keyof T]>).includes(row[currentConfig.value.fieldAsRowKey as keyof T]),
-        )
+        (selectedRows.value as Array<T[keyof T]>).includes(row[currentConfig.value.fieldAsRowKey as keyof T]),
+      )
       : Array.from(selectedRows.value as Set<T>),
   );
   const selectedRowsSize = computed(() =>
@@ -53,9 +53,13 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
   function setFieldAsRowKey() {
     const { config = {}, body } = props;
     const { fieldAsRowKey } = config;
-    if (fieldAsRowKey && fieldAsRowKey in get(body, ['content', 0], {})) return fieldAsRowKey;
+    if (fieldAsRowKey && fieldAsRowKey in get(body, ['content', 0], {})) {
+      return fieldAsRowKey;
+    }
 
-    if ('id' in get(body, ['content', 0], {})) return 'id';
+    if ('id' in get(body, ['content', 0], {})) {
+      return 'id';
+    }
 
     return undefined;
   }
@@ -95,7 +99,9 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
   }
 
   function getRowStyle(row: T): Record<string, string> {
-    if (isEmpty(props.body.rowsStyle) || !isRowKeyUsed.value) return {};
+    if (isEmpty(props.body.rowsStyle) || !isRowKeyUsed.value) {
+      return {};
+    }
 
     const rowKey = row[currentConfig.value.fieldAsRowKey as keyof T] as string | number;
     // @ts-expect-error
@@ -133,7 +139,7 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
       }
     } else {
       isRowKeyUsed.value &&
-        (selectedRows.value as Array<T[keyof T]>).push(row[currentConfig.value.fieldAsRowKey as keyof T]);
+      (selectedRows.value as Array<T[keyof T]>).push(row[currentConfig.value.fieldAsRowKey as keyof T]);
       !isRowKeyUsed.value && (selectedRows.value as Set<T>).add(row);
     }
   }
@@ -151,9 +157,11 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
   }
 
   function toggleSelectedRows(val: Ui3nCheckboxValue) {
-    if (props.config.selectable !== 'multiple') return;
+    if (props.config.selectable !== 'multiple') {
+      return;
+    }
 
-    if (!!val) {
+    if (val) {
       for (const item of props.body.content) {
         if (!isRowSelected(item)) {
           processSelection(item, true);

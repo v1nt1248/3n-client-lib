@@ -138,12 +138,22 @@
         xmlns="http://www.w3.org/2000/svg"
         :class="$style.ui3nCheckboxIcon"
       >
-        <g id="SVGRepo_bgCarrier" stroke-width="0" />
-        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+        <g
+          id="SVGRepo_bgCarrier"
+          stroke-width="0"
+        />
+        <g
+          id="SVGRepo_tracerCarrier"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
         <g id="SVGRepo_iconCarrier">
           <path
-d="M20.0001 7L9.0001 18L4 13" stroke="#fff" stroke-width="3" stroke-linecap="round"
-                stroke-linejoin="round"
+            d="M20.0001 7L9.0001 18L4 13"
+            stroke="#fff"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           />
         </g>
       </svg>
@@ -157,10 +167,23 @@ d="M20.0001 7L9.0001 18L4 13" stroke="#fff" stroke-width="3" stroke-linecap="rou
         xmlns="http://www.w3.org/2000/svg"
         :class="$style.ui3nCheckboxIcon"
       >
-        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+        <g
+          id="SVGRepo_bgCarrier"
+          stroke-width="0"
+        />
+        <g
+          id="SVGRepo_tracerCarrier"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
         <g id="SVGRepo_iconCarrier">
-          <path d="M7 12L17 12" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M7 12L17 12"
+            stroke="#fff"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </g>
       </svg>
     </div>

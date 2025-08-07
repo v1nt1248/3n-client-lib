@@ -36,16 +36,16 @@ import type Ui3nClickOutside from './directives/ui3n-click-outside';
 import type Ui3nResize from './directives/ui3n-resize';
 import type Ui3nRipple from './directives/ui3n-ripple';
 import type Ui3nTitle from './directives/ui3n-title';
+import type Ui3nLongPress from './directives/ui3n-long-press';
 import type { VueEventBus } from './plugins/vue-bus/types';
 import type { DialogInstance } from './plugins/dialogs/types';
 
 export * from './constants';
 export * from './utils';
 export * from './plugins';
-export * from './plugins/types';
 export * from './directives';
 export * from './components';
-export * from './components/types';
+export * from './types';
 
 declare module 'vue' {
   interface ComponentCustomProperties {
@@ -96,6 +96,7 @@ declare module 'vue' {
     Ui3nResize: typeof Ui3nResize;
     Ui3nRipple: typeof Ui3nRipple;
     Ui3nTitle: typeof Ui3nTitle;
+    Ui3nLongPress: typeof Ui3nLongPress;
   }
 }
 

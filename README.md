@@ -33,6 +33,7 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nTable
   - Ui3nTabs
   - Ui3nText
+  - Ui3nTooltip
   - Ui3nVirtualScroll  
 
 ### Directives
@@ -41,6 +42,7 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nResize
   - Ui3nRipple
   - Ui3nTitle
+  - Ui3nLongPress
 
 ### Plugins
   - i18n

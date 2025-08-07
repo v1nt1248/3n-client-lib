@@ -4,7 +4,7 @@
   import Ui3nRipple from '@/directives/ui3n-ripple';
   import Ui3nClickOutside from '@/directives/ui3n-click-outside';
   import type { Ui3nEditableProps, Ui3nEditableEmits } from './types';
-  import type { Nullable } from '@/components/types';
+  import type { Nullable } from '@/types';
 
   const vUi3nRipple = Ui3nRipple;
   const vUi3nClickOutside = Ui3nClickOutside;
@@ -149,7 +149,10 @@
     @focusin="emits('focusin', $event);"
   >
     <template v-if="inEdit">
-      <span ref="hiddenEl" :class="$style.hidden" />
+      <span
+        ref="hiddenEl"
+        :class="$style.hidden"
+      />
 
       <input
         ref="inputEl"
@@ -162,14 +165,18 @@
         @keydown.enter="done"
         @keydown.tab="done"
         @keydown.esc="cancel"
-      />
+      >
 
       <div
         v-ui3n-ripple
         :class="[$style.btn, $style.doneBtn, disabled && $style.btnDisabled]"
         @click.stop.prevent="done"
       >
-        <ui3n-icon icon="round-done" size="12" color="var(--color-icon-table-accent-default)" />
+        <ui3n-icon
+          icon="round-done"
+          size="12"
+          color="var(--color-icon-table-accent-default)"
+        />
       </div>
 
       <div
@@ -177,21 +184,36 @@
         :class="[$style.btn, $style.cancelBtn, disabled && $style.btnDisabled]"
         @click.stop.prevent="cancel"
       >
-        <ui3n-icon icon="round-close" size="12" color="var(--color-icon-table-secondary-default)" />
+        <ui3n-icon
+          icon="round-close"
+          size="12"
+          color="var(--color-icon-table-secondary-default)"
+        />
       </div>
     </template>
 
     <template v-else>
-      <div :class="[$style.content, !value && $style.contentEmpty]" :title="isContentTruncated ? value : undefined">
-        <span ref="contentValueEl">{{ value || placeholder || '...' }}</span>
+      <div
+        :class="[$style.content, !value && $style.contentEmpty]"
+        :title="isContentTruncated ? value : undefined"
+      >
+        <span ref="contentValueEl">
+          {{ value || placeholder || '...' }}
+        </span>
 
-        <div v-ui3n-ripple :class="[$style.btn, $style.editBtn]" @click.stop.prevent="turnOnEditMode">
-          <ui3n-icon icon="round-edit" size="12" color="var(--color-icon-control-accent-unselected)" />
+        <div
+          v-ui3n-ripple
+          :class="[$style.btn, $style.editBtn]"
+          @click.stop.prevent="turnOnEditMode"
+        >
+          <ui3n-icon
+            icon="round-edit"
+            size="12"
+            color="var(--color-icon-control-accent-unselected)"
+          />
         </div>
       </div>
     </template>
-
-
   </div>
 </template>
 

@@ -4,7 +4,7 @@
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
   import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
   import type { Ui3nDialogEvent, Ui3nDialogComponentProps, Ui3nDialogComponentEmits } from './types';
-  import { ExtractComponentProps } from '@/components/types';
+  import { ExtractComponentProps } from '@/types';
   import { determineWindowWidth } from './util';
 
   const props = defineProps<Ui3nDialogComponentProps<T>>();
@@ -226,12 +226,12 @@
       v-on="
         dialogProps?.draggable
           ? {
-              dragstart: onDragstart,
-              mousedown: onMousedown,
-              mouseup: onMouseup,
-              mousemove: onMousemove,
-              keydown: onKeydown,
-            }
+            dragstart: onDragstart,
+            mousedown: onMousedown,
+            mouseup: onMouseup,
+            mousemove: onMousemove,
+            keydown: onKeydown,
+          }
           : { keydown: onKeydown }
       "
     >
@@ -341,7 +341,6 @@
     background-color: var(--color-bg-block-primary-default);
     border-radius: var(--dialog-border-radius);
     outline: none;
-
     @include mixins.elevation();
 
     &.draggable {

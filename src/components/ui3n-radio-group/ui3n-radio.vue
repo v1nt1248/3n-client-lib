@@ -1,124 +1,124 @@
 <script lang="ts" setup>
-import { computed, getCurrentInstance, inject, onBeforeMount, onMounted, ref, useSlots, watch } from 'vue';
-import type { Ref } from 'vue';
-import type { Nullable } from '../types';
-import type { Ui3nRadioEmits, Ui3nRadioProps, Ui3nRadioSlots, Ui3nRadioValue } from './types';
+  import { computed, getCurrentInstance, inject, onBeforeMount, onMounted, ref, useSlots, watch } from 'vue';
+  import type { Ref } from 'vue';
+  import type { Nullable } from '../../types';
+  import type { Ui3nRadioEmits, Ui3nRadioProps, Ui3nRadioSlots, Ui3nRadioValue } from './types';
 
-const props = withDefaults(defineProps<Ui3nRadioProps>(), {
-  modelValue: false,
-  checkedValue: true,
-  uncheckedValue: false,
-  size: '16',
-  color: 'var(--color-icon-control-accent-default)',
-  disabled: false,
-});
-const emits = defineEmits<Ui3nRadioEmits>();
-defineSlots<Ui3nRadioSlots>();
+  const props = withDefaults(defineProps<Ui3nRadioProps>(), {
+    modelValue: false,
+    checkedValue: true,
+    uncheckedValue: false,
+    size: '16',
+    color: 'var(--color-icon-control-accent-default)',
+    disabled: false,
+  });
+  const emits = defineEmits<Ui3nRadioEmits>();
+  defineSlots<Ui3nRadioSlots>();
 
-const slots = useSlots();
+  const slots = useSlots();
 
-const instance = getCurrentInstance();
-const isComponentPartOfGroup =
-  instance?.parent?.type.__name === 'Ui3nRadioGroup' || instance?.parent?.type.__name === 'ui3n-radio-group';
-const groupName = isComponentPartOfGroup ? instance?.parent?.props.name : '';
+  const instance = getCurrentInstance();
+  const isComponentPartOfGroup =
+    instance?.parent?.type.__name === 'Ui3nRadioGroup' || instance?.parent?.type.__name === 'ui3n-radio-group';
+  const groupName = isComponentPartOfGroup ? instance?.parent?.props.name : '';
 
-const radioEl = ref<HTMLDivElement | null>(null);
+  const radioEl = ref<HTMLDivElement | null>(null);
 
-const {
-  groupValue,
-  updateGroupValue,
-}: {
-  groupValue: Nullable<Ref<Ui3nRadioValue>>;
-  updateGroupValue: Nullable<(value: Ui3nRadioValue) => void>;
-} = groupName
-  ? inject(`radio-group-${groupName}`)!
-  : {
-    groupValue: null,
-    updateGroupValue: null,
-  };
+  const {
+    groupValue,
+    updateGroupValue,
+  }: {
+    groupValue: Nullable<Ref<Ui3nRadioValue>>;
+    updateGroupValue: Nullable<(value: Ui3nRadioValue) => void>;
+  } = groupName
+    ? inject(`radio-group-${groupName}`)!
+    : {
+      groupValue: null,
+      updateGroupValue: null,
+    };
 
-const val = ref<Ui3nRadioValue>(groupName ? groupValue!.value : props.modelValue);
+  const val = ref<Ui3nRadioValue>(groupName ? groupValue!.value : props.modelValue);
 
-const isOn = computed(() => val.value === props.checkedValue);
+  const isOn = computed(() => val.value === props.checkedValue);
 
-function change(ev: Event) {
-  ev.preventDefault();
+  function change(ev: Event) {
+    ev.preventDefault();
 
-  if (!groupName) {
-    val.value = isOn.value ? props.uncheckedValue : props.checkedValue;
-    emits('change', val.value);
-    emits('update:modelValue', val.value);
-    return;
-  }
-
-  if (isOn.value) {
-    return;
-  }
-
-  val.value = props.checkedValue;
-  updateGroupValue!(val.value);
-
-  // if (groupName) {
-  //   isOn.value && updateGroupValue!(val.value);
-  // } else {
-  //   emits('change', val.value);
-  //   emits('update:modelValue', val.value);
-  // }
-}
-
-onBeforeMount(() => {
-  if (
-    // @ts-ignore
-    (slots.checkedIcon && !slots.uncheckedIcon) ||
-    // @ts-ignore
-    (!slots.checkedIcon && slots.uncheckedIcon)
-  ) {
-    throw Error('[Ui3nRadio] Both checkedIcon and uncheckedIcon slots must have values ​​defined.');
-  }
-});
-
-onMounted(() => {
-  if (radioEl.value) {
-    radioEl.value.style.setProperty('--ui3n-radio-size', `${props.size}px`);
-    radioEl.value.style.setProperty('--ui3n-radio-color', props.color);
-  }
-});
-
-watch(
-  () => props.modelValue,
-  newValue => {
-    if (newValue !== val.value) {
-      val.value = newValue;
+    if (!groupName) {
+      val.value = isOn.value ? props.uncheckedValue : props.checkedValue;
+      emits('change', val.value);
+      emits('update:modelValue', val.value);
+      return;
     }
-  },
-);
 
-watch(
-  () => props.size,
-  newValue => {
+    if (isOn.value) {
+      return;
+    }
+
+    val.value = props.checkedValue;
+    updateGroupValue!(val.value);
+
+    // if (groupName) {
+    //   isOn.value && updateGroupValue!(val.value);
+    // } else {
+    //   emits('change', val.value);
+    //   emits('update:modelValue', val.value);
+    // }
+  }
+
+  onBeforeMount(() => {
+    if (
+      // @ts-ignore
+      (slots.checkedIcon && !slots.uncheckedIcon) ||
+      // @ts-ignore
+      (!slots.checkedIcon && slots.uncheckedIcon)
+    ) {
+      throw Error('[Ui3nRadio] Both checkedIcon and uncheckedIcon slots must have values ​​defined.');
+    }
+  });
+
+  onMounted(() => {
     if (radioEl.value) {
-      radioEl.value.style.setProperty('--ui3n-radio-size', `${newValue}px`);
+      radioEl.value.style.setProperty('--ui3n-radio-size', `${props.size}px`);
+      radioEl.value.style.setProperty('--ui3n-radio-color', props.color);
     }
-  },
-);
+  });
 
-watch(
-  () => props.color,
-  newValue => {
-    if (radioEl.value) {
-      radioEl.value.style.setProperty('--ui3n-radio-color', newValue);
-    }
-  },
-);
+  watch(
+    () => props.modelValue,
+    newValue => {
+      if (newValue !== val.value) {
+        val.value = newValue;
+      }
+    },
+  );
 
-watch(
-  () => groupValue?.value,
-  newVal => {
-    if (groupName) {
-      val.value = newVal === props.checkedValue ? props.checkedValue : props.uncheckedValue;
-    }
-  },
-);
+  watch(
+    () => props.size,
+    newValue => {
+      if (radioEl.value) {
+        radioEl.value.style.setProperty('--ui3n-radio-size', `${newValue}px`);
+      }
+    },
+  );
+
+  watch(
+    () => props.color,
+    newValue => {
+      if (radioEl.value) {
+        radioEl.value.style.setProperty('--ui3n-radio-color', newValue);
+      }
+    },
+  );
+
+  watch(
+    () => groupValue?.value,
+    newVal => {
+      if (groupName) {
+        val.value = newVal === props.checkedValue ? props.checkedValue : props.uncheckedValue;
+      }
+    },
+  );
 </script>
 
 <template>
@@ -178,74 +178,75 @@ watch(
 </template>
 
 <style lang="scss" module>
-@use '../../assets/styles/mixins' as mixins;
+  @use '../../assets/styles/mixins' as mixins;
 
-.ui3nRadio {
-  --ui3n-radio-size: 16px;
-  --ui3n-radio-color: var(--color-icon-control-accent-default);
-  --ui3n-radio-text-size: 12px;
-  --ui3n-radio-text-color: var(--color-text-control-primary-default);
-  --ui3n-radio-text-weight: 500;
+  .ui3nRadio {
+    --ui3n-radio-size: 16px;
+    --ui3n-radio-color: var(--color-icon-control-accent-default);
+    --ui3n-radio-text-size: 12px;
+    --ui3n-radio-text-color: var(--color-text-control-primary-default);
+    --ui3n-radio-text-weight: 500;
 
-  position: relative;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  min-height: var(--spacing-vl);
-  gap: var(--spacing-s);
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: var(--spacing-vl);
+    gap: var(--spacing-s);
 
-  &.disabled {
-    --ui3n-radio-color: var(--color-icon-control-primary-disabled) !important;
-    pointer-events: none;
-    cursor: default;
+    &.disabled {
+      --ui3n-radio-color: var(--color-icon-control-primary-disabled) !important;
 
-    .label {
-      opacity: 0.7;
+      pointer-events: none;
+      cursor: default;
+
+      .label {
+        opacity: 0.7;
+      }
     }
   }
-}
 
-.noLabel {
-  gap: 0;
-}
-
-.body {
-  position: relative;
-  display: flex;
-  width: var(--ui3n-radio-size);
-  min-width: var(--ui3n-radio-size);
-  height: var(--ui3n-radio-size);
-  min-height: var(--ui3n-radio-size);
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-
-  &:hover {
-    cursor: pointer;
-    background-color: hsl(from transparent h s calc(l - 10));
-    @include mixins.ripple(hsl(from transparent h s calc(l - 10)));
+  .noLabel {
+    gap: 0;
   }
-}
 
-.label {
-  font-size: var(--ui3n-radio-text-size);
-  font-weight: var(--ui3n-radio-text-weight);
-  color: var(--ui3n-radio-text-color);
-  user-select: none;
-}
+  .body {
+    position: relative;
+    display: flex;
+    width: var(--ui3n-radio-size);
+    min-width: var(--ui3n-radio-size);
+    height: var(--ui3n-radio-size);
+    min-height: var(--ui3n-radio-size);
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
 
-.icon {
-  color: var(--ui3n-radio-color);
-  min-height: calc(var(--ui3n-radion-size) - 2px);
-  height: calc(var(--ui3n-radion-size) - 2px);
-  min-width: calc(var(--ui3n-checkbox-size) - 2px);
-  width: calc(var(--ui3n-radion-size) - 2px);
-  cursor: pointer;
-}
+    &:hover {
+      cursor: pointer;
+      background-color: hsl(from transparent h s calc(l - 10));
+      @include mixins.ripple(hsl(from transparent h s calc(l - 10)));
+    }
+  }
 
-.bodyDisabled,
-.iconDisabled {
-  filter: grayscale(1);
-  opacity: 0.5;
-}
+  .label {
+    font-size: var(--ui3n-radio-text-size);
+    font-weight: var(--ui3n-radio-text-weight);
+    color: var(--ui3n-radio-text-color);
+    user-select: none;
+  }
+
+  .icon {
+    color: var(--ui3n-radio-color);
+    min-height: calc(var(--ui3n-radion-size) - 2px);
+    height: calc(var(--ui3n-radion-size) - 2px);
+    min-width: calc(var(--ui3n-checkbox-size) - 2px);
+    width: calc(var(--ui3n-radion-size) - 2px);
+    cursor: pointer;
+  }
+
+  .bodyDisabled,
+  .iconDisabled {
+    filter: grayscale(1);
+    opacity: 0.5;
+  }
 </style>

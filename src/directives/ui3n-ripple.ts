@@ -24,7 +24,9 @@ function createRipple({ el, duration }: { el: HTMLElement; duration?: number }) 
   duration && circle.style.setProperty('--ui3n-ripple-duration', `${duration}ms`);
 
   const ripple = el.getElementsByClassName('ui3n-ripple')[0];
-  if (ripple) ripple.remove();
+  if (ripple) {
+    ripple.remove();
+  }
   el.appendChild(circle);
 }
 
@@ -38,7 +40,9 @@ function addEventListener({
   color?: string;
   duration?: number;
 }) {
-  if (!['click', 'keydown'].includes(eventName)) return;
+  if (!['click', 'keydown'].includes(eventName)) {
+    return;
+  }
 
   controllers[eventName] = new AbortController();
   // @ts-ignore
@@ -56,7 +60,9 @@ export default {
     const { color, duration, eventsTriggers = [], disabled = false } = binding.value || {};
     colorValue = color || '';
 
-    if (disabled) return;
+    if (disabled) {
+      return;
+    }
 
     if (!eventsTriggers.length || (eventsTriggers.length && eventsTriggers.includes('click'))) {
       addEventListener({

@@ -7,7 +7,7 @@ export * from './processes/task-runner';
 export * from './round';
 export * from './get-random-id';
 export * from './textarea-max-rows';
-export * from './for-we3n';
+export * from './for-web3n';
 
 export * from './ui/selection';
 export * from './ui/mark-search';
@@ -29,6 +29,9 @@ export * from './files/resize-image';
 export * from './files/file-to-uint8array';
 export * from './files/create-video-thumbnail';
 export * from './files/mime-types';
+
+export * from './for-vue/unref-element';
+export * from './for-vue/try-on-scope-dispose';
 
 export { SQLiteOn3NStorage } from './sqlite-on-3nstorage';
 export type { BindParams, Database, QueryExecResult } from './sqlite-on-3nstorage';

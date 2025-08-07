@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { h, render } from 'vue';
 import type { App, Component, Plugin, VNode } from 'vue';
 import isEmpty from 'lodash/isEmpty';
 import values from 'lodash/values';
 import { getRandomId } from '@/utils';
-import Ui3nDialog from '../../components/ui3n-dialog/ui3n-dialog.vue';
+import Ui3nDialog from '@/components/ui3n-dialog/ui3n-dialog.vue';
 import type { Ui3nDialogComponentProps, Ui3nDialogProps } from '@/components/ui3n-dialog/types';
 import { DIALOGS_KEY, type DialogInstance, type DialogsPlugin } from './types';
-import { ExtractComponentProps } from '@/components/types';
+import { ExtractComponentProps } from '@/types';
 
 export const dialogs: Plugin = {
   install: (app: App) => {
@@ -34,9 +33,9 @@ export const dialogs: Plugin = {
           id: `dialog-${randomString}`,
           onClose: dialogProps.onClose
             ? () => {
-                dialogProps.onClose!();
-                destroy();
-              }
+              dialogProps.onClose!();
+              destroy();
+            }
             : () => destroy(),
         },
       });

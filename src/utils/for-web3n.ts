@@ -29,7 +29,9 @@ export async function transformWeb3nFileToFile(file: web3n.files.File): Promise<
   const mimeType = mimeTypes[ext] ?? 'text/plain';
 
   const arr = await file.readBytes() as BlobPart;
-  if (!arr) return null;
+  if (!arr) {
+    return null;
+  }
 
   return new File([new Blob([arr], { type: mimeType })], file.name, { type: mimeType });
 }

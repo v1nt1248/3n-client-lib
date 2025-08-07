@@ -36,7 +36,9 @@ export class TaskRunner implements TaskRunnerInstance {
   addTask(task: Task) {
     this.arrayOfTasks.push(task);
 
-    if (this.numberOfRunners >= this.maxNumberOfRunners) return;
+    if (this.numberOfRunners >= this.maxNumberOfRunners) {
+      return;
+    }
 
     this.sequenceRunner(this.nextTask.bind(this));
   }

@@ -1,4 +1,4 @@
-import type { Nullable } from '@/components/types';
+import type { Nullable } from '@/types';
 
 export interface Ui3nContentEditableProps {
   modelValue: string;
