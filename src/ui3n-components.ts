@@ -35,6 +35,7 @@ import type Ui3nLongPress from './directives/ui3n-long-press';
 
 export * from './directives';
 export * from './components';
+export * from './composables';
 export * from './types';
 
 declare module 'vue' {

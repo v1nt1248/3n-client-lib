@@ -60,6 +60,9 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - emoticons
   - mailReg
 
+### Composables
+  - useDblClickHandler
+
 ### Utils
   - sqlite-on-3nstorage
   - ...
