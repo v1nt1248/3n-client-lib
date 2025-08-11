@@ -128,6 +128,10 @@
   --svg: url('../icons/material-symbols--markdown-copy-outline-rounded.svg');
 }
 
+.ui3n-icon__outline-people {
+  --svg: url('../icons/ic--outline-people-outline.svg');
+}
+
 .ui3n-icon__outline-person-add {
   --svg: url('../icons/ic--outline-person-add-alt.svg');
 }

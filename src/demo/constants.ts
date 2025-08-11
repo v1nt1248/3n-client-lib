@@ -27,6 +27,7 @@ export const iconList: string[] = [
   'outline-insert-emoticon',
   'outline-mail',
   'outline-markdown-copy',
+  'outline-people',
   'outline-person-add',
   'outline-remove-moderator',
   'outline-reply-all',
