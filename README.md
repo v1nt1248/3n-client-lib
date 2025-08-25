@@ -5,7 +5,7 @@ Components, directives and plugins for Vue3 projects and some helpers methods (u
   
 You can run the project as `pnpm dev` or `npm run dev`.
 
-### Components
+### Components [`@v1nt1248/3nclient-lib`]
   - Ui3nAutocomplete,
   - Ui3nBadge,
   - Ui3nBreadcrumb
@@ -36,7 +36,7 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nTooltip
   - Ui3nVirtualScroll  
 
-### Directives
+### Directives [`@v1nt1248/3nclient-lib`]
   - Ui3nHtml
   - Ui3nClickOutside
   - Ui3nResize
@@ -44,13 +44,13 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nTitle
   - Ui3nLongPress
 
-### Plugins
+### Plugins [`@v1nt1248/3nclient-lib/plugins`]
   - i18n
   - dialogs
   - notifications
   - vue-bus
 
-### Store plugins
+### Store plugins [`@v1nt1248/3nclient-lib/plugins`]
   - store-i18n
   - store-dialogs
   - store-notifications
@@ -60,12 +60,30 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - emoticons
   - mailReg
 
-### Composables
+### Composables [`@v1nt1248/3nclient-lib`]
   - useDblClickHandler
 
-### Utils
-  - sqlite-on-3nstorage
-  - ...
+### Utils [`@v1nt1248/3nclient-lib/utils`]
+  - sqliteOn3nstorage
+  - round
+  - getRandomId
+  - textareaMaxRows
+  - selection [UI]
+  - markSearch [UI]
+  - html2text [UI]
+  - prepareDareAsString [UI]
+  - capitalize [UI]
+  - formatFileSize [FILES]
+  - getFileExtension [FILES]
+  - isFileImage [FILES]
+  - isFileVideo [FILES]
+  - isFileAudio [FILES]
+  - blobToB64 [FILES]
+  - b64ToBlob [FILES]
+  - uint8ToDataUrl [FILES]
+  - resizeImage [FILES]
+  - createVideoThumbnail [FILES]
+  - mimeTypes [FILES]
 
 ## Installation  
   

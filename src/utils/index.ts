@@ -22,6 +22,7 @@ export * from './files/format-file-size';
 export * from './files/get-file-extension';
 export * from './files/is-file-image';
 export * from './files/is-file-video';
+export * from './files/is-file-audio';
 export * from './files/blob-to-b64';
 export * from './files/b64-to-blob';
 export * from './files/uint8-to-data-url';
