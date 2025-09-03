@@ -150,6 +150,7 @@ export const iconList: string[] = [
   'sharp-people',
   'shrink',
   'schedule',
+  'sound-wave-circle',
   'spinner',
   'splitscreen-right',
   'stylus',

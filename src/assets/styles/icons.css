@@ -659,3 +659,7 @@
 .ui3n-icon__squares-four {
   --svg: url('../icons/ph--squares-four.svg');
 }
+
+.ui3n-icon__sound-wave-circle {
+  --svg: url('../icons/fluent--sound-wave-circle.svg');
+}
