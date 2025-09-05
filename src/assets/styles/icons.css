@@ -2,8 +2,6 @@
 .ui3n-icon {
   /* Add dimensions to span */
   display: block;
-  width: 24px;
-  height: 24px;
 
   /* Add background color */
   background-color: currentcolor;
@@ -300,6 +298,10 @@
   --svg: url('../icons/ic--round-eject.svg');
 }
 
+.ui3n-icon__round-fast-forward {
+  --svg: url('../icons/ic--round-fast-forward.svg');
+}
+
 .ui3n-icon__round-file-upload {
   --svg: url('../icons/ic--round-file-upload.svg');
 }
@@ -452,6 +454,14 @@
   --svg: url('../icons/ic--round-more-vert.svg');
 }
 
+.ui3n-icon__round-pause {
+  --svg: url('../icons/ic--round-pause.svg');
+}
+
+.ui3n-icon__round-pause-circle-outline {
+  --svg: url('../icons/ic--round-pause-circle-outline.svg');
+}
+
 .ui3n-icon__round-person-outline {
   --svg: url('../icons/ic--round-person-outline.svg');
 }
@@ -490,6 +500,10 @@
 
 .ui3n-icon__round-play-arrow {
   --svg: url('../icons/ic--round-play-arrow.svg');
+}
+
+.ui3n-icon__round-play-circle-outline {
+  --svg: url('../icons/ic--round-play-circle-outline.svg');
 }
 
 .ui3n-icon__round-refresh {

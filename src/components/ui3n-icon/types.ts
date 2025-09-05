@@ -1,6 +1,7 @@
 export interface Ui3nIconProps {
   icon: string;
   title?: string;
+  size?: string | number;
   width?: string | number;
   height?: string | number;
   color?: string;
