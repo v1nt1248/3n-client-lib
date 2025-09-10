@@ -1017,7 +1017,7 @@
   .demo {
     position: relative;
     width: 100%;
-    padding-bottom: 400px;
+    padding: 16px 16px 400px;
 
     .theme {
       position: fixed;

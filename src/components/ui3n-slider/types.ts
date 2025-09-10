@@ -17,5 +17,5 @@ export interface UI3nSliderProps {
 }
 
 export interface UI3nSliderEmits {
-  (event: 'change', value: number | [number, number]): void;
+  (event: 'update:modelValue', value: number | [number, number]): void;
 }

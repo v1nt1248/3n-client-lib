@@ -21,6 +21,7 @@ defineProps<{
   flex-direction: column;
   justify-content: flex-end;
   align-items: stretch;
+  padding: 0 10px;
 
   &__label {
     font-size: 13px;

@@ -1,9 +1,4 @@
-export type Task = () => Promise<void>;
-
-export interface TaskRunnerInstance {
-  addTask: (task: Task) => void;
-  cancelTasks: () => void;
-}
+import type { Task, TaskRunnerInstance } from '@/types';
 
 export class TaskRunner implements TaskRunnerInstance {
   private readonly maxNumberOfRunners: number = 0;
