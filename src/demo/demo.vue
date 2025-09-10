@@ -7,6 +7,7 @@
   import Ui3nTitleDemo from './ui3n-title-demo.vue';
   import Ui3nAutocompleteDemo from './ui3n-autocomplete-demo.vue';
   import Ui3nLongPressDemo from './ui3n-long-press-demo.vue';
+  import Ui3nSliderDemo from './ui3n-slider-demo.vue';
   // import Ui3nButtonDemo from './ui3n-button-demo.vue';
 
   import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
@@ -229,6 +230,8 @@
       />
       <span>Dark theme</span>
     </div>
+
+    <ui3n-slider-demo />
 
     <ui3n-title-demo />
 

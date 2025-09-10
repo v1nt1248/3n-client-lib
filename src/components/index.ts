@@ -91,6 +91,8 @@ import type {
   Ui3nAutocompleteSlots,
   Ui3nAutocompleteOptionBase,
 } from './ui3n-autocomplete/types';
+import Ui3nSlider from './ui3n-slider/ui3n-slider.vue';
+import type { UI3nSliderProps, UI3nSliderEmits } from './ui3n-slider/types';
 
 export {
   Ui3nIcon,
@@ -202,4 +204,7 @@ export {
   Ui3nAutocompleteEmits,
   Ui3nAutocompleteSlots,
   Ui3nAutocompleteOptionBase,
+  Ui3nSlider,
+  UI3nSliderProps,
+  UI3nSliderEmits,
 };
