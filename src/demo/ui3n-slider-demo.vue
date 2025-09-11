@@ -36,6 +36,14 @@
         />
       </demo-layout-cell>
 
+      <demo-layout-cell :label="`Default use, labelVisible <i>normal</i>, with transformValueMethod, value: <i>${val1}</i>`">
+        <ui3n-slider
+          v-model="val1"
+          :transform-value-method="(val: number) => `${val}:${val}`"
+          @update:model-value="onInputComponentEvent('update:model-value', $event)"
+        />
+      </demo-layout-cell>
+
       <demo-layout-cell :label="`Default use, labelVisible <i>never</i>, value: <i>${val1}</i>`">
         <ui3n-slider
           v-model="val1"
@@ -43,8 +51,6 @@
           @update:model-value="onInputComponentEvent('update:model-value', $event)"
         />
       </demo-layout-cell>
-
-      <span>&nbsp;</span>
 
       <demo-layout-cell :label="`Range mode, labelVisible <i>always</i>, value: <i>[${val3}]</i>`">
         <ui3n-slider

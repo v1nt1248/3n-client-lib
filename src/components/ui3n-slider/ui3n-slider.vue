@@ -88,6 +88,25 @@
     : '200%',
   );
 
+  const label1Text = computed(() => {
+    if (props.range) {
+      const val = (innerValue.value as [number, number])[0];
+      return props.transformValueMethod
+        ? props.transformValueMethod(val)
+        : `${val}`;
+    }
+
+    return props.transformValueMethod ? props.transformValueMethod(innerValue.value as number) : `${innerValue.value}`;
+  });
+  const label2Text = computed(() => {
+    if (!props.range) {
+      return '';
+    }
+
+    const val = (innerValue.value as [number, number])[1];
+    return props.transformValueMethod ? props.transformValueMethod(val) :  `${val}`;
+  });
+
   function onMouseenter(pointer: 1 | 2) {
     if (props.labelVisible === 'normal') {
       showLabel.value[`${pointer}`] = true;
@@ -231,7 +250,7 @@
     >
       <ui3n-tooltip
         :model-value="showLabel['1']"
-        :content="range ? `${(innerValue as [number, number])[0]}` : `${innerValue}`"
+        :content="label1Text"
         trigger="manual"
         placement="top-start"
         position-strategy="absolute"
@@ -255,7 +274,7 @@
     >
       <ui3n-tooltip
         :model-value="showLabel['2']"
-        :content="`${(innerValue as [number, number])[1]}`"
+        :content="label2Text"
         trigger="manual"
         placement="top-start"
         position-strategy="absolute"
@@ -266,46 +285,6 @@
         <div :class="[$style.pointer, selectedPointer === 2 && $style.selected]" />
       </ui3n-tooltip>
     </div>
-
-    <!--    <ui3n-tooltip-->
-    <!--      :model-value="labelVisible === 'always'"-->
-    <!--      :content="range ? `${(innerValue as [number, number])[0]}` : `${innerValue}`"-->
-    <!--      :trigger="labelVisible === 'always' ? 'manual' : 'hover'"-->
-    <!--      placement="top-start"-->
-    <!--      position-strategy="fixed"-->
-    <!--      :color="labelColor"-->
-    <!--      :text-color="labelTextColor"-->
-    <!--      :disabled="labelVisible === 'never'"-->
-    <!--    >-->
-    <!--      <div-->
-    <!--        ref="pointerEl1"-->
-    <!--        :class="[$style.pointer, $style.pointer1, selectedPointer === 1 && $style.selected]"-->
-    <!--        @pointerdown="onPointerDown($event, 1)"-->
-    <!--        @click.stop.prevent-->
-    <!--        @dragstart="onDragstart"-->
-    <!--      />-->
-    <!--    </ui3n-tooltip>-->
-
-    <!--    <ui3n-tooltip-->
-    <!--      v-if="range"-->
-    <!--      :model-value="labelVisible === 'always'"-->
-    <!--      :content="`${(innerValue as [number, number])[1]}`"-->
-    <!--      :trigger="labelVisible === 'always' ? 'manual' : 'hover'"-->
-    <!--      placement="top-end"-->
-    <!--      position-strategy="absolute"-->
-    <!--      :color="labelColor"-->
-    <!--      :text-color="labelTextColor"-->
-    <!--      :disabled="labelVisible === 'never'"-->
-    <!--    >-->
-    <!--      <div-->
-    <!--        v-if="range"-->
-    <!--        ref="pointerEl2"-->
-    <!--        :class="[$style.pointer, $style.pointer2, selectedPointer === 2 && $style.selected]"-->
-    <!--        @pointerdown="onPointerDown($event, 2)"-->
-    <!--        @click.stop.prevent-->
-    <!--        @dragstart="onDragstart"-->
-    <!--      />-->
-    <!--    </ui3n-tooltip>-->
   </div>
 </template>
 
