@@ -1,16 +1,17 @@
 <script lang="ts" setup>
   import { computed, ref, useTemplateRef, watch, ComputedRef } from 'vue';
   import cloneDeep from 'lodash/cloneDeep';
-  import { round, getRandomId } from '@/utils';
+  import Ui3nTooltip from '../ui3n-tooltip/ui3n-tooltip.vue';
+  import { round } from '@/utils';
+  import type { Nullable } from '@/types';
   import type { UI3nSliderProps, UI3nSliderEmits } from './types';
 
   const props = withDefaults(defineProps<UI3nSliderProps>(), {
-    step: 1,
     min: 0,
     max: 100,
     labelVisible: 'normal',
-    labelTextColor: 'var()',
-    labelColor: 'var()',
+    labelColor: 'var(--color-bg-block-tritery-default)',
+    labelTextColor: 'var(--color-text-block-darkery-default)',
     activeColor: 'var(--color-bg-control-accent-default)',
     trackColor: 'var(--color-bg-control-secondary-default)',
     trackHeight: 8,
@@ -19,10 +20,19 @@
   });
   const emits = defineEmits<UI3nSliderEmits>();
 
-  const id = `slider-${getRandomId(3)}`;
   const sliderRef = useTemplateRef('sliderEl');
+  const pointer1Ref = useTemplateRef('pointerEl1');
+  const pointer2Ref = useTemplateRef('pointerEl2');
+  const shiftX = ref({
+    '1': 0,
+    '2': 0,
+  });
+  const showLabel = ref({
+    '1': props.labelVisible === 'always',
+    '2': props.labelVisible === 'always',
+  });
   const innerValue = ref<number | [number, number]>(0);
-  const selectedPointers = ref<(1 | 2)[]>([])
+  const selectedPointer = ref<Nullable<1 | 2>>(null);
 
   const sliderHeight = computed(() => {
     const height = Math.max(Number(props.trackHeight), Number(props.thumbSize));
@@ -31,6 +41,7 @@
   const trackHeightCss = computed(() => `${props.trackHeight}px`);
   const thumbSizeCss = computed(() => `${props.thumbSize}px`);
   const diff = computed(() => Number(props.max) - Number(props.min));
+  const innerStep = computed(() => props.step ? Number(props.step) : diff.value / 100);
 
   const activeBlockStyle = computed(() => {
     const style = {} as Record<'left' | 'width', string>;
@@ -77,18 +88,81 @@
     : '200%',
   );
 
-  function onPointMousedown(point: 1 | 2) {
-    if (!selectedPointers.value.includes(point)) {
-      selectedPointers.value.push(point);
+  function onMouseenter(pointer: 1 | 2) {
+    if (props.labelVisible === 'normal') {
+      showLabel.value[`${pointer}`] = true;
     }
   }
 
-  function onPointMouseup(point: 1 | 2) {
-    console.log('onPointMouseup', point);
-    if (selectedPointers.value.includes(point)) {
-      const pointIndex = selectedPointers.value.indexOf(point);
-      pointIndex > -1 && selectedPointers.value.splice(pointIndex, 1);
+  function onMouseleave(pointer: 1 | 2) {
+    if (props.labelVisible === 'normal') {
+      showLabel.value[`${pointer}`] = false;
     }
+  }
+
+  function onDragstart() {
+    return false;
+  }
+
+  function onPointerDown(event: PointerEvent, pointer: 1 | 2) {
+    selectedPointer.value = pointer;
+    if (props.labelVisible === 'normal') {
+      showLabel.value[`${pointer}`] = true;
+    }
+    event.preventDefault();
+
+    const currentPointer = pointer === 1 ? pointer1Ref.value! : pointer2Ref.value!;
+    shiftX.value[`${selectedPointer.value}`] = event.clientX - currentPointer.getBoundingClientRect().left;
+    currentPointer.setPointerCapture(event.pointerId);
+
+    currentPointer.onpointermove = onPointerMove;
+
+    currentPointer.onpointerup = () => {
+      currentPointer.onpointermove = null;
+      currentPointer.onpointerup = null;
+      if (props.labelVisible === 'normal' && selectedPointer.value) {
+        showLabel.value[`${selectedPointer.value}`] = false;
+      }
+      selectedPointer.value = null;
+    };
+  }
+
+  function onPointerMove(event: PointerEvent) {
+    if (!selectedPointer.value) {
+      return;
+    }
+
+    const sliderRefClientRect = sliderRef.value!.getBoundingClientRect();
+    const getValue = (leftPosition: number): number => Math.round(leftPosition / sliderRefClientRect.width * diff.value) + Number(props.min);
+
+    let newLeft = event.clientX - shiftX.value[`${selectedPointer.value}`] - sliderRefClientRect.left;
+    if (newLeft < 0) {
+      newLeft = 0;
+    }
+
+    let rightEdge = sliderRef.value!.offsetWidth;
+    if (newLeft > rightEdge) {
+      newLeft = rightEdge;
+    }
+
+    let newValue = getValue(newLeft);
+
+    if (props.range) {
+      if (selectedPointer.value === 1 && newValue >= (innerValue.value as [number, number])[1]) {
+        newValue = (innerValue.value as [number, number])[1] - innerStep.value;
+      } else if (selectedPointer.value === 2 && newValue <= (innerValue.value as [number, number])[0]) {
+        newValue = (innerValue.value as [number, number])[0] + innerStep.value;
+      }
+    }
+
+    if (props.range) {
+      selectedPointer.value === 1 && ((innerValue.value as [number, number])[0] = newValue);
+      selectedPointer.value === 2 && ((innerValue.value as [number, number])[1] = newValue);
+    } else {
+      innerValue.value = newValue;
+    }
+
+    emits('update:modelValue', innerValue.value);
   }
 
   function onTimelineClick(event: MouseEvent) {
@@ -108,20 +182,22 @@
       (innerValue.value as number) = selectedValue;
     }
 
-    emits('update:modelValue', innerValue.value)
+    emits('update:modelValue', innerValue.value);
   }
 
   watch(
-    () => props.modelValue,
+    () => JSON.stringify(props.modelValue),
     (val) => {
       if (props.range) {
-        if (JSON.stringify(val) !== JSON.stringify(innerValue.value)) {
-          innerValue.value = cloneDeep(val);
+        if (val !== JSON.stringify(innerValue.value)) {
+          innerValue.value = cloneDeep(props.modelValue);
         }
         return;
       }
 
-      const newVal = Array.isArray(val) ? val[val.length - 1] : val;
+      const newVal = Array.isArray(props.modelValue)
+        ? props.modelValue[props.modelValue.length - 1]
+        : props.modelValue;
       if (newVal !== innerValue.value) {
         innerValue.value = newVal;
       }
@@ -144,24 +220,92 @@
       />
     </div>
 
-    <transition-group>
-      <div
-        :key="`${id}-1`"
-        :class="[$style.pointer, $style.pointer1, selectedPointers.includes(1) && $style.selected]"
-        @mousedown.stop.prevent="onPointMousedown(1)"
-        @mouseup.stop.prevent="onPointMouseup(1)"
-        @click.stop.prevent
-      />
+    <div
+      ref="pointerEl1"
+      :class="[$style.pointerWrapper, $style.pointer1]"
+      @pointerdown="onPointerDown($event, 1)"
+      @click.stop.prevent
+      @dragstart="onDragstart"
+      @mouseenter="onMouseenter(1)"
+      @mouseleave="onMouseleave(1)"
+    >
+      <ui3n-tooltip
+        :model-value="showLabel['1']"
+        :content="range ? `${(innerValue as [number, number])[0]}` : `${innerValue}`"
+        trigger="manual"
+        placement="top-start"
+        position-strategy="absolute"
+        :color="labelColor"
+        :text-color="labelTextColor"
+        :disabled="labelVisible === 'never'"
+      >
+        <div :class="[$style.pointer, selectedPointer === 1 && $style.selected]" />
+      </ui3n-tooltip>
+    </div>
 
-      <div
-        v-if="range"
-        :key="`${id}-2`"
-        :class="[$style.pointer, $style.pointer2, selectedPointers.includes(2) && $style.selected]"
-        @mousedown.stop.prevent="onPointMousedown(2)"
-        @mouseup.stop.prevent="onPointMouseup(2)"
-        @click.stop.prevent
-      />
-    </transition-group>
+    <div
+      v-if="range"
+      ref="pointerEl2"
+      :class="[$style.pointerWrapper, $style.pointer2]"
+      @pointerdown="onPointerDown($event, 2)"
+      @click.stop.prevent
+      @dragstart="onDragstart"
+      @mouseenter="onMouseenter(2)"
+      @mouseleave="onMouseleave(2)"
+    >
+      <ui3n-tooltip
+        :model-value="showLabel['2']"
+        :content="`${(innerValue as [number, number])[1]}`"
+        trigger="manual"
+        placement="top-start"
+        position-strategy="absolute"
+        :color="labelColor"
+        :text-color="labelTextColor"
+        :disabled="labelVisible === 'never'"
+      >
+        <div :class="[$style.pointer, selectedPointer === 2 && $style.selected]" />
+      </ui3n-tooltip>
+    </div>
+
+    <!--    <ui3n-tooltip-->
+    <!--      :model-value="labelVisible === 'always'"-->
+    <!--      :content="range ? `${(innerValue as [number, number])[0]}` : `${innerValue}`"-->
+    <!--      :trigger="labelVisible === 'always' ? 'manual' : 'hover'"-->
+    <!--      placement="top-start"-->
+    <!--      position-strategy="fixed"-->
+    <!--      :color="labelColor"-->
+    <!--      :text-color="labelTextColor"-->
+    <!--      :disabled="labelVisible === 'never'"-->
+    <!--    >-->
+    <!--      <div-->
+    <!--        ref="pointerEl1"-->
+    <!--        :class="[$style.pointer, $style.pointer1, selectedPointer === 1 && $style.selected]"-->
+    <!--        @pointerdown="onPointerDown($event, 1)"-->
+    <!--        @click.stop.prevent-->
+    <!--        @dragstart="onDragstart"-->
+    <!--      />-->
+    <!--    </ui3n-tooltip>-->
+
+    <!--    <ui3n-tooltip-->
+    <!--      v-if="range"-->
+    <!--      :model-value="labelVisible === 'always'"-->
+    <!--      :content="`${(innerValue as [number, number])[1]}`"-->
+    <!--      :trigger="labelVisible === 'always' ? 'manual' : 'hover'"-->
+    <!--      placement="top-end"-->
+    <!--      position-strategy="absolute"-->
+    <!--      :color="labelColor"-->
+    <!--      :text-color="labelTextColor"-->
+    <!--      :disabled="labelVisible === 'never'"-->
+    <!--    >-->
+    <!--      <div-->
+    <!--        v-if="range"-->
+    <!--        ref="pointerEl2"-->
+    <!--        :class="[$style.pointer, $style.pointer2, selectedPointer === 2 && $style.selected]"-->
+    <!--        @pointerdown="onPointerDown($event, 2)"-->
+    <!--        @click.stop.prevent-->
+    <!--        @dragstart="onDragstart"-->
+    <!--      />-->
+    <!--    </ui3n-tooltip>-->
   </div>
 </template>
 
@@ -207,15 +351,57 @@
     border-radius: var(--ui3n-slider-track-height);
   }
 
-  .pointer {
+  .pointerWrapper {
     position: absolute;
     top: 0;
     width: var(--ui3n-slider-thumb-size);
     height: var(--ui3n-slider-thumb-size);
     border-radius: 50%;
-    background-color: var(--ui3n-slider-thumb-color);
+    background-color: transparent;
     cursor: pointer;
+    touch-action: none;
+    pointer-events: all;
     z-index: 3;
+  }
+
+  //.pointer {
+  //  position: absolute;
+  //  top: 0;
+  //  width: var(--ui3n-slider-thumb-size);
+  //  height: var(--ui3n-slider-thumb-size);
+  //  border-radius: 50%;
+  //  background-color: var(--ui3n-slider-thumb-color);
+  //  cursor: pointer;
+  //  touch-action: none;
+  //  z-index: 3;
+  //
+  //  &:hover {
+  //    background-color: hsl(from var(--ui3n-slider-thumb-color) h s calc(l + 5));
+  //  }
+  //
+  //  &.selected::before {
+  //    position: absolute;
+  //    content: '';
+  //    width: calc(var(--ui3n-slider-thumb-size) * 2);
+  //    height: calc(var(--ui3n-slider-thumb-size) * 2);
+  //    left: 50%;
+  //    top: 50%;
+  //    transform: translate(-50%, -50%);
+  //    border-radius: 50%;
+  //    opacity: 0.2;
+  //    transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  //    background-color: var(--ui3n-slider-thumb-color);
+  //  }
+  //}
+
+  .pointer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--ui3n-slider-thumb-color);
+    touch-action: none;
+    z-index: 5;
 
     &:hover {
       background-color: hsl(from var(--ui3n-slider-thumb-color) h s calc(l + 5));
@@ -230,7 +416,7 @@
       top: 50%;
       transform: translate(-50%, -50%);
       border-radius: 50%;
-      opacity: 0.3;
+      opacity: 0.2;
       transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
       background-color: var(--ui3n-slider-thumb-color);
     }

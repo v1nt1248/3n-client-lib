@@ -16,10 +16,10 @@
 <template>
   <demo-layout title="Ui3nSlider">
     <div class="demo__body-grid">
-      <demo-layout-cell :label="`Default use, value: <i>${val1}</i>`">
+      <demo-layout-cell :label="`Default use, labelVisible <i>normal</i>, value: <i>${val1}</i>`">
         <ui3n-slider
           v-model="val1"
-          @change="onInputComponentEvent('change', $event)"
+          @update:model-value="onInputComponentEvent('update:model-value', $event)"
         />
       </demo-layout-cell>
       <demo-layout-cell :label="`Default use, disabled, value: <i>${val2}</i>`">
@@ -32,7 +32,26 @@
         <ui3n-slider
           v-model="val3"
           range
-          @change="onInputComponentEvent('change', $event)"
+          @update:model-value="onInputComponentEvent('update:model-value', $event)"
+        />
+      </demo-layout-cell>
+
+      <demo-layout-cell :label="`Default use, labelVisible <i>never</i>, value: <i>${val1}</i>`">
+        <ui3n-slider
+          v-model="val1"
+          label-visible="never"
+          @update:model-value="onInputComponentEvent('update:model-value', $event)"
+        />
+      </demo-layout-cell>
+
+      <span>&nbsp;</span>
+
+      <demo-layout-cell :label="`Range mode, labelVisible <i>always</i>, value: <i>[${val3}]</i>`">
+        <ui3n-slider
+          v-model="val3"
+          range
+          label-visible="always"
+          @update:model-value="onInputComponentEvent('update:model-value', $event)"
         />
       </demo-layout-cell>
     </div>
