@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, onMounted, useTemplateRef } from 'vue';
+import { computed, onMounted, useTemplateRef, watch } from 'vue';
 import type { Ui3nIconEmits, Ui3nIconProps } from './types';
 
 const props = withDefaults(
@@ -19,7 +19,6 @@ const heightVal = computed(() => props.size || props.height || 16);
 const widthCss = computed(() => `${widthVal.value}px`);
 const heightCss = computed(() => `${heightVal.value}px`);
 
-const iconClass = computed(() => `ui3n-icon__${props.icon}`);
 const iconStyle = computed(() => {
   const value: Record<string, string> = {};
   const transformData = [];
@@ -39,9 +38,19 @@ function onClick(ev: Event) {
 
 onMounted(() => {
   if (iconEl.value) {
-    iconEl.value.classList.add(iconClass.value);
+    iconEl.value.classList.add(`ui3n-icon__${props.icon}`);
   }
 });
+
+watch(
+  () => props.icon,
+  (val, oldVal) => {
+    if (val && val !== oldVal) {
+      iconEl.value?.classList.remove(`ui3n-icon__${oldVal}`);
+      iconEl.value?.classList.add(`ui3n-icon__${val}`);
+    }
+  }
+)
 </script>
 
 <template>

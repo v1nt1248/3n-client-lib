@@ -8,6 +8,7 @@
   import Ui3nAutocompleteDemo from './ui3n-autocomplete-demo.vue';
   import Ui3nLongPressDemo from './ui3n-long-press-demo.vue';
   import Ui3nSliderDemo from './ui3n-slider-demo.vue';
+  import Ui3nIconDemo from './ui3n-icon-demo.vue';
   // import Ui3nButtonDemo from './ui3n-button-demo.vue';
 
   import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
@@ -33,7 +34,6 @@
   import Ui3nRadioGroup from '../components/ui3n-radio-group/ui3n-radio-group.vue';
   import Ui3nResize, { type Ui3nResizeCbArg } from '../directives/ui3n-resize';
   import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '@/components/ui3n-table/types';
-  import { iconList } from './constants';
 
   const vUi3nResize = Ui3nResize;
   const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
@@ -236,6 +236,8 @@
     <ui3n-title-demo />
 
     <ui3n-long-press-demo />
+
+    <ui3n-icon-demo />
 
     <ui3n-input-demo />
 
@@ -895,23 +897,6 @@
       </div>
     </div>
 
-    <!-- ICON -->
-    <div class="demo-icons">
-      <div class="demo-row__title">--- ICON ---</div>
-      <div
-        v-for="icon in iconList.sort()"
-        :key="icon"
-        class="demo-icons__item"
-      >
-        <ui3n-icon
-          :icon="icon"
-          width="64"
-          height="64"
-        />
-        <span>{{ icon }}</span>
-      </div>
-    </div>
-
     <!-- RADIO -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- RADIO ---</div>
@@ -1036,29 +1021,6 @@
       display: grid;
       grid-template-columns: repeat(3, 300px);
       gap: 16px 8px;
-    }
-
-    &-icons {
-      position: relative;
-      padding-top: 32px;
-      display: grid;
-      gap: var(--spacing-m);
-      grid-template-columns: repeat(8, 96px);
-      margin-bottom: 16px;
-
-      &__item {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        gap: var(--spacing-s);
-        font-size: var(--font-12);
-        color: var(--color-icon-control-secondary-default);
-
-        span {
-          text-align: center;
-        }
-      }
     }
 
     &-row {
