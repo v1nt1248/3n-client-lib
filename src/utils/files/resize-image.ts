@@ -4,7 +4,10 @@
  * @param targetSize {number} -  target size of the smaller side of the image
  * @return {string} (base64)
  */
-export function resizeImage(data: string, targetSize: number): Promise<string> {
+export function resizeImage(
+  data: string | File | Blob,
+  targetSize: number,
+): Promise<string> {
   return new Promise((resolve, reject) => {
     try {
       const tempImg = document.createElement('img');
