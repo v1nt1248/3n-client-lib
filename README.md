@@ -81,10 +81,15 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - isFileAudio [FILES]
   - blobToB64 [FILES]
   - b64ToBlob [FILES]
+  - blobFromDataUrl [FILES]
   - uint8ToDataUrl [FILES]
   - resizeImage [FILES]
   - createVideoThumbnail [FILES]
   - mimeTypes [FILES]
+  - schedulerYield [PROCESS]
+  - TaskRunner [PROCESS]
+  - SingleProc [PROCESS]
+  - NamedProcs [PROCESS]
 
 ## Installation  
   

@@ -1,4 +1,5 @@
 import type { Task, TaskRunnerInstance } from '@/types';
+import { schedulerYield } from './scheduler-yield';
 
 export class TaskRunner implements TaskRunnerInstance {
   private readonly maxNumberOfRunners: number = 0;
@@ -19,6 +20,7 @@ export class TaskRunner implements TaskRunnerInstance {
     while (task) {
       await task();
       task = getTask();
+      await schedulerYield();
     }
 
     this.numberOfRunners -= 1;
