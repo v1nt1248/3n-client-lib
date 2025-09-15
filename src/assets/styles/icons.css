@@ -38,6 +38,14 @@
   --svg: url('../icons/ci--heading-h3.svg');
 }
 
+.ui3n-icon__binary-tree {
+  --svg: url('../icons/tabler--binary-tree.svg');
+}
+
+.ui3n-icon__deployed-code-update {
+  --svg: url('../icons/material-symbols--deployed-code-update-outline-rounded.svg');
+}
+
 .ui3n-icon__vertical-align-top {
   --svg: url('../icons/ic--baseline-vertical-align-top.svg');
 }
@@ -462,6 +470,10 @@
   --svg: url('../icons/ic--round-more-vert.svg');
 }
 
+.ui3n-icon__round-pattern {
+  --svg: url('../icons/ic--round-pattern.svg');
+}
+
 .ui3n-icon__round-pause {
   --svg: url('../icons/ic--round-pause.svg');
 }
@@ -506,6 +518,10 @@
   --svg: url('../icons/ic--round-plus.svg');
 }
 
+.ui3n-icon__round-polyline {
+  --svg: url('../icons/ic--round-polyline.svg');
+}
+
 .ui3n-icon__round-play-arrow {
   --svg: url('../icons/ic--round-play-arrow.svg');
 }
@@ -528,6 +544,10 @@
 
 .ui3n-icon__round-schedule {
   --svg: url('../icons/ic--round-schedule.svg');
+}
+
+.ui3n-icon__round-schema {
+  --svg: url('../icons/ic--round-schema.svg');
 }
 
 .ui3n-icon__round-search {
