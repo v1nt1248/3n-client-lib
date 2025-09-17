@@ -66,6 +66,10 @@
   --svg: url('../icons/ic--outline-arrow-drop-down.svg');
 }
 
+.ui3n-icon__outline-audio-file {
+  --svg: url('../icons/ic--outline-audio-file.svg');
+}
+
 .ui3n-icon__outline-bookmark-add {
   --svg: url('../icons/ic--outline-bookmark-add.svg');
 }
@@ -96,6 +100,10 @@
 
 .ui3n-icon__outline-file-download {
   --svg: url('../icons/ic--outline-file-download.svg');
+}
+
+.ui3n-icon__outline-file-present {
+  --svg: url('../icons/ic--outline-file-present.svg');
 }
 
 .ui3n-icon__outline-file-upload {
@@ -180,6 +188,10 @@
 
 .ui3n-icon__outline-upload-file {
   --svg: url('../icons/ic--outline-upload-file.svg');
+}
+
+.ui3n-icon__outline-video-file {
+  --svg: url('../icons/ic--outline-video-file.svg');
 }
 
 .ui3n-icon__outline-videocam-off {
