@@ -175,4 +175,5 @@ export const iconList: string[] = [
   'app-store',
   'rectangles-two',
   'squares-four',
+  'file-zip',
 ];

@@ -46,6 +46,10 @@
   --svg: url('../icons/material-symbols--deployed-code-update-outline-rounded.svg');
 }
 
+.ui3n-icon__file-zip {
+  --svg: url('../icons/tabler--file-zip.svg');
+}
+
 .ui3n-icon__vertical-align-top {
   --svg: url('../icons/ic--baseline-vertical-align-top.svg');
 }
