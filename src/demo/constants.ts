@@ -34,6 +34,7 @@ export const iconList: string[] = [
   'outline-markdown-copy',
   'outline-people',
   'outline-person-add',
+  'outline-preview',
   'outline-remove-moderator',
   'outline-reply-all',
   'outline-reply',

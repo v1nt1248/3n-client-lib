@@ -154,6 +154,10 @@
   --svg: url('../icons/ic--outline-person-add-alt.svg');
 }
 
+.ui3n-icon__outline-preview {
+  --svg: url('../icons/ic--outline-preview.svg');
+}
+
 .ui3n-icon__outline-remove-moderator {
   --svg: url('../icons/ic--outline-remove-moderator.svg');
 }
