@@ -62,6 +62,10 @@
   --svg: url('../icons/ic--outline-add-moderator.svg');
 }
 
+.ui3n-icon__outline-add-reaction {
+  --svg: url('../icons/ic--outline-add-reaction.svg');
+}
+
 .ui3n-icon__outline-admin-panel {
   --svg: url('../icons/ic--outline-admin-panel-settings.svg');
 }
@@ -128,6 +132,10 @@
 
 .ui3n-icon__outline-hard-drive {
   --svg: url('../icons/material-symbols--hard-drive-outline.svg');
+}
+
+.ui3n-icon__outline-heart-plus {
+  --svg: url('../icons/material-symbols--heart-plus-outline-rounded.svg');
 }
 
 .ui3n-icon__outline-image {
@@ -220,6 +228,10 @@
 
 .ui3n-icon__round-add-moderator {
   --svg: url('../icons/ic--round-add-moderator.svg');
+}
+
+.ui3n-icon__round-add-reaction {
+  --svg: url('../icons/ic--round-add-reaction.svg');
 }
 
 .ui3n-icon__round-apps {
