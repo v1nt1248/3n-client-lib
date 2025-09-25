@@ -27,3 +27,7 @@ export interface Ui3nMenuSlots {
   default: () => VNode;
   menu?: () => VNode;
 }
+
+export interface Ui3nMenuExpose {
+  update: () => void;
+}

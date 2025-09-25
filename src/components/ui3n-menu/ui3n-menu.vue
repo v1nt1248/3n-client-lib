@@ -2,7 +2,7 @@
   import { computed, ref, watch } from 'vue';
   import { autoUpdate, flip, useFloating, offset, shift } from '@floating-ui/vue';
   import { default as vClickOutside } from '../../directives/ui3n-click-outside';
-  import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots } from './types';
+  import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots, Ui3nMenuExpose } from './types';
   import { Nullable } from '@/types';
 
   const props = withDefaults(defineProps<Ui3nMenuProps>(), {
@@ -40,26 +40,27 @@
   const {
     floatingStyles,
     isPositioned,
+    update,
   } = useFloating(
     usedTriggerElement,
     menuContentElement,
     {
-    placement: 'bottom-start',
-    strategy: props.positionStrategy,
-    middleware: [
-      offset({
-        mainAxis: props.offsetY,
-        crossAxis: props.offsetX + 2,
-      }),
-      flip({
-        fallbackAxisSideDirection: 'end',
-        flipAlignment: false,
-        fallbackPlacements: ['bottom-end'],
-      }),
-      shift(),
-    ],
-    whileElementsMounted: props.positionAutoupdate || props.positionStrategy === 'fixed' ? autoUpdate : undefined,
-  });
+      placement: 'bottom-start',
+      strategy: props.positionStrategy,
+      middleware: [
+        offset({
+          mainAxis: props.offsetY,
+          crossAxis: props.offsetX + 2,
+        }),
+        flip({
+          fallbackAxisSideDirection: 'end',
+          flipAlignment: false,
+          fallbackPlacements: ['bottom-end'],
+        }),
+        shift(),
+      ],
+      whileElementsMounted: props.positionAutoupdate || props.positionStrategy === 'fixed' ? autoUpdate : undefined,
+    });
 
   function toggleMenu() {
     if (props.disabled) {
@@ -105,9 +106,23 @@
     val => {
       if (val) {
         outerTriggerElement.value = val;
+        update();
       }
     },
-  )
+  );
+
+  watch(
+    [() => props.offsetX, () => props.offsetY],
+    ([offsetX, offsetY], [oldOffsetX, oldOffsetY]) => {
+      if (offsetX !== oldOffsetX || offsetY !== oldOffsetY) {
+        update();
+      }
+    },
+  );
+
+  defineExpose<Ui3nMenuExpose>({
+    update,
+  });
 </script>
 
 <template>
