@@ -69,6 +69,8 @@
 
   const tooltipDisable = ref(false);
 
+  const menuOffset = ref({ x: 0, y: 0 });
+
   interface TableDemoItem extends Ui3nTableBodyBaseItem {
     name: string;
     type: string;
@@ -656,7 +658,11 @@
         </ui3n-menu>
       </div>
       <div class="demo-row__cell">
-        <ui3n-menu>
+        <ui3n-menu
+          position-strategy="fixed"
+          :offset-x="menuOffset.x"
+          :offset-y="menuOffset.y"
+        >
           <ui3n-button>Menu (offset)</ui3n-button>
           <template #menu>
             <div
@@ -669,6 +675,13 @@
             </div>
           </template>
         </ui3n-menu>
+      </div>
+      <div class="demo-row__cell">
+        <ui3n-button
+          @click.stop.prevent="() => menuOffset = { x: menuOffset.x + 10, y: menuOffset.y + 10 }"
+        >
+          {{ menuOffset.x }} | {{ menuOffset.y }}
+        </ui3n-button>
       </div>
     </div>
 

@@ -1,4 +1,4 @@
-import type { VNode } from 'vue';
+import type { Ref, VNode } from 'vue';
 
 export interface Ui3nMenuProps {
   modelValue?: boolean;
@@ -29,5 +29,6 @@ export interface Ui3nMenuSlots {
 }
 
 export interface Ui3nMenuExpose {
+  isPositioned: Readonly<Ref<boolean>>;
   update: () => void;
 }

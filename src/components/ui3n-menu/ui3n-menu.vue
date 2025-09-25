@@ -121,6 +121,7 @@
   );
 
   defineExpose<Ui3nMenuExpose>({
+    isPositioned,
     update,
   });
 </script>
