@@ -86,6 +86,10 @@
   --svg: url('../icons/ic--outline-chat.svg');
 }
 
+.ui3n-icon__outline-circle {
+  --svg: url('../icons/ic--outline-circle.svg');
+}
+
 .ui3n-icon__outline-cleaning-services {
   --svg: url('../icons/ic--outline-cleaning-services.svg');
 }

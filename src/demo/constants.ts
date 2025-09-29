@@ -17,6 +17,7 @@ export const iconList: string[] = [
   'outline-audio-file',
   'outline-bookmark-add',
   'outline-chat',
+  'outline-circle',
   'outline-cleaning-services',
   'outline-color-lens',
   'outline-delete',
