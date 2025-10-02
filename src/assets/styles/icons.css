@@ -78,6 +78,10 @@
   --svg: url('../icons/ic--outline-audio-file.svg');
 }
 
+.ui3n-icon__outline-av-timer {
+  --svg: url('../icons/ic--outline-av-timer.svg');
+}
+
 .ui3n-icon__outline-bookmark-add {
   --svg: url('../icons/ic--outline-bookmark-add.svg');
 }
@@ -154,6 +158,30 @@
   --svg: url('../icons/ic--outline-insert-emoticon.svg');
 }
 
+.ui3n-icon__outline-looks-1 {
+  --svg: url('../icons/ic--outline-looks-1.svg');
+}
+
+.ui3n-icon__outline-looks-2 {
+  --svg: url('../icons/ic--outline-looks-2.svg');
+}
+
+.ui3n-icon__outline-looks-3 {
+  --svg: url('../icons/ic--outline-looks-3.svg');
+}
+
+.ui3n-icon__outline-looks-4 {
+  --svg: url('../icons/ic--outline-looks-4.svg');
+}
+
+.ui3n-icon__outline-looks-5 {
+  --svg: url('../icons/ic--outline-looks-5.svg');
+}
+
+.ui3n-icon__outline-looks-6 {
+  --svg: url('../icons/ic--outline-looks-6.svg');
+}
+
 .ui3n-icon__outline-mail {
   --svg: url('../icons/ic--outline-mail.svg');
 }
@@ -204,6 +232,10 @@
 
 .ui3n-icon__outline-table-chart {
   --svg: url('../icons/ic--outline-table-chart.svg');
+}
+
+.ui3n-icon__outline-timer {
+  --svg: url('../icons/ic--outline-timer.svg');
 }
 
 .ui3n-icon__outline-upload-file {
@@ -700,6 +732,34 @@
 
 .ui3n-icon__spinner {
   --svg: url('../icons/svg-spinners.svg');
+}
+
+.ui3n-icon__spinner-3-dots-bounce {
+  --svg: url('../icons/svg-spinners-3-dots-bounce.svg');
+}
+
+.ui3n-icon__spinner-3-dots-fade {
+  --svg: url('../icons/svg-spinners-3-dots-fade.svg');
+}
+
+.ui3n-icon__spinner-3-dots-scale {
+  --svg: url('../icons/svg-spinners-3-dots-scale.svg');
+}
+
+.ui3n-icon__spinner-bars-scale {
+  --svg: url('../icons/svg-spinners-bars-scale-middle.svg');
+}
+
+.ui3n-icon__spinner-blocks-wave {
+  --svg: url('../icons/svg-spinners-blocks-wave.svg');
+}
+
+.ui3n-icon__spinner-bouncing-ball {
+  --svg: url('../icons/svg-spinners-bouncing-ball.svg');
+}
+
+.ui3n-icon__spinner-clock {
+  --svg: url('../icons/svg-spinners-clock.svg');
 }
 
 .ui3n-icon__splitscreen-right {
