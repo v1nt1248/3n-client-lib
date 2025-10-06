@@ -762,6 +762,22 @@
   --svg: url('../icons/svg-spinners-clock.svg');
 }
 
+.ui3n-icon__spinner-clock-05 {
+  --svg: url('../icons/svg-spinners-clock-05.svg');
+}
+
+.ui3n-icon__spinner-clock-15 {
+  --svg: url('../icons/svg-spinners-clock-15.svg');
+}
+
+.ui3n-icon__spinner-clock-30 {
+  --svg: url('../icons/svg-spinners-clock-30.svg');
+}
+
+.ui3n-icon__spinner-clock-60 {
+  --svg: url('../icons/svg-spinners-clock-60.svg');
+}
+
 .ui3n-icon__splitscreen-right {
   --svg: url('../icons/material-symbols--splitscreen-right.svg')
 }
