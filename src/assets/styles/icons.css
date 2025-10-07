@@ -190,6 +190,10 @@
   --svg: url('../icons/material-symbols--markdown-copy-outline-rounded.svg');
 }
 
+.ui3n-icon__round-preview-off {
+  --svg: url('../icons/material-symbols--preview-off-rounded.svg');
+}
+
 .ui3n-icon__outline-people {
   --svg: url('../icons/ic--outline-people-outline.svg');
 }
@@ -696,6 +700,10 @@
 
 .ui3n-icon__cancel {
   --svg: url('../icons/mdi--cancel.svg');
+}
+
+.ui3n-icon__file-remove-outline {
+  --svg: url('../icons/mdi--file-remove-outline.svg');
 }
 
 .ui3n-icon__forward-outline {
