@@ -5,6 +5,7 @@ export interface Ui3nMenuProps {
   triggerElement?: HTMLElement;
   positionStrategy?: 'absolute' | 'fixed';
   positionAutoupdate?: boolean;
+  allowFlip?: boolean;
   offsetX?: number;
   offsetY?: number;
   contentBorderRadius?: number | number[];

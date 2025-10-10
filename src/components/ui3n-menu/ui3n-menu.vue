@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { computed, ref, watch } from 'vue';
+  import { computed, ref, watch, useTemplateRef } from 'vue';
   import { autoUpdate, flip, useFloating, offset, shift } from '@floating-ui/vue';
   import { default as vClickOutside } from '../../directives/ui3n-click-outside';
   import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots, Ui3nMenuExpose } from './types';
@@ -10,6 +10,7 @@
     offsetX: 0,
     offsetY: 0,
     contentBorderRadius: 4,
+    allowFlip: true,
     zIndex: 1000,
     closeOnClick: true,
     closeOnClickOutside: true,
@@ -18,9 +19,8 @@
   const emits = defineEmits<Ui3nMenuEmits>();
   defineSlots<Ui3nMenuSlots>();
 
-  const menuElement = ref<HTMLDivElement | null>(null);
-  const menuTriggerElement = ref<HTMLDivElement | null>(null);
-  const menuContentElement = ref<HTMLDivElement | null>(null);
+  const menuTriggerElement = useTemplateRef<HTMLDivElement>('menu-trigger-element');
+  const menuContentElement = useTemplateRef<HTMLDivElement>('menu-content-element');
   const isShow = ref(false);
 
   const outerTriggerElement = ref<Nullable<HTMLElement>>(props.triggerElement || null);
@@ -37,6 +37,24 @@
   });
   const zIndexCss = computed(() => props.zIndex);
 
+  const middleware = [
+    offset({
+      mainAxis: props.offsetY,
+      crossAxis: props.offsetX + 2,
+    }),
+  ];
+
+  if (props.allowFlip) {
+    middleware.push(
+      flip({
+        fallbackAxisSideDirection: 'end',
+        fallbackPlacements: ['top-end', 'bottom-end'],
+      }),
+    );
+  }
+
+  middleware.push(shift());
+
   const {
     floatingStyles,
     isPositioned,
@@ -47,18 +65,7 @@
     {
       placement: 'bottom-start',
       strategy: props.positionStrategy,
-      middleware: [
-        offset({
-          mainAxis: props.offsetY,
-          crossAxis: props.offsetX + 2,
-        }),
-        flip({
-          fallbackAxisSideDirection: 'end',
-          flipAlignment: false,
-          fallbackPlacements: ['bottom-end'],
-        }),
-        shift(),
-      ],
+      middleware,
       whileElementsMounted: props.positionAutoupdate || props.positionStrategy === 'fixed' ? autoUpdate : undefined,
     });
 
@@ -128,11 +135,11 @@
 
 <template>
   <div
-    ref="menuElement"
+    ref="menu-element"
     :class="$style.ui3nMenu"
   >
     <div
-      ref="menuTriggerElement"
+      ref="menu-trigger-element"
       :class="[$style.ui3nMenuTrigger, disabled && $style.ui3nMenuTriggerDisabled]"
       @click.stop="toggleMenu"
     >
@@ -141,7 +148,7 @@
 
     <div
       v-if="isShow"
-      ref="menuContentElement"
+      ref="menu-content-element"
       v-click-outside="onClickOutside"
       :style="floatingStyles"
       :class="$style.ui3nMenuContent"
