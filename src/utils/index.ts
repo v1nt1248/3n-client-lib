@@ -24,6 +24,7 @@ export * from './files/get-file-extension';
 export * from './files/is-file-image';
 export * from './files/is-file-video';
 export * from './files/is-file-audio';
+export * from './files/is-file-archive';
 export * from './files/blob-to-b64';
 export * from './files/b64-to-blob';
 export * from './files/blob-from-data-url';

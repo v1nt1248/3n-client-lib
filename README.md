@@ -79,6 +79,7 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - isFileImage [FILES]
   - isFileVideo [FILES]
   - isFileAudio [FILES]
+  - isFileArchive [FILES]
   - blobToB64 [FILES]
   - b64ToBlob [FILES]
   - blobFromDataUrl [FILES]
