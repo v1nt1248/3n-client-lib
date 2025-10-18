@@ -786,8 +786,20 @@
   --svg: url('../icons/svg-spinners-clock-60.svg');
 }
 
+.ui3n-icon__splitscreen-bottom {
+  --svg: url('../icons/material-symbols--splitscreen-bottom.svg')
+}
+
+.ui3n-icon__splitscreen-left {
+  --svg: url('../icons/material-symbols--splitscreen-left.svg')
+}
+
 .ui3n-icon__splitscreen-right {
   --svg: url('../icons/material-symbols--splitscreen-right.svg')
+}
+
+.ui3n-icon__splitscreen-top {
+  --svg: url('../icons/material-symbols--splitscreen-top.svg')
 }
 
 .ui3n-icon__stylus {
