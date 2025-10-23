@@ -13,7 +13,7 @@
       disabled: false,
     },
   );
-  const emit = defineEmits<Ui3nTextEmits>();
+  const emits = defineEmits<Ui3nTextEmits>();
 
   const textareaElement = ref<HTMLTextAreaElement | null>(null);
   const isFocused = ref(false);
@@ -30,13 +30,13 @@
   onMounted(() => {
     if (textareaElement.value) {
       patchTextareaMaxRowsSupport(textareaElement.value!);
-      emit('init', textareaElement.value!);
+      emits('init', textareaElement.value!);
     }
   });
 
   watch(
     () => isValid.value,
-    val => emit('update:valid', val),
+    val => emits('update:valid', val),
     { immediate: true },
   );
 
@@ -56,38 +56,42 @@
 
   function onFocus(event: Event) {
     isFocused.value = true;
-    emit('focus', event);
+    emits('focus', event);
   }
 
   function onBlur(event: Event) {
     isFocused.value = false;
     const value = (event.target as HTMLInputElement).value;
     validate(value);
-    emit('blur', event);
-    emit('change', value);
-    emit('update:text', value);
+    emits('blur', event);
+    emits('change', value);
+    emits('update:text', value);
   }
 
   function onInput(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     validate(value);
-    emit('update:text', value);
-    emit('input', value);
+    emits('update:text', value);
+    emits('input', value);
   }
 
   function onEnterKeydown(event: KeyboardEvent) {
     const { altKey, ctrlKey, shiftKey, metaKey, target } = event;
     const value = (target as HTMLInputElement).value;
     validate(value);
-    emit('update:text', value);
-    emit('enter', { value, altKey, ctrlKey, shiftKey, metaKey });
+    emits('update:text', value);
+    emits('enter', { value, altKey, ctrlKey, shiftKey, metaKey });
   }
 
   function onEscapeKeydown(event: KeyboardEvent) {
     const value = (event.target as HTMLInputElement).value;
     validate(value);
-    emit('update:text', value);
-    emit('escape', event);
+    emits('update:text', value);
+    emits('escape', event);
+  }
+
+  function onKeydown(event: KeyboardEvent) {
+    emits('keydown', event);
   }
 </script>
 
@@ -114,6 +118,7 @@
         @input="onInput"
         @keydown.enter="onEnterKeydown"
         @keydown.escape="onEscapeKeydown"
+        @keydown="onKeydown"
         @focusin="onFocus"
         @focusout="onBlur"
       />

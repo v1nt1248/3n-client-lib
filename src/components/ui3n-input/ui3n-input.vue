@@ -103,6 +103,10 @@
     emits('escape', event);
   }
 
+  function onKeydown(event: KeyboardEvent) {
+    emits('keydown', event);
+  }
+
   function clearValue() {
     text.value = '';
     isDirty.value = false;
@@ -182,6 +186,7 @@
       @input="onInput"
       @keydown.enter="onEnterKeydown"
       @keydown.escape="onEscapeKeydown"
+      @keydown="onKeydown"
       @focusin="onFocus"
       @focusout="onBlur"
       @change="onChange"

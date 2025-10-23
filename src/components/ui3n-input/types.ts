@@ -17,6 +17,7 @@ export interface Ui3nInputProps {
 export interface Ui3nInputEmits {
   (event: 'init', value: HTMLInputElement): void;
   (event: 'input', value: string): void;
+  (event: 'keydown', value: KeyboardEvent): void;
   (event: 'focus', value: Event): void;
   (event: 'blur', value: Event): void;
   (event: 'clear'): void;

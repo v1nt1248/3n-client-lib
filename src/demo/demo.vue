@@ -730,6 +730,8 @@
             :rows="1"
             :max-rows="3"
             placeholder="Enter any text"
+            @keydown="(ev) => console.log('# KEYDOWN => ', ev)"
+            @enter="(ev) => console.log('# ENTER EVENT => ', ev)"
           />
         </div>
         <div class="demo-row__cell-text">
@@ -756,6 +758,8 @@
             :rows="1"
             :max-rows="3"
             placeholder="Enter any text"
+            @keydown="(ev) => console.log('# KEYDOWN => ', ev)"
+            @enter="(ev) => console.log('# ENTER EVENT => ', ev)"
           />
         </div>
       </div>

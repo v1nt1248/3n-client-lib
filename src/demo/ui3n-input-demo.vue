@@ -24,6 +24,7 @@
           v-model="val1"
           placeholder="Enter any text"
           @input="onInputComponentEvent('input', $event)"
+          @keydown="onInputComponentEvent('keydown', $event)"
           @focus="onInputComponentEvent('focus', $event)"
           @blur="onInputComponentEvent('blur', $event)"
           @change="onInputComponentEvent('change', $event)"
@@ -132,6 +133,7 @@
           @focus="onInputComponentEvent('focus', $event)"
           @blur="onInputComponentEvent('blur', $event)"
           @change="onInputComponentEvent('change', $event)"
+          @keydown="onInputComponentEvent('keydown', $event)"
         />
       </demo-layout-cell>
       <demo-layout-cell :label="`With label & forced set error state, clearable, value: <i>${val5}</i>`">

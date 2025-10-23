@@ -12,6 +12,7 @@ export interface Ui3nTextEmits {
   (event: 'init', value: HTMLTextAreaElement): void;
   (event: 'input', value: string): void;
   (event: 'change', value: string): void;
+  (event: 'keydown', value: KeyboardEvent): void;
   (event: 'enter', value: {
     value: string;
     altKey: boolean;
