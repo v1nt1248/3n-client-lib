@@ -2,7 +2,7 @@
   "name": "@v1nt1248/3nclient-lib",
   "license": "AGPL-3.0-or-later",
   "author": "v1nt1248",
-  "version": "0.2.60",
+  "version": "0.2.61",
   "description": "Library for 3NWeb clients",
   "type": "module",
   "files": [

@@ -17,7 +17,7 @@ export interface Ui3nLongPressModifiers {
   passive?: boolean;
 }
 
-interface ExtendedDirective extends ObjectDirective<HTMLElement, Ui3nLongPressBindingValue> {
+interface Ui3nLongExtendedDirective extends ObjectDirective<HTMLElement, Ui3nLongPressBindingValue> {
   pointerdownEvent: (event: PointerEvent) => void;
   pointerupEvent: (event: PointerEvent) => void;
   pointermoveEvent: (event: PointerEvent) => void;
@@ -29,7 +29,7 @@ const DEFAULT_DELAY = 500;
 const DEFAULT_THRESHOLD = 10;
 
 function getDir(binding: DirectiveBinding<Ui3nLongPressBindingValue>) {
-  return binding.dir as ExtendedDirective;
+  return binding.dir as Ui3nLongExtendedDirective;
 }
 
 function pointerdownEvent(
@@ -40,7 +40,7 @@ function pointerdownEvent(
   const { handler, delay = DEFAULT_DELAY } = value;
 
   if (handler.constructor.name !== 'Function') {
-    throw Error('[v-ui3n-longpress] The handler as a function should be provided in the directive');
+    throw Error('[v-ui3n-longpress] The handler as a function should be provided in the directiveю');
   }
 
   if ('prevent' in modifiers) {
@@ -125,7 +125,7 @@ function pointermoveEvent(
   }
 }
 
-const ui3nLongPress: ExtendedDirective = {
+const ui3nLongPress: Ui3nLongExtendedDirective = {
   pointerdownEvent: () => ({}),
   pointerupEvent: () => ({}),
   pointermoveEvent: () => ({}),

@@ -7,6 +7,7 @@
   import Ui3nTitleDemo from './ui3n-title-demo.vue';
   import Ui3nAutocompleteDemo from './ui3n-autocomplete-demo.vue';
   import Ui3nLongPressDemo from './ui3n-long-press-demo.vue';
+  import Ui3nHtmlDemo from './ui3n-html-demo.vue';
   import Ui3nSliderDemo from './ui3n-slider-demo.vue';
   import Ui3nIconDemo from './ui3n-icon-demo.vue';
   // import Ui3nButtonDemo from './ui3n-button-demo.vue';
@@ -236,6 +237,8 @@
     <ui3n-slider-demo />
 
     <ui3n-title-demo />
+
+    <ui3n-html-demo />
 
     <ui3n-long-press-demo />
 
