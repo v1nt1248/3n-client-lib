@@ -299,39 +299,34 @@
         <ui3n-button
           type="secondary"
           disabled
-        >Secondary
-        </ui3n-button
-        >
+          >Secondary
+        </ui3n-button>
         <ui3n-button
           type="secondary"
           size="small"
-        >Secondary
-        </ui3n-button
-        >
+          >Secondary
+        </ui3n-button>
       </div>
       <div class="demo-row">
         <ui3n-button type="tertiary">Tertiary</ui3n-button>
         <ui3n-button
           type="tertiary"
           disabled
-        >Tertiary
-        </ui3n-button
-        >
+          >Tertiary
+        </ui3n-button>
         <ui3n-button
           type="tertiary"
           size="small"
-        >Tertiary
-        </ui3n-button
-        >
+          >Tertiary
+        </ui3n-button>
       </div>
       <div class="demo-row">
         <ui3n-button
           type="custom"
           color="#2ca089"
           text-color="#e3f4f1"
-        >Custom
-        </ui3n-button
-        >
+          >Custom
+        </ui3n-button>
         <ui3n-button
           type="custom"
           color="#2ca089"
@@ -345,46 +340,40 @@
           color="var(--warning-content-default)"
           text-color="#ffefe9"
           size="small"
-        >Custom
-        </ui3n-button
-        >
+          >Custom
+        </ui3n-button>
       </div>
       <div class="demo-row">
         <ui3n-button icon="round-logout">Primary</ui3n-button>
         <ui3n-button
           icon="round-logout"
           disabled
-        >Primary
-        </ui3n-button
-        >
+          >Primary
+        </ui3n-button>
         <ui3n-button
           icon="round-logout"
           size="small"
-        >Primary
-        </ui3n-button
-        >
+          >Primary
+        </ui3n-button>
       </div>
       <div class="demo-row">
         <ui3n-button
           icon="round-home"
           icon-position="left"
-        >Primary
-        </ui3n-button
-        >
+          >Primary
+        </ui3n-button>
         <ui3n-button
           icon="round-home"
           icon-position="left"
           disabled
-        >Primary
-        </ui3n-button
-        >
+          >Primary
+        </ui3n-button>
         <ui3n-button
           icon="round-home"
           icon-position="left"
           size="small"
-        >Primary
-        </ui3n-button
-        >
+          >Primary
+        </ui3n-button>
       </div>
       <div class="demo-row">
         <ui3n-button
@@ -481,9 +470,8 @@
         <ui3n-button
           :disabled="stepValue === 5"
           @click="stepValue++"
-        >Next step
-        </ui3n-button
-        >
+          >Next step
+        </ui3n-button>
         <ui3n-button
           type="secondary"
           :disabled="stepValue === 1"
@@ -616,8 +604,8 @@
                 <div class="list-title">{{ item.title }}</div>
               </template>
 
-              <template #item="{ item: children }">
-                <div class="list-item">{{ children.title }}</div>
+              <template #item="{ item: children, index }">
+                <div class="list-item">{{ children.title }} [{{ index }}]</div>
               </template>
             </ui3n-list>
           </template>
@@ -680,9 +668,7 @@
         </ui3n-menu>
       </div>
       <div class="demo-row__cell">
-        <ui3n-button
-          @click.stop.prevent="() => menuOffset = { x: menuOffset.x + 10, y: menuOffset.y + 10 }"
-        >
+        <ui3n-button @click.stop.prevent="() => (menuOffset = { x: menuOffset.x + 10, y: menuOffset.y + 10 })">
           {{ menuOffset.x }} | {{ menuOffset.y }}
         </ui3n-button>
       </div>
@@ -703,9 +689,8 @@
           <ui3n-button
             type="secondary"
             class="tabs__item"
-          >Option 4
-          </ui3n-button
-          >
+            >Option 4
+          </ui3n-button>
         </ui3n-tabs>
       </div>
       <div class="demo-row__cell-long">
@@ -733,8 +718,8 @@
             :rows="1"
             :max-rows="3"
             placeholder="Enter any text"
-            @keydown="(ev) => console.log('# KEYDOWN => ', ev)"
-            @enter="(ev) => console.log('# ENTER EVENT => ', ev)"
+            @keydown="ev => console.log('# KEYDOWN => ', ev)"
+            @enter="ev => console.log('# ENTER EVENT => ', ev)"
           />
         </div>
         <div class="demo-row__cell-text">
@@ -761,8 +746,8 @@
             :rows="1"
             :max-rows="3"
             placeholder="Enter any text"
-            @keydown="(ev) => console.log('# KEYDOWN => ', ev)"
-            @enter="(ev) => console.log('# ENTER EVENT => ', ev)"
+            @keydown="ev => console.log('# KEYDOWN => ', ev)"
+            @enter="ev => console.log('# ENTER EVENT => ', ev)"
           />
         </div>
       </div>
@@ -1009,9 +994,20 @@
     <!-- RADIO GROUP -->
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- RADIO GROUP ---</div>
-      <ui3n-radio-group v-model="radioGroupValue" name="test">
-        <ui3n-radio size="32" :checked-value="0">AAAAA</ui3n-radio>
-        <ui3n-radio size="32" :checked-value="2">BBBBB</ui3n-radio>
+      <ui3n-radio-group
+        v-model="radioGroupValue"
+        name="test"
+      >
+        <ui3n-radio
+          size="32"
+          :checked-value="0"
+          >AAAAA</ui3n-radio
+        >
+        <ui3n-radio
+          size="32"
+          :checked-value="2"
+          >BBBBB</ui3n-radio
+        >
       </ui3n-radio-group>
       <p>Current value: {{ radioGroupValue }}</p>
     </div>

@@ -53,7 +53,7 @@
 <style lang="scss" module>
   .ui3nList {
     --ui3n-list-item-height: 28px;
-    --ui3n-list-bg-color: var(--color-bg-block-primary-default);
+    --ui3n-list-bg-color: transparent;
 
     position: relative;
     width: 100%;
