@@ -129,6 +129,9 @@
     min-height: var(--ui3n-progress-circular-size);
     height: var(--ui3n-progress-circular-size);
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &.inverse {
       .background {

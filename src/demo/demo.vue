@@ -39,7 +39,14 @@
   const vUi3nResize = Ui3nResize;
   const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 
-  const darkTheme = ref(false);
+  const colorThemes = {
+    default: 'Default theme',
+    dark: 'Dark theme',
+    dark2: 'Dark 2 theme',
+  };
+
+  const currentTheme = ref<'default' | 'dark' | 'dark2'>('default');
+
   const checkValue = ref([true, false, false]);
   const switchValue = ref([true, false]);
   const stepValue = ref(1);
@@ -151,12 +158,20 @@
     info: `Info message with short Description for on or two lines and default view.`,
   };
 
-  function changeColorTheme(val: boolean) {
+  function changeColorTheme(colorThemeId: 'default' | 'dark' | 'dark2') {
+    console.log('changeColorTheme => ', colorThemeId);
     const htmlEl = document.querySelector('html');
-    if (!htmlEl) return;
+    if (!htmlEl) {
+      return;
+    }
 
-    htmlEl.classList.remove(val ? 'default-theme' : 'dark-theme');
-    htmlEl.classList.add(val ? 'dark-theme' : 'default-theme');
+    if (colorThemeId === currentTheme.value) {
+      return;
+    }
+
+    htmlEl.classList.remove(`${currentTheme.value}-theme`);
+    htmlEl.classList.add(`${colorThemeId}-theme`);
+    currentTheme.value = colorThemeId;
   }
 
   function getRandomInt(max: number): number {
@@ -225,13 +240,22 @@
   >
     <h3>Components</h3>
     <div class="theme">
-      <span>Default theme</span>
-      <ui3n-switch
-        size="24"
-        :model-value="darkTheme"
-        @change="changeColorTheme"
-      />
-      <span>Dark theme</span>
+      <ui3n-menu position-strategy="fixed">
+        <h5 class="color-theme-title">Color theme selector:</h5>
+
+        <ui3n-button>{{ colorThemes[currentTheme] }}</ui3n-button>
+        <template #menu>
+          <div
+            v-for="(name, id) in colorThemes"
+            :key="id"
+            class="color-theme-item"
+            :class="id === currentTheme ? 'color-theme-item-active' : ''"
+            @click="changeColorTheme(id)"
+          >
+            {{ name }}
+          </div>
+        </template>
+      </ui3n-menu>
     </div>
 
     <ui3n-slider-demo />
@@ -1025,12 +1049,31 @@
       top: 24px;
       right: 24px;
       z-index: 10000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
       font-size: 14px;
       font-weight: 500;
+    }
+
+    .color-theme-title {
+      margin: 0 0 8px 0;
+    }
+
+    .color-theme-item {
+      display: flex;
+      width: 108px;
+      height: 24px;
+      padding: 0 8px;
+      justify-content: flex-start;
+      align-items: center;
+      cursor: pointer;
+      color: var(--color-text-block-primary-default);
+
+      &-active {
+        color: darkorange;
+      }
+
+      &:hover {
+        background-color: #ccc;
+      }
     }
 
     &__body-grid {
@@ -1084,7 +1127,6 @@
       width: 300px;
       height: 360px;
       overflow-y: auto;
-      background-color: var(--grey-5);
 
       .list {
         &-title {
@@ -1093,11 +1135,13 @@
           z-index: 10;
           position: relative;
           width: 24px;
+          color: var(--color-text-block-secondary-default);
         }
 
         &-item {
           padding-left: 24px;
           cursor: pointer;
+          color: var(--color-text-block-primary-default);
         }
       }
     }
