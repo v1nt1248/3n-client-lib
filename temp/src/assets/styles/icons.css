@@ -1,0 +1,839 @@
+/* CSS style for icons */
+.ui3n-icon {
+  /* Add dimensions to span */
+  display: block;
+
+  /* Add background color */
+  background-color: currentcolor;
+
+  /* Add mask image, use variable to reduce duplication */
+  --svg: url('');
+  
+  mask-image: var(--svg);
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+}
+
+.ui3n-icon__ad-group-outline {
+  --svg: url('../icons/material-symbols--ad-group-outline.svg');
+}
+
+.ui3n-icon__drag-pan {
+  --svg: url('../icons/material-symbols--drag-pan.svg');
+}
+
+.ui3n-icon__expand-screen {
+  --svg: url('../icons/ci--expand.svg');
+}
+
+.ui3n-icon__heading-h1 {
+  --svg: url('../icons/ci--heading-h1.svg');
+}
+
+.ui3n-icon__heading-h2 {
+  --svg: url('../icons/ci--heading-h2.svg');
+}
+
+.ui3n-icon__heading-h3 {
+  --svg: url('../icons/ci--heading-h3.svg');
+}
+
+.ui3n-icon__binary-tree {
+  --svg: url('../icons/tabler--binary-tree.svg');
+}
+
+.ui3n-icon__deployed-code-update {
+  --svg: url('../icons/material-symbols--deployed-code-update-outline-rounded.svg');
+}
+
+.ui3n-icon__file-zip {
+  --svg: url('../icons/tabler--file-zip.svg');
+}
+
+.ui3n-icon__vertical-align-top {
+  --svg: url('../icons/ic--baseline-vertical-align-top.svg');
+}
+
+.ui3n-icon__outline-account-circle {
+  --svg: url('../icons/ic--outline-account-circle.svg');
+}
+
+.ui3n-icon__outline-add-moderator {
+  --svg: url('../icons/ic--outline-add-moderator.svg');
+}
+
+.ui3n-icon__outline-add-reaction {
+  --svg: url('../icons/ic--outline-add-reaction.svg');
+}
+
+.ui3n-icon__outline-admin-panel {
+  --svg: url('../icons/ic--outline-admin-panel-settings.svg');
+}
+
+.ui3n-icon__outline-arrow-drop-down {
+  --svg: url('../icons/ic--outline-arrow-drop-down.svg');
+}
+
+.ui3n-icon__outline-audio-file {
+  --svg: url('../icons/ic--outline-audio-file.svg');
+}
+
+.ui3n-icon__outline-av-timer {
+  --svg: url('../icons/ic--outline-av-timer.svg');
+}
+
+.ui3n-icon__outline-bookmark-add {
+  --svg: url('../icons/ic--outline-bookmark-add.svg');
+}
+
+.ui3n-icon__outline-chat {
+  --svg: url('../icons/ic--outline-chat.svg');
+}
+
+.ui3n-icon__outline-circle {
+  --svg: url('../icons/ic--outline-circle.svg');
+}
+
+.ui3n-icon__outline-cleaning-services {
+  --svg: url('../icons/ic--outline-cleaning-services.svg');
+}
+
+.ui3n-icon__outline-color-lens {
+  --svg: url('../icons/ic--outline-color-lens.svg');
+}
+
+.ui3n-icon__outline-delete {
+  --svg: url('../icons/ic--outline-delete.svg');
+}
+
+.ui3n-icon__outline-download-for-offline {
+  --svg: url('../icons/ic--outline-download-for-offline.svg');
+}
+
+.ui3n-icon__outline-edit {
+  --svg: url('../icons/ic--outline-edit.svg');
+}
+
+.ui3n-icon__outline-file-download {
+  --svg: url('../icons/ic--outline-file-download.svg');
+}
+
+.ui3n-icon__outline-file-present {
+  --svg: url('../icons/ic--outline-file-present.svg');
+}
+
+.ui3n-icon__outline-file-upload {
+  --svg: url('../icons/ic--outline-file-upload.svg');
+}
+
+.ui3n-icon__outline-folder {
+  --svg: url('../icons/ic--outline-folder.svg');
+}
+
+.ui3n-icon__round-folder-data {
+  --svg: url('../icons/material-symbols--folder-data-rounded.svg');
+}
+
+.ui3n-icon__outline-folder-open {
+  --svg: url('../icons/material-symbols--folder-open-outline.svg');
+}
+
+.ui3n-icon__outline-hard-drive {
+  --svg: url('../icons/material-symbols--hard-drive-outline.svg');
+}
+
+.ui3n-icon__outline-heart-plus {
+  --svg: url('../icons/material-symbols--heart-plus-outline-rounded.svg');
+}
+
+.ui3n-icon__outline-image {
+  --svg: url('../icons/ic--outline-image.svg');
+}
+
+.ui3n-icon__outline-info {
+  --svg: url('../icons/ic--outline-info.svg');
+}
+
+.ui3n-icon__outline-insert-emoticon {
+  --svg: url('../icons/ic--outline-insert-emoticon.svg');
+}
+
+.ui3n-icon__outline-looks-1 {
+  --svg: url('../icons/ic--outline-looks-1.svg');
+}
+
+.ui3n-icon__outline-looks-2 {
+  --svg: url('../icons/ic--outline-looks-2.svg');
+}
+
+.ui3n-icon__outline-looks-3 {
+  --svg: url('../icons/ic--outline-looks-3.svg');
+}
+
+.ui3n-icon__outline-looks-4 {
+  --svg: url('../icons/ic--outline-looks-4.svg');
+}
+
+.ui3n-icon__outline-looks-5 {
+  --svg: url('../icons/ic--outline-looks-5.svg');
+}
+
+.ui3n-icon__outline-looks-6 {
+  --svg: url('../icons/ic--outline-looks-6.svg');
+}
+
+.ui3n-icon__outline-mail {
+  --svg: url('../icons/ic--outline-mail.svg');
+}
+
+.ui3n-icon__outline-markdown-copy {
+  --svg: url('../icons/material-symbols--markdown-copy-outline-rounded.svg');
+}
+
+.ui3n-icon__round-preview-off {
+  --svg: url('../icons/material-symbols--preview-off-rounded.svg');
+}
+
+.ui3n-icon__outline-people {
+  --svg: url('../icons/ic--outline-people-outline.svg');
+}
+
+.ui3n-icon__outline-person-add {
+  --svg: url('../icons/ic--outline-person-add-alt.svg');
+}
+
+.ui3n-icon__outline-preview {
+  --svg: url('../icons/ic--outline-preview.svg');
+}
+
+.ui3n-icon__outline-remove-moderator {
+  --svg: url('../icons/ic--outline-remove-moderator.svg');
+}
+
+.ui3n-icon__outline-reply-all {
+  --svg: url('../icons/ic--outline-reply-all.svg');
+}
+
+.ui3n-icon__outline-reply {
+  --svg: url('../icons/ic--outline-reply.svg');
+}
+
+.ui3n-icon__outline-report-problem {
+  --svg: url('../icons/ic--outline-report-problem.svg');
+}
+
+.ui3n-icon__outline-screen-share {
+  --svg: url('../icons/ic--outline-screen-share.svg');
+}
+
+.ui3n-icon__outline-settings {
+  --svg: url('../icons/ic--outline-settings.svg');
+}
+
+.ui3n-icon__outline-stop-screen-share {
+  --svg: url('../icons/ic--outline-stop-screen-share.svg');
+}
+
+.ui3n-icon__outline-table-chart {
+  --svg: url('../icons/ic--outline-table-chart.svg');
+}
+
+.ui3n-icon__outline-timer {
+  --svg: url('../icons/ic--outline-timer.svg');
+}
+
+.ui3n-icon__outline-upload-file {
+  --svg: url('../icons/ic--outline-upload-file.svg');
+}
+
+.ui3n-icon__outline-video-file {
+  --svg: url('../icons/ic--outline-video-file.svg');
+}
+
+.ui3n-icon__outline-videocam-off {
+  --svg: url('../icons/ic--outline-videocam-off.svg');
+}
+
+.ui3n-icon__outline-videocam {
+  --svg: url('../icons/ic--outline-videocam.svg');
+}
+
+.ui3n-icon__outline-wb-sunny {
+  --svg: url('../icons/ic--outline-wb-sunny.svg');
+}
+
+.ui3n-icon__round-add-circle-outline {
+  --svg: url('../icons/ic--round-add-circle-outline.svg');
+}
+
+.ui3n-icon__round-add-moderator {
+  --svg: url('../icons/ic--round-add-moderator.svg');
+}
+
+.ui3n-icon__round-add-reaction {
+  --svg: url('../icons/ic--round-add-reaction.svg');
+}
+
+.ui3n-icon__round-apps {
+  --svg: url('../icons/ic--round-apps.svg');
+}
+
+.ui3n-icon__round-add {
+  --svg: url('../icons/ic--round-add.svg');
+}
+
+.ui3n-icon__round-arrow-back {
+  --svg: url('../icons/ic--round-arrow-back.svg');
+}
+
+.ui3n-icon__round-arrow-downward {
+  --svg: url('../icons/ic--round-arrow-downward.svg');
+}
+
+.ui3n-icon__round-arrow-forward {
+  --svg: url('../icons/ic--round-arrow-forward.svg');
+}
+
+.ui3n-icon__round-arrow-upward {
+  --svg: url('../icons/ic--round-arrow-upward.svg');
+}
+
+.ui3n-icon__round-attach-file {
+  --svg: url('../icons/ic--round-attach-file.svg');
+}
+
+.ui3n-icon__round-bookmark {
+  --svg: url('../icons/ic--round-bookmark.svg');
+}
+
+.ui3n-icon__round-brush {
+  --svg: url('../icons/ic--round-brush.svg');
+}
+
+.ui3n-icon__round-call-end {
+  --svg: url('../icons/ic--round-call-end.svg');
+}
+
+.ui3n-icon__round-call-made {
+  --svg: url('../icons/ic--round-call-made.svg');
+}
+
+.ui3n-icon__round-call-received {
+  --svg: url('../icons/ic--round-call-received.svg');
+}
+
+.ui3n-icon__round-cancel-schedule-send {
+  --svg: url('../icons/ic--round-cancel-schedule-send.svg');
+}
+
+.ui3n-icon__round-check-box-outline-blank {
+  --svg: url('../icons/ic--round-check-box-outline-blank.svg');
+}
+
+.ui3n-icon__round-check-box {
+  --svg: url('../icons/ic--round-check-box.svg');
+}
+
+.ui3n-icon__round-check-circle-outline {
+  --svg: url('../icons/ic--round-check-circle-outline.svg');
+}
+
+.ui3n-icon__round-check-circle {
+  --svg: url('../icons/ic--round-check-circle.svg');
+}
+
+.ui3n-icon__round-check {
+  --svg: url('../icons/ic--round-check.svg');
+}
+
+.ui3n-icon__round-close {
+  --svg: url('../icons/ic--round-close.svg');
+}
+
+.ui3n-icon__round-code {
+  --svg: url('../icons/ic--round-code.svg');
+}
+
+.ui3n-icon__round-color-lens {
+  --svg: url('../icons/ic--round-color-lens.svg');
+}
+
+.ui3n-icon__round-content-copy {
+  --svg: url('../icons/ic--round-content-copy.svg');
+}
+
+.ui3n-icon__round-done-all {
+  --svg: url('../icons/ic--round-done-all.svg');
+}
+
+.ui3n-icon__round-done {
+  --svg: url('../icons/ic--round-done.svg');
+}
+
+.ui3n-icon__round-drag-handle {
+  --svg: url('../icons/ic--round-drag-handle.svg');
+}
+
+.ui3n-icon__round-edit {
+  --svg: url('../icons/ic--round-edit.svg');
+}
+
+.ui3n-icon__round-eject {
+  --svg: url('../icons/ic--round-eject.svg');
+}
+
+.ui3n-icon__round-fast-forward {
+  --svg: url('../icons/ic--round-fast-forward.svg');
+}
+
+.ui3n-icon__round-file-download {
+  --svg: url('../icons/ic--round-file-download.svg');
+}
+
+.ui3n-icon__round-file-upload {
+  --svg: url('../icons/ic--round-file-upload.svg');
+}
+
+.ui3n-icon__round-folder {
+  --svg: url('../icons/ic--round-folder.svg');
+}
+
+.ui3n-icon__round-format-align-center {
+  --svg: url('../icons/ic--round-format-align-center.svg');
+}
+
+.ui3n-icon__round-format-align-justify {
+  --svg: url('../icons/ic--round-format-align-justify.svg');
+}
+
+.ui3n-icon__round-format-align-left {
+  --svg: url('../icons/ic--round-format-align-left.svg');
+}
+
+.ui3n-icon__round-format-align-right {
+  --svg: url('../icons/ic--round-format-align-right.svg');
+}
+
+.ui3n-icon__round-format-bold {
+  --svg: url('../icons/ic--round-format-bold.svg');
+}
+
+.ui3n-icon__round-format-color-fill {
+  --svg: url('../icons/ic--round-format-color-fill.svg');
+}
+
+.ui3n-icon__round-format-color-text {
+  --svg: url('../icons/ic--round-format-color-text.svg');
+}
+
+.ui3n-icon__round-format-indent-decrease {
+  --svg: url('../icons/ic--round-format-indent-decrease.svg');
+}
+
+.ui3n-icon__round-format-indent-increase {
+  --svg: url('../icons/ic--round-format-indent-increase.svg');
+}
+
+.ui3n-icon__round-format-italic {
+  --svg: url('../icons/ic--round-format-italic.svg');
+}
+
+.ui3n-icon__round-format-list-bulleted {
+  --svg: url('../icons/ic--round-format-list-bulleted.svg');
+}
+
+.ui3n-icon__round-format-list-numbered {
+  --svg: url('../icons/ic--round-format-list-numbered.svg');
+}
+
+.ui3n-icon__round-format-quote {
+  --svg: url('../icons/ic--round-format-quote.svg');
+}
+
+.ui3n-icon__round-format-size {
+  --svg: url('../icons/ic--round-format-size.svg');
+}
+
+.ui3n-icon__round-format-underlined {
+  --svg: url('../icons/ic--round-format-underlined.svg');
+}
+
+.ui3n-icon__round-headphones {
+  --svg: url('../icons/ic--round-headphones.svg');
+}
+
+.ui3n-icon__round-home {
+  --svg: url('../icons/ic--round-home.svg');
+}
+
+.ui3n-icon__round-indeterminate-check-box {
+  --svg: url('../icons/ic--round-indeterminate-check-box.svg');
+}
+
+.ui3n-icon__round-info {
+  --svg: url('../icons/ic--round-info.svg');
+}
+
+.ui3n-icon__round-key {
+  --svg: url('../icons/ic--round-key.svg');
+}
+
+.ui3n-icon__round-key-off {
+  --svg: url('../icons/ic--round-key-off.svg');
+}
+
+.ui3n-icon__round-keyboard-arrow-down {
+  --svg: url('../icons/ic--round-keyboard-arrow-down.svg');
+}
+
+.ui3n-icon__round-keyboard-arrow-left {
+  --svg: url('../icons/ic--round-keyboard-arrow-left.svg');
+}
+
+.ui3n-icon__round-keyboard-arrow-right {
+  --svg: url('../icons/ic--round-keyboard-arrow-right.svg');
+}
+
+.ui3n-icon__round-keyboard-arrow-up {
+  --svg: url('../icons/ic--round-keyboard-arrow-up.svg');
+}
+
+.ui3n-icon__round-language {
+  --svg: url('../icons/ic--round-language.svg');
+}
+
+.ui3n-icon__round-link {
+  --svg: url('../icons/ic--round-link.svg');
+}
+
+.ui3n-icon__round-lock {
+  --svg: url('../icons/ic--round-lock.svg');
+}
+
+.ui3n-icon__round-logout {
+  --svg: url('../icons/ic--round-logout.svg');
+}
+
+.ui3n-icon__round-mail {
+  --svg: url('../icons/ic--round-mail.svg');
+}
+
+.ui3n-icon__round-menu {
+  --svg: url('../icons/ic--round-menu.svg');
+}
+
+.ui3n-icon__round-mic-none {
+  --svg: url('../icons/ic--round-mic-none.svg');
+}
+
+.ui3n-icon__round-mic-off {
+  --svg: url('../icons/ic--round-mic-off.svg');
+}
+
+.ui3n-icon__round-more-horiz {
+  --svg: url('../icons/ic--round-more-horiz.svg');
+}
+
+.ui3n-icon__round-more-time {
+  --svg: url('../icons/ic--round-more-time.svg');
+}
+
+.ui3n-icon__round-more-vert {
+  --svg: url('../icons/ic--round-more-vert.svg');
+}
+
+.ui3n-icon__round-pattern {
+  --svg: url('../icons/ic--round-pattern.svg');
+}
+
+.ui3n-icon__round-pause {
+  --svg: url('../icons/ic--round-pause.svg');
+}
+
+.ui3n-icon__round-pause-circle-outline {
+  --svg: url('../icons/ic--round-pause-circle-outline.svg');
+}
+
+.ui3n-icon__round-person-outline {
+  --svg: url('../icons/ic--round-person-outline.svg');
+}
+
+.ui3n-icon__round-person {
+  --svg: url('../icons/ic--round-person.svg');
+}
+
+.ui3n-icon__round-phone-disabled {
+  --svg: url('../icons/ic--round-phone-disabled.svg');
+}
+
+.ui3n-icon__round-phone-in-talk {
+  --svg: url('../icons/ic--round-phone-in-talk.svg');
+}
+
+.ui3n-icon__round-phone-locked {
+  --svg: url('../icons/ic--round-phone-locked.svg');
+}
+
+.ui3n-icon__round-phone-missed {
+  --svg: url('../icons/ic--round-phone-missed.svg');
+}
+
+.ui3n-icon__round-phone-paused {
+  --svg: url('../icons/ic--round-phone-paused.svg');
+}
+
+.ui3n-icon__round-phone {
+  --svg: url('../icons/ic--round-phone.svg');
+}
+
+.ui3n-icon__round-plus {
+  --svg: url('../icons/ic--round-plus.svg');
+}
+
+.ui3n-icon__round-polyline {
+  --svg: url('../icons/ic--round-polyline.svg');
+}
+
+.ui3n-icon__round-play-arrow {
+  --svg: url('../icons/ic--round-play-arrow.svg');
+}
+
+.ui3n-icon__round-play-circle-outline {
+  --svg: url('../icons/ic--round-play-circle-outline.svg');
+}
+
+.ui3n-icon__round-refresh {
+  --svg: url('../icons/ic--round-refresh.svg');
+}
+
+.ui3n-icon__round-remove-moderator {
+  --svg: url('../icons/ic--round-remove-moderator.svg');
+}
+
+.ui3n-icon__round-report-gmailerrorred {
+  --svg: url('../icons/ic--round-report-gmailerrorred.svg');
+}
+
+.ui3n-icon__round-schedule {
+  --svg: url('../icons/ic--round-schedule.svg');
+}
+
+.ui3n-icon__round-schema {
+  --svg: url('../icons/ic--round-schema.svg');
+}
+
+.ui3n-icon__round-search {
+  --svg: url('../icons/ic--round-search.svg');
+}
+
+.ui3n-icon__round-send {
+  --svg: url('../icons/ic--round-send.svg');
+}
+
+.ui3n-icon__round-share {
+  --svg: url('../icons/ic--round-share.svg');
+}
+
+.ui3n-icon__round-shield {
+  --svg: url('../icons/ic--round-shield.svg');
+}
+
+.ui3n-icon__round-subdirectory-arrow-left {
+  --svg: url('../icons/ic--round-subdirectory-arrow-left.svg');
+}
+
+.ui3n-icon__round-subdirectory-arrow-right {
+  --svg: url('../icons/ic--round-subdirectory-arrow-right.svg');
+}
+
+.ui3n-icon__round-strikethrough {
+  --svg: url('../icons/ic--round-strikethrough-s.svg');
+}
+
+.ui3n-icon__round-subject {
+  --svg: url('../icons/ic--round-subject.svg');
+}
+
+.ui3n-icon__round-system-update-alt {
+  --svg: url('../icons/ic--round-system-update-alt.svg');
+}
+
+.ui3n-icon__round-table-chart {
+  --svg: url('../icons/ic--round-table-chart.svg');
+}
+
+.ui3n-icon__round-text-decrease {
+  --svg: url('../icons/ic--round-text-decrease.svg');
+}
+
+.ui3n-icon__round-text-increase {
+  --svg: url('../icons/ic--round-text-increase.svg');
+}
+
+.ui3n-icon__round-unfold-more {
+  --svg: url('../icons/ic--round-unfold-more.svg');
+}
+
+.ui3n-icon__round-unfold-more-double {
+  --svg: url('../icons/ic--round-unfold-more-double.svg');
+}
+
+.ui3n-icon__round-volume-down {
+  --svg: url('../icons/ic--round-volume-down.svg');
+}
+
+.ui3n-icon__round-volume-mute {
+  --svg: url('../icons/ic--round-volume-mute.svg');
+}
+
+.ui3n-icon__round-volume-off {
+  --svg: url('../icons/ic--round-volume-off.svg');
+}
+
+.ui3n-icon__round-volume-up {
+  --svg: url('../icons/ic--round-volume-up.svg');
+}
+
+.ui3n-icon__round-warning {
+  --svg: url('../icons/ic--round-warning.svg');
+}
+
+.ui3n-icon__cancel {
+  --svg: url('../icons/mdi--cancel.svg');
+}
+
+.ui3n-icon__file-remove-outline {
+  --svg: url('../icons/mdi--file-remove-outline.svg');
+}
+
+.ui3n-icon__forward-outline {
+  --svg: url('../icons/mdi--forward-outline.svg');
+}
+
+.ui3n-icon__forward-off-outline {
+  --svg: url('../icons/mdi--forward-off-outline.svg');
+}
+
+.ui3n-icon__reply-all-outline {
+  --svg: url('../icons/mdi--reply-all-outline.svg');
+}
+
+.ui3n-icon__reply-outline {
+  --svg: url('../icons/mdi--reply-outline.svg');
+}
+
+.ui3n-icon__send-variant-outline {
+  --svg: url('../icons/mdi--send-variant-outline.svg');
+}
+
+.ui3n-icon__sharp-people {
+  --svg: url('../icons/ic--sharp-people.svg');
+}
+
+.ui3n-icon__schedule {
+  --svg: url('../icons/material-symbols--schedule-rounded.svg');
+}
+
+.ui3n-icon__shrink {
+  --svg: url('../icons/ci--shrink.svg');
+}
+
+.ui3n-icon__spinner {
+  --svg: url('../icons/svg-spinners.svg');
+}
+
+.ui3n-icon__spinner-3-dots-bounce {
+  --svg: url('../icons/svg-spinners-3-dots-bounce.svg');
+}
+
+.ui3n-icon__spinner-3-dots-fade {
+  --svg: url('../icons/svg-spinners-3-dots-fade.svg');
+}
+
+.ui3n-icon__spinner-3-dots-scale {
+  --svg: url('../icons/svg-spinners-3-dots-scale.svg');
+}
+
+.ui3n-icon__spinner-bars-scale {
+  --svg: url('../icons/svg-spinners-bars-scale-middle.svg');
+}
+
+.ui3n-icon__spinner-blocks-wave {
+  --svg: url('../icons/svg-spinners-blocks-wave.svg');
+}
+
+.ui3n-icon__spinner-bouncing-ball {
+  --svg: url('../icons/svg-spinners-bouncing-ball.svg');
+}
+
+.ui3n-icon__spinner-clock {
+  --svg: url('../icons/svg-spinners-clock.svg');
+}
+
+.ui3n-icon__spinner-clock-05 {
+  --svg: url('../icons/svg-spinners-clock-05.svg');
+}
+
+.ui3n-icon__spinner-clock-15 {
+  --svg: url('../icons/svg-spinners-clock-15.svg');
+}
+
+.ui3n-icon__spinner-clock-30 {
+  --svg: url('../icons/svg-spinners-clock-30.svg');
+}
+
+.ui3n-icon__spinner-clock-60 {
+  --svg: url('../icons/svg-spinners-clock-60.svg');
+}
+
+.ui3n-icon__splitscreen-bottom {
+  --svg: url('../icons/material-symbols--splitscreen-bottom.svg')
+}
+
+.ui3n-icon__splitscreen-left {
+  --svg: url('../icons/material-symbols--splitscreen-left.svg')
+}
+
+.ui3n-icon__splitscreen-right {
+  --svg: url('../icons/material-symbols--splitscreen-right.svg')
+}
+
+.ui3n-icon__splitscreen-top {
+  --svg: url('../icons/material-symbols--splitscreen-top.svg')
+}
+
+.ui3n-icon__stylus {
+  --svg: url('../icons/material-symbols--stylus.svg');
+}
+
+.ui3n-icon__app-store {
+  --svg: url('../icons/ri--app-store-line.svg');
+}
+
+.ui3n-icon__grid-view-line {
+  --svg: url('../icons/si--grid-view-line.svg');
+}
+
+.ui3n-icon__trash-can {
+  --svg: url('../icons/mdi--trash-can.svg');
+}
+
+.ui3n-icon__hand {
+  --svg: url('../icons/ph--hand.svg');
+}
+
+.ui3n-icon__handshake {
+  --svg: url('../icons/ph--handshake.svg');
+}
+
+.ui3n-icon__rectangles-two {
+  --svg: url('../icons/ph--rectangles-two.svg');
+}
+
+.ui3n-icon__squares-four {
+  --svg: url('../icons/ph--squares-four.svg');
+}
+
+.ui3n-icon__sound-wave-circle {
+  --svg: url('../icons/fluent--sound-wave-circle.svg');
+}
