@@ -22,7 +22,7 @@ import Demo from './demo/demo.vue';
   position: fixed;
   inset: 0;
   padding: 8px;
-  font-family: Manrope, sans-serif;
+  font-family: system-ui, Manrope, sans-serif;
   background: var(--color-bg-block-primary-default);
   color: var(--color-text-block-primary-default);
   overflow: auto;

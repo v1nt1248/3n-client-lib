@@ -927,7 +927,7 @@
 
 html {
   overflow: hidden;
-  font-family: Manrope, sans-serif;
+  font-family: system-ui, Manrope, sans-serif;
 }
 
 section,
