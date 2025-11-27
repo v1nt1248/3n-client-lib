@@ -806,6 +806,14 @@
   --svg: url('../icons/material-symbols--stylus.svg');
 }
 
+.ui3n-icon__sync-desktop {
+  --svg: url('../icons/material-symbols--sync-desktop-rounded.svg');
+}
+
+.ui3n-icon__wifi-home {
+  --svg: url('../icons/material-symbols--wifi-home-rounded.svg');
+}
+
 .ui3n-icon__app-store {
   --svg: url('../icons/ri--app-store-line.svg');
 }
@@ -818,12 +826,24 @@
   --svg: url('../icons/mdi--trash-can.svg');
 }
 
+.ui3n-icon__file-sync {
+  --svg: url('../icons/mdi--file-sync.svg');
+}
+
+.ui3n-icon__folder-sync {
+  --svg: url('../icons/mdi--folder-sync.svg');
+}
+
 .ui3n-icon__hand {
   --svg: url('../icons/ph--hand.svg');
 }
 
 .ui3n-icon__handshake {
   --svg: url('../icons/ph--handshake.svg');
+}
+
+.ui3n-icon__home-switch {
+  --svg: url('../icons/mdi--home-switch.svg');
 }
 
 .ui3n-icon__rectangles-two {
