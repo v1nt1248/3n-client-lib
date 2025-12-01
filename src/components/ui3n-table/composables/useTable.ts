@@ -1,4 +1,4 @@
-import { computed, onMounted, type Ref, ref, watch, UnwrapRef } from 'vue';
+import { computed, type Ref, ref, watch, UnwrapRef } from 'vue';
 import { get, isEmpty, size } from 'lodash';
 import {
   Ui3nTableBodyBaseItem,
@@ -34,21 +34,20 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
   );
   const showGroupActionsRow = computed(() => props.config?.selectable === 'multiple' && hasGroupActionsRow.value);
 
-  onMounted(() => {
-    tableEl.value && setColumnWidth(tableEl.value);
-  });
+  const tableColumnWidth = computed(() => {
+    if (!tableEl.value) {
+      return '100%';
+    }
 
-  function setColumnWidth(el: HTMLDivElement) {
     const { config = {}, head } = props;
     const { columnStyle } = config;
     const keys = head.map(h => h.key);
-    const columnsWidthValue = keys.reduce((res, key, index) => {
+    return keys.reduce((res, key, index) => {
       const width = get(columnStyle, [key, 'width'], '1fr');
       res = index === 0 ? `${width}` : `${res} ${width}`;
       return res;
     }, '');
-    el && el.style.setProperty('--ui3n-table-columns-width', columnsWidthValue);
-  }
+  });
 
   function setFieldAsRowKey() {
     const { config = {}, body } = props;
@@ -185,6 +184,17 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
 
     currentConfig.value.sortOrder?.field && emits('change:sort', currentConfig.value.sortOrder as Ui3nTableSort<T>);
   }
+
+  watch(
+    tableColumnWidth,
+    (val, oVal) => {
+      if (val && val !== oVal) {
+        tableEl.value && tableEl.value.style.setProperty('--ui3n-table-columns-width', val);
+      }
+    }, {
+      immediate: true,
+    }
+  );
 
   watch(
     () => selectedRowsSize.value,
