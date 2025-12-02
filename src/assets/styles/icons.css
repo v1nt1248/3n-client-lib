@@ -18,6 +18,10 @@
   --svg: url('../icons/material-symbols--ad-group-outline.svg');
 }
 
+.ui3n-icon__cloud-off-rounded {
+  --svg: url('../icons/material-symbols--cloud-off-rounded.svg');
+}
+
 .ui3n-icon__drag-pan {
   --svg: url('../icons/material-symbols--drag-pan.svg');
 }

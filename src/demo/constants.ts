@@ -1,5 +1,6 @@
 export const iconList: string[] = [
   'ad-group-outline',
+  'cloud-off-rounded',
   'binary-tree',
   'deployed-code-update',
   'drag-pan',
