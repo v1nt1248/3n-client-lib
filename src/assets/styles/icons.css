@@ -22,6 +22,10 @@
   --svg: url('../icons/material-symbols--drag-pan.svg');
 }
 
+.ui3n-icon__cloud-remove {
+  --svg: url('../icons/ci--cloud-remove.svg');
+}
+
 .ui3n-icon__expand-screen {
   --svg: url('../icons/ci--expand.svg');
 }
@@ -48,6 +52,14 @@
 
 .ui3n-icon__file-zip {
   --svg: url('../icons/tabler--file-zip.svg');
+}
+
+.ui3n-icon__baseline-delete {
+  --svg: url('../icons/ic--baseline-delete.svg');
+}
+
+.ui3n-icon__baseline-delete-forever {
+  --svg: url('../icons/ic--baseline-delete-forever.svg');
 }
 
 .ui3n-icon__vertical-align-top {
@@ -98,12 +110,20 @@
   --svg: url('../icons/ic--outline-cleaning-services.svg');
 }
 
+.ui3n-icon__outline-cloud {
+  --svg: url('../icons/ic--outline-cloud.svg');
+}
+
 .ui3n-icon__outline-color-lens {
   --svg: url('../icons/ic--outline-color-lens.svg');
 }
 
 .ui3n-icon__outline-delete {
   --svg: url('../icons/ic--outline-delete.svg');
+}
+
+.ui3n-icon__outline-delete-forever {
+  --svg: url('../icons/ic--outline-delete-forever.svg');
 }
 
 .ui3n-icon__outline-download-for-offline {
@@ -348,6 +368,14 @@
 
 .ui3n-icon__round-close {
   --svg: url('../icons/ic--round-close.svg');
+}
+
+.ui3n-icon__round-cloud-off {
+  --svg: url('../icons/ic--round-cloud-off.svg');
+}
+
+.ui3n-icon__round-cloud-sync {
+  --svg: url('../icons/ic--round-cloud-sync.svg');
 }
 
 .ui3n-icon__round-code {
@@ -700,6 +728,14 @@
 
 .ui3n-icon__cancel {
   --svg: url('../icons/mdi--cancel.svg');
+}
+
+.ui3n-icon__delete-empty {
+  --svg: url('../icons/mdi--delete-empty.svg');
+}
+
+.ui3n-icon__delete-empty-outline {
+  --svg: url('../icons/mdi--delete-empty-outline.svg');
 }
 
 .ui3n-icon__file-remove-outline {
