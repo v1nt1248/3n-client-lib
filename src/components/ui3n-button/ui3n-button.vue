@@ -233,7 +233,7 @@
   }
 
   .icon {
-    --ui3n-button-icon-bg-color: hsl(from var(--ui3n-button-bg-color-custom) h s calc(l - 10));
+    --ui3n-button-icon-bg-color: oklch(from var(--ui3n-button-bg-color-custom) calc(l - 0.1) c h);
 
     background: var(--ui3n-button-bg-color-custom);
     color: var(--ui3n-button-text-color-custom);
@@ -256,7 +256,7 @@
     }
 
     &:focus {
-      outline: 1px solid hsl(from var(--ui3n-button-icon-bg-color) h s calc(l - 10));
+      outline: 1px solid oklch(from var(--ui3n-button-icon-bg-color) calc(l - 0.1) c h);
     }
 
     &[disabled] {
@@ -266,7 +266,7 @@
   }
 
   .custom {
-    --ui3n-button-custom-bg-color: hsl(from var(--ui3n-button-bg-color-custom) h s calc(l - 10));
+    --ui3n-button-custom-bg-color: oklch(from var(--ui3n-button-bg-color-custom) calc(l - 0.1) c h);
 
     background: var(--ui3n-button-bg-color-custom);
     color: var(--ui3n-button-text-color-custom);
@@ -276,7 +276,7 @@
     }
 
     &:focus {
-      outline: 1px solid hsl(from var(--ui3n-button-custom-bg-color) h s calc(l - 10));
+      outline: 1px solid oklch(from var(--ui3n-button-custom-bg-color) calc(l - 0.1) c h);
     }
 
     &[disabled] {

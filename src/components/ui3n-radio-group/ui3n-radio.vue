@@ -223,8 +223,8 @@
 
     &:hover {
       cursor: pointer;
-      background-color: hsl(from transparent h s calc(l - 10));
-      @include mixins.ripple(hsl(from transparent h s calc(l - 10)));
+      background-color: oklch(from transparent calc(l - 0.1) c h);
+      @include mixins.ripple(oklch(from transparent calc(l - 0.1) c h));
     }
   }
 

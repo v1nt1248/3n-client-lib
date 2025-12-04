@@ -238,17 +238,17 @@
     background-color: var(--ui3n-checkbox-color);
 
     &:hover {
-      border-color: hsl(from var(--ui3n-checkbox-color) h s calc(l - 10));
-      background-color: hsl(from var(--ui3n-checkbox-color) h s calc(l - 10));
-      @include mixins.ripple(hsl(from var(--ui3n-checkbox-color) h s calc(l - 10)));
+      border-color: oklch(from var(--ui3n-checkbox-color) calc(l - 0.1) c h);
+      background-color: oklch(from var(--ui3n-checkbox-color) calc(l - 0.1) c h);
+      @include mixins.ripple(oklch(from var(--ui3n-checkbox-color) calc(l - 0.1) c h));
     }
   }
 
   .unfilled {
     &:hover {
-      border-color: hsl(from var(--ui3n-checkbox-color) h s calc(l - 10));
-      background-color: hsl(from transparent h s calc(l - 10));
-      @include mixins.ripple(hsl(from transparent h s calc(l - 10)));
+      border-color: oklch(from var(--ui3n-checkbox-color) calc(l - 0.1) c h);
+      background-color: oklch(from transparent calc(l - 0.1) c h);
+      @include mixins.ripple(oklch(from transparent calc(l - 0.1) c h));
     }
   }
 

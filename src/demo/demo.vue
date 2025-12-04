@@ -415,6 +415,14 @@
           size="small"
         />
       </div>
+      <div class="demo-row">
+        <ui3n-button
+          type="icon"
+          color="var(--color-bg-block-primary-default)"
+          icon="round-close"
+          icon-color="var(--color-icon-control-primary-default)"
+        />
+      </div>
     </div>
 
     <!-- CHECKBOX -->
@@ -1043,6 +1051,7 @@
     position: relative;
     width: 100%;
     padding: 16px 16px 400px;
+    background-color: var(--color-bg-block-primary-default);
 
     .theme {
       position: fixed;
