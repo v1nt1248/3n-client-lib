@@ -86,6 +86,10 @@
   --svg: url('../icons/ic--outline-bookmark-add.svg');
 }
 
+[data-icon='outline-change-circle'] {
+  --svg: url('../icons/ic--outline-change-circle.svg');
+}
+
 [data-icon='outline-chat'] {
   --svg: url('../icons/ic--outline-chat.svg');
 }
@@ -750,6 +754,14 @@
   --svg: url('../icons/mdi--send-variant-outline.svg');
 }
 
+[data-icon='share-variant-outline'] {
+  --svg: url('../icons/mdi--share-variant-outline.svg');
+}
+
+[data-icon='transit-connection-variant'] {
+  --svg: url('../icons/mdi--transit-connection-variant.svg');
+}
+
 [data-icon='sharp-people'] {
   --svg: url('../icons/ic--sharp-people.svg');
 }
@@ -838,6 +850,10 @@
   --svg: url('../icons/material-symbols--wifi-home-rounded.svg');
 }
 
+[data-icon='book-open-blank-variant'] {
+  --svg: url('../icons/mdi--book-open-blank-variant.svg');
+}
+
 [data-icon='app-store'] {
   --svg: url('../icons/ri--app-store-line.svg');
 }
@@ -856,6 +872,10 @@
 
 [data-icon='folder-sync'] {
   --svg: url('../icons/mdi--folder-sync.svg');
+}
+
+[data-icon='folder-transfer'] {
+  --svg: url('../icons/mdi--folder-transfer.svg');
 }
 
 [data-icon='hand'] {
@@ -880,4 +900,20 @@
 
 [data-icon='sound-wave-circle'] {
   --svg: url('../icons/fluent--sound-wave-circle.svg');
+}
+
+[data-icon='tune-variant'] {
+  --svg: url('../icons/mdi--tune-variant.svg');
+}
+
+[data-icon='vector-difference'] {
+  --svg: url('../icons/mdi--vector-difference.svg');
+}
+
+[data-icon='vote-recount'] {
+  --svg: url('../icons/mdi--vote-recount.svg');
+}
+
+[data-icon='vote-recount-outline'] {
+  --svg: url('../icons/mdi--vote-recount-outline.svg');
 }
