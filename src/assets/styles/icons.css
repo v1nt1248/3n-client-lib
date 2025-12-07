@@ -158,6 +158,10 @@
   --svg: url('../icons/material-symbols--heart-plus-outline-rounded.svg');
 }
 
+[data-icon='lock-open-rounded'] {
+  --svg: url('../icons/material-symbols--lock-open-rounded.svg');
+}
+
 [data-icon='outline-image'] {
   --svg: url('../icons/ic--outline-image.svg');
 }
@@ -674,6 +678,10 @@
   --svg: url('../icons/ic--round-subject.svg');
 }
 
+[data-icon='round-sync-lock'] {
+  --svg: url('../icons/ic--round-sync-lock.svg');
+}
+
 [data-icon='round-system-update-alt'] {
   --svg: url('../icons/ic--round-system-update-alt.svg');
 }
@@ -722,6 +730,14 @@
   --svg: url('../icons/mdi--cancel.svg');
 }
 
+[data-icon='cloud-lock'] {
+  --svg: url('../icons/mdi--cloud-lock.svg');
+}
+
+[data-icon='cloud-lock-open'] {
+  --svg: url('../icons/mdi--cloud-lock-open.svg');
+}
+
 [data-icon='delete-empty'] {
   --svg: url('../icons/mdi--delete-empty.svg');
 }
@@ -732,6 +748,14 @@
 
 [data-icon='file-remove-outline'] {
   --svg: url('../icons/mdi--file-remove-outline.svg');
+}
+
+[data-icon='folder-lock'] {
+  --svg: url('../icons/mdi--folder-lock.svg');
+}
+
+[data-icon='folder-lock-open'] {
+  --svg: url('../icons/mdi--folder-lock-open.svg');
 }
 
 [data-icon='forward-outline'] {
