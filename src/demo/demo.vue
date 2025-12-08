@@ -102,6 +102,7 @@
         date: { width: '20%' },
       },
       showNoDataMessage: true,
+      minHeightUnusedPlace: 48,
     },
     head: [
       { key: 'name', text: 'Name', sortable: true },

@@ -49,6 +49,16 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     }, '');
   });
 
+  const unusedPlaceCssStyle = computed(() => {
+    if (!props.config?.minHeightUnusedPlace || isNaN(Number(props.config?.minHeightUnusedPlace))) {
+      return {};
+    }
+
+    return {
+      minHeight: `${Number(props.config?.minHeightUnusedPlace || 0)}px`,
+    };
+  });
+
   function setFieldAsRowKey() {
     const { config = {}, body } = props;
     const { fieldAsRowKey } = config;
@@ -193,7 +203,7 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
       }
     }, {
       immediate: true,
-    }
+    },
   );
 
   watch(
@@ -207,6 +217,7 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
 
   return {
     tableEl,
+    unusedPlaceCssStyle,
     currentConfig,
     visibleColumns,
     hasGroupActionsRow,

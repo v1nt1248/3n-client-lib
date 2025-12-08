@@ -12,6 +12,7 @@
 
   const {
     tableEl,
+    unusedPlaceCssStyle,
     currentConfig,
     visibleColumns,
     hasGroupActionsRow,
@@ -183,7 +184,10 @@
     </div>
 
     <!-- table: unused space-->
-    <div :class="$style.unusedPlace">
+    <div
+      :class="$style.unusedPlace"
+      :style="unusedPlaceCssStyle"
+    >
       <slot name="unused-place" />
     </div>
   </div>

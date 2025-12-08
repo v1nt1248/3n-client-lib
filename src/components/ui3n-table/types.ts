@@ -18,6 +18,7 @@ export type Ui3nTableConfig<T extends Ui3nTableBodyBaseItem, K extends keyof T =
   columnStyle?: { [P in Omit<K, 'id'> as string | number]: Record<string, string> };
   fieldAsRowKey?: keyof T;
   showNoDataMessage?: boolean;
+  minHeightUnusedPlace?: number | string;
 };
 
 export type Ui3nTableHeadProps<T extends Ui3nTableBodyBaseItem> = {
