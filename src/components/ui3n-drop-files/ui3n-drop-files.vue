@@ -1,6 +1,9 @@
 <script lang="ts" setup>
   import { onMounted, ref } from 'vue';
+  import { Ui3nResize } from '@/directives';
   import type { Ui3nDropFilesEmits, Ui3nDropFilesProps, Ui3nDropFilesSlots } from './types';
+
+  const vUi3nResize = Ui3nResize;
 
   withDefaults(
     defineProps<Ui3nDropFilesProps>(),
@@ -53,7 +56,7 @@
     isOverDropZone.value = false;
   }
 
-  onMounted(() => {
+  function calcElementsSizes() {
     if (wrapperElement.value) {
       wrapperElementMinSize.value = Math.min(wrapperElement.value.clientHeight, wrapperElement.value.clientWidth);
       wrapperElement.value.style.setProperty('--dropzone-height', `${wrapperElementMinSize.value}px`);
@@ -65,6 +68,10 @@
       }
       wrapperElement.value.style.setProperty('--dropzone-title-font', `${titleFontSize}px`);
     }
+  }
+
+  onMounted(() => {
+    calcElementsSizes();
   });
 </script>
 
@@ -72,6 +79,7 @@
   <!-- eslint-disable max-len -->
   <div
     ref="wrapperElement"
+    v-ui3n-resize="() => calcElementsSizes()"
     :class="[
       $style.ui3nDropFiles,
       permanentDisplay && $style.ui3nDropFilesWithBorder,
@@ -176,5 +184,6 @@
   .ui3nDropFilesDropzoneAdditional {
     position: relative;
     width: max-content;
+    max-width: 100%;
   }
 </style>
