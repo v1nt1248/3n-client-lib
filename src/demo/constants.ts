@@ -197,6 +197,7 @@ export const iconList: string[] = [
   'vertical-align-top',
   'send-variant-outline',
   'share-variant-outline',
+  'shield-check-outline',
   'sharp-people',
   'shrink',
   'schedule',

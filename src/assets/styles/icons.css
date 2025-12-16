@@ -794,6 +794,10 @@
   --svg: url('../icons/mdi--share-variant-outline.svg');
 }
 
+[data-icon='shield-check-outline'] {
+  --svg: url('../icons/mdi--shield-check-outline.svg');
+}
+
 [data-icon='transit-connection-variant'] {
   --svg: url('../icons/mdi--transit-connection-variant.svg');
 }
