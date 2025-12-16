@@ -1,5 +1,6 @@
 export const iconList: string[] = [
   'ad-group-outline',
+  'cloud-alert-outline-rounded',
   'cloud-off-rounded',
   'binary-tree',
   'deployed-code-update',
@@ -27,6 +28,8 @@ export const iconList: string[] = [
   'outline-circle',
   'outline-cleaning-services',
   'outline-cloud',
+  'outline-cloud-download',
+  'outline-cloud-upload',
   'outline-color-lens',
   'outline-delete',
   'outline-delete-forever',
@@ -234,4 +237,6 @@ export const iconList: string[] = [
   'vector-difference',
   'vote-recount',
   'vote-recount-outline',
+  'cloud-alt-download-loop',
+  'cloud-alt-upload-loop',
 ];

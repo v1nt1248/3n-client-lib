@@ -2,6 +2,10 @@
   --svg: url('../icons/material-symbols--ad-group-outline.svg');
 }
 
+[data-icon='cloud-alert-outline-rounded'] {
+  --svg: url('../icons/material-symbols--cloud-alert-outline-rounded.svg');
+}
+
 [data-icon='cloud-off-rounded'] {
   --svg: url('../icons/material-symbols--cloud-off-rounded.svg');
 }
@@ -104,6 +108,14 @@
 
 [data-icon='outline-cloud'] {
   --svg: url('../icons/ic--outline-cloud.svg');
+}
+
+[data-icon='outline-cloud-download'] {
+  --svg: url('../icons/ic--outline-cloud-download.svg');
+}
+
+[data-icon='outline-cloud-upload'] {
+  --svg: url('../icons/ic--outline-cloud-upload.svg');
 }
 
 [data-icon='outline-color-lens'] {
@@ -940,4 +952,12 @@
 
 [data-icon='vote-recount-outline'] {
   --svg: url('../icons/mdi--vote-recount-outline.svg');
+}
+
+[data-icon='cloud-alt-download-loop'] {
+  --svg: url('../icons/line-md--cloud-alt-download-loop.svg');
+}
+
+[data-icon='cloud-alt-upload-loop'] {
+  --svg: url('../icons/line-md--cloud-alt-download-loop.svg');
 }
