@@ -162,6 +162,10 @@
   --svg: url('../icons/material-symbols--folder-open-outline.svg');
 }
 
+[data-icon='hard-drive'] {
+  --svg: url('../icons/material-symbols--hard-drive.svg');
+}
+
 [data-icon='outline-hard-drive'] {
   --svg: url('../icons/material-symbols--hard-drive-outline.svg');
 }
@@ -376,6 +380,10 @@
 
 [data-icon='round-close'] {
   --svg: url('../icons/ic--round-close.svg');
+}
+
+[data-icon='round-cloud'] {
+  --svg: url('../icons/ic--round-cloud.svg');
 }
 
 [data-icon='round-cloud-off'] {
