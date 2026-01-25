@@ -406,6 +406,10 @@
   --svg: url('../icons/ic--round-content-copy.svg');
 }
 
+[data-icon='round-crisis-alert'] {
+  --svg: url('../icons/ic--round-crisis-alert.svg');
+}
+
 [data-icon='round-done-all'] {
   --svg: url('../icons/ic--round-done-all.svg');
 }

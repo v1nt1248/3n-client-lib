@@ -96,6 +96,7 @@ export const iconList: string[] = [
   'round-code',
   'round-color-lens',
   'round-content-copy',
+  'round-crisis-alert',
   'round-done-all',
   'round-done',
   'round-drag-handle',
