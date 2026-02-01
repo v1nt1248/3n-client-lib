@@ -40,6 +40,10 @@ export function resizeImage(
         resolve(dataUrl);
       };
 
+      tempImg.onerror = function () {
+        resolve('');
+      };
+
       tempImg.src = typeof data === 'string' ? data : URL.createObjectURL(data);
     } catch (err) {
       reject(err);

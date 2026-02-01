@@ -1,9 +1,9 @@
 import type { Component } from 'vue';
-import type { ExtractComponentProps, Ui3nIconField } from '@/types/index';
+import type { ExtractComponentProps, Ui3nIconField } from '@/types';
 
 export type Ui3nDialogEvent = 'open' | 'before-close' | 'close' | 'confirm' | 'cancel' | 'click-overlay';
 
-export interface Ui3nDialogProps {
+export interface Ui3nDialogProps<ConfirmData = unknown, CancelData = unknown, CloseData = unknown> {
   id?: string;
   title?: string;
   icon?: string | Ui3nIconField;
@@ -15,9 +15,9 @@ export interface Ui3nDialogProps {
   contentCssStyle?: Record<string, string>;
   confirmButton?: boolean;
   cancelButton?: boolean;
-  onClose?: (data?: unknown) => void;
-  onConfirm?: (data: unknown) => void;
-  onCancel?: (data: unknown) => void;
+  onClose?: (data?: CloseData) => void;
+  onConfirm?: (data: ConfirmData) => void;
+  onCancel?: (data: CancelData) => void;
   confirmButtonText?: string;
   cancelButtonText?: string;
   confirmButtonColor?: string;
@@ -28,10 +28,12 @@ export interface Ui3nDialogProps {
   closeOnEsc?: boolean;
 }
 
-export interface Ui3nDialogComponentProps<T extends Component> {
+export interface Ui3nDialogComponentProps<
+  T extends Component, ConfirmData = unknown, CancelData = unknown, CloseData = unknown
+> {
   component: T;
   componentProps?: ExtractComponentProps<T>;
-  dialogProps?: Ui3nDialogProps;
+  dialogProps?: Ui3nDialogProps<ConfirmData, CancelData, CloseData>;
 }
 
 export interface Ui3nDialogComponentEmits {
