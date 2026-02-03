@@ -18,7 +18,7 @@ import { VUEBUS_KEY, type CbFunction, type VueEventBus, type VueBusPlugin } from
 
 declare module 'vue' {
   interface ComponentCustomProperties {
-    $openDialog: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+    $openDialog: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
     $closeDialog: (id: string) => void;
     $closeDialogs: () => void;
     $createNotice: (params: Ui3nNotificationProps) => void;
@@ -39,7 +39,7 @@ declare module 'pinia' {
       tr: (key: string, placeholders?: Record<string, string>) => string;
     };
     $dialogs: {
-      open: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+      open: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
       close: (id: string) => void;
       closeAll: () => void;
     };

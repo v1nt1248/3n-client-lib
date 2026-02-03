@@ -12,11 +12,13 @@ export const dialogs: Plugin = {
   install: (app: App) => {
     let openDialogs: Record<string, { destroy: () => void }> = {};
 
-    const $openDialog = <T extends Component>(params: Ui3nDialogComponentProps<T>): DialogInstance | undefined => {
+    const $openDialog = <T extends Component, V>(
+      params: Ui3nDialogComponentProps<T, V>,
+    ): DialogInstance | undefined => {
       const {
         component,
         componentProps = {} as ExtractComponentProps<T>,
-        dialogProps = {} as Ui3nDialogProps,
+        dialogProps = {} as Ui3nDialogProps<V>,
       } = params;
 
       if (!component) {
@@ -28,14 +30,15 @@ export const dialogs: Plugin = {
       let vNode: VNode | null = h(Ui3nDialog, {
         component,
         componentProps,
+        // @ts-ignore
         dialogProps: {
           ...dialogProps,
           id: `dialog-${randomString}`,
           onClose: dialogProps.onClose
             ? () => {
-              dialogProps.onClose!();
-              destroy();
-            }
+                dialogProps.onClose!();
+                destroy();
+              }
             : () => destroy(),
         },
       });
@@ -90,7 +93,7 @@ export const dialogs: Plugin = {
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
-    $openDialog: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+    $openDialog: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
     $closeDialog: (id: string) => void;
     $closeDialogs: () => void;
   }

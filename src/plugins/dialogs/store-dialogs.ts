@@ -5,7 +5,7 @@ import type { DialogInstance } from '@/plugins/dialogs/types';
 
 export function storeDialogs(context: any): {
   $dialogs: {
-    open: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+    open: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
     close: (id: string) => void;
     closeAll: () => void;
   };
@@ -15,7 +15,7 @@ export function storeDialogs(context: any): {
   const { globalProperties = {} } = config;
   const { $openDialog, $closeDialog, $closeDialogs } = globalProperties;
   const methods: {
-    open: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+    open: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
     close: (id: string) => void;
     closeAll: () => void;
   } = {

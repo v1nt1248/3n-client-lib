@@ -9,7 +9,7 @@ export type DialogInstance = {
 };
 
 export interface DialogsPlugin {
-  $openDialog: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+  $openDialog: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
   $closeDialog: (id: string) => void;
   $closeDialogs: () => void;
 }

@@ -1,4 +1,4 @@
-<script lang="ts" setup generic="T extends Component">
+<script lang="ts" setup generic="T extends Component, V">
   import { type Component, computed, nextTick, onMounted, ref } from 'vue';
   import omit from 'lodash/omit';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
@@ -7,8 +7,8 @@
   import { ExtractComponentProps } from '@/types';
   import { determineWindowWidth } from './util';
 
-  const props = defineProps<Ui3nDialogComponentProps<T>>();
-  const emits = defineEmits<Ui3nDialogComponentEmits>();
+  const props = defineProps<Ui3nDialogComponentProps<T, V>>();
+  const emits = defineEmits<Ui3nDialogComponentEmits<V>>();
 
   const currentDialogProps = computed(() => ({
     title: props.dialogProps?.title || '',
@@ -33,7 +33,7 @@
   }));
 
   const show = ref(true);
-  const data = ref<unknown>(null);
+  const data = ref<V | null>(null);
   const isValid = ref(true);
   const dialogOverlayElement = ref<HTMLElement | null>(null);
   const dialogElement = ref<HTMLDivElement | null>(null);
@@ -76,7 +76,7 @@
     };
   });
 
-  function selectData(value: unknown) {
+  function selectData(value: V) {
     data.value = value;
     if (
       !currentDialogProps.value.confirmButton &&

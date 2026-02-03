@@ -50,7 +50,7 @@ export * from './types';
 
 declare module 'vue' {
   interface ComponentCustomProperties {
-    $openDialog: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+    $openDialog: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
     $closeDialog: (id: string) => void;
     $closeDialogs: () => void;
     $createNotice: (params: Ui3nNotificationProps) => void;
@@ -104,7 +104,7 @@ declare module 'vue' {
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
-    $openDialog: <T extends Component>(params: Ui3nDialogComponentProps<T>) => DialogInstance | undefined;
+    $openDialog: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
     $closeDialog: (id: string) => void;
     $closeDialogs: () => void;
     $createNotice: (params: Ui3nNotificationProps) => void;
