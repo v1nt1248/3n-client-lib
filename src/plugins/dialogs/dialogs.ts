@@ -27,6 +27,8 @@ export const dialogs: Plugin = {
 
       const randomString = getRandomId(5);
       const id = `dialog-wrapper-${randomString}`;
+
+      // @ts-ignore
       let vNode: VNode | null = h(Ui3nDialog, {
         component,
         componentProps,
@@ -34,12 +36,10 @@ export const dialogs: Plugin = {
         dialogProps: {
           ...dialogProps,
           id: `dialog-${randomString}`,
-          onClose: dialogProps.onClose
-            ? () => {
-                dialogProps.onClose!();
-                destroy();
-              }
-            : () => destroy(),
+          actionAfterClose: () => {
+            dialogProps.actionAfterClose && dialogProps.actionAfterClose();
+            destroy();
+          },
         },
       });
 

@@ -16,6 +16,7 @@ export interface Ui3nDialogProps<V> {
   confirmButton?: boolean;
   cancelButton?: boolean;
   onClose?: (data?: V) => void;
+  actionAfterClose?: () => void;
   onConfirm?: (data: V) => void;
   onCancel?: (data: V) => void;
   confirmButtonText?: string;

@@ -103,6 +103,9 @@
     if (withAction) {
       emits('close', data.value);
     }
+    if (props.dialogProps.actionAfterClose) {
+      props.dialogProps.actionAfterClose();
+    }
   }
 
   function onKeydown(event: KeyboardEvent) {
@@ -270,7 +273,7 @@
           v-bind="componentProps as ExtractComponentProps<T>"
           @select="selectData"
           @validate="validate"
-          @close="closeDialog({ ev: $event })"
+          @close="closeDialog($event as { ev?: Event; withAction?: boolean })"
           @confirm="startEmit('confirm')"
           @cancel="startEmit('cancel')"
         />
