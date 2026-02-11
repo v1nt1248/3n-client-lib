@@ -42,6 +42,7 @@ import type {
   Ui3nTableEmits,
   Ui3nTableExpose,
 } from './ui3n-table/types';
+import Ui3nDialogProvider from '../plugins/dialogs/ui3n-dialog-provider.vue';
 import Ui3nDialog from './ui3n-dialog/ui3n-dialog.vue';
 import type {
   Ui3nDialogComponentProps,
@@ -154,6 +155,7 @@ export {
   Ui3nTableProps,
   Ui3nTableEmits,
   Ui3nTableExpose,
+  Ui3nDialogProvider,
   Ui3nDialog,
   Ui3nDialogComponentProps,
   Ui3nDialogComponentEmits,
