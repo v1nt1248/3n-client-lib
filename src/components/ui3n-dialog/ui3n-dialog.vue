@@ -214,6 +214,12 @@
       <slot name="actions" />
     </div>
 
+    <div
+      v-if="$slots['loading']"
+      :class="$style.loading"
+    >
+      <slot name="loading" />
+    </div>
 
     <ui3n-button
       :class="$style.closeBtn"
@@ -230,16 +236,6 @@
 
 <style lang="scss" module>
   @use '../../assets/styles/mixins' as mixins;
-
-  .modal-overlay {
-    position: fixed;
-    z-index: 1000;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--shadow-close);
-  }
 
   .dialog {
     --ui3n-dialog-border-radius: 8px;
@@ -324,5 +320,14 @@
     justify-content: flex-end;
     align-items: center;
     gap: var(--spacing-s);
+  }
+
+  .loading {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>

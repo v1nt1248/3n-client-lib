@@ -35,4 +35,5 @@ export interface Ui3nDialogComponentSlots {
   header?: () => VNode;
   body: () => VNode;
   actions?: () => VNode;
+  loading?: () => VNode;
 }
