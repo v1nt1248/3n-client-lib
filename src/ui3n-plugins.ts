@@ -1,26 +1,40 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Component } from 'vue';
+import type { Component, Reactive } from 'vue';
 import 'pinia';
-import { i18n } from '@/plugins';
-import { storeI18n } from '@/plugins';
-import { I18N_KEY, type I18nOptions, type I18nPlugin } from '@/plugins';
-import type { Ui3nNotificationProps } from './components/ui3n-notification/types';
-import { notifications } from '@/plugins';
-import { storeNotifications } from '@/plugins';
-import { NOTIFICATIONS_KEY, type NotificationsPlugin } from '@/plugins';
-import { dialogs } from '@/plugins';
-import { storeDialogs } from '@/plugins';
-import { DIALOGS_KEY, type DialogInstance, type DialogsPlugin } from './plugins/dialogs/types';
-import type { Ui3nDialogComponentProps } from '@/components';
-import { vueBus } from '@/plugins';
-import { storeVueBus } from '@/plugins';
-import { VUEBUS_KEY, type CbFunction, type VueEventBus, type VueBusPlugin } from './plugins/vue-bus/types';
+import type { ExtractComponentProps } from '@/types';
+import type { Ui3nNotificationProps } from '@/components/ui3n-notification/types';
+import type { Ui3nDialogEvent } from '@/components/ui3n-dialog/types';
+import {
+  i18n,
+  storeI18n,
+  I18N_KEY,
+  type I18nOptions,
+  type I18nPlugin,
+  notifications,
+  storeNotifications,
+  NOTIFICATIONS_KEY,
+  type NotificationsPlugin,
+  dialogs,
+  storeDialogs,
+  DIALOGS_KEY,
+  type DialogOptions,
+  type DialogsPlugin,
+  vueBus,
+  storeVueBus,
+  VUEBUS_KEY,
+  type VueBusPlugin,
+} from '@/plugins';
+import type { CbFunction, VueEventBus } from './plugins/vue-bus/types';
 
 declare module 'vue' {
   interface ComponentCustomProperties {
-    $openDialog: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
-    $closeDialog: (id: string) => void;
+    $openDialog: <V>(
+      component: Component,
+      props: ExtractComponentProps<Component>,
+    ) => Promise<{ event: Ui3nDialogEvent; data?: V | null | Event | undefined }>;
+    $closeDialog: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }) => void;
     $closeDialogs: () => void;
+    dialogStack: Reactive<DialogOptions<any>[]>;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $locale: string;
     $tr: (key: string, placeholders?: Record<string, string>) => string;
@@ -39,9 +53,13 @@ declare module 'pinia' {
       tr: (key: string, placeholders?: Record<string, string>) => string;
     };
     $dialogs: {
-      open: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
-      close: (id: string) => void;
+      open: <V>(
+        component: Component,
+        props: ExtractComponentProps<Component>,
+      ) => Promise<{ event: Ui3nDialogEvent; data?: V | null | Event | undefined }>;
+      close: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }) => void;
       closeAll: () => void;
+      dialogStack: Reactive<DialogOptions<any>[]>;
     };
   }
 }
@@ -60,7 +78,7 @@ export {
   storeDialogs,
   DIALOGS_KEY,
   DialogsPlugin,
-  DialogInstance,
+  DialogOptions,
   vueBus,
   storeVueBus,
   VUEBUS_KEY,

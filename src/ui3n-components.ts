@@ -1,6 +1,7 @@
 import type Ui3nButton from './components/ui3n-button/ui3n-button.vue';
 import type Ui3nChip from './components/ui3n-chip/ui3n-chip.vue';
 import type Ui3nCheckbox from './components/ui3n-checkbox/ui3n-checkbox.vue';
+import type Ui3nDialogProvider from './plugins/dialogs/ui3n-dialog-provider.vue';
 import type Ui3nDialog from './components/ui3n-dialog/ui3n-dialog.vue';
 import type Ui3nDropFiles from './components/ui3n-drop-files/ui3n-drop-files.vue';
 import type Ui3nEmoji from './components/ui3n-emoji/ui3n-emoji.vue';
@@ -49,6 +50,7 @@ declare module 'vue' {
     Ui3nCheckbox: typeof Ui3nCheckbox;
     Ui3nChip: typeof Ui3nChip;
     Ui3nDialog: typeof Ui3nDialog;
+    Ui3nDialogProvider: typeof Ui3nDialogProvider;
     Ui3nDropFiles: typeof Ui3nDropFiles;
     Ui3nEditable: typeof Ui3nEditable;
     Ui3nEmoji: typeof Ui3nEmoji;

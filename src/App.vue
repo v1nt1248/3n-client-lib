@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import Demo from './demo/demo.vue';
+  import Ui3nDialogProvider from './plugins/dialogs/ui3n-dialog-provider.vue';
+  import Demo from './demo/demo.vue';
 </script>
 
 <template>
   <div class="app">
     <demo />
+
+    <ui3n-dialog-provider />
   </div>
 </template>
 

@@ -16,7 +16,12 @@ import type { Ui3nInputFileProps, Ui3nInputFileEmits } from './ui3n-input-file/t
 import Ui3nText from './ui3n-text/ui3n-text.vue';
 import type { Ui3nTextProps, Ui3nTextEmits } from './ui3n-text/types';
 import Ui3nCheckbox from './ui3n-checkbox/ui3n-checkbox.vue';
-import type { Ui3nCheckboxProps, Ui3nCheckboxEmits, Ui3nCheckboxSlots, Ui3nCheckboxValue } from './ui3n-checkbox/types';
+import type {
+  Ui3nCheckboxProps,
+  Ui3nCheckboxEmits,
+  Ui3nCheckboxSlots,
+  Ui3nCheckboxValue,
+} from './ui3n-checkbox/types';
 import Ui3nNotification from './ui3n-notification/ui3n-notification.vue';
 import Ui3nTableSortIcon from './ui3n-table/ui3n-table-sort-icon.vue';
 import Ui3nTable from './ui3n-table/ui3n-table.vue';
@@ -41,7 +46,7 @@ import Ui3nDialog from './ui3n-dialog/ui3n-dialog.vue';
 import type {
   Ui3nDialogComponentProps,
   Ui3nDialogComponentEmits,
-  Ui3nDialogProps,
+  Ui3nDialogComponentSlots,
   Ui3nDialogEvent,
 } from './ui3n-dialog/types';
 import Ui3nMenu from './ui3n-menu/ui3n-menu.vue';
@@ -70,7 +75,12 @@ import Ui3nProgressLinear from './ui3n-progress/ui3n-progress-linear.vue';
 import Ui3nProgressCircular from './ui3n-progress/ui3n-progress-circular.vue';
 import type { Ui3nProgressCircularProps, Ui3nProgressLinearProps } from './ui3n-progress/types';
 import Ui3nTooltip from './ui3n-tooltip/ui3n-tooltip.vue';
-import type { Ui3nTooltipEmits, Ui3nTooltipProps, Ui3nTooltipSlots, Ui3nTooltipPlacement } from './ui3n-tooltip/types';
+import type {
+  Ui3nTooltipEmits,
+  Ui3nTooltipProps,
+  Ui3nTooltipSlots,
+  Ui3nTooltipPlacement,
+} from './ui3n-tooltip/types';
 import Ui3nRadio from './ui3n-radio-group/ui3n-radio.vue';
 import Ui3nRadioGroup from './ui3n-radio-group/ui3n-radio-group.vue';
 import type {
@@ -147,7 +157,7 @@ export {
   Ui3nDialog,
   Ui3nDialogComponentProps,
   Ui3nDialogComponentEmits,
-  Ui3nDialogProps,
+  Ui3nDialogComponentSlots,
   Ui3nDialogEvent,
   Ui3nMenu,
   Ui3nMenuProps,

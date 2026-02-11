@@ -19,7 +19,7 @@
           @done="() => console.log('done')"
           @cancel="() => console.log('cancel')"
           @focusin="(ev) => console.log('focusin: ', ev)"
-          @focusout="(ev) => console.log('focusout: ', ev)"
+          @focusout="() => console.log('focusout')"
         />
       </demo-layout-cell>
     </div>

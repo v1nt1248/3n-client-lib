@@ -37,7 +37,7 @@
     "build:components": "LIB_NAME=lib vite build",
     "build:plugins": "LIB_NAME=plugins vite build",
     "build:utils": "LIB_NAME=utils vite build",
-    "build": "pnpm clean:dist && pnpm build:plugins && pnpm build:utils && pnpm build:components && pnpm copy:css",
+    "build": "pnpm clean:dist && vue-tsc --noEmit && pnpm build:plugins && pnpm build:utils && pnpm build:components && pnpm copy:css",
     "pack": "pnpm build && npm pack && cp *.tgz ./dist && rm *.tgz",
     "preview": "vite preview",
     "stylelint": "stylelint --config .stylelint.config.cjs 'src/**/*.{vue,scss,css}'",
@@ -61,7 +61,7 @@
   },
   "peerDependencies": {
     "pinia": "3.0.4",
-    "vue": "3.5.27"
+    "vue": "3.5.28"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
@@ -72,9 +72,9 @@
     "@typescript-eslint/eslint-plugin": "8.50.0",
     "@typescript-eslint/parser": "8.50.0",
     "@vitejs/plugin-vue": "6.0.3",
-    "@vue/compiler-core": "3.5.27",
+    "@vue/compiler-core": "3.5.28",
     "@vue/eslint-config-typescript": "14.6.0",
-    "@vue/runtime-core": "3.5.27",
+    "@vue/runtime-core": "3.5.28",
     "@vuedx/typescript-plugin-vue": "0.7.6",
     "eslint": "9.39.2",
     "eslint-config-prettier": "10.1.8",
@@ -101,11 +101,11 @@
     "vite": "7.3.1",
     "vite-plugin-css-injected-by-js": "3.5.2",
     "vite-plugin-dts": "4.5.4",
-    "vite-plugin-vue-devtools": "8.0.5",
+    "vite-plugin-vue-devtools": "8.0.6",
     "vitepress": "1.6.4",
-    "vue": "3.5.27",
+    "vue": "3.5.28",
     "vue-eslint-parser": "10.2.0",
-    "vue-tsc": "3.2.3"
+    "vue-tsc": "3.2.4"
   },
   "packageManager": "pnpm@10.26.0",
   "pnpm": {

@@ -1,17 +1,23 @@
-import type { Component, InjectionKey, VNode } from 'vue';
-import type { Ui3nDialogComponentProps } from '@/components/ui3n-dialog/types';
+/*  eslint-disable @typescript-eslint/no-explicit-any */
+import type { Component, InjectionKey, Reactive } from 'vue';
+import type { ExtractComponentProps } from '@/types';
+import type { Ui3nDialogEvent } from '@/components/ui3n-dialog/types';
 
-export type DialogInstance = {
+export interface DialogOptions<V> {
   id: string;
-  el: HTMLDivElement;
-  vNode: VNode;
-  destroy: () => void;
-};
+  component: Component;
+  props: ExtractComponentProps<Component>;
+  resolve: (value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }) => void;
+}
 
 export interface DialogsPlugin {
-  $openDialog: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
-  $closeDialog: (id: string) => void;
+  $openDialog: <V>(
+    component: Component,
+    props: ExtractComponentProps<Component>,
+  ) => Promise<{ event: Ui3nDialogEvent; data?: V | null | Event | undefined }>;
+  $closeDialog: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }) => void;
   $closeDialogs: () => void;
+  dialogStack: Reactive<DialogOptions<any>[]>;
 }
 
 export const DIALOGS_KEY = Symbol() as InjectionKey<DialogsPlugin>;

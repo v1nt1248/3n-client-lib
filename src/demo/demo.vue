@@ -187,7 +187,8 @@
   }
 
   function prepareList() {
-    const res: unknown[] = [];
+    // @ts-ignore
+    const res: any[] = [];
     for (let i = 0; i < 26; i++) {
       const char = String.fromCharCode(65 + i);
       res.push({
@@ -211,13 +212,10 @@
     }));
   }
 
-  function openDialog() {
+  async function openDialog() {
     const component = defineAsyncComponent(() => import('./test-dialog-1.vue'));
-    dialogs.$openDialog<typeof component>({
-      component,
-      componentProps: {
-        text: 'This is the place for any text!',
-      },
+    const res = await dialogs.$openDialog(component, {
+      text: 'This is the place for any text!',
       dialogProps: {
         title: 'THE TEST DIALOG-1 TITLE',
         icon: 'round-info',

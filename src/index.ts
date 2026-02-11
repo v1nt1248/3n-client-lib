@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Component } from 'vue';
+import type { Component, Reactive } from 'vue';
 import 'pinia';
 import type Ui3nButton from './components/ui3n-button/ui3n-button.vue';
 import type Ui3nChip from './components/ui3n-chip/ui3n-chip.vue';
 import type Ui3nCheckbox from './components/ui3n-checkbox/ui3n-checkbox.vue';
 import type Ui3nDialog from './components/ui3n-dialog/ui3n-dialog.vue';
-import type { Ui3nDialogComponentProps } from '@/components';
+import type { Ui3nDialogEvent } from './components/ui3n-dialog/types';
 import type Ui3nDropFiles from './components/ui3n-drop-files/ui3n-drop-files.vue';
 import type Ui3nEmoji from './components/ui3n-emoji/ui3n-emoji.vue';
 import type Ui3nIcon from './components/ui3n-icon/ui3n-icon.vue';
@@ -39,7 +39,8 @@ import type Ui3nRipple from './directives/ui3n-ripple';
 import type Ui3nTitle from './directives/ui3n-title';
 import type Ui3nLongPress from './directives/ui3n-long-press';
 import type { VueEventBus } from './plugins/vue-bus/types';
-import type { DialogInstance } from './plugins/dialogs/types';
+import type { ExtractComponentProps } from '@/types';
+import type { DialogOptions } from './plugins/dialogs/types';
 
 export * from './constants';
 export * from './utils';
@@ -50,9 +51,13 @@ export * from './types';
 
 declare module 'vue' {
   interface ComponentCustomProperties {
-    $openDialog: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
-    $closeDialog: (id: string) => void;
+    $openDialog: <V>(
+      component: Component,
+      props: ExtractComponentProps<Component>,
+    ) => Promise<{ event: Ui3nDialogEvent; data?: V | null | Event | undefined }>;
+    $closeDialog: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }) => void;
     $closeDialogs: () => void;
+    dialogStack: Reactive<DialogOptions<any>[]>;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $locale: string;
     $tr: (key: string, placeholders?: Record<string, string>) => string;
@@ -104,9 +109,15 @@ declare module 'vue' {
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
-    $openDialog: <T extends Component, V>(params: Ui3nDialogComponentProps<T, V>) => DialogInstance | undefined;
-    $closeDialog: (id: string) => void;
-    $closeDialogs: () => void;
+    $dialogs: {
+      open: <V>(
+        component: Component,
+        props: ExtractComponentProps<Component>,
+      ) => Promise<{ event: Ui3nDialogEvent; data?: V | null | Event | undefined }>;
+      close: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }) => void;
+      closeAll: () => void;
+      dialogStack: Reactive<DialogOptions<any>[]>;
+    };
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: VueEventBus<any>;
     $i18n: {
