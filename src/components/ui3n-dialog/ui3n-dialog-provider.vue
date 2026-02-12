@@ -1,30 +1,34 @@
 <script lang="ts" setup generic="V extends any">
   /* eslint-disable @typescript-eslint/no-explicit-any */
   import { type Component, inject } from 'vue';
-  import { DIALOGS_KEY, type DialogsPlugin } from '@/plugins';
+  import type { DialogsPlugin } from '@/plugins';
   import type { ExtractComponentProps } from '@/types';
   import type { Ui3nDialogComponentProps, Ui3nDialogEvent } from './types';
+  import { DIALOGS_KEY } from '@/constants';
 
-  const { dialogStack, $closeDialog } = inject<DialogsPlugin>(DIALOGS_KEY)!
+  const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 
   function clickOverlay(id: string, modalProps: ExtractComponentProps<Component>) {
+    console.log('[DIALOG_PROVIDER] CLICK_OVERLAY => ', id, modalProps);
     if (
       (modalProps as Ui3nDialogComponentProps<any>).closeOnClickOverlay ||
       ((modalProps as any).dialogProps as Ui3nDialogComponentProps<any>)?.closeOnClickOverlay
   ) {
-      $closeDialog(id, { event: 'click-overlay' });
+      dialogs.$closeDialog(id, { event: 'click-overlay' });
     }
   }
 
   function onAction(id: string, value: { event: Ui3nDialogEvent; data?:  V }) {
-    $closeDialog(id, value);
+    console.log('[DIALOG_PROVIDER] ON_ACTION => ', id, value);
+    console.log('[DIALOG_PROVIDER] STACK => ', dialogs.dialogStack.value);
+    dialogs.$closeDialog(id, value);
   }
 </script>
 
 <template>
   <teleport to="body">
     <div
-      v-for="dialog in dialogStack"
+      v-for="dialog in dialogs.dialogStack.value"
       :id="`dialog-wrapper-${dialog.id}`"
       :key="dialog.id"
       :class="$style['dialog-provider-overlay']"

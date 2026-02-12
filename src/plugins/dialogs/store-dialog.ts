@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Component, Reactive } from 'vue';
+import type { Component, Ref } from 'vue';
 import type { ExtractComponentProps } from '@/types';
 import type { Ui3nDialogEvent } from '@/components/ui3n-dialog/types';
 import type { DialogOptions } from './types';
@@ -12,7 +12,7 @@ export function storeDialogs(context: any): {
     ) => Promise<{ event: Ui3nDialogEvent; data?: V }>;
     close: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V }) => void;
     closeAll: () => void;
-    dialogStack: Reactive<DialogOptions<any>[]>;
+    dialogStack: Ref<DialogOptions<any>[]>;
   };
 } {
   const { app = {} } = context;

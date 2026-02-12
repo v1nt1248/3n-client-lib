@@ -1,20 +1,23 @@
 /*  eslint-disable @typescript-eslint/no-explicit-any */
-import { markRaw, type App, type Component, reactive, type Reactive } from 'vue';
-import { DIALOGS_KEY, type DialogsPlugin, type DialogOptions } from './types';
+import { markRaw, type App, type Component, ref, type Ref } from 'vue';
+import type { ExtractComponentProps } from '@/types';
+import type { DialogsPlugin, DialogOptions } from './types';
 import type { Ui3nDialogEvent } from '@/components/ui3n-dialog/types';
 import { getRandomId } from '../../utils';
-import type { ExtractComponentProps } from '@/types';
+import { DIALOGS_KEY } from '@/constants';
 
-const dialogStack = reactive<DialogOptions<any>[]>([]);
+export default {
+  install(app: App) {
+    const dialogStack = ref<DialogOptions<any>[]>([]);
 
-export const dialogService = {
-  $openDialog<V>(
+    function $openDialog<V>(
     component: Component,
     props: ExtractComponentProps<Component>,
   ): Promise<{ event: Ui3nDialogEvent; data?: V }> {
+    console.log('[DIALOG_PLUGIN] $OPEN_DIALOG => ', component, props);
     return new Promise(
       (resolve: (value: { event: Ui3nDialogEvent; data?: V }) => void) => {
-        dialogStack.push({
+        dialogStack.value.push({
           id: getRandomId(5),
           component: markRaw(component),
           props,
@@ -22,43 +25,44 @@ export const dialogService = {
         });
       },
     );
-  },
+  }
 
-  $closeDialog<V>(id: string, value: { event: Ui3nDialogEvent; data?: V }): void {
-    const index = dialogStack.findIndex(m => m.id === id);
+  function $closeDialog<V>(id: string, value: { event: Ui3nDialogEvent; data?: V }): void {
+    const index = dialogStack.value.findIndex(m => m.id === id);
     if (index !== -1) {
-      dialogStack[index].resolve(value);
-      dialogStack.splice(index, 1);
+      dialogStack.value[index].resolve(value);
+      dialogStack.value.splice(index, 1);
     }
-  },
+  }
 
-  $closeDialogs() {
-    for (let i = dialogStack.length - 1; i >= 0; i--) {
-      dialogStack.splice(i, 1);
-    }
-  },
+  function $closeDialogs() {
+    dialogStack.value = [];
+  }
 
-  get dialogStack() {
-    return dialogStack;
-  },
-};
+    app.config.globalProperties.$dialog = {
+      dialogStack,
+      $openDialog,
+      $closeDialog,
+      $closeDialogs,
+    };
 
-export default {
-  install(app: App) {
-    app.config.globalProperties.$modal = dialogService;
-
-    app.provide<DialogsPlugin>(DIALOGS_KEY, { ...dialogService });
+    app.provide<DialogsPlugin>(DIALOGS_KEY, {
+      dialogStack,
+      $openDialog,
+      $closeDialog,
+      $closeDialogs,
+    });
   },
 };
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
+    dialogStack: Ref<DialogOptions<any>[]>;
     $openDialog: <V>(
       component: Component,
       props: ExtractComponentProps<Component>,
     ) => Promise<{ event: Ui3nDialogEvent; data?: V }>;
     $closeDialog: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V }) => void;
     $closeDialogs: () => void;
-    dialogStack: Reactive<DialogOptions<any>[]>;
   }
 }

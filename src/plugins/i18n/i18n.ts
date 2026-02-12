@@ -1,5 +1,6 @@
-import { App, Plugin } from 'vue';
-import { I18N_KEY, type I18nOptions, type I18nPlugin } from './types';
+import type { App, Plugin } from 'vue';
+import type { I18nOptions, I18nPlugin } from './types';
+import { I18N_KEY } from '@/constants';
 
 export const i18n: Plugin = {
   install: (app: App, options: I18nOptions) => {

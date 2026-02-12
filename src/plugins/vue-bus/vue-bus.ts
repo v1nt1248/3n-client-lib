@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { App, Plugin } from 'vue';
+import type { App, Plugin } from 'vue';
 import mitt from 'mitt';
-import { VUEBUS_KEY, VueEventBus } from './types';
+import type { VueEventBus } from './types';
+import { VUEBUS_KEY } from '@/constants';
 
 const emitter = mitt<any>();
 

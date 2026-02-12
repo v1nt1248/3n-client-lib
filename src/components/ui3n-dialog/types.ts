@@ -23,7 +23,7 @@ export interface Ui3nDialogComponentProps<V> {
   cancelButtonBackground?: string;
   closeOnClickOverlay?: boolean;
   closeOnEsc?: boolean;
-  data?: V | null | Event | undefined;
+  data?: V | null;
   isValid?: boolean;
 }
 

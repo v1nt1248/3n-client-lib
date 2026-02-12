@@ -34,7 +34,6 @@ export default defineConfig({
   plugins: [vue(), vueDevTools(), dts({ insertTypesEntry: true })],
   resolve: {
     alias: {
-      vue: 'vue/dist/vue.esm-bundler.js',
       '@': resolve(__dirname, 'src'),
     },
   },

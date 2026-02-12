@@ -12,6 +12,8 @@
       cssStyle: () => ({}),
       contentCssClass: () => [],
       contentCssStyle: () => ({}),
+      confirmButton: true,
+      cancelButton: true,
       confirmButtonText: 'Done',
       cancelButtonText: 'Cancel',
       confirmButtonColor: 'var(--color-text-button-primary-default)',

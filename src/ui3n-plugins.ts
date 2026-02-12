@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Component, Reactive } from 'vue';
+import type { Component, Ref } from 'vue';
 import 'pinia';
 import type { ExtractComponentProps } from '@/types';
 import type { Ui3nNotificationProps } from '@/components/ui3n-notification/types';
@@ -7,25 +7,21 @@ import type { Ui3nDialogEvent } from '@/components/ui3n-dialog/types';
 import {
   i18n,
   storeI18n,
-  I18N_KEY,
   type I18nOptions,
   type I18nPlugin,
   notifications,
   storeNotifications,
-  NOTIFICATIONS_KEY,
   type NotificationsPlugin,
   dialogs,
   storeDialogs,
-  DIALOGS_KEY,
   type DialogOptions,
   type DialogsPlugin,
   vueBus,
   storeVueBus,
-  VUEBUS_KEY,
   type VueBusPlugin,
 } from '@/plugins';
 import type { CbFunction, VueEventBus } from './plugins/vue-bus/types';
-
+import { I18N_KEY, NOTIFICATIONS_KEY, DIALOGS_KEY, VUEBUS_KEY } from '@/constants';
 declare module 'vue' {
   interface ComponentCustomProperties {
     $openDialog: <V>(
@@ -34,7 +30,7 @@ declare module 'vue' {
     ) => Promise<{ event: Ui3nDialogEvent; data?: V }>;
     $closeDialog: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V }) => void;
     $closeDialogs: () => void;
-    dialogStack: Reactive<DialogOptions<any>[]>;
+    dialogStack: Ref<DialogOptions<any>[]>;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $locale: string;
     $tr: (key: string, placeholders?: Record<string, string>) => string;
@@ -59,7 +55,7 @@ declare module 'pinia' {
       ) => Promise<{ event: Ui3nDialogEvent; data?: V }>;
       close: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V }) => void;
       closeAll: () => void;
-      dialogStack: Reactive<DialogOptions<any>[]>;
+      dialogStack: Ref<DialogOptions<any>[]>;
     };
   }
 }

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Component, Reactive } from 'vue';
+import type { Component, Ref } from 'vue';
 import 'pinia';
 import type Ui3nButton from './components/ui3n-button/ui3n-button.vue';
 import type Ui3nChip from './components/ui3n-chip/ui3n-chip.vue';
@@ -57,7 +57,7 @@ declare module 'vue' {
     ) => Promise<{ event: Ui3nDialogEvent; data?: V }>;
     $closeDialog: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V }) => void;
     $closeDialogs: () => void;
-    dialogStack: Reactive<DialogOptions<any>[]>;
+    dialogStack: Ref<DialogOptions<any>[]>;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $locale: string;
     $tr: (key: string, placeholders?: Record<string, string>) => string;
@@ -116,7 +116,7 @@ declare module 'pinia' {
       ) => Promise<{ event: Ui3nDialogEvent; data?: V }>;
       close: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V }) => void;
       closeAll: () => void;
-      dialogStack: Reactive<DialogOptions<any>[]>;
+      dialogStack: Ref<DialogOptions<any>[]>;
     };
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: VueEventBus<any>;

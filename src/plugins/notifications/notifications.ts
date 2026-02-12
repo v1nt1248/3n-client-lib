@@ -1,8 +1,9 @@
-import { App, Plugin, createApp } from 'vue';
+import { type App, type Plugin, createApp } from 'vue';
 import { getRandomId } from '../../utils';
 import Ui3nNotification from '../../components/ui3n-notification/ui3n-notification.vue';
 import type { Ui3nNotificationProps } from '../../components/ui3n-notification/types';
-import { NOTIFICATIONS_KEY, type NotificationsPlugin } from './types';
+import type { NotificationsPlugin } from './types';
+import { NOTIFICATIONS_KEY } from '@/constants';
 
 export const notifications: Plugin = {
   install: (app: App) => {

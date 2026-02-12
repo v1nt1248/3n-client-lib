@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import type { InjectionKey } from 'vue';
-
 export type CbFunction<T> = (arg: T) => void;
 
 export interface VueEventBus<T extends object> {
@@ -14,5 +11,3 @@ export interface VueEventBus<T extends object> {
 export interface VueBusPlugin<T extends object> {
   $emitter: VueEventBus<T>;
 }
-
-export const VUEBUS_KEY = Symbol() as InjectionKey<VueBusPlugin<any>>;

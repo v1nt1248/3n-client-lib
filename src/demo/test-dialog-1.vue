@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { defineAsyncComponent, inject } from 'vue';
-import { DIALOGS_KEY, type DialogsPlugin } from '@/plugins/dialogs/types';
+import type { DialogsPlugin } from '@/plugins/dialogs/types';
+import { DIALOGS_KEY } from '@/constants/plugins-keys';
 import Ui3nDialog from '@/components/ui3n-dialog/ui3n-dialog.vue';
 import type { Ui3nDialogComponentProps } from '@/components/ui3n-dialog/types';
 
