@@ -1,11 +1,11 @@
 <script lang="ts" setup generic="V extends any">
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  import type { Component } from 'vue';
-  import { dialogService } from './dialogs';
-  import type { Ui3nDialogComponentProps, Ui3nDialogEvent } from '@/components/ui3n-dialog/types';
+  import { type Component, inject } from 'vue';
+  import { DIALOGS_KEY, type DialogsPlugin } from '@/plugins';
   import type { ExtractComponentProps } from '@/types';
+  import type { Ui3nDialogComponentProps, Ui3nDialogEvent } from './types';
 
-  const { dialogStack, $closeDialog } = dialogService;
+  const { dialogStack, $closeDialog } = inject<DialogsPlugin>(DIALOGS_KEY)!
 
   function clickOverlay(id: string, modalProps: ExtractComponentProps<Component>) {
     if (
@@ -16,7 +16,7 @@
     }
   }
 
-  function onAction(id: string, value: { event: Ui3nDialogEvent; data?:  V | null | Event | undefined }) {
+  function onAction(id: string, value: { event: Ui3nDialogEvent; data?:  V }) {
     $closeDialog(id, value);
   }
 </script>

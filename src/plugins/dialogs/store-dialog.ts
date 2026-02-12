@@ -9,8 +9,8 @@ export function storeDialogs(context: any): {
     open: <V>(
       component: Component,
       props: ExtractComponentProps<Component>,
-    ) => Promise<{ event: Ui3nDialogEvent; data?: V | null | Event | undefined }>;
-    close: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }) => void;
+    ) => Promise<{ event: Ui3nDialogEvent; data?: V }>;
+    close: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V }) => void;
     closeAll: () => void;
     dialogStack: Reactive<DialogOptions<any>[]>;
   };

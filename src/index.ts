@@ -54,8 +54,8 @@ declare module 'vue' {
     $openDialog: <V>(
       component: Component,
       props: ExtractComponentProps<Component>,
-    ) => Promise<{ event: Ui3nDialogEvent; data?: V | null | Event | undefined }>;
-    $closeDialog: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }) => void;
+    ) => Promise<{ event: Ui3nDialogEvent; data?: V }>;
+    $closeDialog: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V }) => void;
     $closeDialogs: () => void;
     dialogStack: Reactive<DialogOptions<any>[]>;
     $createNotice: (params: Ui3nNotificationProps) => void;
@@ -113,8 +113,8 @@ declare module 'pinia' {
       open: <V>(
         component: Component,
         props: ExtractComponentProps<Component>,
-      ) => Promise<{ event: Ui3nDialogEvent; data?: V | null | Event | undefined }>;
-      close: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }) => void;
+      ) => Promise<{ event: Ui3nDialogEvent; data?: V }>;
+      close: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V }) => void;
       closeAll: () => void;
       dialogStack: Reactive<DialogOptions<any>[]>;
     };

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import Ui3nDialogProvider from './plugins/dialogs/ui3n-dialog-provider.vue';
+  import Ui3nDialogProvider from './components/ui3n-dialog/ui3n-dialog-provider.vue';
   import Demo from './demo/demo.vue';
 </script>
 

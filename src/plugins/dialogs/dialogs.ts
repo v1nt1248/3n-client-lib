@@ -11,9 +11,9 @@ export const dialogService = {
   $openDialog<V>(
     component: Component,
     props: ExtractComponentProps<Component>,
-  ): Promise<{ event: Ui3nDialogEvent; data?: V | null | Event | undefined }> {
+  ): Promise<{ event: Ui3nDialogEvent; data?: V }> {
     return new Promise(
-      (resolve: (value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }) => void) => {
+      (resolve: (value: { event: Ui3nDialogEvent; data?: V }) => void) => {
         dialogStack.push({
           id: getRandomId(5),
           component: markRaw(component),
@@ -24,7 +24,7 @@ export const dialogService = {
     );
   },
 
-  $closeDialog<V>(id: string, value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }): void {
+  $closeDialog<V>(id: string, value: { event: Ui3nDialogEvent; data?: V }): void {
     const index = dialogStack.findIndex(m => m.id === id);
     if (index !== -1) {
       dialogStack[index].resolve(value);
@@ -56,8 +56,8 @@ declare module '@vue/runtime-core' {
     $openDialog: <V>(
       component: Component,
       props: ExtractComponentProps<Component>,
-    ) => Promise<{ event: Ui3nDialogEvent; data?: V | null | Event | undefined }>;
-    $closeDialog: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }) => void;
+    ) => Promise<{ event: Ui3nDialogEvent; data?: V }>;
+    $closeDialog: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V }) => void;
     $closeDialogs: () => void;
     dialogStack: Reactive<DialogOptions<any>[]>;
   }

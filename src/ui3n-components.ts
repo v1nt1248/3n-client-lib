@@ -1,7 +1,7 @@
 import type Ui3nButton from './components/ui3n-button/ui3n-button.vue';
 import type Ui3nChip from './components/ui3n-chip/ui3n-chip.vue';
 import type Ui3nCheckbox from './components/ui3n-checkbox/ui3n-checkbox.vue';
-import type Ui3nDialogProvider from './plugins/dialogs/ui3n-dialog-provider.vue';
+import type Ui3nDialogProvider from './components/ui3n-dialog/ui3n-dialog-provider.vue';
 import type Ui3nDialog from './components/ui3n-dialog/ui3n-dialog.vue';
 import type Ui3nDropFiles from './components/ui3n-drop-files/ui3n-drop-files.vue';
 import type Ui3nEmoji from './components/ui3n-emoji/ui3n-emoji.vue';

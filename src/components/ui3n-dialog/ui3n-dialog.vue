@@ -1,5 +1,5 @@
 <script lang="ts" setup generic="V extends any">
-  import { computed, defineProps, defineEmits, defineSlots, nextTick, onMounted, ref, withDefaults, useTemplateRef } from 'vue';
+  import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
   import omit from 'lodash/omit';
   import { determineWindowWidth } from './util';
   import type { Ui3nDialogComponentProps, Ui3nDialogComponentEmits, Ui3nDialogComponentSlots } from './types';
