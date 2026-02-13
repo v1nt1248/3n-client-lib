@@ -9,7 +9,6 @@
   const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
 
   function clickOverlay(id: string, modalProps: ExtractComponentProps<Component>) {
-    console.log('[DIALOG_PROVIDER] CLICK_OVERLAY => ', id, modalProps);
     if (
       (modalProps as Ui3nDialogComponentProps<any>).closeOnClickOverlay ||
       ((modalProps as any).dialogProps as Ui3nDialogComponentProps<any>)?.closeOnClickOverlay
@@ -19,8 +18,6 @@
   }
 
   function onAction(id: string, value: { event: Ui3nDialogEvent; data?:  V }) {
-    console.log('[DIALOG_PROVIDER] ON_ACTION => ', id, value);
-    console.log('[DIALOG_PROVIDER] STACK => ', dialogs.dialogStack.value);
     dialogs.$closeDialog(id, value);
   }
 </script>

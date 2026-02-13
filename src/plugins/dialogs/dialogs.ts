@@ -14,7 +14,6 @@ export default {
     component: Component,
     props: ExtractComponentProps<Component>,
   ): Promise<{ event: Ui3nDialogEvent; data?: V }> {
-    console.log('[DIALOG_PLUGIN] $OPEN_DIALOG => ', component, props);
     return new Promise(
       (resolve: (value: { event: Ui3nDialogEvent; data?: V }) => void) => {
         dialogStack.value.push({

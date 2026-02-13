@@ -220,6 +220,8 @@
       dialogProps: {
         title: 'THE TEST DIALOG-1 TITLE',
         icon: 'round-info',
+        confirmButton: false,
+        cancelButton: false,
         closeOnClickOverlay: false,
         closeOnEsc: true,
       },
