@@ -23,12 +23,12 @@ export interface Ui3nDialogComponentProps<V> {
   cancelButtonBackground?: string;
   closeOnClickOverlay?: boolean;
   closeOnEsc?: boolean;
-  data?: V | null;
+  data?: V;
   isValid?: boolean;
 }
 
 export interface Ui3nDialogComponentEmits<V> {
-  (event: 'action', value: { event: Ui3nDialogEvent; data?: V | null | Event | undefined }): void;
+  (event: 'action', value: { event: Ui3nDialogEvent; data?: V }): void;
 }
 
 export interface Ui3nDialogComponentSlots {

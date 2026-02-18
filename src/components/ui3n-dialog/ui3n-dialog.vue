@@ -20,7 +20,6 @@
       cancelButtonColor: 'var(--color-text-button-secondary-default)',
       confirmButtonBackground: 'var(--color-bg-button-primary-default)',
       cancelButtonBackground: 'var(--color-bg-button-secondary-default)',
-      data: null,
       isValid: true,
     },
   );
