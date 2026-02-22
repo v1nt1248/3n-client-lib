@@ -268,7 +268,7 @@
 
   .closeBtn {
     position: absolute;
-    right: 4px;
+    right: 8px;
     top: 12px;
     z-index: 5;
   }
@@ -294,6 +294,7 @@
       flex-grow: 1;
       font-size: var(--ui3n-dialog-title-font-size);
       font-weight: 600;
+      line-height: 1;
       color: var(--color-text-control-primary-default);
       @include mixins.text-overflow-ellipsis();
     }
