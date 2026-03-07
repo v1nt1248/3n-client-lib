@@ -32,7 +32,7 @@
       <div
         v-for="(item, index) in items"
         :key="item[keyField as keyof T] as PropertyKey"
-        :class="$style.item"
+        :class="$style.ui3nListItem "
       >
         <slot
           name="item"
@@ -40,7 +40,10 @@
           :index="index"
         >
           <div
-            :class="[$style.ui3nListItemContent, disabled && $style.ui3nListItemContentDisabled]"
+            :class="[
+              $style.ui3nListItemContent,
+              disabled && $style.ui3nListItemContentDisabled,
+            ]"
             @click.stop="emits('select', { value: item, index })"
           >
             {{ item }}
