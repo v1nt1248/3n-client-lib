@@ -1,9 +1,10 @@
-<script lang="ts" setup generic="T extends { id?: string }">
+<script lang="ts" setup generic="T">
   import type { Ui3nListEmits, Ui3nListProps, Ui3nListSlots } from './types';
 
   withDefaults(defineProps<Ui3nListProps<T>>(), {
     title: '',
     sticky: true,
+    keyField: 'id' as keyof T,
     disabled: false,
   });
 
@@ -30,7 +31,7 @@
     <div :class="$style.ui3nListContent">
       <div
         v-for="(item, index) in items"
-        :key="item.id ?? index"
+        :key="item[keyField as keyof T] as PropertyKey"
         :class="$style.item"
       >
         <slot

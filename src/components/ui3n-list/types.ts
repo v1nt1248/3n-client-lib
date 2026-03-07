@@ -4,6 +4,7 @@ export interface Ui3nListProps<T> {
   title?: string;
   sticky?: boolean;
   items: T[];
+  keyField?: keyof T;
   disabled?: boolean;
 }
 
