@@ -11,6 +11,7 @@ export const iconList: string[] = [
   'heading-h2',
   'heading-h3',
   'grid-view-line',
+  'key-vertical-outline',
   'lock-open-rounded',
   'round-arrow-forward',
   'baseline-delete',

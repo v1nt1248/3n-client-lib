@@ -54,6 +54,10 @@
   --svg: url('../icons/ic--baseline-delete-forever.svg');
 }
 
+[data-icon='key-vertical-outline'] {
+  --svg: url('../icons/material-symbols--key-vertical-outline.svg');
+}
+
 [data-icon='vertical-align-top'] {
   --svg: url('../icons/ic--baseline-vertical-align-top.svg');
 }
