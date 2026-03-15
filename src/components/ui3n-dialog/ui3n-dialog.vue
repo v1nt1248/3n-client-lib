@@ -156,7 +156,7 @@
   >
     <!-- HEADER  -->
     <div
-      v-if="title"
+      v-if="title && !$slots['header']"
       :class="[$style.title, $style.titleDefault]"
     >
       <ui3n-icon
@@ -175,6 +175,7 @@
       <slot name="header" />
     </div>
 
+    <!-- BODY  -->
     <div
       v-if="$slots['body']"
       :class="$style.content"
@@ -182,8 +183,9 @@
       <slot name="body" />
     </div>
 
+    <!-- ACTIONS  -->
     <div
-      v-if="confirmButton || cancelButton"
+      v-if="(confirmButton || cancelButton) && !$slots['actions']"
       :class="[$style.actions, $style.actionsDefault]"
     >
       <ui3n-button
@@ -223,6 +225,7 @@
     </div>
 
     <ui3n-button
+      v-if="!hideCloseButton"
       :class="$style.closeBtn"
       type="icon"
       size="small"

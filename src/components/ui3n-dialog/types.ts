@@ -9,6 +9,7 @@ export interface Ui3nDialogComponentProps<V> {
   icon?: string | Ui3nIconField;
   width?: string | number;
   draggable?: boolean;
+  hideCloseButton?: boolean;
   cssClass?: string[];
   cssStyle?: Record<string, string>;
   contentCssClass?: string[];
