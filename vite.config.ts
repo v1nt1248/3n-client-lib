@@ -23,7 +23,7 @@ const config = {
   },
 };
 
-const currentConfig = config[process.env.LIB_NAME];
+const currentConfig = config[process.env.LIB_NAME as keyof typeof config];
 
 if (currentConfig === undefined) {
   throw new Error('LIB_NAME is not defined or is not valid');
@@ -39,6 +39,7 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
+    minify: 'oxc',
     emptyOutDir: false,
     lib: {
       ...currentConfig,
