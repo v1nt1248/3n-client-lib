@@ -7,7 +7,7 @@
   const props = defineProps<Ui3nInputProps>();
   const emits = defineEmits<Ui3nInputEmits>();
 
-  const $css = useCssModule();
+  const css = useCssModule();
 
   const inputElement = ref<HTMLInputElement | null>(null);
   const text = ref<string>('');
@@ -32,29 +32,29 @@
   });
 
   const mainCssClasses = computed(() => {
-    const val = [$css.ui3nInput];
-    props.label && val.push($css.withLabel);
-    props.icon && val.push($css.withIcon);
-    props.clearable && text.value && val.push($css.clearable);
-    props.disabled && val.push($css.disabled);
-    ((!!errorMessage.value && !isValid.value) || props.displayStateMode === 'error') && val.push($css.error);
-    props.displayStateMode === 'success' && val.push($css.success);
+    const val = [css.ui3nInput];
+    props.label && val.push(css.withLabel);
+    props.icon && val.push(css.withIcon);
+    props.clearable && text.value && val.push(css.clearable);
+    props.disabled && val.push(css.disabled);
+    ((!!errorMessage.value && !isValid.value) || props.displayStateMode === 'error') && val.push(css.error);
+    props.displayStateMode === 'success' && val.push(css.success);
 
     return val;
   });
 
   const iconCssClasses = computed(() => {
-    const val = [$css.ui3nInputIcon];
-    props.disabled && val.push($css.ui3nInputIconDisabled);
+    const val = [css.ui3nInputIcon];
+    props.disabled && val.push(css.ui3nInputIconDisabled);
 
     return val;
   });
 
   const messageCssClasses = computed(() => {
-    const val = [$css.ui3nInputFieldMessage];
+    const val = [css.ui3nInputFieldMessage];
     (errorMessage.value || (props.displayStateMode === 'error' && !!props.displayStateMessage)) &&
-    val.push($css.ui3nInputErrorMessage);
-    props.displayStateMode === 'success' && props.displayStateMessage && val.push($css.ui3nInputSuccessMessage);
+      val.push(css.ui3nInputErrorMessage);
+    props.displayStateMode === 'success' && props.displayStateMessage && val.push(css.ui3nInputSuccessMessage);
 
     return val;
   });
@@ -190,7 +190,7 @@
       @focusin="onFocus"
       @focusout="onBlur"
       @change="onChange"
-    >
+    />
 
     <ui3n-icon
       v-if="icon"

@@ -131,7 +131,11 @@ export default [
           allowCoexistStyle: true,
         },
       ],
-      'vue/html-self-closing': ['error'],
+      'vue/html-self-closing': ['error', {
+        html: {
+          void: 'any',
+        },
+      }],
     },
   },
 
