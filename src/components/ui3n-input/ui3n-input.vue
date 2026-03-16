@@ -185,7 +185,7 @@
       :class="$style.ui3nInputField"
       @input="onInput"
       @keydown.enter="onEnterKeydown"
-      @keydown.escape="onEscapeKeydown"
+      @keydown.esc="onEscapeKeydown"
       @keydown="onKeydown"
       @focusin="onFocus"
       @focusout="onBlur"
@@ -238,7 +238,7 @@
 
     position: relative;
     width: 100%;
-    padding: 1px;
+    padding: 1px 1px 15px 1px;
     border-radius: var(--spacing-xs);
 
     &:hover {
@@ -323,11 +323,14 @@
   }
 
   .ui3nInputFieldMessage {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 55px;
     font-style: italic;
     font-size: var(--font-10);
     font-weight: 400;
-    line-height: 1.4;
-    margin-top: 2px;
+    line-height: 1.1;
 
     &.ui3nInputErrorMessage {
       color: var(--error-content-default);

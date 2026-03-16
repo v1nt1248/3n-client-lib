@@ -22,6 +22,14 @@
   --svg: url('../icons/ci--expand.svg');
 }
 
+[data-icon='eye-outline'] {
+  --svg: url('../icons/mdi--eye-outline.svg');
+}
+
+[data-icon='eye-off-outline'] {
+  --svg: url('../icons/mdi--eye-off-outline.svg');
+}
+
 [data-icon='heading-h1'] {
   --svg: url('../icons/ci--heading-h1.svg');
 }
@@ -240,6 +248,10 @@
 
 [data-icon='outline-preview'] {
   --svg: url('../icons/ic--outline-preview.svg');
+}
+
+[data-icon='outline-remove-red-eye'] {
+  --svg: url('../icons/ic--outline-remove-red-eye.svg');
 }
 
 [data-icon='outline-remove-moderator'] {
