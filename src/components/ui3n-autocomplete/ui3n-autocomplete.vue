@@ -54,9 +54,9 @@
   const activeItemsIndex = ref<Nullable<number>>(null);
   const isNewValueValid = ref(true);
 
-  const ids = computed(() => props.returnObject
-    ? (props.modelValue as T[]).map(item => item.id)
-    : (props.modelValue as Array<T[keyof T]>));
+  const ids = computed(() =>
+    props.returnObject ? (props.modelValue as T[]).map(item => item.id) : (props.modelValue as Array<T[keyof T]>),
+  );
 
   const displayValue = computed(() => {
     if (props.chips) return '';
@@ -180,6 +180,7 @@
       isMenuOpen.value = true;
       activeItemsIndex.value = 0;
       menuBodyEl.value && menuBodyEl.value.focus();
+      console.log('<- 111 ->');
       return;
     }
 
@@ -194,6 +195,7 @@
         };
         onItemClick(item as unknown as T);
       }
+      props.clearOnSelect && (query.value = '');
       return;
     }
 
@@ -201,6 +203,7 @@
       const item = filteredItems.value[activeItemsIndex.value!];
       onItemClick(item);
       activeItemsIndex.value = null;
+      props.clearOnSelect && (query.value = '');
     }
   }
 
@@ -299,7 +302,7 @@
           @keydown.esc="onKeydown($event, 'esc')"
           @keydown.enter="onKeydown($event, 'enter')"
           @keydown.tab="onKeydown($event, 'tab')"
-        >
+        />
       </div>
 
       <template #menu>
@@ -318,7 +321,7 @@
                 :class="[
                   $style.item,
                   activeItemsIndex === index && $style.itemSelected,
-                  disabled && $style.itemDisabled
+                  disabled && $style.itemDisabled,
                 ]"
                 @click.stop.prevent="onItemClick(item)"
               >

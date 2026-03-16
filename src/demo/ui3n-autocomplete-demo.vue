@@ -11,7 +11,7 @@
 
   interface ContactListItem extends Ui3nAutocompleteOptionBase {
     id: string;
-    name?: string,
+    name?: string;
     mail: string;
     avatarMini: string | null;
     displayName: string;
@@ -19,65 +19,65 @@
 
   const contactList: ContactListItem[] = [
     {
-      'id': '1',
-      'name': 'Me',
-      'mail': 'robot-100@3nweb.com',
-      'avatarMini': null,
-      'displayName': 'Me',
+      id: '1',
+      name: 'Me',
+      mail: 'robot-100@3nweb.com',
+      avatarMini: null,
+      displayName: 'Me',
     },
     {
-      'id': 'fyUl9a',
-      'name': 'Sofie',
-      'mail': 'sofie@3nweb.com',
-      'avatarMini': null,
-      'displayName': 'Sofie',
+      id: 'fyUl9a',
+      name: 'Sofie',
+      mail: 'sofie@3nweb.com',
+      avatarMini: null,
+      displayName: 'Sofie',
     },
     {
-      'id': 'fLKqeb',
-      'name': 'John Doe',
-      'mail': 'john.doe@3nweb.com',
-      'avatarMini': null,
-      'displayName': 'John Doe',
+      id: 'fLKqeb',
+      name: 'John Doe',
+      mail: 'john.doe@3nweb.com',
+      avatarMini: null,
+      displayName: 'John Doe',
     },
     {
-      'id': '8HSlsv',
-      'name': 'Angela',
-      'mail': 'angela@3nweb.com',
-      'avatarMini': null,
-      'displayName': 'Angela',
+      id: '8HSlsv',
+      name: 'Angela',
+      mail: 'angela@3nweb.com',
+      avatarMini: null,
+      displayName: 'Angela',
     },
     {
-      'id': 'cr7dhv',
-      'mail': 'sa.ph@3nweb.com',
-      'avatarMini': null,
-      'displayName': 'sa.ph@3nweb.com',
+      id: 'cr7dhv',
+      mail: 'sa.ph@3nweb.com',
+      avatarMini: null,
+      displayName: 'sa.ph@3nweb.com',
     },
     {
-      'id': 'Tl6s0x',
-      'name': 'Alex Monroe',
-      'mail': 'monroe.alex@3mweb.com',
-      'avatarMini': null,
-      'displayName': 'Alex Monroe',
+      id: 'Tl6s0x',
+      name: 'Alex Monroe',
+      mail: 'monroe.alex@3mweb.com',
+      avatarMini: null,
+      displayName: 'Alex Monroe',
     },
     {
-      'id': 'ZK3QdA',
-      'name': 'Jessie',
-      'mail': 'jessie@3nweb.com',
-      'avatarMini': null,
-      'displayName': 'Jessie',
+      id: 'ZK3QdA',
+      name: 'Jessie',
+      mail: 'jessie@3nweb.com',
+      avatarMini: null,
+      displayName: 'Jessie',
     },
     {
-      'id': 'ubtphs',
-      'mail': 'tom.taylor@3nweb.com',
-      'avatarMini': null,
-      'displayName': 'tom.taylor@3nweb.com',
+      id: 'ubtphs',
+      mail: 'tom.taylor@3nweb.com',
+      avatarMini: null,
+      displayName: 'tom.taylor@3nweb.com',
     },
     {
-      'id': 'yafalg',
-      'name': 'Eddy',
-      'mail': 'dub123@3nweb.com',
-      'avatarMini': null,
-      'displayName': 'Eddy',
+      id: 'yafalg',
+      name: 'Eddy',
+      mail: 'dub123@3nweb.com',
+      avatarMini: null,
+      displayName: 'Eddy',
     },
   ];
 
@@ -103,13 +103,12 @@
           :items="contactList"
           :custom-filter="filterContactList"
           clear-on-select
-          hide-selected
           chips
           multiple
           item-title="displayName"
           item-value="mail"
           add-new-value
-          :new-value-validator="(v) => v.includes('@')"
+          :new-value-validator="v => v.includes('@')"
         >
           <template #item="{ item, query }">
             <div
