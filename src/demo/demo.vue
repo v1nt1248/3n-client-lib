@@ -1070,7 +1070,7 @@
 
     .color-theme-item {
       display: flex;
-      width: 108px;
+      width: max-content;
       height: 24px;
       padding: 0 8px;
       justify-content: flex-start;

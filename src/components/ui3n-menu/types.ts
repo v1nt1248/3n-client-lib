@@ -9,6 +9,7 @@ export interface Ui3nMenuProps {
   offsetX?: number;
   offsetY?: number;
   contentBorderRadius?: number | number[];
+  contentStyles?: Record<string, string>;
   zIndex?: number;
   closeOnClick?: boolean;
   closeOnClickOutside?: boolean;

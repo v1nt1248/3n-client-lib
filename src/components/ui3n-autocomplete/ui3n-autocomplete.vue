@@ -180,7 +180,6 @@
       isMenuOpen.value = true;
       activeItemsIndex.value = 0;
       menuBodyEl.value && menuBodyEl.value.focus();
-      console.log('<- 111 ->');
       return;
     }
 

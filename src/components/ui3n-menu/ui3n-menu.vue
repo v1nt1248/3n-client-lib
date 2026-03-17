@@ -55,19 +55,12 @@
 
   middleware.push(shift());
 
-  const {
-    floatingStyles,
-    isPositioned,
-    update,
-  } = useFloating(
-    usedTriggerElement,
-    menuContentElement,
-    {
-      placement: 'bottom-start',
-      strategy: props.positionStrategy,
-      middleware,
-      whileElementsMounted: props.positionAutoupdate || props.positionStrategy === 'fixed' ? autoUpdate : undefined,
-    });
+  const { floatingStyles, isPositioned, update } = useFloating(usedTriggerElement, menuContentElement, {
+    placement: 'bottom-start',
+    strategy: props.positionStrategy,
+    middleware,
+    whileElementsMounted: props.positionAutoupdate || props.positionStrategy === 'fixed' ? autoUpdate : undefined,
+  });
 
   function toggleMenu() {
     if (props.disabled) {
@@ -118,14 +111,11 @@
     },
   );
 
-  watch(
-    [() => props.offsetX, () => props.offsetY],
-    ([offsetX, offsetY], [oldOffsetX, oldOffsetY]) => {
-      if (offsetX !== oldOffsetX || offsetY !== oldOffsetY) {
-        update();
-      }
-    },
-  );
+  watch([() => props.offsetX, () => props.offsetY], ([offsetX, offsetY], [oldOffsetX, oldOffsetY]) => {
+    if (offsetX !== oldOffsetX || offsetY !== oldOffsetY) {
+      update();
+    }
+  });
 
   defineExpose<Ui3nMenuExpose>({
     isPositioned,
@@ -150,7 +140,10 @@
       v-if="isShow"
       ref="menu-content-element"
       v-click-outside="onClickOutside"
-      :style="floatingStyles"
+      :style="{
+        ...floatingStyles,
+        ...(contentStyles && { ...contentStyles }),
+      }"
       :class="$style.ui3nMenuContent"
       v-on="closeOnClick ? { click: onContentClick } : {}"
     >
