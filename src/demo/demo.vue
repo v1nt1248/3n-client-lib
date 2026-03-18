@@ -11,6 +11,7 @@
   import Ui3nHtmlDemo from './ui3n-html-demo.vue';
   import Ui3nSliderDemo from './ui3n-slider-demo.vue';
   import Ui3nIconDemo from './ui3n-icon-demo.vue';
+  import Ui3nSelectorDemo from './ui3n-selector-demo.vue';
   // import Ui3nButtonDemo from './ui3n-button-demo.vue';
 
   import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
@@ -271,6 +272,8 @@
     <ui3n-icon-demo />
 
     <ui3n-input-demo />
+
+    <ui3n-selector-demo />
 
     <ui3n-autocomplete-demo />
 

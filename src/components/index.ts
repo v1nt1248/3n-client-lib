@@ -104,6 +104,14 @@ import type {
 } from './ui3n-autocomplete/types';
 import Ui3nSlider from './ui3n-slider/ui3n-slider.vue';
 import type { UI3nSliderProps, UI3nSliderEmits } from './ui3n-slider/types';
+import Ui3nSelector from './ui3n-selector/ui3n-selector.vue';
+import type {
+  Ui3nSelectorOptionBase,
+  Ui3nSelectorProps,
+  Ui3nSelectorEmits,
+  Ui3nSelectorSlots,
+  Ui3nSelectorItemDisplayingFunction,
+} from './ui3n-selector/types';
 
 export {
   Ui3nIcon,
@@ -219,4 +227,10 @@ export {
   Ui3nSlider,
   UI3nSliderProps,
   UI3nSliderEmits,
+  Ui3nSelector,
+  Ui3nSelectorProps,
+  Ui3nSelectorEmits,
+  Ui3nSelectorSlots,
+  Ui3nSelectorOptionBase,
+  Ui3nSelectorItemDisplayingFunction,
 };

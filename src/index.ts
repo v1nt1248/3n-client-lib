@@ -32,6 +32,7 @@ import type Ui3nRadioGroup from './components/ui3n-radio-group/ui3n-radio-group.
 import type Ui3nEditable from './components/ui3n-editable/ui3n-editable.vue';
 import type Ui3nAutocomplete from './components/ui3n-autocomplete/ui3n-autocomplete.vue';
 import type Ui3nSlider from './components/ui3n-slider/ui3n-slider.vue';
+import type Ui3nSelector from './components/ui3n-selector/ui3n-selector.vue';
 import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
 import type Ui3nResize from './directives/ui3n-resize';
@@ -89,6 +90,7 @@ declare module 'vue' {
     Ui3nProgressCircular: typeof Ui3nProgressCircular;
     Ui3nRadio: typeof Ui3nRadio;
     Ui3nRadioGroup: typeof Ui3nRadioGroup;
+    Ui3nSelector: typeof Ui3nSelector;
     Ui3nSlider: typeof Ui3nSlider;
     Ui3nTableSortIcon: typeof Ui3nTableSortIcon;
     Ui3nTable: typeof Ui3nTable;
