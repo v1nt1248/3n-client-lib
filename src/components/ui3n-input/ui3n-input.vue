@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   import { computed, onMounted, ref, watch, useCssModule } from 'vue';
+  import isEmpty from 'lodash/isEmpty';
   import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
   import type { Ui3nInputEmits, Ui3nInputProps } from './types';
@@ -34,6 +35,7 @@
   const mainCssClasses = computed(() => {
     const val = [css.ui3nInput];
     props.label && val.push(css.withLabel);
+    isEmpty(props.rules) && val.push(css.withoutValidation);
     props.icon && val.push(css.withIcon);
     props.clearable && text.value && val.push(css.clearable);
     props.disabled && val.push(css.disabled);
@@ -240,6 +242,10 @@
     width: 100%;
     padding: 1px 1px 15px 1px;
     border-radius: var(--spacing-xs);
+
+    &.withoutValidation {
+      padding-bottom: 0;
+    }
 
     &:hover {
       .ui3nInputField:not(:focus-within) {
