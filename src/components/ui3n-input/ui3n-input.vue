@@ -36,7 +36,6 @@
   function onChange(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     validate(value);
-    console.log('[Ui3nInput] ON_CHANGE');
     emits('change', value);
   }
 
@@ -45,7 +44,6 @@
     text.value = value;
     isDirty.value = true;
     validate(value);
-    console.log('[Ui3nInput] ON_INPUT');
     emits('update:modelValue', value);
     emits('input', value);
   }
@@ -55,7 +53,6 @@
     const value = (target as HTMLInputElement).value;
     isDirty.value = true;
     validate(value);
-    console.log('[Ui3nInput] ON_ENTER_KEYDOWN');
     emits('update:modelValue', value);
     emits('enter', { value, altKey, ctrlKey, metaKey, shiftKey });
   }
@@ -64,7 +61,6 @@
     const value = (event.target as HTMLInputElement).value;
     isDirty.value = true;
     validate(value);
-    console.log('[Ui3nInput] ON_ESCAPE_KEYDOWN');
     emits('update:modelValue', value);
     emits('escape', event);
   }
@@ -77,7 +73,6 @@
     text.value = '';
     isDirty.value = false;
     validate('');
-    console.log('[Ui3nInput] CLEAR_VALUE');
     emits('update:modelValue', '');
     emits('input', '');
     emits('change', '');
@@ -98,7 +93,6 @@
     }
 
     if (isDirty.value) {
-      console.log('[Ui3nInput] UPDATE:VALID => ', !errorMessage.value, ' | ', errorMessage.value);
       emits('update:valid', !errorMessage.value);
     }
   }
@@ -116,7 +110,6 @@
 
     emits('init', inputElement.value!);
     if (props.validateAtStartup) {
-      console.log('[Ui3nInput] ON_MOUNTED');
       validate(text.value);
     }
   });
@@ -126,7 +119,6 @@
     (val, oldVal) => {
       if ((val ?? '') !== (oldVal ?? '')) {
         text.value = val ?? '';
-        console.log('[Ui3nInput] WATCH => ', oldVal, ' => ', val);
         validate(text.value);
       }
     },
