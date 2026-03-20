@@ -3,19 +3,19 @@ import type { Component, Ref } from 'vue';
 import type { ExtractComponentProps } from '@/types';
 import type { Ui3nDialogEvent } from '../../components/ui3n-dialog/types';
 
-export interface DialogOptions<V> {
+export interface DialogOptions<V, E extends string = never> {
   id: string;
   component: Component;
   props: ExtractComponentProps<Component>;
-  resolve: (value: { event: Ui3nDialogEvent; data?: V }) => void;
+  resolve: (value: { event: Ui3nDialogEvent<E>; data?: V }) => void;
 }
 
 export interface DialogsPlugin {
-  $openDialog: <V>(
+  $openDialog: <V, E extends string = never>(
     component: Component,
-    props: ExtractComponentProps<Component>
-  ) => Promise<{ event: Ui3nDialogEvent; data?: V }>;
-  $closeDialog: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V }) => void;
+    props: ExtractComponentProps<Component>,
+  ) => Promise<{ event: Ui3nDialogEvent<E>; data?: V }>;
+  $closeDialog: <V, E extends string = never>(id: string, value: { event: Ui3nDialogEvent<E>; data?: V }) => void;
   $closeDialogs: () => void;
-  dialogStack: Ref<DialogOptions<any>[]>;
+  dialogStack: Ref<DialogOptions<any, ''>[]>;
 }

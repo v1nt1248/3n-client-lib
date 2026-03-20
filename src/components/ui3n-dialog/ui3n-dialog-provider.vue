@@ -1,4 +1,4 @@
-<script lang="ts" setup generic="V extends any">
+<script lang="ts" setup generic="V extends any, E extends string = never">
   /* eslint-disable @typescript-eslint/no-explicit-any */
   import { type Component, inject } from 'vue';
   import type { DialogsPlugin } from '@/plugins';
@@ -12,12 +12,12 @@
     if (
       (modalProps as Ui3nDialogComponentProps<any>).closeOnClickOverlay ||
       ((modalProps as any).dialogProps as Ui3nDialogComponentProps<any>)?.closeOnClickOverlay
-  ) {
+    ) {
       dialogs.$closeDialog(id, { event: 'click-overlay' });
     }
   }
 
-  function onAction(id: string, value: { event: Ui3nDialogEvent; data?:  V }) {
+  function onAction(id: string, value: { event: Ui3nDialogEvent<E>; data?: V }) {
     dialogs.$closeDialog(id, value);
   }
 </script>

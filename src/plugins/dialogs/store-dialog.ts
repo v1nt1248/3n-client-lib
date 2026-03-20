@@ -6,11 +6,11 @@ import type { DialogOptions } from './types';
 
 export function storeDialogs(context: any): {
   $dialogs: {
-    open: <V>(
+    open: <V, E extends string = never>(
       component: Component,
       props: ExtractComponentProps<Component>,
-    ) => Promise<{ event: Ui3nDialogEvent; data?: V }>;
-    close: <V>(id: string, value: { event: Ui3nDialogEvent; data?: V }) => void;
+    ) => Promise<{ event: Ui3nDialogEvent<E>; data?: V }>;
+    close: <V, E extends string = never>(id: string, value: { event: Ui3nDialogEvent<E>; data?: V }) => void;
     closeAll: () => void;
     dialogStack: Ref<DialogOptions<any>[]>;
   };

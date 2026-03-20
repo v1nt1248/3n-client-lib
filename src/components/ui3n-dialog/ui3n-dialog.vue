@@ -1,4 +1,4 @@
-<script lang="ts" setup generic="V extends any">
+<script lang="ts" setup generic="V extends any, E extends string = never">
   import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
   import omit from 'lodash/omit';
   import { determineWindowWidth } from './util';
@@ -6,24 +6,22 @@
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
   import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
 
-  const props = withDefaults(
-    defineProps<Ui3nDialogComponentProps<V>>(), {
-      cssClass: () => [],
-      cssStyle: () => ({}),
-      contentCssClass: () => [],
-      contentCssStyle: () => ({}),
-      confirmButton: true,
-      cancelButton: true,
-      confirmButtonText: 'Done',
-      cancelButtonText: 'Cancel',
-      confirmButtonColor: 'var(--color-text-button-primary-default)',
-      cancelButtonColor: 'var(--color-text-button-secondary-default)',
-      confirmButtonBackground: 'var(--color-bg-button-primary-default)',
-      cancelButtonBackground: 'var(--color-bg-button-secondary-default)',
-      isValid: true,
-    },
-  );
-  const emits = defineEmits<Ui3nDialogComponentEmits<V>>();
+  const props = withDefaults(defineProps<Ui3nDialogComponentProps<V>>(), {
+    cssClass: () => [],
+    cssStyle: () => ({}),
+    contentCssClass: () => [],
+    contentCssStyle: () => ({}),
+    confirmButton: true,
+    cancelButton: true,
+    confirmButtonText: 'Done',
+    cancelButtonText: 'Cancel',
+    confirmButtonColor: 'var(--color-text-button-primary-default)',
+    cancelButtonColor: 'var(--color-text-button-secondary-default)',
+    confirmButtonBackground: 'var(--color-bg-button-primary-default)',
+    cancelButtonBackground: 'var(--color-bg-button-secondary-default)',
+    isValid: true,
+  });
+  const emits = defineEmits<Ui3nDialogComponentEmits<V, E>>();
   defineSlots<Ui3nDialogComponentSlots>();
 
   const dialogElement = useTemplateRef('dialog-el');
@@ -105,22 +103,13 @@
 
   onMounted(() => {
     if (dialogElement.value) {
-      dialogElement.value.style.setProperty(
-        '--ui3n-dialog-confirm-button-color',
-        props.confirmButtonColor,
-      );
-      dialogElement.value.style.setProperty(
-        '--ui3n-dialog-cancel-button-color',
-        props.cancelButtonColor,
-      );
+      dialogElement.value.style.setProperty('--ui3n-dialog-confirm-button-color', props.confirmButtonColor);
+      dialogElement.value.style.setProperty('--ui3n-dialog-cancel-button-color', props.cancelButtonColor);
       dialogElement.value.style.setProperty(
         '--ui3n-dialog-confirm-background-color',
         props.confirmButtonBackground,
       );
-      dialogElement.value.style.setProperty(
-        '--ui3n-dialog-cancel-background-color',
-        props.cancelButtonBackground,
-      );
+      dialogElement.value.style.setProperty('--ui3n-dialog-cancel-background-color', props.cancelButtonBackground);
 
       nextTick(() => {
         dialogElement.value!.focus();
@@ -145,12 +134,12 @@
     v-on="
       draggable
         ? {
-          dragstart: onDragstart,
-          mousedown: onMousedown,
-          mouseup: onMouseup,
-          mousemove: onMousemove,
-          keydown: onKeydown,
-        }
+            dragstart: onDragstart,
+            mousedown: onMousedown,
+            mouseup: onMouseup,
+            mousemove: onMousemove,
+            keydown: onKeydown,
+          }
         : { keydown: onKeydown }
     "
   >

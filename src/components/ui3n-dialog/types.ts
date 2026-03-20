@@ -1,7 +1,9 @@
 import type { VNode } from 'vue';
 import type { Ui3nIconField } from '@/types';
 
-export type Ui3nDialogEvent = 'close' | 'confirm' | 'cancel' | 'click-overlay';
+export type Ui3nDialogEventBase = 'close' | 'confirm' | 'cancel' | 'click-overlay';
+
+export type Ui3nDialogEvent<E extends string = never> = Ui3nDialogEventBase | E;
 
 export interface Ui3nDialogComponentProps<V> {
   id?: string;
@@ -28,8 +30,8 @@ export interface Ui3nDialogComponentProps<V> {
   isValid?: boolean;
 }
 
-export interface Ui3nDialogComponentEmits<V> {
-  (event: 'action', value: { event: Ui3nDialogEvent; data?: V }): void;
+export interface Ui3nDialogComponentEmits<V, E extends string = never> {
+  (event: 'action', value: { event: Ui3nDialogEvent<E>; data?: V }): void;
 }
 
 export interface Ui3nDialogComponentSlots {
