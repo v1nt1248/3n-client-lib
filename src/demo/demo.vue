@@ -751,7 +751,7 @@
         <div class="demo-row__title">--- TEXT FIELD ---</div>
         <div class="demo-row__cell">
           <ui3n-text
-            v-model:text="textValue"
+            v-model="textValue"
             :rows="1"
             :max-rows="3"
             placeholder="Enter any text"
@@ -767,7 +767,7 @@
       <div class="demo-row">
         <div class="demo-row__cell">
           <ui3n-text
-            v-model:text="textValue"
+            v-model="textValue"
             :rows="1"
             :max-rows="3"
             placeholder="Enter any text"
@@ -778,13 +778,16 @@
       <div class="demo-row">
         <div class="demo-row__cell">
           <ui3n-text
-            v-model:text="textValue"
+            v-model="textValue"
             label="Some label"
             :rows="1"
             :max-rows="3"
             placeholder="Enter any text"
-            @keydown="ev => console.log('# KEYDOWN => ', ev)"
+            @input="ev => console.log('# INPUT EVENT => ', ev)"
+            @keydown="ev => console.log('# KEYDOWN EVENT => ', ev)"
             @enter="ev => console.log('# ENTER EVENT => ', ev)"
+            @focus="ev => console.log('# FOCUS EVENT => ', ev)"
+            @blur="ev => console.log('# BLUR EVENT => ', ev)"
           />
         </div>
       </div>

@@ -1,44 +1,22 @@
 <script lang="ts" setup>
-  import { computed, onMounted, ref, watch } from 'vue';
+  import { onMounted, ref, watch } from 'vue';
   import { patchTextareaMaxRowsSupport } from '@/utils';
   import type { Ui3nTextEmits, Ui3nTextProps } from './types';
 
-  const props = withDefaults(
-    defineProps<Ui3nTextProps>(),
-    {
-      rows: 6,
-      maxRows: 6,
-      label: '',
-      placeholder: '',
-      disabled: false,
-    },
-  );
+  const props = withDefaults(defineProps<Ui3nTextProps>(), {
+    rows: 6,
+    maxRows: 6,
+    label: '',
+    placeholder: '',
+    disabled: false,
+  });
   const emits = defineEmits<Ui3nTextEmits>();
 
   const textareaElement = ref<HTMLTextAreaElement | null>(null);
+  const text = ref<string>('');
+  const isDirty = ref(false);
   const isFocused = ref(false);
   const errorMessage = ref('');
-
-  const isValid = computed(() => {
-    if (!props.text) {
-      return true;
-    }
-
-    return !errorMessage.value;
-  });
-
-  onMounted(() => {
-    if (textareaElement.value) {
-      patchTextareaMaxRowsSupport(textareaElement.value!);
-      emits('init', textareaElement.value!);
-    }
-  });
-
-  watch(
-    () => isValid.value,
-    val => emits('update:valid', val),
-    { immediate: true },
-  );
 
   function validate(text: string) {
     errorMessage.value = '';
@@ -52,6 +30,10 @@
         }
       }
     }
+
+    if (isDirty.value) {
+      emits('update:valid', !errorMessage.value);
+    }
   }
 
   function onFocus(event: Event) {
@@ -60,39 +42,67 @@
   }
 
   function onBlur(event: Event) {
-    isFocused.value = false;
-    const value = (event.target as HTMLInputElement).value;
-    validate(value);
-    emits('blur', event);
-    emits('change', value);
-    emits('update:text', value);
+    setTimeout(() => {
+      isFocused.value = false;
+      const value = (event.target as HTMLInputElement).value;
+      validate(value);
+      emits('blur', event);
+      emits('change', value);
+      emits('update:modelValue', value);
+    }, 100);
   }
 
   function onInput(event: Event) {
     const value = (event.target as HTMLInputElement).value;
+    text.value = value;
+    isDirty.value = true;
     validate(value);
-    emits('update:text', value);
+    emits('update:modelValue', value);
     emits('input', value);
   }
 
   function onEnterKeydown(event: KeyboardEvent) {
     const { altKey, ctrlKey, shiftKey, metaKey, target } = event;
     const value = (target as HTMLInputElement).value;
+    isDirty.value = true;
     validate(value);
-    emits('update:text', value);
+    emits('update:modelValue', value);
     emits('enter', { value, altKey, ctrlKey, shiftKey, metaKey });
   }
 
   function onEscapeKeydown(event: KeyboardEvent) {
     const value = (event.target as HTMLInputElement).value;
+    isDirty.value = true;
     validate(value);
-    emits('update:text', value);
+    emits('update:modelValue', value);
     emits('escape', event);
   }
 
   function onKeydown(event: KeyboardEvent) {
     emits('keydown', event);
   }
+
+  onMounted(() => {
+    if (textareaElement.value) {
+      patchTextareaMaxRowsSupport(textareaElement.value!);
+      emits('init', textareaElement.value!);
+    }
+
+    if (props.validateAtStartup) {
+      validate(text.value);
+    }
+  });
+
+  watch(
+    () => props.modelValue,
+    (val, oldVal) => {
+      if ((val ?? '') !== (oldVal ?? '')) {
+        text.value = val ?? '';
+        validate(text.value);
+      }
+    },
+    { immediate: true },
+  );
 </script>
 
 <template>
@@ -117,7 +127,7 @@
         v-bind="$attrs"
         @input="onInput"
         @keydown.enter="onEnterKeydown"
-        @keydown.escape="onEscapeKeydown"
+        @keydown.esc="onEscapeKeydown"
         @keydown="onKeydown"
         @focusin="onFocus"
         @focusout="onBlur"
