@@ -1,14 +1,11 @@
 <script lang="ts" setup>
-  import { computed, onMounted, ref, watch, useCssModule } from 'vue';
-  import isEmpty from 'lodash/isEmpty';
+  import { computed, onMounted, ref, watch } from 'vue';
   import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
   import type { Ui3nInputEmits, Ui3nInputProps } from './types';
 
   const props = defineProps<Ui3nInputProps>();
   const emits = defineEmits<Ui3nInputEmits>();
-
-  const css = useCssModule();
 
   const inputElement = ref<HTMLInputElement | null>(null);
   const text = ref<string>('');
@@ -22,43 +19,6 @@
     }
 
     return props.iconColor || 'var(--color-icon-control-primary-default)';
-  });
-
-  const isValid = computed(() => {
-    if (!isDirty.value) {
-      return true;
-    }
-
-    return !errorMessage.value;
-  });
-
-  const mainCssClasses = computed(() => {
-    const val = [css.ui3nInput];
-    props.label && val.push(css.withLabel);
-    isEmpty(props.rules) && val.push(css.withoutValidation);
-    props.icon && val.push(css.withIcon);
-    props.clearable && text.value && val.push(css.clearable);
-    props.disabled && val.push(css.disabled);
-    ((!!errorMessage.value && !isValid.value) || props.displayStateMode === 'error') && val.push(css.error);
-    props.displayStateMode === 'success' && val.push(css.success);
-
-    return val;
-  });
-
-  const iconCssClasses = computed(() => {
-    const val = [css.ui3nInputIcon];
-    props.disabled && val.push(css.ui3nInputIconDisabled);
-
-    return val;
-  });
-
-  const messageCssClasses = computed(() => {
-    const val = [css.ui3nInputFieldMessage];
-    (errorMessage.value || (props.displayStateMode === 'error' && !!props.displayStateMessage)) &&
-      val.push(css.ui3nInputErrorMessage);
-    props.displayStateMode === 'success' && props.displayStateMessage && val.push(css.ui3nInputSuccessMessage);
-
-    return val;
   });
 
   function onFocus(event: Event) {
@@ -76,6 +36,7 @@
   function onChange(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     validate(value);
+    console.log('[Ui3nInput] ON_CHANGE');
     emits('change', value);
   }
 
@@ -84,6 +45,7 @@
     text.value = value;
     isDirty.value = true;
     validate(value);
+    console.log('[Ui3nInput] ON_INPUT');
     emits('update:modelValue', value);
     emits('input', value);
   }
@@ -93,6 +55,7 @@
     const value = (target as HTMLInputElement).value;
     isDirty.value = true;
     validate(value);
+    console.log('[Ui3nInput] ON_ENTER_KEYDOWN');
     emits('update:modelValue', value);
     emits('enter', { value, altKey, ctrlKey, metaKey, shiftKey });
   }
@@ -101,6 +64,7 @@
     const value = (event.target as HTMLInputElement).value;
     isDirty.value = true;
     validate(value);
+    console.log('[Ui3nInput] ON_ESCAPE_KEYDOWN');
     emits('update:modelValue', value);
     emits('escape', event);
   }
@@ -113,6 +77,7 @@
     text.value = '';
     isDirty.value = false;
     validate('');
+    console.log('[Ui3nInput] CLEAR_VALUE');
     emits('update:modelValue', '');
     emits('input', '');
     emits('change', '');
@@ -131,6 +96,11 @@
         }
       }
     }
+
+    if (isDirty.value) {
+      console.log('[Ui3nInput] UPDATE:VALID => ', !errorMessage.value, ' | ', errorMessage.value);
+      emits('update:valid', !errorMessage.value);
+    }
   }
 
   defineExpose({
@@ -145,21 +115,20 @@
     }
 
     emits('init', inputElement.value!);
+    if (props.validateAtStartup) {
+      console.log('[Ui3nInput] ON_MOUNTED');
+      validate(text.value);
+    }
   });
 
   watch(
     () => props.modelValue,
-    val => {
-      text.value = val;
-      validate(text.value);
-    },
-    { immediate: true },
-  );
-
-  watch(
-    () => isValid.value,
-    val => {
-      emits('update:valid', val);
+    (val, oldVal) => {
+      if ((val ?? '') !== (oldVal ?? '')) {
+        text.value = val ?? '';
+        console.log('[Ui3nInput] WATCH => ', oldVal, ' => ', val);
+        validate(text.value);
+      }
     },
     { immediate: true },
   );
@@ -167,8 +136,16 @@
 
 <template>
   <div
-    ref="wrapperElement"
-    :class="mainCssClasses"
+    :class="[
+      $style.ui3nInput,
+      label && $style.withLabel,
+      hideBottomSpace && $style.withoutBottomSpace,
+      icon && $style.withIcon,
+      clearable && text && $style.clearable,
+      disabled && $style.disabled,
+      (!!errorMessage || displayStateMode === 'error') && $style.error,
+      displayStateMode === 'success' && $style.success,
+    ]"
   >
     <label
       v-if="label"
@@ -199,7 +176,7 @@
       :icon="icon"
       :width="16"
       :height="16"
-      :class="iconCssClasses"
+      :class="[$style.ui3nInputIcon, disabled && $style.ui3nInputIconDisabled]"
     />
 
     <ui3n-icon
@@ -225,7 +202,11 @@
 
     <div
       v-if="(isDirty && errorMessage) || (displayStateMode && displayStateMessage)"
-      :class="messageCssClasses"
+      :class="[
+        $style.ui3nInputFieldMessage,
+        (errorMessage || (displayStateMode === 'error' && displayStateMessage)) && $style.ui3nInputErrorMessage,
+        displayStateMode === 'success' && displayStateMessage && $style.ui3nInputSuccessMessage,
+      ]"
     >
       {{ errorMessage || displayStateMessage }}
     </div>
@@ -243,7 +224,7 @@
     padding: 1px 1px 15px 1px;
     border-radius: var(--spacing-xs);
 
-    &.withoutValidation {
+    &.withoutBottomSpace {
       padding-bottom: 0;
     }
 

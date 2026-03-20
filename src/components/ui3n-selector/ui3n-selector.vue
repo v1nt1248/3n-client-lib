@@ -35,7 +35,6 @@
     label: '',
     items: () => [] as T[],
     itemValue: 'id',
-    itemDisplay: 'id' as keyof T,
     clearable: false,
     withSearch: false,
     returnObject: false,
@@ -95,23 +94,24 @@
   });
 
   function getItemTitle(value: T | T[keyof T], withProcessing?: boolean): string {
-    if (props.returnObject || typeof value === 'object') {
-      const isItemDisplayFunction = typeof props.itemDisplay === 'function';
-      const val = isItemDisplayFunction
-        ? (props.itemDisplay as Ui3nSelectorItemDisplayingFunction<T>)(value as T)
-        : value
-          ? ((value as T)[props.itemDisplay as keyof T] as string)
-          : '';
+    if (!value) {
+      return '';
+    }
+
+    if (typeof value !== 'object') {
+      const val = (value as T[keyof T]).toString();
       return withProcessing ? val.toLowerCase() : val;
     }
 
-    return withProcessing
-      ? value
-        ? (value as T[keyof T] as string).toLowerCase()
-        : ''
-      : value
-        ? (value as T[keyof T] as string)
-        : '';
+    const isItemDisplayFunction = props.itemDisplay && typeof props.itemDisplay === 'function';
+    const preVal = isItemDisplayFunction
+      ? (props.itemDisplay as Ui3nSelectorItemDisplayingFunction<T>)(value as T)
+      : props.itemDisplay
+        ? (value as T)[props.itemDisplay as keyof T]
+        : (value as T).id;
+    // @ts-expect-error
+    const val = preVal.toString();
+    return withProcessing ? val.toLowerCase() : val;
   }
 
   function onFocus() {

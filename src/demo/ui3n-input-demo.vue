@@ -108,12 +108,13 @@
           @change="onInputComponentEvent('change', $event)"
         />
       </demo-layout-cell>
-      <demo-layout-cell :label="`With icon, clearable, value: <i>${val3}</i>`">
+      <demo-layout-cell :label="`With icon, clearable & hideBottomSpace value: <i>${val3}</i>`">
         <ui3n-input
           v-model="val3"
           icon="round-search"
           placeholder="Enter any text"
           clearable
+          hide-bottom-space
           @input="onInputComponentEvent('input', $event)"
           @focus="onInputComponentEvent('focus', $event)"
           @blur="onInputComponentEvent('blur', $event)"
