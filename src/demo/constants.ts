@@ -9,6 +9,7 @@ export const iconList: string[] = [
   'expand-screen',
   'eye-outline',
   'eye-off-outline',
+  'group',
   'heading-h1',
   'heading-h2',
   'heading-h3',

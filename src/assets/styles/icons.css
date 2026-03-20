@@ -30,6 +30,10 @@
   --svg: url('../icons/mdi--eye-off-outline.svg');
 }
 
+[data-icon='group'] {
+  --svg: url('../icons/mdi--group.svg');
+}
+
 [data-icon='heading-h1'] {
   --svg: url('../icons/ci--heading-h1.svg');
 }
