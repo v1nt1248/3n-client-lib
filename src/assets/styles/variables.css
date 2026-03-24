@@ -127,6 +127,7 @@
   --shadow-key-3: var(--black-4);
   --shadow-close: var(--black-4);
   --shadow-far: var(--black-8);
+  --shadow-back: var(--black-48);
   --global-default: var(--grey-5);
   --global-subdefault: var(--grey-10);
   --default-fill-default: var(--white-100);
@@ -293,6 +294,7 @@
   --shadow-key-3: var(--white-4);
   --shadow-close: var(--black-12);
   --shadow-far: var(--black-24);
+  --shadow-back: var(--white-48);
   --global-default: var(--blue-95);
   --global-subdefault: var(--blue-90);
   --default-fill-default: var(--blue-100);
@@ -459,6 +461,7 @@
   --shadow-key-3: var(--white-4);
   --shadow-close: var(--black-12);
   --shadow-far: var(--black-24);
+  --shadow-back: var(--white-48);
   --global-default: var(--grey-95);
   --global-subdefault: var(--grey-90);
   --default-fill-default: var(--grey-100);

@@ -231,7 +231,7 @@
   @use '../../assets/styles/mixins' as mixins;
 
   .dialog {
-    --ui3n-dialog-border-radius: 8px;
+    --ui3n-dialog-border-radius: 12px;
     --ui3n-dialog-title-height: 48px;
     --ui3n-dialog-title-padding: 0 32px 0 16px;
     --ui3n-dialog-title-font-size: 14px;
@@ -249,9 +249,12 @@
     min-height: var(--spacing-xxl);
     max-height: 95%;
     background-color: var(--color-bg-block-primary-default);
+    border: 1px solid var(--color-border-block-primary-default);
     border-radius: var(--ui3n-dialog-border-radius);
     outline: none;
-    @include mixins.elevation(2);
+    box-shadow:
+      0 5px 15px -3px var(--shadow-key-2),
+      0 2px 10px -1px var(--shadow-key-3);
 
     &.draggable {
       cursor: move;

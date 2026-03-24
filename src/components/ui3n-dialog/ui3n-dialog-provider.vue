@@ -48,6 +48,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--shadow-close);
+    background-color: oklch(25% 0 0deg / 0.75);
   }
 </style>
