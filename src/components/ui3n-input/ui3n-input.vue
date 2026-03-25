@@ -13,6 +13,8 @@
   const isFocused = ref(false);
   const errorMessage = ref('');
 
+  const isInitialized = ref(false);
+
   const cssIconColor = computed(() => {
     if (props.disabled) {
       return 'var(--color-icon-control-primary-disabled)';
@@ -109,8 +111,11 @@
     }
 
     emits('init', inputElement.value!);
-    if (props.validateAtStartup) {
+    if (props.validateAtStartup && !isInitialized.value) {
       validate(text.value);
+    }
+    if (!isInitialized.value) {
+      isInitialized.value = true;
     }
   });
 
@@ -119,7 +124,14 @@
     (val, oldVal) => {
       if ((val ?? '') !== (oldVal ?? '')) {
         text.value = val ?? '';
-        validate(text.value);
+
+        if ((props.validateAtStartup && !isInitialized.value) || isInitialized.value) {
+          validate(text.value);
+        }
+
+        if (!isInitialized.value) {
+          isInitialized.value = true;
+        }
       }
     },
     { immediate: true },
@@ -193,7 +205,7 @@
     />
 
     <div
-      v-if="(isDirty && errorMessage) || (displayStateMode && displayStateMessage)"
+      v-if="(text && errorMessage) || (isDirty && errorMessage) || (displayStateMode && displayStateMessage)"
       :class="[
         $style.ui3nInputFieldMessage,
         (errorMessage || (displayStateMode === 'error' && displayStateMessage)) && $style.ui3nInputErrorMessage,
