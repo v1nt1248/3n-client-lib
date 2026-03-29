@@ -18,6 +18,15 @@ const emits = defineEmits<{
 
 const element = ref<HTMLDivElement | null>(null);
 
+function getElementSize() {
+  nextTick(() => {
+    if (element.value) {
+      emits('change:size', { width: element.value.offsetWidth, height: element.value.offsetHeight });
+    }
+  });
+}
+  
+
 watch(
   () => [props.value, props.dot],
   () => getElementSize(),
@@ -26,14 +35,6 @@ watch(
 onMounted(() => {
   getElementSize();
 });
-
-function getElementSize() {
-  nextTick(() => {
-    if (element.value) {
-      emits('change:size', { width: element.value.offsetWidth, height: element.value.offsetHeight });
-    }
-  });
-}
 </script>
 
 <template>
@@ -57,7 +58,7 @@ function getElementSize() {
   position: relative;
   box-sizing: border-box;
   background-color: v-bind(color);
-  outline: 1px var(--white-100) solid;
+  outline: 1px var(--color-bg-block-primary-default)solid;
 
   &:not(.ui3nBadgeDot) {
     min-height: var(--ui3n-badge-size);

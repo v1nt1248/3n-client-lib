@@ -1,12 +1,12 @@
-import DefaultTheme from 'vitepress/theme';
-// import { useIcons } from '../../../src/ui3n-plugins';
-// import Layout from './Layout.vue';
-import '../../../src/assets/styles/style.css';
+// https://vitepress.dev/guide/custom-theme
+import '../../../src/assets/styles/variables.css';
+import '../../../src/assets/styles/icons.css';
+import './style.css';
+import Layout from './Layout.vue';
 
 export default {
-  ...DefaultTheme,
-  // Layout,
-  enhanceApp({ app }) {
-    // app.use(useIcons);
+  Layout,
+  enhanceApp({ app, router, siteData }) {
+    // ...
   },
 };
