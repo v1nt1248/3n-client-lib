@@ -1,25 +1,11 @@
-# Ui3nBudge
-
-<script setup type="ts">
-import Ui3nBadge from '../../src/components/ui3n-badge/ui3n-badge.vue';
+<script setup lang="ts">
+import { data } from './api.data.ts'
 </script>
+# Ui3nBadge
 
-## Demo
+## Props
+<ApiTable :items="data.props" />
 
-<div class="demo">
-  <ui3n-badge dot>
-    <button>CLICK</button>
-  </ui3n-badge>
-</div>
+## Events
+<ApiTable :items="data.events" />
 
-## API
-
-<vue-docs component="../../src/components/ui3n-badge/ui3n-badge.vue" />
-
-<style lang="scss">
-.demo {
-  padding: 16px;
-  border: 1px solid var(--vp-c-divider);
-  background: var(--vp-c-bg-soft);
-}
-</style>

@@ -2,9 +2,9 @@
   import { ThemeMode } from '../composables/useTheme';
 
   const themes = [
-    { id: 'light', label: `Theme 'Default'` },
-    { id: 'dark', label: `Theme 'Dark'` },
-    { id: 'midnight', label: `Theme 'Midnight'` },
+    { id: 'light', label: 'Default' },
+    { id: 'dark', label: 'Dark' },
+    { id: 'midnight', label: 'Midnight' },
   ];
 
   const props = defineProps<{
@@ -33,14 +33,41 @@
 </template>
 
 <style scoped>
+  .theme-picker {
+    position: relative;
+    display: inline-block;
+  }
+
+  .theme-picker::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+
+    width: 24px;
+    height: 24px;
+
+    background-color: var(--color-text-block-primary-default);
+
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 24 24'%3E%3Cpath d='m7 10l5 5l5-5z' /%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 24 24'%3E%3Cpath d='m7 10l5 5l5-5z' /%3E%3C/svg%3E");
+
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    pointer-events: none;
+  }
+
   .theme-picker select {
+    appearance: none;
+    -webkit-appearance: none;
     display: flex;
-    width: 160px;
+    width: 120px;
     height: 32px;
-    padding: 0 8px;
+    padding: 0 12px;
     justify-content: center;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 6px;
     background: var(--color-bg-block-primary-default);
     font-size: var(--font-14);
     font-weight: 500;

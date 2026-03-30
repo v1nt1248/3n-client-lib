@@ -1,17 +1,4 @@
 import { defineConfig } from 'vitepress';
-import vueDocs from 'vite-plugin-vue-docs';
-import fs from 'node:fs';
-import path from 'node:path';
-
-function getComponentsSidebar() {
-  const componentsPath = path.resolve(__dirname, '../../src/components');
-  const folders = fs.readdirSync(componentsPath);
-
-  return folders.map(folder => ({
-    text: folder.charAt(0).toUpperCase() + folder.slice(1),
-    link: `/components/${folder.toLowerCase()}`,
-  }));
-}
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -29,27 +16,13 @@ export default defineConfig({
     `,
     ],
   ],
+  appearance: false,
   themeConfig: {
     sidebar: [
       {
         text: 'Components',
-        items: getComponentsSidebar(),
+        items: [{ text: 'Ui3nBadge', link: '/components/ui3n-badge' }],
       },
     ],
-  },
-  vite: {
-    plugins: [
-      vueDocs({
-        base: '/components/',
-      }),
-    ],
-    css: {
-      preprocessorOptions: {
-        scss: {
-          // Здесь можно подключить глобальные переменные, если они есть
-          // additionalData: `@use "@/styles/variables.scss" as *;`
-        },
-      },
-    },
   },
 });
