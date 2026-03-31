@@ -8,12 +8,12 @@ body {
   color: var(--color-text-block-primary-default);
 }
 
-.VPContent {
-  background-color: var(--color-bg-block-primary-default);
-  color: var(--color-text-block-primary-default);
+.Layout {
+  height: 100vh;
 }
 
 .VPNav {
+  position: relative !important;
   background-color: var(--color-bg-block-primary-default);
   color: var(--color-text-block-primary-default);
   border-bottom: 1px solid var(--color-border-block-primary-default);
@@ -48,4 +48,26 @@ body {
 
 .VPSidebarItem .item p.text {
   color: var(--color-text-block-primary-default) !important;
+}
+
+.VPContent {
+  position: relative !important;
+  height: calc(100vh - 72px) !important;
+  background-color: var(--color-bg-block-primary-default);
+  color: var(--color-text-block-primary-default);
+}
+
+.VPDoc {
+  position: relative !important;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.VPDoc .content .content-container {
+  max-width: 100% !important;
+}
+
+.VPDoc .container .aside {
+  display: none !important;
 }

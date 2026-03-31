@@ -19,6 +19,10 @@
         />
       </div>
     </template>
+
+    <template #footer-content-after>
+      <ui3n-dialog-provider />
+    </template>
   </Layout>
 </template>
 

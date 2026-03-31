@@ -1,30 +1,30 @@
 import type { VNode } from 'vue';
 
 export interface Ui3nBadgeSimpleProps {
-  /* For simple display as a circle */
+  /** For simple display as a circle */
   dot?: boolean;
-  /* Text displayed inside the circle */
+  /** Text displayed inside the circle */
   value?: string | number;
-  /* Background color */
+  /** Background color */
   color?: string;
-  /* Text color  */
+  /** Text color  */
   textColor?: string;
 }
 
 export interface Ui3nBadgeProps {
-  /* For simple display as a circle */
+  /** For simple display as a circle */
   dot?: boolean;
-  /* Text displayed inside the circle */
+  /** Text displayed inside the circle */
   value?: string | number;
-  /* Background color */
+  /** Background color */
   color?: string;
-  /* Text color  */
+  /** Text color  */
   textColor?: string;
-  /* Positioning of the circle */
+  /** Positioning of the circle */
   position?: 'right-top' | 'right-bottom' | 'left-top' | 'left-bottom';
 }
 
 export interface Ui3nBadgeSlots {
-  /* Default slot */
+  /** Default slot */
   default: () => VNode;
 }

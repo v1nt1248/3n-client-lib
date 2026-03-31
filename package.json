@@ -104,6 +104,7 @@
     "vite-plugin-vue-devtools": "8.1.1",
     "vitepress": "1.6.4",
     "vue": "3.5.31",
+    "vue-component-meta": "^3.2.6",
     "vue-docgen-api": "^4.79.2",
     "vue-eslint-parser": "10.4.0",
     "vue-tsc": "3.2.6"
