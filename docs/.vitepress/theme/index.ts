@@ -7,6 +7,7 @@ import { createPinia } from 'pinia';
 
 import Layout from './Layout.vue';
 import ComponentDoc from './components/ComponentDoc.vue';
+import DemoBlock from './components/DemoBlock.vue';
 
 import { dialogs, notifications } from '../../../src/plugins/index';
 
@@ -70,6 +71,7 @@ export default {
     app.directive('Ui3nTitle', Ui3nTitle);
 
     app.component('ComponentDoc', ComponentDoc);
+    app.component('DemoBlock', DemoBlock);
 
     app.component('Ui3nAutocomplete', Ui3nAutocomplete);
     app.component('Ui3nBudgeSimple', Ui3nBudgeSimple);
