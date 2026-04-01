@@ -2,18 +2,15 @@
   import { computed, onMounted, watch, onBeforeMount, ref, useCssModule, useSlots } from 'vue';
   import type { Ui3nCheckboxEmits, Ui3nCheckboxProps, Ui3nCheckboxSlots, Ui3nCheckboxValue } from './types';
 
-  const props = withDefaults(
-    defineProps<Ui3nCheckboxProps>(),
-    {
-      modelValue: false,
-      checkedValue: true,
-      uncheckedValue: false,
-      size: '16',
-      color: 'var(--color-icon-control-accent-default)',
-      indeterminate: false,
-      disabled: false,
-    },
-  );
+  const props = withDefaults(defineProps<Ui3nCheckboxProps>(), {
+    modelValue: false,
+    checkedValue: true,
+    uncheckedValue: false,
+    size: '16',
+    color: 'var(--color-icon-control-accent-default)',
+    indeterminate: false,
+    disabled: false,
+  });
   const emits = defineEmits<Ui3nCheckboxEmits>();
   defineSlots<Ui3nCheckboxSlots>();
 
@@ -29,9 +26,7 @@
       return 'indeterminate';
     }
 
-    return val.value === props.checkedValue
-      ? 'checked'
-      : 'unchecked';
+    return val.value === props.checkedValue ? 'checked' : 'unchecked';
   });
 
   const mainCssClasses = computed(() => {
@@ -56,9 +51,9 @@
     const uncheckedValueType = typeof props.uncheckedValue;
     const valueType = typeof props.modelValue;
     if (
-      checkedValueType !== uncheckedValueType
-      || checkedValueType !== valueType
-      || uncheckedValueType !== valueType
+      checkedValueType !== uncheckedValueType ||
+      checkedValueType !== valueType ||
+      uncheckedValueType !== valueType
     ) {
       throw Error('[Ui3nCheckbox] types of "value", "checkedValue" and "uncheckedValue" are different');
     }
@@ -73,13 +68,13 @@
 
   watch(
     () => props.modelValue,
-    newValue => val.value = newValue,
+    newValue => (val.value = newValue),
     { immediate: true },
   );
 
   watch(
     () => props.indeterminate,
-    newValue => uncertain.value = newValue,
+    newValue => (uncertain.value = newValue),
     { immediate: true },
   );
 
@@ -104,9 +99,7 @@
   function change(ev: Event) {
     ev.preventDefault();
 
-    val.value = checkBoxValue.value !== 'unchecked'
-      ? props.uncheckedValue
-      : props.checkedValue;
+    val.value = checkBoxValue.value !== 'unchecked' ? props.uncheckedValue : props.checkedValue;
 
     if (uncertain.value) {
       uncertain.value = false;

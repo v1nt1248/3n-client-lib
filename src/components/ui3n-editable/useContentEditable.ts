@@ -3,7 +3,7 @@ import debounce from 'lodash/debounce';
 import sanitizeHtml from 'sanitize-html';
 import { selectAll } from '@/utils';
 import type { Nullable } from '@/types';
-import type { Ui3nContentEditableEmits, Ui3nContentEditableProps } from '@/components/ui3n-editable/types';
+import type { Ui3nContentEditableEmits, Ui3nContentEditableProps } from './types';
 
 export function useContentEditable(props: Ui3nContentEditableProps, emits: Ui3nContentEditableEmits) {
   const el = ref<Nullable<HTMLElement>>(null);
@@ -130,7 +130,9 @@ export function useContentEditable(props: Ui3nContentEditableProps, emits: Ui3nC
   }
 
   onMounted(() => {
-    el.value && emits('init', el.value);
+    if (el.value) {
+      emits('init', el.value);
+    }
   });
 
   watch(

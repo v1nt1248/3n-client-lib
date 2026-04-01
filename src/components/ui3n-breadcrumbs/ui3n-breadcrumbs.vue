@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-  import type { Ui3nBreadcrumbsProps } from './types';
+  import type { Ui3nBreadcrumbsProps, Ui3nBreadcrumbsSlots } from './types';
 
-  withDefaults(
-    defineProps<Ui3nBreadcrumbsProps>(),
-    {
-      separator: '/',
-      disabled: false,
-    },
-  );
+  withDefaults(defineProps<Ui3nBreadcrumbsProps>(), {
+    separator: '/',
+    disabled: false,
+  });
+
+  defineSlots<Ui3nBreadcrumbsSlots>();
 </script>
 
 <template>
