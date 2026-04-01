@@ -2,20 +2,18 @@
   import { computed, onMounted, ref, watch, useCssModule } from 'vue';
   import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
   import Ui3nRipple from '../../directives/ui3n-ripple';
-  import type { Ui3nButtonEmits, Ui3nButtonProps, Ui3nButtonEventName } from './types';
+  import { Ui3nButtonEmits, Ui3nButtonProps, Ui3nButtonSlots, Ui3nButtonEventName } from './types';
 
   const vUi3nRipple = Ui3nRipple;
 
-  const props = withDefaults(
-    defineProps<Ui3nButtonProps>(),
-    {
-      type: 'primary',
-      size: 'regular',
-      iconPosition: 'right',
-      disabled: false,
-    },
-  );
+  const props = withDefaults(defineProps<Ui3nButtonProps>(), {
+    type: 'primary',
+    size: 'regular',
+    iconPosition: 'right',
+    disabled: false,
+  });
   const emits = defineEmits<Ui3nButtonEmits>();
+  defineSlots<Ui3nButtonSlots>();
 
   const $css = useCssModule();
 
@@ -49,32 +47,32 @@
       const [prevColor, prevTextColor] = prevValue;
       const [color, textColor] = newValue;
 
-      (props.type === 'custom' || props.type === 'icon')
-      && color !== prevColor
-      && buttonEl.value.style.setProperty(
-        '--ui3n-button-bg-color-custom',
-        color ?? 'var(--color-bg-button-primary-default)',
-      );
+      (props.type === 'custom' || props.type === 'icon') &&
+        color !== prevColor &&
+        buttonEl.value.style.setProperty(
+          '--ui3n-button-bg-color-custom',
+          color ?? 'var(--color-bg-button-primary-default)',
+        );
 
-      props.type === 'custom'
-      && textColor !== prevTextColor
-      && buttonEl.value.style.setProperty(
-        '--ui3n-button-text-color-custom',
-        textColor ?? 'var(--color-text-button-primary-default',
-      );
+      props.type === 'custom' &&
+        textColor !== prevTextColor &&
+        buttonEl.value.style.setProperty(
+          '--ui3n-button-text-color-custom',
+          textColor ?? 'var(--color-text-button-primary-default',
+        );
     },
   );
 
   onMounted(() => {
     if (!buttonEl.value) return;
 
-    (props.type === 'custom' || props.type === 'icon')
-    && props.color
-    && buttonEl.value.style.setProperty('--ui3n-button-bg-color-custom', props.color);
+    (props.type === 'custom' || props.type === 'icon') &&
+      props.color &&
+      buttonEl.value.style.setProperty('--ui3n-button-bg-color-custom', props.color);
 
-    props.type === 'custom'
-    && props.textColor
-    && buttonEl.value.style.setProperty('--ui3n-button-text-color-custom', props.textColor);
+    props.type === 'custom' &&
+      props.textColor &&
+      buttonEl.value.style.setProperty('--ui3n-button-text-color-custom', props.textColor);
 
     handleButtonEvent('init');
   });

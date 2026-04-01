@@ -24,6 +24,7 @@ export default defineConfig({
         text: 'Components',
         items: [
           { text: 'Ui3nBadge', link: '/components/ui3n-badge/ui3n-badge' },
+          { text: 'Ui3nButton', link: '/components/ui3n-button/ui3n-button' },
           { text: 'Ui3nAutocomplete', link: '/components/ui3n-autocomplete/ui3n-autocomplete' },
         ],
       },
