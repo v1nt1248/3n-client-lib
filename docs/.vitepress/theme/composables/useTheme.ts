@@ -14,16 +14,20 @@ export function useTheme() {
   function updateHtmlClasses(theme: ThemeMode) {
     console.log('[##] updateHtmlClasses => ', theme);
     const html = document.documentElement;
-    if (!html.classList.contains('colors')) {
-      html.classList.add('colors');
-    }
-
     if (html.classList.contains('dark')) {
       html.classList.remove('dark');
     }
 
+    if (html.classList.contains('theme-dark')) {
+      html.classList.remove('theme-dark');
+    }
+
     if (html.classList.contains('theme-light')) {
       html.classList.remove('theme-light');
+    }
+
+    if (!html.classList.contains('colors')) {
+      html.classList.add('colors');
     }
 
     switch (theme) {

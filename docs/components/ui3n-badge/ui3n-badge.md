@@ -60,7 +60,8 @@ const badgeMeta = data.find(c => c.name === 'ui3n-badge');
   title="Position variations"
   description="All 4 positioning options"
   :code="Example04Raw"
-  only-template-content
+  hide-script-block
+  hide-style-block
 >
   <Example04></Example04>
 </DemoBlock>

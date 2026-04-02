@@ -44,7 +44,8 @@ Button component with various styles and capabilities.
   title="Button types"
   description="Different button types: primary, secondary, tertiary, icon, custom"
   :code="Example02Raw"
-  only-template-content
+  hide-script-block
+  hide-style-block
 >
   <Example02></Example02>
 </DemoBlock>
@@ -55,7 +56,8 @@ Button component with various styles and capabilities.
   title="Button sizes"
   description="Regular and small button sizes"
   :code="Example03Raw"
-  only-template-content
+  hide-script-block
+  hide-style-block
 >
   <Example03></Example03>
 </DemoBlock>
@@ -66,7 +68,8 @@ Button component with various styles and capabilities.
   title="Buttons with icons"
   description="Buttons with icons on the left or right side"
   :code="Example04Raw"
-  only-template-content
+  hide-script-block
+  hide-style-block
 >
   <Example04></Example04>
 </DemoBlock>
@@ -77,7 +80,8 @@ Button component with various styles and capabilities.
   title="Button states"
   description="Disabled, block and elevated buttons"
   :code="Example05Raw"
-  only-template-content
+  hide-script-block
+  hide-style-block
 >
   <Example05></Example05>
 </DemoBlock>

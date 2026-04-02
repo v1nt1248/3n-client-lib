@@ -55,6 +55,9 @@
 
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
+
+    mask-size: 24px;
+    -webkit-mask-size: 24px;
     pointer-events: none;
   }
 

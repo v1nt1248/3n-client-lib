@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { onMounted, onUnmounted, ref, watch } from 'vue';
-  import { createHighlighter } from 'shiki';
+  // import { createHighlighter } from 'shiki';
+  import { getHighlighter } from '../../utils/shiki';
 
   const props = defineProps<{
     code: string;
@@ -26,18 +27,26 @@
   function dedent(code: string): string {
     const lines = code.split('\n');
 
-    const minIndent = lines.reduce((min, line) => {
-      if (line.trim().length === 0) return min;
-      const match = line.match(/^(\s*)/);
-      const count = match ? match[1].length : 0;
-      return count < min ? count : min;
-    }, Infinity);
+    // 1. Находим все непустые строки и их отступы
+    const indents = lines
+      .filter(line => line.trim().length > 0)
+      .map(line => {
+        const match = line.match(/^(\s*)/);
+        return match ? match[1].length : 0;
+      });
 
-    if (minIndent === Infinity || minIndent === 0) {
-      return code;
-    }
+    if (indents.length === 0) return code;
 
-    return lines.map(line => (line.length >= minIndent ? line.substring(minIndent) : line)).join('\n');
+    // 2. Минимальный отступ среди всех значимых строк
+    const minIndent = Math.min(...indents);
+
+    if (minIndent === 0) return code;
+
+    // 3. Обрезаем ровно minIndent
+    return lines
+      .map(line => (line.length >= minIndent ? line.substring(minIndent) : line.trimStart()))
+      .join('\n')
+      .trim(); // Убираем лишние хвосты
   }
 
   function processCode(rawCode: string): string {
@@ -86,15 +95,14 @@
 
   watch(
     () => [props.code, props.hideScriptBlock, props.hideStyleBlock, props.onlyTemplateContent],
-    updateHighlight,
+    async () => {
+      shiki = await getHighlighter();
+      updateHighlight();
+    },
   );
 
   onMounted(async () => {
-    shiki = await createHighlighter({
-      themes: Object.values(THEME_MAP),
-      langs: ['vue', 'typescript', 'javascript', 'css', 'scss'],
-    });
-
+    shiki = await getHighlighter();
     updateHighlight();
 
     observer = new MutationObserver(() => {
