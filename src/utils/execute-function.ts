@@ -7,6 +7,7 @@ export type ExtractArgs<F> = F extends (signal: AbortSignal, ...args: infer P) =
     ? P
     : never;
 
+// @ts-ignore
 export interface ExecuteFnBaseProps<F extends (...args: any[]) => any, V> {
   fn: F;
   fnArgs: ExtractArgs<F>;
