@@ -1,8 +1,12 @@
-import { colorsMap } from '@/constants';
+export function generateColor(str: string): string {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    // Generate a unique number based on the characters in a string
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  // Use the remainder of the division to obtain the hue (0-360)
+  const h = Math.abs(hash % 360);
 
-export function getElementColor(initials = '?'): string {
-  const code =
-    initials.length === 1 ? initials.charCodeAt(0) % 64 : (initials.charCodeAt(0) + initials.charCodeAt(1)) % 64;
-  const codeStr = initials[0] === '?' ? '?' : code.toFixed();
-  return colorsMap[codeStr];
+  return `hsl(${h}, 60%, 40%)`; // S = 60%, L = 40% — a dark enough background for white text
+  // return `hsl(${h}, 40%, 35%)`; // pastel colors
 }

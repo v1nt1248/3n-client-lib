@@ -60,9 +60,6 @@ declare module 'vue' {
     $closeDialogs: () => void;
     dialogStack: Ref<DialogOptions<any>[]>;
     $createNotice: (params: Ui3nNotificationProps) => void;
-    $locale: string;
-    $tr: (key: string, placeholders?: Record<string, string>) => string;
-    $changeLocale: (lang: string) => void;
     $emitter: VueEventBus<any>;
   }
 
@@ -122,10 +119,5 @@ declare module 'pinia' {
     };
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: VueEventBus<any>;
-    $i18n: {
-      locale: string;
-      changeLocale: (lang: string) => void;
-      tr: (key: string, placeholders?: Record<string, string>) => string;
-    };
   }
 }

@@ -9,6 +9,9 @@ export * from './round';
 export * from './get-random-id';
 export * from './textarea-max-rows';
 export * from './for-web3n';
+export * from './copy-to-clipboard';
+export * from './execute-function';
+export * from './remove-whitespace-in-string';
 
 export * from './ui/selection';
 export * from './ui/mark-search';

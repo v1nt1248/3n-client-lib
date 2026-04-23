@@ -47,13 +47,11 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nLongPress
 
 ### Plugins [`@v1nt1248/3nclient-lib/plugins`]
-  - i18n
   - dialogs
   - notifications
   - vue-bus
 
 ### Store plugins [`@v1nt1248/3nclient-lib/plugins`]
-  - store-i18n
   - store-dialogs
   - store-notifications
   - store-vue-bus
@@ -70,6 +68,9 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - round
   - getRandomId
   - textareaMaxRows
+  - copyToClipboard
+  - executeFunc
+  - removeWhitespaceInString
   - selection [UI]
   - markSearch [UI]
   - html2text [UI]
