@@ -2,6 +2,10 @@
   --svg: url('../icons/material-symbols--ad-group-outline.svg');
 }
 
+[data-icon='cards-star-outline'] {
+  --svg: url('../icons/material-symbols--cards-star-outline.svg');
+}
+
 [data-icon='cloud-alert-outline-rounded'] {
   --svg: url('../icons/material-symbols--cloud-alert-outline-rounded.svg');
 }
