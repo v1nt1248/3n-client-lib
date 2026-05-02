@@ -466,6 +466,10 @@
   --svg: url('../icons/ic--round-file-upload.svg');
 }
 
+[data-icon='round-flip'] {
+  --svg: url('../icons/ic--round-flip.svg');
+}
+
 [data-icon='round-folder'] {
   --svg: url('../icons/ic--round-folder.svg');
 }
@@ -684,6 +688,14 @@
 
 [data-icon='round-report-gmailerrorred'] {
   --svg: url('../icons/ic--round-report-gmailerrorred.svg');
+}
+
+[data-icon='round-rotate-left'] {
+  --svg: url('../icons/ic--round-rotate-left.svg');
+}
+
+[data-icon='round-rotate-right'] {
+  --svg: url('../icons/ic--round-rotate-right.svg');
 }
 
 [data-icon='round-schedule'] {
