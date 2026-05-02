@@ -470,6 +470,10 @@
   --svg: url('../icons/ic--round-flip.svg');
 }
 
+[data-icon='round-flip-vertical'] {
+  --svg: url('../icons/mdi--flip-vertical.svg');
+}
+
 [data-icon='round-folder'] {
   --svg: url('../icons/ic--round-folder.svg');
 }

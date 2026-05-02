@@ -112,6 +112,7 @@ export const iconList: string[] = [
   'round-file-download',
   'round-file-upload',
   'round-flip',
+  'round-flip-vertical',
   'round-folder',
   'round-folder-data',
   'round-format-align-center',
