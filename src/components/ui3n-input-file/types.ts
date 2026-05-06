@@ -1,3 +1,5 @@
+import { VNode } from 'vue';
+
 export interface Ui3nInputFileProps {
   /**
    * Selected files
