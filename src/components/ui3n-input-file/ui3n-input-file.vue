@@ -1,34 +1,10 @@
-<template>
-  <div :class="$style.ui3nInputFile">
-    <label
-      :for="id"
-      :class="[$style.label, disabled && $style.disabled]"
-      @click.stop.prevent="selectFiles"
-    >
-      {{ buttonText }}
-    </label>
-
-    <input
-      :id="id"
-      ref="fileInput"
-      type="file"
-      name="file"
-      hidden
-      :multiple="multiple"
-      :accept="allowedFileTypes"
-      :disabled="disabled"
-      @change="onChange"
-    >
-  </div>
-</template>
-
 <script lang="ts" setup>
   import { ref } from 'vue';
   import size from 'lodash/size';
   import last from 'lodash/last';
   import trim from 'lodash/trim';
   import { getRandomId, formatFileSize } from '@/utils';
-  import type { Ui3nInputFileProps, Ui3nInputFileEmits } from './types';
+  import type { Ui3nInputFileProps, Ui3nInputFileEmits, Ui3nInputFileSlots } from './types';
   import type { Nullable } from '@/types';
 
   const props = withDefaults(defineProps<Ui3nInputFileProps>(), {
@@ -37,6 +13,7 @@
     allowedFileTypes: '*',
   });
   const emits = defineEmits<Ui3nInputFileEmits>();
+  defineSlots<Ui3nInputFileSlots>();
 
   const id = getRandomId(4);
   const fileInput = ref<Nullable<HTMLInputElement>>(null);
@@ -140,6 +117,30 @@
     fileInput.value && (fileInput.value!.value = '');
   }
 </script>
+
+<template>
+  <div :class="$style.ui3nInputFile">
+    <label
+      :for="id"
+      :class="[$style.label, disabled && $style.disabled]"
+      @click.stop.prevent="selectFiles"
+    >
+      <slot>{{ buttonText }}</slot>
+    </label>
+
+    <input
+      :id="id"
+      ref="fileInput"
+      type="file"
+      name="file"
+      hidden
+      :multiple="multiple"
+      :accept="allowedFileTypes"
+      :disabled="disabled"
+      @change="onChange"
+    />
+  </div>
+</template>
 
 <style lang="scss" module>
   .ui3nInputFile {

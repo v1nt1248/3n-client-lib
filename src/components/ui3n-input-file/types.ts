@@ -41,3 +41,10 @@ export interface Ui3nInputFileEmits {
    */
   (event: 'error', value: string): void;
 }
+
+export interface Ui3nInputFileSlots {
+  /**
+   * Default slot
+   */
+  default: () => VNode;
+}
