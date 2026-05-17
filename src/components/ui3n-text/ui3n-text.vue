@@ -187,7 +187,7 @@
     border-radius: var(--spacing-xs);
     background-color: var(--color-bg-control-secondary-default);
     padding: 0 var(--spacing-s);
-    font-family: Manrope, sans-serif;
+    font-family: Inter, system-ui, sans-serif;
     font-size: var(--font-13);
     line-height: var(--font-16);
     font-weight: 400;
