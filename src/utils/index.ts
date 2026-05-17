@@ -16,7 +16,7 @@ export * from './remove-whitespace-in-string';
 export * from './ui/selection';
 export * from './ui/mark-search';
 export * from './ui/has-slot-content';
-export * from './ui/get-element-color';
+export * from './ui/generate-color';
 export * from './ui/invert-color';
 export * from './ui/html2text';
 export * from './ui/prepare-date-as-string';
