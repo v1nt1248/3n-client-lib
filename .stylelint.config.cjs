@@ -47,6 +47,34 @@ module.exports = {
           'each',
           'content',
           'use',
+          'font-feature-values',
+          'character-variant',
+          'styleset',
+        ],
+      },
+    ],
+    'at-rule-descriptor-no-unknown': [
+      true,
+      {
+        'ignoreDescriptors': {
+          'font-feature-values': [
+            'character-variant',
+            'styleset',
+            'swash',
+            'ornaments',
+            'annotation',
+          ],
+        },
+      },
+    ],
+    'property-no-unknown': [
+      true,
+      {
+        'ignoreSelectors': ['/.*Inter.*/'],
+        'ignoreAtRules': [
+          'font-feature-values',
+          'character-variant',
+          'styleset',
         ],
       },
     ],

@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 import { sleep } from './processes/sleep';
 
-export type ExtractArgs<F> = F extends (signal: AbortSignal, ...args: infer P) => any
+type ExtractArgs<F> = F extends (signal: AbortSignal, ...args: infer P) => any
   ? P
   : F extends (...args: infer P) => any
     ? P
     : never;
 
 // @ts-ignore
-export interface ExecuteFnBaseProps<F extends (...args: any[]) => any, V> {
+interface BaseProps<F extends (...args: any[]) => any, V> {
   fn: F;
   fnArgs: ExtractArgs<F>;
+  passSignal?: boolean;
   timeoutValue?: number;
   retryCount?: number;
   retryDelay?: number;
@@ -20,27 +21,27 @@ export interface ExecuteFnBaseProps<F extends (...args: any[]) => any, V> {
   actionInFinally?: () => void;
 }
 
-export interface ExecuteFunctionPropsNoCatchError<
+interface ExecuteFunctionPropsNoCatchError<
   F extends (...args: any[]) => any,
   V = Awaited<ReturnType<F>>,
-> extends ExecuteFnBaseProps<F, V> {
+> extends BaseProps<F, V> {
   doesErrorPropagateStop: true;
   defaultValue: V;
 }
 
-export interface ExecuteFunctionPropsCatchError<
+interface ExecuteFunctionPropsCatchError<
   F extends (...args: any[]) => any,
   V = Awaited<ReturnType<F>>,
-> extends ExecuteFnBaseProps<F, V> {
+> extends BaseProps<F, V> {
   doesErrorPropagateStop?: false;
   defaultValue?: undefined;
 }
 
-export type ExecuteFunctionProps<F extends (...args: any[]) => any, V = Awaited<ReturnType<F>>> =
+type ExecuteFunctionProps<F extends (...args: any[]) => any, V = Awaited<ReturnType<F>>> =
   | ExecuteFunctionPropsCatchError<F, V>
   | ExecuteFunctionPropsNoCatchError<F, V>;
 
-export class ExecuteFunctionError extends Error {
+class ExecuteFunctionError extends Error {
   public cause: unknown;
   constructor(message: string, data?: { cause?: unknown; fnArgs?: unknown[] }) {
     super(message);
@@ -55,6 +56,7 @@ export async function executeFunc<F extends (...args: any[]) => any, V = Awaited
   const {
     fn,
     fnArgs,
+    passSignal = false,
     defaultValue,
     doesErrorPropagateStop = false,
     timeoutValue = 5000,
@@ -66,77 +68,73 @@ export async function executeFunc<F extends (...args: any[]) => any, V = Awaited
     actionInFinally,
   } = props;
 
-  let lastError: any;
+  const argsArray = fnArgs as ExtractArgs<F>;
   const totalAttempts = retryCount + 1;
+  let lastError: any;
 
   for (let attempt = 1; attempt <= totalAttempts; attempt++) {
     const controller = new AbortController();
-    const { signal } = controller;
     let tOut: ReturnType<typeof setTimeout> | null = null;
 
     try {
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        if (timeoutValue <= 0) {
-          return;
-        }
+      const executionPromise = (async () => {
+        return passSignal ? fn(controller.signal, ...argsArray) : fn(...argsArray);
+      })();
 
-        tOut = setTimeout(() => {
-          controller.abort();
-          reject(
-            new ExecuteFunctionError(`Attempt ${attempt}/${totalAttempts} timed out.`, {
-              cause: 'timeout',
-              fnArgs: fnArgs as unknown[],
-            }),
-          );
-        }, timeoutValue);
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        if (timeoutValue > 0) {
+          tOut = setTimeout(() => {
+            controller.abort();
+            reject(
+              new ExecuteFunctionError(`Attempt ${attempt}/${totalAttempts} timed out.`, {
+                cause: 'timeout',
+                fnArgs: argsArray,
+              }),
+            );
+          }, timeoutValue);
+        }
       });
 
-      const argsArray = fnArgs as any[];
-      const resultPromise = fn.length > argsArray.length ? fn(signal, ...argsArray) : fn(...argsArray);
+      const result = await Promise.race([executionPromise, timeoutPromise]);
 
-      const res = await Promise.race([Promise.resolve(resultPromise), timeoutPromise]);
-
+      if (tOut) {
+        clearTimeout(tOut);
+      }
       actionIfSuccess?.();
+      actionInFinally?.();
+      return result;
+    } catch (err) {
       if (tOut) {
         clearTimeout(tOut);
       }
-      return res;
-    } catch (e: any) {
-      if (tOut) {
-        clearTimeout(tOut);
-      }
+      lastError = err;
 
-      lastError = e;
-
-      if (attempt === totalAttempts) {
-        break;
-      }
-
-      console.warn(`Attempt ${attempt} failed. Retrying in ${retryDelay}ms...`, e);
-
-      if (retryDelay > 0) {
-        await sleep(retryDelay);
+      if (attempt < totalAttempts) {
+        console.warn(`[executeFunc] Attempt ${attempt} failed. Retrying in ${retryDelay}ms...`, err);
+        if (retryDelay > 0) {
+          await sleep(retryDelay);
+        }
       }
     }
   }
 
   const isTimeout = lastError instanceof ExecuteFunctionError && lastError.cause === 'timeout';
-  const isAbort = lastError.name === 'AbortError' || lastError.name === 'CanceledError';
+  const isAbort = lastError?.name === 'AbortError' || lastError?.name === 'CanceledError';
 
   const finalError = isTimeout
     ? lastError
     : new ExecuteFunctionError(isAbort ? 'Operation aborted' : errorText, {
         cause: lastError,
-        fnArgs: fnArgs as unknown[],
+        fnArgs: argsArray,
       });
 
-  console.error(`All ${totalAttempts} attempts failed.`, finalError);
+  console.error(`[executeFunc] All ${totalAttempts} attempts failed.`, finalError);
   actionIfError?.(finalError);
+  actionInFinally?.();
 
   if (!doesErrorPropagateStop) {
     throw finalError;
   }
 
-  actionInFinally?.();
   return defaultValue as V;
 }

@@ -12,22 +12,22 @@
 </template>
 
 <style>
-/* for the demo page */
-#ui-3n-lib {
-  position: fixed;
-  inset: 0;
-  background-color: var(--color-bg-block-primary-default);
-}
+  /* for the demo page */
+  #ui-3n-lib {
+    position: fixed;
+    inset: 0;
+    background-color: var(--color-bg-block-primary-default);
+  }
 </style>
 
 <style lang="scss" scoped>
-.app {
-  position: fixed;
-  inset: 0;
-  padding: 8px;
-  font-family: system-ui, Manrope, sans-serif;
-  background: var(--color-bg-block-primary-default);
-  color: var(--color-text-block-primary-default);
-  overflow: auto;
-}
+  .app {
+    position: fixed;
+    inset: 0;
+    padding: 8px;
+    font-family: Inter, system-ui, sans-serif;
+    background: var(--color-bg-block-primary-default);
+    color: var(--color-text-block-primary-default);
+    overflow: auto;
+  }
 </style>
