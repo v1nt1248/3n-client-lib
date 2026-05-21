@@ -18,14 +18,14 @@ export function storeDialogs(context: any): {
   const { app = {} } = context;
   const { config = {} } = app;
   const { globalProperties = {} } = config;
-  const { $openDialog, $closeDialog, $closeDialogs, dialogStack } = globalProperties;
+  const { $dialog } = globalProperties;
 
   return {
     $dialogs: {
-      open: $openDialog,
-      close: $closeDialog,
-      closeAll: $closeDialogs,
-      dialogStack,
+      open: $dialog.$openDialog,
+      close: $dialog.$closeDialog,
+      closeAll: $dialog.$closeDialogs,
+      dialogStack: $dialog.dialogStack,
     },
   };
 }
