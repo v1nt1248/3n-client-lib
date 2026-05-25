@@ -1,13 +1,35 @@
 stages:
+  - prep
   - build
   - publish
+
+
+prep:
+  stage: prep
+  image: node-20_pnpm-9.3.0
+  script:
+    - pnpm i --frozen-lockfile 
+  artifacts:
+    paths:
+      - node_modules
+    expire_in: 1h
+
+
+build module:
+  stage: build
+  image: node-20_pnpm-9.3.0
+  script:
+    - pnpm run build
+  artifacts:
+    paths:
+      - dist
+    expire_in: 1h
 
 
 build docs:
   stage: build
   image: node-20_pnpm-9.3.0
   script:
-    - pnpm i --frozen-lockfile 
     - pnpm run docs:build
     - cd docs/.vitepress/dist && zip -rq ../../../vitepress.zip ./*
   artifacts:
@@ -21,3 +43,17 @@ publish docs:
   image: node-20
   script:
     - bash ci/publish-vitepress.sh vitepress.zip
+
+
+publish to npm:
+  stage: publish
+  image: node-20_pnpm-9.3.0
+  needs:
+    - prep
+    - build module
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
+  script:
+    - bash ci/publish-task.sh $NPM_PUBLISH_TOKEN
+
