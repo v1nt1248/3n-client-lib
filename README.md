@@ -71,6 +71,7 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - copyToClipboard
   - executeFunc
   - removeWhitespaceInString
+  - debounce
   - selection [UI]
   - markSearch [UI]
   - html2text [UI]

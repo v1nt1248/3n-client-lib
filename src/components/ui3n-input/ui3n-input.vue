@@ -1,27 +1,84 @@
 <script lang="ts" setup>
-  import { computed, onMounted, ref, watch } from 'vue';
+  import { computed, nextTick, onMounted, ref, watch } from 'vue';
   import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
   import type { Ui3nInputEmits, Ui3nInputProps } from './types';
 
-  const props = defineProps<Ui3nInputProps>();
+  const props = withDefaults(defineProps<Ui3nInputProps>(), {
+    modelValue: '',
+    type: 'text',
+    size: 'regular',
+    label: '',
+    placeholder: '',
+    icon: '',
+    iconColor: '',
+    displayStateMode: undefined,
+    displayStateMessage: '',
+    rules: () => [],
+    clearable: false,
+    autofocus: false,
+    validateAtStartup: false,
+    hideBottomSpace: false,
+    displayStateWithIcon: false,
+    disabled: false,
+  });
   const emits = defineEmits<Ui3nInputEmits>();
 
   const inputElement = ref<HTMLInputElement | null>(null);
-  const text = ref<string>('');
+  const internalValue = ref('');
   const isDirty = ref(false);
   const isFocused = ref(false);
   const errorMessage = ref('');
-
-  const isInitialized = ref(false);
 
   const cssIconColor = computed(() => {
     if (props.disabled) {
       return 'var(--color-icon-control-primary-disabled)';
     }
-
     return props.iconColor || 'var(--color-icon-control-primary-default)';
   });
+
+  const showSuccessIcon = computed(
+    () => props.displayStateMode === 'success' && props.displayStateWithIcon && !isFocused.value,
+  );
+
+  const showClearButton = computed(
+    () => !props.disabled && props.clearable && !!internalValue.value && !showSuccessIcon.value,
+  );
+
+  const showMessageBlock = computed(
+    () => !!errorMessage.value || !!(props.displayStateMode && props.displayStateMessage),
+  );
+
+  const isErrorMessage = computed(
+    () => !!errorMessage.value || (props.displayStateMode === 'error' && !!props.displayStateMessage),
+  );
+
+  const isSuccessMessage = computed(() => props.displayStateMode === 'success' && !!props.displayStateMessage);
+
+  function getTargetValue(event: Event | KeyboardEvent): string {
+    return (event.target as HTMLInputElement).value;
+  }
+
+  function validate(value: string) {
+    const errors: string[] = [];
+    for (const rule of props.rules) {
+      if (typeof rule !== 'function') {
+        continue;
+      }
+
+      const result = rule(value);
+      if (typeof result === 'string') {
+        errors.push(result);
+      } else if (!result) {
+        errors.push('Invalid');
+      }
+    }
+
+    errorMessage.value = errors.join('. ');
+    if (isDirty.value || props.validateAtStartup) {
+      emits('update:valid', errors.length === 0);
+    }
+  }
 
   function onFocus(event: Event) {
     isFocused.value = true;
@@ -29,21 +86,21 @@
   }
 
   function onBlur(event: Event) {
-    setTimeout(() => {
+    nextTick(() => {
       isFocused.value = false;
       emits('blur', event);
-    }, 100);
+    });
   }
 
   function onChange(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
+    const value = getTargetValue(event);
     validate(value);
     emits('change', value);
   }
 
-  function onInput(ev: Event) {
-    const value = (ev.target as HTMLInputElement).value;
-    text.value = value;
+  function onInput(event: Event) {
+    const value = getTargetValue(event);
+    internalValue.value = value;
     isDirty.value = true;
     validate(value);
     emits('update:modelValue', value);
@@ -51,19 +108,15 @@
   }
 
   function onEnterKeydown(event: KeyboardEvent) {
-    const { altKey, ctrlKey, metaKey, shiftKey, target } = event;
-    const value = (target as HTMLInputElement).value;
+    const { altKey, ctrlKey, metaKey, shiftKey } = event;
     isDirty.value = true;
-    validate(value);
-    emits('update:modelValue', value);
-    emits('enter', { value, altKey, ctrlKey, metaKey, shiftKey });
+    validate(internalValue.value);
+    emits('enter', { value: internalValue.value, altKey, ctrlKey, metaKey, shiftKey });
   }
 
   function onEscapeKeydown(event: KeyboardEvent) {
-    const value = (event.target as HTMLInputElement).value;
     isDirty.value = true;
-    validate(value);
-    emits('update:modelValue', value);
+    validate(internalValue.value);
     emits('escape', event);
   }
 
@@ -72,31 +125,20 @@
   }
 
   function clearValue() {
-    text.value = '';
+    internalValue.value = '';
     isDirty.value = false;
-    validate('');
+    errorMessage.value = '';
+
+    if (inputElement.value) {
+      inputElement.value.value = '';
+      inputElement.value.focus();
+    }
+
     emits('update:modelValue', '');
     emits('input', '');
     emits('change', '');
     emits('clear');
-  }
-
-  function validate(text: string) {
-    errorMessage.value = '';
-    if (props.rules && props.rules.length) {
-      for (const validateFunction of props.rules) {
-        if (typeof validateFunction === 'function') {
-          const res = validateFunction(text);
-          if (typeof res === 'string') {
-            errorMessage.value += `${res} `;
-          }
-        }
-      }
-    }
-
-    if (isDirty.value) {
-      emits('update:valid', !errorMessage.value);
-    }
+    emits('update:valid', true);
   }
 
   defineExpose({
@@ -106,35 +148,34 @@
   });
 
   onMounted(() => {
-    if (props.autofocus && inputElement.value) {
-      inputElement.value.focus();
+    internalValue.value = props.modelValue ?? '';
+    if (inputElement.value) {
+      inputElement.value.value = internalValue.value;
+      if (props.autofocus) {
+        inputElement.value.focus();
+      }
+      emits('init', inputElement.value);
     }
 
-    emits('init', inputElement.value!);
-    if (props.validateAtStartup && !isInitialized.value) {
-      validate(text.value);
-    }
-    if (!isInitialized.value) {
-      isInitialized.value = true;
+    if (props.validateAtStartup) {
+      isDirty.value = true;
+      validate(internalValue.value);
     }
   });
 
   watch(
     () => props.modelValue,
-    (val, oldVal) => {
-      if ((val ?? '') !== (oldVal ?? '')) {
-        text.value = val ?? '';
+    val => {
+      const normalized = val ?? '';
+      if (normalized !== internalValue.value) {
+        internalValue.value = normalized;
 
-        if ((props.validateAtStartup && !isInitialized.value) || isInitialized.value) {
-          validate(text.value);
+        if (inputElement.value) {
+          inputElement.value.value = normalized;
         }
-
-        if (!isInitialized.value) {
-          isInitialized.value = true;
-        }
+        validate(normalized);
       }
     },
-    { immediate: true },
   );
 </script>
 
@@ -142,10 +183,11 @@
   <div
     :class="[
       $style.ui3nInput,
+      size === 'large' && $style.large,
       label && $style.withLabel,
       hideBottomSpace && $style.withoutBottomSpace,
       icon && $style.withIcon,
-      clearable && text && $style.clearable,
+      clearable && internalValue && $style.clearable,
       disabled && $style.disabled,
       (!!errorMessage || displayStateMode === 'error') && $style.error,
       displayStateMode === 'success' && $style.success,
@@ -161,8 +203,7 @@
     <input
       ref="inputElement"
       autocomplete="off"
-      :type="type || 'text'"
-      :value="text"
+      :type="type"
       :placeholder="placeholder"
       :disabled="disabled"
       :class="$style.ui3nInputField"
@@ -178,22 +219,20 @@
     <ui3n-icon
       v-if="icon"
       :icon="icon"
-      :width="16"
-      :height="16"
+      :size="16"
       :class="[$style.ui3nInputIcon, disabled && $style.ui3nInputIconDisabled]"
     />
 
     <ui3n-icon
-      v-if="displayStateMode === 'success' && displayStateWithIcon && !isFocused"
+      v-if="showSuccessIcon"
       icon="round-check-circle-outline"
-      :width="16"
-      :height="16"
+      :size="16"
       color="var(--success-content-default)"
       :class="$style.ui3nInputSuccessIcon"
     />
 
     <ui3n-button
-      v-if="clearable && !!text && !(displayStateMode === 'success' && displayStateWithIcon && !isFocused)"
+      v-if="showClearButton"
       type="icon"
       size="small"
       color="transparent"
@@ -201,15 +240,17 @@
       icon-size="16"
       icon-color="var(--color-icon-control-accent-default)"
       :class="$style.clearBtn"
+      @mousedown.prevent
+      @touchstart.prevent
       @click="clearValue"
     />
 
     <div
-      v-if="(text && errorMessage) || (isDirty && errorMessage) || (displayStateMode && displayStateMessage)"
+      v-if="showMessageBlock"
       :class="[
         $style.ui3nInputFieldMessage,
-        (errorMessage || (displayStateMode === 'error' && displayStateMessage)) && $style.ui3nInputErrorMessage,
-        displayStateMode === 'success' && displayStateMessage && $style.ui3nInputSuccessMessage,
+        isErrorMessage && $style.ui3nInputErrorMessage,
+        isSuccessMessage && $style.ui3nInputSuccessMessage,
       ]"
     >
       {{ errorMessage || displayStateMessage }}
@@ -219,14 +260,41 @@
 
 <style lang="scss" module>
   .ui3nInput {
-    --ui3n-input-height: var(--spacing-l);
+    --ui3n-input-height: 32px;
+    --ui3n-input-font-size: var(--font-13);
+    --ui3n-input-border-radius: var(--spacing-xs);
     --ui3n-input-padding-left: var(--spacing-s);
     --ui3n-input-padding-right: var(--spacing-s);
+    --ui3n-input-icon-size: 16px;
+    --ui3n-input-label-offset: calc(var(--font-16) + var(--spacing-xs));
+    --ui3n-input-message-top: calc(var(--ui3n-input-height) + var(--ui3n-input-label-offset) + 2px);
+
+    &:not(.withLabel) {
+      --ui3n-input-label-offset: 0;
+    }
+
+    &.large {
+      --ui3n-input-height: 48px;
+      --ui3n-input-font-size: var(--font-16);
+      --ui3n-input-border-radius: 8px;
+      --ui3n-input-padding-left: 12px;
+      --ui3n-input-padding-right: 12px;
+
+      .clearBtn {
+        right: 2px;
+      }
+
+      &.withIcon {
+        .ui3nInputIcon {
+          left: 6px;
+        }
+      }
+    }
 
     position: relative;
     width: 100%;
     padding: 1px 1px 15px 1px;
-    border-radius: var(--spacing-xs);
+    border-radius: var(--ui3n-input-border-radius);
 
     &.withoutBottomSpace {
       padding-bottom: 0;
@@ -249,7 +317,7 @@
       }
 
       .ui3nInputIcon {
-        color: v-bind(cssIconColor) !important;
+        color: v-bind(cssIconColor);
       }
     }
   }
@@ -273,20 +341,25 @@
     outline: none;
     height: var(--ui3n-input-height);
     padding: 0 var(--ui3n-input-padding-right) 0 var(--ui3n-input-padding-left);
-    border-radius: var(--spacing-xs);
+    border-radius: var(--ui3n-input-border-radius);
     background-color: var(--color-bg-control-secondary-default);
-    font-size: var(--font-13);
-    line-height: var(--font-16);
+    font-size: var(--ui3n-input-font-size);
+    line-height: var(--spacing-m);
     font-weight: 400;
     color: var(--color-text-control-primary-default);
-    transition: all 0.2s ease-in-out;
+    transition:
+      background-color 0.2s ease-in-out,
+      color 0.2s ease-in-out;
 
     &::placeholder {
       color: var(--color-text-control-secondary-default);
       font-style: italic;
-      font-size: var(--font-13);
-      line-height: var(--font-16);
+      font-size: var(--ui3n-input-font-size);
       font-weight: 400;
+    }
+
+    &:focus {
+      outline: none;
     }
 
     &[disabled] {
@@ -297,13 +370,13 @@
 
   .ui3nInputIcon {
     position: absolute;
-    left: var(--half-size, 4px);
-    top: calc((var(--ui3n-input-height) - 16px) / 2);
-    color: var(--color-icon-control-secondary-default) !important;
+    left: var(--spacing-xs);
+    top: calc((var(--ui3n-input-height) - var(--ui3n-input-icon-size)) / 2);
+    color: var(--color-icon-control-secondary-default);
   }
 
   .ui3nInputIconDisabled {
-    color: v-bind(cssIconColor) !important;
+    color: v-bind(cssIconColor);
   }
 
   .clearBtn {
@@ -317,42 +390,50 @@
     position: absolute;
     left: 0;
     width: 100%;
-    top: 55px;
+    top: calc(var(--ui3n-input-message-top) + 2px);
     font-style: italic;
     font-size: var(--font-10);
     font-weight: 400;
     line-height: 1.1;
+  }
 
-    &.ui3nInputErrorMessage {
-      color: var(--error-content-default);
-    }
+  .ui3nInputErrorMessage {
+    color: var(--error-content-default);
+  }
 
-    &.ui3nInputSuccessMessage {
-      color: var(--success-content-default);
-    }
+  .ui3nInputSuccessMessage {
+    color: var(--success-content-default);
   }
 
   .clearable {
     --ui3n-input-padding-right: var(--spacing-ml);
+
+    &.large {
+      --ui3n-input-padding-right: calc(var(--spacing-ml) + 4px);
+    }
   }
 
   .withIcon {
     --ui3n-input-padding-left: var(--spacing-ml);
+
+    &.large {
+      --ui3n-input-padding-left: calc(var(--spacing-ml) + 4px);
+    }
   }
 
   .error {
     .ui3nInputLabel {
-      color: var(--error-content-default) !important;
+      color: var(--error-content-default);
     }
 
     .ui3nInputField {
-      outline: 1px solid var(--error-content-default) !important;
+      outline: 1px solid var(--error-content-default);
     }
   }
 
   .success {
     .ui3nInputLabel {
-      color: var(--success-content-default) !important;
+      color: var(--success-content-default);
     }
   }
 
@@ -369,16 +450,16 @@
 
   .withLabel {
     .ui3nInputIcon {
-      top: calc((var(--ui3n-input-height) - 16px) / 2 + 20px);
+      top: calc((var(--ui3n-input-height) - var(--ui3n-input-icon-size)) / 2 + var(--ui3n-input-label-offset));
     }
 
     .ui3nInputSuccessIcon {
       bottom: auto;
-      top: calc((var(--ui3n-input-height) - 16px) / 2 + 20px);
+      top: calc((var(--ui3n-input-height) - var(--ui3n-input-icon-size)) / 2 + var(--ui3n-input-label-offset));
     }
 
     .clearBtn {
-      top: calc((var(--ui3n-input-height) - 24px) / 2 + 20px);
+      top: calc((var(--ui3n-input-height) - 24px) / 2 + var(--ui3n-input-label-offset));
       z-index: 1;
     }
   }

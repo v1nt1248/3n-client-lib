@@ -12,6 +12,7 @@ export * from './for-web3n';
 export * from './copy-to-clipboard';
 export * from './execute-function';
 export * from './remove-whitespace-in-string';
+export * from './debounce';
 
 export * from './ui/selection';
 export * from './ui/mark-search';

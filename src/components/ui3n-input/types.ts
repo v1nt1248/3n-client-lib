@@ -13,6 +13,11 @@ export interface Ui3nInputProps {
    */
   type?: 'text' | 'password';
   /**
+   * Input field size (height)
+   * @default 'regular'
+   */
+  size?: 'regular' | 'large';
+  /**
    * Input placeholder
    */
   placeholder?: string;

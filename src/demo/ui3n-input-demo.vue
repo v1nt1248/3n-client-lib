@@ -137,6 +137,7 @@
           @keydown="onInputComponentEvent('keydown', $event)"
         />
       </demo-layout-cell>
+
       <demo-layout-cell :label="`With label & forced set error state, clearable, value: <i>${val5}</i>`">
         <ui3n-input
           v-model="val5"
@@ -168,6 +169,50 @@
           @blur="onInputComponentEvent('blur', $event)"
           @change="onInputComponentEvent('change', $event)"
           @clear="onInputComponentEvent('clear')"
+        />
+      </demo-layout-cell>
+
+      <demo-layout-cell :label="`Default use, large, value: <i>${val1}</i>`">
+        <ui3n-input
+          v-model="val1"
+          size="large"
+          placeholder="Enter any text"
+          @input="onInputComponentEvent('input', $event)"
+          @keydown="onInputComponentEvent('keydown', $event)"
+          @focus="onInputComponentEvent('focus', $event)"
+          @blur="onInputComponentEvent('blur', $event)"
+          @change="onInputComponentEvent('change', $event)"
+          @enter="onInputComponentEvent('enter', $event)"
+          @escape="onInputComponentEvent('escape', $event)"
+        />
+      </demo-layout-cell>
+
+      <demo-layout-cell :label="`With label, large, value: <i>${val2}</i>`">
+        <ui3n-input
+          v-model="val2"
+          size="large"
+          clearable
+          label="Some label"
+          placeholder="Enter any text"
+          @input="onInputComponentEvent('input', $event)"
+          @focus="onInputComponentEvent('focus', $event)"
+          @blur="onInputComponentEvent('blur', $event)"
+          @change="onInputComponentEvent('change', $event)"
+        />
+      </demo-layout-cell>
+
+      <demo-layout-cell :label="`With label & icon, clearable, large, value: <i>${val3}</i>`">
+        <ui3n-input
+          v-model="val3"
+          size="large"
+          label="Some label"
+          icon="round-search"
+          placeholder="Enter any text"
+          clearable
+          @input="onInputComponentEvent('input', $event)"
+          @focus="onInputComponentEvent('focus', $event)"
+          @blur="onInputComponentEvent('blur', $event)"
+          @change="onInputComponentEvent('change', $event)"
         />
       </demo-layout-cell>
     </div>
