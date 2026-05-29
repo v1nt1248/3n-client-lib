@@ -259,6 +259,7 @@
         :class="$style.trigger"
       >
         <template v-if="chips">
+          <!-- @vue-ignore -->
           <template
             v-for="(item, index) in modelValue"
             :key="item.id"
