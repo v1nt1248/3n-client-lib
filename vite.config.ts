@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts';
 import vueDevTools from 'vite-plugin-vue-devtools';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import { resolve } from 'node:path';
 
 const config = {
@@ -31,9 +32,22 @@ if (currentConfig === undefined) {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueDevTools(), dts({ insertTypesEntry: true })],
+  plugins: [
+    vue(),
+    vueDevTools(),
+    dts({ insertTypesEntry: true }),
+    nodePolyfills({
+      globals: {
+        Buffer: true,
+        process: true,
+      },
+      protocolImports: true,
+      include: ['url', 'fs', 'path'],
+    }),
+  ],
   resolve: {
     alias: {
+      'source-map-js': 'source-map',
       '@': resolve(__dirname, 'src'),
     },
   },

@@ -2,9 +2,11 @@ import type { VNode } from 'vue';
 
 export interface Ui3nButtonProps {
   /** Button type */
-  type?: 'primary' | 'secondary' | 'tertiary' | 'icon' | 'custom';
+  type?: 'primary' | 'secondary' | 'tertiary' | 'outline' | 'icon' | 'custom';
   /** Button size */
-  size?: 'regular' | 'small';
+  size?: 'small' | 'regular' | 'large';
+  /** The unrounded button */
+  square?: boolean;
   /** Whether to stretch the button to the full width of the parent block */
   block?: boolean;
   /** Button text color */

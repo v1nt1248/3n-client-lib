@@ -12,7 +12,7 @@
   import Ui3nSliderDemo from './ui3n-slider-demo.vue';
   import Ui3nIconDemo from './ui3n-icon-demo.vue';
   import Ui3nSelectorDemo from './ui3n-selector-demo.vue';
-  // import Ui3nButtonDemo from './ui3n-button-demo.vue';
+  import Ui3nButtonDemo from './ui3n-button-demo.vue';
 
   import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
   import Ui3nButton from '../components/ui3n-button/ui3n-button.vue';
@@ -261,6 +261,8 @@
       </ui3n-menu>
     </div>
 
+    <ui3n-button-demo />
+
     <ui3n-slider-demo />
 
     <ui3n-title-demo />
@@ -311,124 +313,124 @@
     </div>
 
     <!-- BUTTON -->
-    <div>
-      <div class="demo-row demo-row--with-title">
-        <div class="demo-row__title">--- BUTTON ---</div>
-        <ui3n-button>Primary</ui3n-button>
-        <ui3n-button disabled>Disabled</ui3n-button>
-        <ui3n-button size="small">Primary</ui3n-button>
-      </div>
-      <div class="demo-row">
-        <div class="demo-row__cell-long">
-          <ui3n-button block>Primary</ui3n-button>
-        </div>
-      </div>
-      <div class="demo-row">
-        <ui3n-button type="secondary">Secondary</ui3n-button>
-        <ui3n-button
-          type="secondary"
-          disabled
-          >Secondary
-        </ui3n-button>
-        <ui3n-button
-          type="secondary"
-          size="small"
-          >Secondary
-        </ui3n-button>
-      </div>
-      <div class="demo-row">
-        <ui3n-button type="tertiary">Tertiary</ui3n-button>
-        <ui3n-button
-          type="tertiary"
-          disabled
-          >Tertiary
-        </ui3n-button>
-        <ui3n-button
-          type="tertiary"
-          size="small"
-          >Tertiary
-        </ui3n-button>
-      </div>
-      <div class="demo-row">
-        <ui3n-button
-          type="custom"
-          color="#2ca089"
-          text-color="#e3f4f1"
-          >Custom
-        </ui3n-button>
-        <ui3n-button
-          type="custom"
-          color="#2ca089"
-          text-color="#e3f4f1"
-          disabled
-        >
-          Custom
-        </ui3n-button>
-        <ui3n-button
-          type="custom"
-          color="var(--warning-content-default)"
-          text-color="#ffefe9"
-          size="small"
-          >Custom
-        </ui3n-button>
-      </div>
-      <div class="demo-row">
-        <ui3n-button icon="round-logout">Primary</ui3n-button>
-        <ui3n-button
-          icon="round-logout"
-          disabled
-          >Primary
-        </ui3n-button>
-        <ui3n-button
-          icon="round-logout"
-          size="small"
-          >Primary
-        </ui3n-button>
-      </div>
-      <div class="demo-row">
-        <ui3n-button
-          icon="round-home"
-          icon-position="left"
-          >Primary
-        </ui3n-button>
-        <ui3n-button
-          icon="round-home"
-          icon-position="left"
-          disabled
-          >Primary
-        </ui3n-button>
-        <ui3n-button
-          icon="round-home"
-          icon-position="left"
-          size="small"
-          >Primary
-        </ui3n-button>
-      </div>
-      <div class="demo-row">
-        <ui3n-button
-          type="icon"
-          icon="round-check"
-        />
-        <ui3n-button
-          type="icon"
-          icon="round-check"
-          disabled
-        />
-        <ui3n-button
-          type="icon"
-          icon="round-check"
-          size="small"
-        />
-      </div>
-      <div class="demo-row">
-        <ui3n-button
-          type="icon"
-          color="var(--color-bg-block-primary-default)"
-          icon="round-close"
-          icon-color="var(--color-icon-control-primary-default)"
-        />
-      </div>
-    </div>
+    <!--    <div>-->
+    <!--      <div class="demo-row demo-row&#45;&#45;with-title">-->
+    <!--        <div class="demo-row__title">-&#45;&#45; BUTTON -&#45;&#45;</div>-->
+    <!--        <ui3n-button>Primary</ui3n-button>-->
+    <!--        <ui3n-button disabled>Disabled</ui3n-button>-->
+    <!--        <ui3n-button size="small">Primary</ui3n-button>-->
+    <!--      </div>-->
+    <!--      <div class="demo-row">-->
+    <!--        <div class="demo-row__cell-long">-->
+    <!--          <ui3n-button block>Primary</ui3n-button>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--      <div class="demo-row">-->
+    <!--        <ui3n-button type="secondary">Secondary</ui3n-button>-->
+    <!--        <ui3n-button-->
+    <!--          type="secondary"-->
+    <!--          disabled-->
+    <!--          >Secondary-->
+    <!--        </ui3n-button>-->
+    <!--        <ui3n-button-->
+    <!--          type="secondary"-->
+    <!--          size="small"-->
+    <!--          >Secondary-->
+    <!--        </ui3n-button>-->
+    <!--      </div>-->
+    <!--      <div class="demo-row">-->
+    <!--        <ui3n-button type="tertiary">Tertiary</ui3n-button>-->
+    <!--        <ui3n-button-->
+    <!--          type="tertiary"-->
+    <!--          disabled-->
+    <!--          >Tertiary-->
+    <!--        </ui3n-button>-->
+    <!--        <ui3n-button-->
+    <!--          type="tertiary"-->
+    <!--          size="small"-->
+    <!--          >Tertiary-->
+    <!--        </ui3n-button>-->
+    <!--      </div>-->
+    <!--      <div class="demo-row">-->
+    <!--        <ui3n-button-->
+    <!--          type="custom"-->
+    <!--          color="#2ca089"-->
+    <!--          text-color="#e3f4f1"-->
+    <!--          >Custom-->
+    <!--        </ui3n-button>-->
+    <!--        <ui3n-button-->
+    <!--          type="custom"-->
+    <!--          color="#2ca089"-->
+    <!--          text-color="#e3f4f1"-->
+    <!--          disabled-->
+    <!--        >-->
+    <!--          Custom-->
+    <!--        </ui3n-button>-->
+    <!--        <ui3n-button-->
+    <!--          type="custom"-->
+    <!--          color="var(&#45;&#45;warning-content-default)"-->
+    <!--          text-color="#ffefe9"-->
+    <!--          size="small"-->
+    <!--          >Custom-->
+    <!--        </ui3n-button>-->
+    <!--      </div>-->
+    <!--      <div class="demo-row">-->
+    <!--        <ui3n-button icon="round-logout">Primary</ui3n-button>-->
+    <!--        <ui3n-button-->
+    <!--          icon="round-logout"-->
+    <!--          disabled-->
+    <!--          >Primary-->
+    <!--        </ui3n-button>-->
+    <!--        <ui3n-button-->
+    <!--          icon="round-logout"-->
+    <!--          size="small"-->
+    <!--          >Primary-->
+    <!--        </ui3n-button>-->
+    <!--      </div>-->
+    <!--      <div class="demo-row">-->
+    <!--        <ui3n-button-->
+    <!--          icon="round-home"-->
+    <!--          icon-position="left"-->
+    <!--          >Primary-->
+    <!--        </ui3n-button>-->
+    <!--        <ui3n-button-->
+    <!--          icon="round-home"-->
+    <!--          icon-position="left"-->
+    <!--          disabled-->
+    <!--          >Primary-->
+    <!--        </ui3n-button>-->
+    <!--        <ui3n-button-->
+    <!--          icon="round-home"-->
+    <!--          icon-position="left"-->
+    <!--          size="small"-->
+    <!--          >Primary-->
+    <!--        </ui3n-button>-->
+    <!--      </div>-->
+    <!--      <div class="demo-row">-->
+    <!--        <ui3n-button-->
+    <!--          type="icon"-->
+    <!--          icon="round-check"-->
+    <!--        />-->
+    <!--        <ui3n-button-->
+    <!--          type="icon"-->
+    <!--          icon="round-check"-->
+    <!--          disabled-->
+    <!--        />-->
+    <!--        <ui3n-button-->
+    <!--          type="icon"-->
+    <!--          icon="round-check"-->
+    <!--          size="small"-->
+    <!--        />-->
+    <!--      </div>-->
+    <!--      <div class="demo-row">-->
+    <!--        <ui3n-button-->
+    <!--          type="icon"-->
+    <!--          color="var(&#45;&#45;color-bg-block-primary-default)"-->
+    <!--          icon="round-close"-->
+    <!--          icon-color="var(&#45;&#45;color-icon-control-primary-default)"-->
+    <!--        />-->
+    <!--      </div>-->
+    <!--    </div>-->
 
     <!-- CHECKBOX -->
     <div class="demo-row demo-row--with-title">
@@ -1059,7 +1061,7 @@
     position: relative;
     width: 100%;
     padding: 16px 16px 400px;
-    background-color: var(--color-bg-block-primary-default);
+    font-family: Inter, system-ui, sans-serif;
 
     .theme {
       position: fixed;
