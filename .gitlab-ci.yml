@@ -8,7 +8,7 @@ prep:
   stage: prep
   image: node-20_pnpm-9.3.0
   script:
-    - pnpm i --frozen-lockfile 
+    - pnpm i --frozen-lockfile
   artifacts:
     paths:
       - node_modules
@@ -18,6 +18,8 @@ prep:
 build module:
   stage: build
   image: node-20_pnpm-9.3.0
+  needs:
+    - prep
   script:
     - pnpm run build
   artifacts:
@@ -29,6 +31,8 @@ build module:
 build docs:
   stage: build
   image: node-20_pnpm-9.3.0
+  needs:
+    - prep
   script:
     - pnpm run docs:build
     - cd docs/.vitepress/dist && zip -rq ../../../vitepress.zip ./*
@@ -41,6 +45,8 @@ build docs:
 publish docs:
   stage: publish
   image: node-20
+  needs:
+    - build docs
   script:
     - bash ci/publish-vitepress.sh vitepress.zip
 

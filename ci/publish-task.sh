@@ -2,7 +2,7 @@
 echo "//registry.npmjs.org/:_authToken=$1" > .npmrc
 
 echo "Publishing package"
-npm publish
+pnpm publish --access public --no-git-checks
 pub_result=$?
 
 rm .npmrc
