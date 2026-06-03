@@ -68,6 +68,13 @@ export default defineConfig({
     ],
   },
   vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler',
+        },
+      },
+    },
     resolve: {
       alias: {
         '@': resolve(__dirname, '../../src'),

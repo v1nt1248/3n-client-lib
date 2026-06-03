@@ -1,29 +1,23 @@
 <script lang="ts" setup>
   import { computed } from 'vue';
-  import { toNumber } from 'lodash';
+  import toNumber from 'lodash/toNumber';
   import type { Ui3nProgressLinearProps } from './types';
 
   const thresholdHeight = 12;
   const thresholdValue = 5;
 
-  const props = withDefaults(
-    defineProps<Ui3nProgressLinearProps>(),
-    {
-      value: 0,
-      height: 2,
-      bgColor: 'var(--color-bg-control-primary-default)',
-      color: 'var(--color-bg-control-accent-default)',
-    },
-  );
+  const props = withDefaults(defineProps<Ui3nProgressLinearProps>(), {
+    value: 0,
+    height: 2,
+    bgColor: 'var(--color-bg-control-primary-default)',
+    color: 'var(--color-bg-control-accent-default)',
+  });
 
   const isValueShown = computed(() => props.withText && !props.indeterminate);
   const innerHeight = computed(() => toNumber(props.height));
   const cssHeight = computed(() => `${innerHeight.value}px`);
   const innerValue = computed(() => toNumber(props.value));
-  const displayValue = computed(() => props.indeterminate
-    ? `20%`
-    : `${Math.min(innerValue.value, 100)}%`,
-  );
+  const displayValue = computed(() => (props.indeterminate ? `20%` : `${Math.min(innerValue.value, 100)}%`));
 </script>
 
 <template>
@@ -105,11 +99,11 @@
 
   @keyframes move {
     from {
-      left: -22%
+      left: -22%;
     }
 
     to {
-      left: 122%
+      left: 122%;
     }
   }
 </style>

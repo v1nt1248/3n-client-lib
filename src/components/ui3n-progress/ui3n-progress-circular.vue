@@ -1,20 +1,17 @@
 <script lang="ts" setup>
   import { computed, onBeforeMount, onBeforeUnmount, ref, useCssModule } from 'vue';
-  import { toNumber } from 'lodash';
+  import toNumber from 'lodash/toNumber';
   import type { Ui3nProgressCircularProps } from './types';
 
   const thresholdSize = 64;
   const indeterminateModeValues = [1, 5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 85, 90, 95, 99];
 
-  const props = withDefaults(
-    defineProps<Ui3nProgressCircularProps>(),
-    {
-      value: 0,
-      size: 64,
-      bgColor: 'var(--color-bg-control-primary-default)',
-      color: 'var(--color-bg-control-accent-default)',
-    },
-  );
+  const props = withDefaults(defineProps<Ui3nProgressCircularProps>(), {
+    value: 0,
+    size: 64,
+    bgColor: 'var(--color-bg-control-primary-default)',
+    color: 'var(--color-bg-control-accent-default)',
+  });
 
   const $style = useCssModule();
 
@@ -47,7 +44,7 @@
 
   const strokeDasharray = computed(() => {
     const value = props.indeterminate ? indeterminateModeValue.value : innerValue.value;
-    const dash = Math.round(circumference.value * value! / 100);
+    const dash = Math.round((circumference.value * value!) / 100);
     const gap = circumference.value - dash;
     return `${dash} ${gap}`;
   });
@@ -58,7 +55,7 @@
     timerId.value = setInterval(() => {
       indeterminateModeValue.value = indeterminateModeValues[index % indeterminateModeValuesLength];
       index += 1;
-      if ((index % indeterminateModeValuesLength) === 1) {
+      if (index % indeterminateModeValuesLength === 1) {
         if (element.value?.classList.contains($style.inverse)) {
           element.value?.classList.remove($style.inverse);
         } else {

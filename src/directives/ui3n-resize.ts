@@ -1,5 +1,5 @@
 import type { DirectiveBinding } from 'vue';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 
 export type Ui3nResizeCbArg = {
   left: number;

@@ -1,5 +1,7 @@
 import { computed, type Ref, ref, watch, UnwrapRef } from 'vue';
-import { get, isEmpty, size } from 'lodash';
+import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+import size from 'lodash/size';
 import {
   Ui3nTableBodyBaseItem,
   Ui3nTableConfig,
@@ -25,8 +27,8 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
   const selectedRowsArray = computed(() =>
     isRowKeyUsed.value
       ? props.body.content.filter(row =>
-        (selectedRows.value as Array<T[keyof T]>).includes(row[currentConfig.value.fieldAsRowKey as keyof T]),
-      )
+          (selectedRows.value as Array<T[keyof T]>).includes(row[currentConfig.value.fieldAsRowKey as keyof T]),
+        )
       : Array.from(selectedRows.value as Set<T>),
   );
   const selectedRowsSize = computed(() =>
@@ -148,7 +150,7 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
       }
     } else {
       isRowKeyUsed.value &&
-      (selectedRows.value as Array<T[keyof T]>).push(row[currentConfig.value.fieldAsRowKey as keyof T]);
+        (selectedRows.value as Array<T[keyof T]>).push(row[currentConfig.value.fieldAsRowKey as keyof T]);
       !isRowKeyUsed.value && (selectedRows.value as Set<T>).add(row);
     }
   }
@@ -186,13 +188,15 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
 
   function changeSortOrder(field: keyof T) {
     if (currentConfig.value.sortOrder?.field === field) {
-      currentConfig.value.sortOrder.direction = currentConfig.value.sortOrder?.direction === 'asc' ? 'desc' : 'asc';
+      currentConfig.value.sortOrder.direction =
+        currentConfig.value.sortOrder?.direction === 'asc' ? 'desc' : 'asc';
     } else {
       currentConfig.value.sortOrder!.field = field as UnwrapRef<keyof T>;
       currentConfig.value.sortOrder!.direction = 'desc';
     }
 
-    currentConfig.value.sortOrder?.field && emits('change:sort', currentConfig.value.sortOrder as Ui3nTableSort<T>);
+    currentConfig.value.sortOrder?.field &&
+      emits('change:sort', currentConfig.value.sortOrder as Ui3nTableSort<T>);
   }
 
   watch(
@@ -201,7 +205,8 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
       if (val && val !== oVal) {
         tableEl.value && tableEl.value.style.setProperty('--ui3n-table-columns-width', val);
       }
-    }, {
+    },
+    {
       immediate: true,
     },
   );
