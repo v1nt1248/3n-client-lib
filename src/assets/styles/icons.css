@@ -366,6 +366,10 @@
   --svg: url('../icons/ic--round-brush.svg');
 }
 
+[data-icon='round-calendar-view-month'] {
+  --svg: url('../icons/ic--round-calendar-view-month.svg');
+}
+
 [data-icon='round-call-end'] {
   --svg: url('../icons/ic--round-call-end.svg');
 }
@@ -428,6 +432,10 @@
 
 [data-icon='round-content-copy'] {
   --svg: url('../icons/ic--round-content-copy.svg');
+}
+
+[data-icon='round-credit-card'] {
+  --svg: url('../icons/ic--round-credit-card.svg');
 }
 
 [data-icon='round-crisis-alert'] {
@@ -622,6 +630,14 @@
   --svg: url('../icons/ic--round-more-vert.svg');
 }
 
+[data-icon='round-numbers'] {
+  --svg: url('../icons/ic--round-numbers.svg');
+}
+
+[data-icon='round-password'] {
+  --svg: url('../icons/ic--round-password.svg');
+}
+
 [data-icon='round-pattern'] {
   --svg: url('../icons/ic--round-pattern.svg');
 }
@@ -672,6 +688,10 @@
 
 [data-icon='round-polyline'] {
   --svg: url('../icons/ic--round-polyline.svg');
+}
+
+[data-icon='round-qr-code'] {
+  --svg: url('../icons/ic--round-qr-code-2.svg');
 }
 
 [data-icon='round-play-arrow'] {
@@ -980,6 +1000,18 @@
 
 [data-icon='home-switch'] {
   --svg: url('../icons/mdi--home-switch.svg');
+}
+
+[data-icon='keypad'] {
+  --svg: url('../icons/mdi--keypad.svg');
+}
+
+[data-icon='numbers'] {
+  --svg: url('../icons/mdi--numbers.svg');
+}
+
+[data-icon='passport'] {
+  --svg: url('../icons/mdi--passport-biometric.svg');
 }
 
 [data-icon='rectangles-two'] {
