@@ -12,6 +12,7 @@
   import Ui3nSliderDemo from './ui3n-slider-demo.vue';
   import Ui3nIconDemo from './ui3n-icon-demo.vue';
   import Ui3nSelectorDemo from './ui3n-selector-demo.vue';
+  import Ui3nMobileMenuDemo from './ui3n-mobile-menu-demo.vue';
   import Ui3nButtonDemo from './ui3n-button-demo.vue';
 
   import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
@@ -260,6 +261,8 @@
         </template>
       </ui3n-menu>
     </div>
+
+    <ui3n-mobile-menu-demo />
 
     <ui3n-button-demo />
 

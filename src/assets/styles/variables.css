@@ -6,6 +6,7 @@
   --spacing-l: 32px;
   --spacing-xl: 40px;
   --spacing-xxl: 48px;
+  --spacing-xxxl: 64px;
   --white-inf: oklch(100% 0.000 0.0deg / 0.000);
   --white-100: oklch(100% 0.000 0.0deg);
   --white-4: oklch(98.5% 0.000 0.0deg / 0.040);
@@ -119,6 +120,7 @@
   --font-20: 20px;
   --font-24: 24px;
   --font-32: 32px;
+
 }
 
 .default-theme {

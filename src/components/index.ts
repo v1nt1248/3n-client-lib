@@ -112,6 +112,14 @@ import type {
   Ui3nSelectorSlots,
   Ui3nSelectorItemDisplayingFunction,
 } from './ui3n-selector/types';
+import Ui3nMobileMenu from './ui3n-mobile-menu/ui3n-mobile-menu.vue';
+import type { Ui3nMobileMenuProps, Ui3nMobileMenuEmits, Ui3nMobileMenuSlots } from './ui3n-mobile-menu/types';
+import Ui3nMobileMenuItem from './ui3n-mobile-menu-item/ui3n-mobile-menu-item.vue';
+import type {
+  Ui3nMobileMenuItemBase,
+  Ui3nMobileMenuItemProps,
+  Ui3nMobileMenuItemEmits,
+} from './ui3n-mobile-menu-item/types';
 
 export {
   Ui3nIcon,
@@ -233,4 +241,12 @@ export {
   Ui3nSelectorSlots,
   Ui3nSelectorOptionBase,
   Ui3nSelectorItemDisplayingFunction,
+  Ui3nMobileMenu,
+  Ui3nMobileMenuProps,
+  Ui3nMobileMenuEmits,
+  Ui3nMobileMenuSlots,
+  Ui3nMobileMenuItem,
+  Ui3nMobileMenuItemBase,
+  Ui3nMobileMenuItemProps,
+  Ui3nMobileMenuItemEmits,
 };

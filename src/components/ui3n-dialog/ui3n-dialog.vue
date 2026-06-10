@@ -134,12 +134,12 @@
     v-on="
       draggable
         ? {
-            dragstart: onDragstart,
-            mousedown: onMousedown,
-            mouseup: onMouseup,
-            mousemove: onMousemove,
-            keydown: onKeydown,
-          }
+          dragstart: onDragstart,
+          mousedown: onMousedown,
+          mouseup: onMouseup,
+          mousemove: onMousemove,
+          keydown: onKeydown,
+        }
         : { keydown: onKeydown }
     "
   >
