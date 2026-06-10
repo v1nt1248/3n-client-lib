@@ -22,6 +22,8 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nInputFile
   - Ui3nList
   - Ui3nMenu
+  - Ui3nMobileMenu
+  - Ui3nMobileMenuItem
   - Ui3nNotification
   - Ui3nProgressCircular
   - Ui3nProgressLinear
