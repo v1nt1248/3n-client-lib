@@ -33,6 +33,8 @@ import type Ui3nEditable from './components/ui3n-editable/ui3n-editable.vue';
 import type Ui3nAutocomplete from './components/ui3n-autocomplete/ui3n-autocomplete.vue';
 import type Ui3nSlider from './components/ui3n-slider/ui3n-slider.vue';
 import type Ui3nSelector from './components/ui3n-selector/ui3n-selector.vue';
+import type Ui3nMobileMenu from './components/ui3n-mobile-menu/ui3n-mobile-menu.vue';
+import type Ui3nMobileMenuItem from './components/ui3n-mobile-menu-item/ui3n-mobile-menu-item.vue';
 import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
 import type Ui3nResize from './directives/ui3n-resize';
@@ -94,6 +96,8 @@ declare module 'vue' {
     Ui3nTabs: typeof Ui3nTabs;
     Ui3nText: typeof Ui3nText;
     Ui3nVirtualScroll: typeof Ui3nVirtualScroll;
+    Ui3nMobileMenu: typeof Ui3nMobileMenu;
+    Ui3nMobileMenuMenuItem: typeof Ui3nMobileMenuItem;
   }
 
   interface GlobalDirectives {

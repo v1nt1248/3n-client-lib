@@ -49,7 +49,7 @@ export default [
       'no-param-reassign': 'off',
       'no-return-assign': 'off',
       'arrow-parens': ['error', 'as-needed'],
-      'curly': 'error',
+      curly: 'error',
       'object-curly-newline': [
         'error',
         {
@@ -131,11 +131,14 @@ export default [
           allowCoexistStyle: true,
         },
       ],
-      'vue/html-self-closing': ['error', {
-        html: {
-          void: 'any',
+      'vue/html-self-closing': [
+        'error',
+        {
+          html: {
+            void: 'any',
+          },
         },
-      }],
+      ],
     },
   },
 
