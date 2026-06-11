@@ -1,3 +1,5 @@
+import type { Ref, VNode } from 'vue';
+
 export interface Ui3nInputProps {
   /**
    * Input value
@@ -32,13 +34,27 @@ export interface Ui3nInputProps {
    */
   autofocus?: boolean;
   /**
-   * Input icon
+   * Whether input is readonly
+   * @default false
    */
-  icon?: string;
+  readonly?: boolean;
   /**
-   * Input icon color
+   * Input name attribute (for use in native forms)
    */
-  iconColor?: string;
+  name?: string;
+  /**
+   * Maximum length of input value
+   */
+  maxlength?: number;
+  /**
+   * Minimum length of input value
+   */
+  minlength?: number;
+  /**
+   * Autocomplete attribute
+   * @default 'off'
+   */
+  autocomplete?: string;
   /**
    * Validation rules
    */
@@ -127,4 +143,34 @@ export interface Ui3nInputEmits {
    * Called when validation status updates
    */
   (event: 'update:valid', value: boolean): void;
+}
+
+export interface Ui3nInputSlots {
+  /**
+   * Slot for prepend icon (displayed at the start of the input)
+   */
+  'prepend-icon'?: () => VNode[];
+  /**
+   * Slot for append icon (displayed at the end of the input)
+   */
+  'append-icon'?: () => VNode[];
+}
+
+export interface Ui3nInputExpose {
+  /**
+   * Reference to the input DOM element
+   */
+  inputElement: Ref<HTMLInputElement | null>;
+  /**
+   * Whether the input has been modified
+   */
+  isDirty: Ref<boolean>;
+  /**
+   * Whether the input is currently focused
+   */
+  isFocused: Ref<boolean>;
+  /**
+   * Clear the input value
+   */
+  clearValue: () => void;
 }

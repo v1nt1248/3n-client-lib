@@ -866,8 +866,20 @@
   --svg: url('../icons/mdi--share-variant-outline.svg');
 }
 
+[data-icon='shield-alert-outline'] {
+  --svg: url('../icons/mdi--shield-alert-outline.svg');
+}
+
 [data-icon='shield-check-outline'] {
   --svg: url('../icons/mdi--shield-check-outline.svg');
+}
+
+[data-icon='shield-star-outline'] {
+  --svg: url('../icons/mdi--shield-star-outline.svg');
+}
+
+[data-icon='shield-sync-outline'] {
+  --svg: url('../icons/mdi--shield-sync-outline.svg');
 }
 
 [data-icon='transit-connection-variant'] {
@@ -1004,6 +1016,26 @@
 
 [data-icon='keypad'] {
   --svg: url('../icons/mdi--keypad.svg');
+}
+
+[data-icon='link-variant'] {
+  --svg: url('../icons/mdi--link-variant.svg');
+}
+
+[data-icon='link-variant-minus'] {
+  --svg: url('../icons/mdi--link-variant-minus.svg');
+}
+
+[data-icon='link-variant-off'] {
+  --svg: url('../icons/mdi--link-variant-off.svg');
+}
+
+[data-icon='link-variant-plus'] {
+  --svg: url('../icons/mdi--link-variant-plus.svg');
+}
+
+[data-icon='link-variant-remove'] {
+  --svg: url('../icons/mdi--link-variant-remove.svg');
 }
 
 [data-icon='numbers'] {
