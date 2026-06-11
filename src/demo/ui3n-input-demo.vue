@@ -2,6 +2,7 @@
   import { ref } from 'vue';
   import DemoLayout from './demo-layout.vue';
   import DemoLayoutCell from './demo-layout-cell.vue';
+  import Ui3nIcon from '../components/ui3n-icon/ui3n-icon.vue';
   import Ui3nInput from '../components/ui3n-input/ui3n-input.vue';
 
   const val1 = ref('');
@@ -83,7 +84,7 @@
         />
       </demo-layout-cell>
 
-      <demo-layout-cell :label="`With label & icon, value: <i>${val3}</i>`">
+      <demo-layout-cell :label="`With label & icons, value: <i>${val3}</i>`">
         <ui3n-input
           v-model="val3"
           label="Some label"
@@ -93,9 +94,17 @@
           @focus="onInputComponentEvent('focus', $event)"
           @blur="onInputComponentEvent('blur', $event)"
           @change="onInputComponentEvent('change', $event)"
-        />
+        >
+          <template #prepend-icon>
+            <ui3n-icon icon="outline-account-circle" />
+          </template>
+
+          <template #append-icon>
+            <ui3n-icon icon="eye-outline" />
+          </template>
+        </ui3n-input>
       </demo-layout-cell>
-      <demo-layout-cell :label="`With label & icon, clearable, value: <i>${val3}</i>`">
+      <demo-layout-cell :label="`With label & prepend icon, clearable, value: <i>${val3}</i>`">
         <ui3n-input
           v-model="val3"
           label="Some label"
@@ -106,9 +115,13 @@
           @focus="onInputComponentEvent('focus', $event)"
           @blur="onInputComponentEvent('blur', $event)"
           @change="onInputComponentEvent('change', $event)"
-        />
+        >
+          <template #prepend-icon>
+            <ui3n-icon icon="outline-account-circle" />
+          </template>
+        </ui3n-input>
       </demo-layout-cell>
-      <demo-layout-cell :label="`With icon, clearable & hideBottomSpace value: <i>${val3}</i>`">
+      <demo-layout-cell :label="`With append icon, clearable & hideBottomSpace value: <i>${val3}</i>`">
         <ui3n-input
           v-model="val3"
           icon="round-search"
@@ -119,10 +132,16 @@
           @focus="onInputComponentEvent('focus', $event)"
           @blur="onInputComponentEvent('blur', $event)"
           @change="onInputComponentEvent('change', $event)"
-        />
+        >
+          <template #append-icon>
+            <ui3n-icon icon="eye-outline" />
+          </template>
+        </ui3n-input>
       </demo-layout-cell>
 
-      <demo-layout-cell :label="`With label & icon & external validation rules, clearable, value: <i>${val4}</i>`">
+      <demo-layout-cell
+        :label="`With label & prepend-icon & external validation rules, clearable, value: <i>${val4}</i>`"
+      >
         <ui3n-input
           v-model="val4"
           label="Some label"
@@ -135,9 +154,12 @@
           @blur="onInputComponentEvent('blur', $event)"
           @change="onInputComponentEvent('change', $event)"
           @keydown="onInputComponentEvent('keydown', $event)"
-        />
+        >
+          <template #prepend-icon>
+            <ui3n-icon icon="round-person-outline" />
+          </template>
+        </ui3n-input>
       </demo-layout-cell>
-
       <demo-layout-cell :label="`With label & forced set error state, clearable, value: <i>${val5}</i>`">
         <ui3n-input
           v-model="val5"
@@ -186,8 +208,7 @@
           @escape="onInputComponentEvent('escape', $event)"
         />
       </demo-layout-cell>
-
-      <demo-layout-cell :label="`With label, large, value: <i>${val2}</i>`">
+      <demo-layout-cell :label="`With label, prepend icon, large, value: <i>${val2}</i>`">
         <ui3n-input
           v-model="val2"
           size="large"
@@ -198,9 +219,16 @@
           @focus="onInputComponentEvent('focus', $event)"
           @blur="onInputComponentEvent('blur', $event)"
           @change="onInputComponentEvent('change', $event)"
-        />
+        >
+          <template #prepend-icon>
+            <ui3n-icon
+              icon="round-search"
+              color="var(--color-icon-button-secondary-default)"
+              size="24"
+            />
+          </template>
+        </ui3n-input>
       </demo-layout-cell>
-
       <demo-layout-cell :label="`With label & icon, clearable, large, value: <i>${val3}</i>`">
         <ui3n-input
           v-model="val3"

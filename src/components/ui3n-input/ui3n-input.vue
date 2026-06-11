@@ -2,7 +2,7 @@
   import { computed, nextTick, onMounted, ref, watch } from 'vue';
   import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
-  import type { Ui3nInputEmits, Ui3nInputProps } from './types';
+  import type { Ui3nInputEmits, Ui3nInputExpose, Ui3nInputProps, Ui3nInputSlots } from './types';
 
   const props = withDefaults(defineProps<Ui3nInputProps>(), {
     modelValue: '',
@@ -10,19 +10,20 @@
     size: 'regular',
     label: '',
     placeholder: '',
-    icon: '',
-    iconColor: '',
     displayStateMode: undefined,
     displayStateMessage: '',
     rules: () => [],
     clearable: false,
     autofocus: false,
+    readonly: false,
+    autocomplete: 'off',
     validateAtStartup: false,
     hideBottomSpace: false,
     displayStateWithIcon: false,
     disabled: false,
   });
   const emits = defineEmits<Ui3nInputEmits>();
+  const slots = defineSlots<Ui3nInputSlots>();
 
   const inputElement = ref<HTMLInputElement | null>(null);
   const internalValue = ref('');
@@ -30,12 +31,8 @@
   const isFocused = ref(false);
   const errorMessage = ref('');
 
-  const cssIconColor = computed(() => {
-    if (props.disabled) {
-      return 'var(--color-icon-control-primary-disabled)';
-    }
-    return props.iconColor || 'var(--color-icon-control-primary-default)';
-  });
+  const hasPrependIcon = computed(() => !!slots['prepend-icon']);
+  const hasAppendIcon = computed(() => !!slots['append-icon']);
 
   const showSuccessIcon = computed(
     () => props.displayStateMode === 'success' && props.displayStateWithIcon && !isFocused.value,
@@ -44,6 +41,8 @@
   const showClearButton = computed(
     () => !props.disabled && props.clearable && !!internalValue.value && !showSuccessIcon.value,
   );
+
+  const hasAppendElements = computed(() => showSuccessIcon.value || showClearButton.value || hasAppendIcon.value);
 
   const showMessageBlock = computed(
     () => !!errorMessage.value || !!(props.displayStateMode && props.displayStateMessage),
@@ -141,7 +140,8 @@
     emits('update:valid', true);
   }
 
-  defineExpose({
+  defineExpose<Ui3nInputExpose>({
+    inputElement,
     isDirty,
     isFocused,
     clearValue,
@@ -186,8 +186,6 @@
       size === 'large' && $style.large,
       label && $style.withLabel,
       hideBottomSpace && $style.withoutBottomSpace,
-      icon && $style.withIcon,
-      clearable && internalValue && $style.clearable,
       disabled && $style.disabled,
       (!!errorMessage || displayStateMode === 'error') && $style.error,
       displayStateMode === 'success' && $style.success,
@@ -200,50 +198,68 @@
       {{ label }}
     </label>
 
-    <input
-      ref="inputElement"
-      autocomplete="off"
-      :type="type"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :class="$style.ui3nInputField"
-      @input="onInput"
-      @keydown.enter="onEnterKeydown"
-      @keydown.esc="onEscapeKeydown"
-      @keydown="onKeydown"
-      @focusin="onFocus"
-      @focusout="onBlur"
-      @change="onChange"
-    />
+    <div
+      :class="[$style.inputWrapper, hasPrependIcon && $style.withPrepend, hasAppendElements && $style.withAppend]"
+    >
+      <div
+        v-if="hasPrependIcon"
+        :class="$style.prependIconSlot"
+      >
+        <slot name="prepend-icon" />
+      </div>
 
-    <ui3n-icon
-      v-if="icon"
-      :icon="icon"
-      :size="16"
-      :class="[$style.ui3nInputIcon, disabled && $style.ui3nInputIconDisabled]"
-    />
+      <input
+        ref="inputElement"
+        :autocomplete="autocomplete"
+        :type="type"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :readonly="readonly"
+        :name="name"
+        :maxlength="maxlength"
+        :minlength="minlength"
+        :class="$style.ui3nInputField"
+        @input="onInput"
+        @keydown.enter="onEnterKeydown"
+        @keydown.esc="onEscapeKeydown"
+        @keydown="onKeydown"
+        @focus="onFocus"
+        @blur="onBlur"
+        @change="onChange"
+      />
 
-    <ui3n-icon
-      v-if="showSuccessIcon"
-      icon="round-check-circle-outline"
-      :size="16"
-      color="var(--success-content-default)"
-      :class="$style.ui3nInputSuccessIcon"
-    />
+      <div
+        v-if="hasAppendElements"
+        :class="$style.appendIconSlot"
+      >
+        <ui3n-icon
+          v-if="showSuccessIcon"
+          icon="round-check-circle-outline"
+          :size="16"
+          color="var(--success-content-default)"
+          :class="$style.appendSlotItem"
+        />
 
-    <ui3n-button
-      v-if="showClearButton"
-      type="icon"
-      size="small"
-      color="transparent"
-      icon="round-close"
-      icon-size="16"
-      icon-color="var(--color-icon-control-accent-default)"
-      :class="$style.clearBtn"
-      @mousedown.prevent
-      @touchstart.prevent
-      @click="clearValue"
-    />
+        <ui3n-button
+          v-if="showClearButton"
+          type="icon"
+          size="small"
+          color="transparent"
+          icon="round-close"
+          icon-size="16"
+          icon-color="var(--color-icon-control-accent-default)"
+          :class="$style.appendSlotItem"
+          @mousedown.prevent
+          @touchstart.prevent
+          @click="clearValue"
+        />
+
+        <slot
+          v-if="hasAppendIcon"
+          name="append-icon"
+        />
+      </div>
+    </div>
 
     <div
       v-if="showMessageBlock"
@@ -261,63 +277,53 @@
 <style lang="scss" module>
   .ui3nInput {
     --ui3n-input-height: 32px;
-    --ui3n-input-font-size: var(--font-13);
+    --ui3n-input-label-font-size: 12px;
+    --ui3n-input-font-size: 13px;
+    --ui3n-input-message-font-size: 10px;
     --ui3n-input-border-radius: var(--spacing-xs);
-    --ui3n-input-padding-left: var(--spacing-s);
-    --ui3n-input-padding-right: var(--spacing-s);
-    --ui3n-input-icon-size: 16px;
-    --ui3n-input-label-offset: calc(var(--font-16) + var(--spacing-xs));
-    --ui3n-input-message-top: calc(var(--ui3n-input-height) + var(--ui3n-input-label-offset) + 2px);
+    --ui3n-input-padding-x: 8px;
+    --ui3n-input-message-top: calc(var(--ui3n-input-height) + var(--spacing-m) + 2px);
+    --ui3n-input-outer-padding-top: 1px;
+    --ui3n-input-outer-padding-bottom: 15px;
+    --ui3n-input-outer-padding-x: 1px;
 
-    &:not(.withLabel) {
-      --ui3n-input-label-offset: 0;
+    &.withLabel {
+      --ui3n-input-message-top: calc(
+        var(--ui3n-input-height) + calc(var(--ui3n-input-label-font-size) * 1.33) + 6px
+      );
     }
 
     &.large {
       --ui3n-input-height: 48px;
-      --ui3n-input-font-size: var(--font-16);
+      --ui3n-input-font-size: 16px;
       --ui3n-input-border-radius: 8px;
-      --ui3n-input-padding-left: 12px;
-      --ui3n-input-padding-right: 12px;
-
-      .clearBtn {
-        right: 2px;
-      }
-
-      &.withIcon {
-        .ui3nInputIcon {
-          left: 6px;
-        }
-      }
+      --ui3n-input-padding-x: 12px;
     }
 
     position: relative;
     width: 100%;
-    padding: 1px 1px 15px 1px;
+    padding: var(--ui3n-input-outer-padding-top) var(--ui3n-input-outer-padding-x)
+      var(--ui3n-input-outer-padding-bottom) var(--ui3n-input-outer-padding-x);
     border-radius: var(--ui3n-input-border-radius);
 
     &.withoutBottomSpace {
-      padding-bottom: 0;
+      --ui3n-input-outer-padding-bottom: 0;
     }
 
     &:hover {
-      .ui3nInputField:not(:focus-within) {
+      .inputWrapper:not(:focus-within) {
         background-color: var(--color-bg-control-secondary-hover);
 
-        &::placeholder {
+        .ui3nInputField::placeholder {
           color: var(--color-text-control-secondary-hover);
         }
       }
     }
 
     &:focus-within {
-      .ui3nInputField {
+      .inputWrapper {
         background-color: var(--color-bg-control-secondary-focused);
         outline: 1px solid var(--color-border-control-accent-focused);
-      }
-
-      .ui3nInputIcon {
-        color: v-bind(cssIconColor);
       }
     }
   }
@@ -325,31 +331,38 @@
   .ui3nInputLabel {
     display: block;
     width: 100%;
-    font-size: var(--font-12);
-    line-height: var(--font-16);
+    font-size: var(--ui3n-input-label-font-size);
+    line-height: 1.33;
     font-weight: 500;
     color: var(--color-text-control-primary-default);
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 4px;
+  }
+
+  .inputWrapper {
+    display: flex;
+    align-items: center;
+    height: var(--ui3n-input-height);
+    border-radius: var(--ui3n-input-border-radius);
+    background-color: var(--color-bg-control-secondary-default);
+    transition: background-color 0.2s ease-in-out;
   }
 
   .ui3nInputField {
+    flex: 1;
+    min-width: 0;
     display: block;
     box-sizing: border-box;
     width: 100%;
-    position: relative;
     border: none;
     outline: none;
-    height: var(--ui3n-input-height);
-    padding: 0 var(--ui3n-input-padding-right) 0 var(--ui3n-input-padding-left);
-    border-radius: var(--ui3n-input-border-radius);
-    background-color: var(--color-bg-control-secondary-default);
+    height: 100%;
+    padding: 0 var(--ui3n-input-padding-x);
+    background-color: transparent;
     font-size: var(--ui3n-input-font-size);
     line-height: var(--spacing-m);
     font-weight: 400;
     color: var(--color-text-control-primary-default);
-    transition:
-      background-color 0.2s ease-in-out,
-      color 0.2s ease-in-out;
+    transition: color 0.2s ease-in-out;
 
     &::placeholder {
       color: var(--color-text-control-secondary-default);
@@ -363,27 +376,44 @@
     }
 
     &[disabled] {
-      background-color: var(--color-bg-control-secondary-disabled);
       color: var(--color-text-control-secondary-disabled);
+      cursor: not-allowed;
+    }
+
+    &[readonly] {
+      cursor: default;
     }
   }
 
-  .ui3nInputIcon {
-    position: absolute;
-    left: var(--spacing-xs);
-    top: calc((var(--ui3n-input-height) - var(--ui3n-input-icon-size)) / 2);
-    color: var(--color-icon-control-secondary-default);
+  .prependIconSlot {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding-left: calc(var(--ui3n-input-padding-x) / 2);
   }
 
-  .ui3nInputIconDisabled {
-    color: v-bind(cssIconColor);
+  .appendIconSlot {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 4px;
+    padding-right: calc(var(--ui3n-input-padding-x) / 2);
   }
 
-  .clearBtn {
-    position: absolute;
-    right: 0;
-    top: calc((var(--ui3n-input-height) - 24px) / 2);
-    z-index: 2;
+  .withPrepend {
+    .ui3nInputField {
+      padding-left: calc(var(--ui3n-input-padding-x) / 2);
+    }
+  }
+
+  .withAppend {
+    .ui3nInputField {
+      padding-right: calc(var(--ui3n-input-padding-x) / 2);
+    }
+  }
+
+  .appendSlotItem {
+    flex-shrink: 0;
   }
 
   .ui3nInputFieldMessage {
@@ -392,9 +422,9 @@
     width: 100%;
     top: calc(var(--ui3n-input-message-top) + 2px);
     font-style: italic;
-    font-size: var(--font-10);
+    font-size: var(--ui3n-input-message-font-size);
     font-weight: 400;
-    line-height: 1.1;
+    line-height: 1.2;
   }
 
   .ui3nInputErrorMessage {
@@ -405,28 +435,12 @@
     color: var(--success-content-default);
   }
 
-  .clearable {
-    --ui3n-input-padding-right: var(--spacing-ml);
-
-    &.large {
-      --ui3n-input-padding-right: calc(var(--spacing-ml) + 4px);
-    }
-  }
-
-  .withIcon {
-    --ui3n-input-padding-left: var(--spacing-ml);
-
-    &.large {
-      --ui3n-input-padding-left: calc(var(--spacing-ml) + 4px);
-    }
-  }
-
   .error {
     .ui3nInputLabel {
       color: var(--error-content-default);
     }
 
-    .ui3nInputField {
+    .inputWrapper {
       outline: 1px solid var(--error-content-default);
     }
   }
@@ -437,30 +451,13 @@
     }
   }
 
-  .ui3nInputSuccessIcon {
-    position: absolute;
-    right: var(--spacing-s);
-    bottom: var(--spacing-s);
-  }
-
   .disabled {
     pointer-events: none;
     user-select: none;
-  }
 
-  .withLabel {
-    .ui3nInputIcon {
-      top: calc((var(--ui3n-input-height) - var(--ui3n-input-icon-size)) / 2 + var(--ui3n-input-label-offset));
-    }
-
-    .ui3nInputSuccessIcon {
-      bottom: auto;
-      top: calc((var(--ui3n-input-height) - var(--ui3n-input-icon-size)) / 2 + var(--ui3n-input-label-offset));
-    }
-
-    .clearBtn {
-      top: calc((var(--ui3n-input-height) - 24px) / 2 + var(--ui3n-input-label-offset));
-      z-index: 1;
+    .inputWrapper {
+      background-color: var(--color-bg-control-secondary-disabled);
+      cursor: not-allowed;
     }
   }
 </style>
