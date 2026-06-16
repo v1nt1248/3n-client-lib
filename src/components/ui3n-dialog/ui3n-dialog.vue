@@ -112,12 +112,14 @@
       dialogElement.value.style.setProperty('--ui3n-dialog-cancel-background-color', props.cancelButtonBackground);
 
       nextTick(() => {
-        dialogElement.value!.focus();
+        dialogElement.value && dialogElement.value.focus();
 
         setTimeout(() => {
-          const dialogClientRect = dialogElement.value!.getBoundingClientRect();
-          dragData.value.initialLeft = dialogClientRect.left;
-          dragData.value.initialTop = dialogClientRect.top;
+          if (dialogElement.value) {
+            const dialogClientRect = dialogElement.value.getBoundingClientRect();
+            dragData.value.initialLeft = dialogClientRect.left;
+            dragData.value.initialTop = dialogClientRect.top;
+          }
         }, 100);
       });
     }
@@ -134,12 +136,12 @@
     v-on="
       draggable
         ? {
-          dragstart: onDragstart,
-          mousedown: onMousedown,
-          mouseup: onMouseup,
-          mousemove: onMousemove,
-          keydown: onKeydown,
-        }
+            dragstart: onDragstart,
+            mousedown: onMousedown,
+            mouseup: onMouseup,
+            mousemove: onMousemove,
+            keydown: onKeydown,
+          }
         : { keydown: onKeydown }
     "
   >
