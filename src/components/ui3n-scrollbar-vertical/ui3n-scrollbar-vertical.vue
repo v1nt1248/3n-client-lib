@@ -117,7 +117,7 @@
   }
 
   function onTrackClick(e: MouseEvent) {
-    if (e.target !== trackRef.value || !containerRef.value) {
+    if (e.target !== trackRef.value || !containerRef.value || !trackRef.value) {
       return;
     }
 

@@ -9,7 +9,7 @@
   defineSlots<Ui3nVirtualScrollSlots<T>>();
 
   const scrollTop = ref(0);
-  const scrollbarComponentRef = ref<InstanceType<typeof Ui3nScrollbar> | null>(null);
+  const scrollbarComponentRef = ref<InstanceType<typeof Ui3nScrollbarVertical> | null>(null);
 
   const itemCount = computed(() => props.items.length);
   const totalHeight = computed(() => itemCount.value * props.minChildHeight);
