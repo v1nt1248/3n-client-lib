@@ -32,7 +32,7 @@
       <div
         v-for="(item, index) in items"
         :key="item[keyField as keyof T] as PropertyKey"
-        :class="$style.ui3nListItem "
+        :class="$style.ui3nListItem"
       >
         <slot
           name="item"
@@ -40,10 +40,7 @@
           :index="index"
         >
           <div
-            :class="[
-              $style.ui3nListItemContent,
-              disabled && $style.ui3nListItemContentDisabled,
-            ]"
+            :class="[$style.ui3nListItemContent, disabled && $style.ui3nListItemContentDisabled]"
             @click.stop="emits('select', { value: item, index })"
           >
             {{ item }}
@@ -63,16 +60,12 @@
     width: 100%;
     height: 100%;
     background-color: var(--ui3n-list-bg-color);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
   }
 
   .ui3nListTitle {
     position: relative;
     top: 0;
-    z-index: 1;
+    z-index: 2;
   }
 
   .ui3nListTitleSticky {
@@ -81,7 +74,6 @@
 
   .ui3nListContent {
     position: relative;
-    flex-grow: 1;
   }
 
   .ui3nListTitleContent,
@@ -106,6 +98,7 @@
     font-size: 14px;
     font-weight: 400;
     cursor: pointer;
+    width: 100%;
   }
 
   .ui3nListItemContentDisabled {

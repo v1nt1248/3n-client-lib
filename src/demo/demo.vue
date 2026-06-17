@@ -33,6 +33,7 @@
   import Ui3nVirtualScroll from '../components/ui3n-virtual-scroll/ui3n-virtual-scroll.vue';
   import Ui3nProgressCircular from '../components/ui3n-progress/ui3n-progress-circular.vue';
   import Ui3nTable from '../components/ui3n-table/ui3n-table.vue';
+  import Ui3nScrollbarVertical from '../components/ui3n-scrollbar-vertical/ui3n-scrollbar-vertical.vue';
   import Ui3nTooltip from '../components/ui3n-tooltip/ui3n-tooltip.vue';
   import Ui3nRadio from '../components/ui3n-radio-group/ui3n-radio.vue';
   import Ui3nRadioGroup from '../components/ui3n-radio-group/ui3n-radio-group.vue';
@@ -636,22 +637,24 @@
     <div class="demo-row demo-row--with-title">
       <div class="demo-row__title">--- LIST ---</div>
       <div class="demo-row__list">
-        <ui3n-list
-          :sticky="false"
-          :items="list"
-        >
-          <template #item="{ item }">
-            <ui3n-list :items="item.children">
-              <template #title>
-                <div class="list-title">{{ item.title }}</div>
-              </template>
+        <ui3n-scrollbar-vertical thumb-color="orange">
+          <ui3n-list
+            :sticky="false"
+            :items="list"
+          >
+            <template #item="{ item }">
+              <ui3n-list :items="item.children">
+                <template #title>
+                  <div class="list-title">{{ item.title }}</div>
+                </template>
 
-              <template #item="{ item: children, index }">
-                <div class="list-item">{{ children.title }} [{{ index }}]</div>
-              </template>
-            </ui3n-list>
-          </template>
-        </ui3n-list>
+                <template #item="{ item: children, index }">
+                  <div class="list-item">{{ children.title }} [{{ index }}]</div>
+                </template>
+              </ui3n-list>
+            </template>
+          </ui3n-list>
+        </ui3n-scrollbar-vertical>
       </div>
     </div>
 

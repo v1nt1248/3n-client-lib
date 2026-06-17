@@ -1,50 +1,46 @@
 <script lang="ts" setup generic="T extends { id?: string }">
-import { computed, onMounted, ref } from 'vue';
-import type { Ui3nVirtualScrollProps, Ui3nVirtualScrollSlots } from './types';
+  import { computed, ref } from 'vue';
+  import Ui3nScrollbarVertical from '@/components/ui3n-scrollbar-vertical/ui3n-scrollbar-vertical.vue';
+  import type { Ui3nVirtualScrollProps, Ui3nVirtualScrollSlots } from './types';
 
-const props = withDefaults(defineProps<Ui3nVirtualScrollProps<T>>(), {
-  renderAhead: 20,
-});
-defineSlots<Ui3nVirtualScrollSlots<T>>();
+  const props = withDefaults(defineProps<Ui3nVirtualScrollProps<T>>(), {
+    renderAhead: 20,
+  });
+  defineSlots<Ui3nVirtualScrollSlots<T>>();
 
-const scrollTop = ref(0);
-const animationFrame = ref<number | undefined>();
-const wrapElement = ref<HTMLDivElement | null>(null);
-const wrapElementHeight = computed(() => wrapElement.value
-  ? wrapElement.value.clientHeight
-  : 0,
-);
-const itemCount = computed(() => props.items.length);
-const totalHeight = computed(() => itemCount.value * props.minChildHeight);
-const startNode = computed(() => {
-  const val = Math.floor(scrollTop.value / props.minChildHeight) - props.renderAhead;
-  return Math.max(0, val);
-});
-const visibleNodeCount = computed(() => {
-  const val = Math.ceil(wrapElementHeight.value / props.minChildHeight) + 2 * props.renderAhead;
-  return Math.min(itemCount.value - startNode.value, val);
-});
-const offsetY = computed(() => startNode.value * props.minChildHeight);
-const visibleChildren = computed(() => props.items.slice(startNode.value, startNode.value + visibleNodeCount.value));
+  const scrollTop = ref(0);
+  const scrollbarComponentRef = ref<InstanceType<typeof Ui3nScrollbar> | null>(null);
 
-const onScroll = (event: Event) => {
-  if (animationFrame.value) {
-    cancelAnimationFrame(animationFrame.value);
-  }
+  const itemCount = computed(() => props.items.length);
+  const totalHeight = computed(() => itemCount.value * props.minChildHeight);
 
-  animationFrame.value = requestAnimationFrame(() => scrollTop.value = (event.target as HTMLDivElement).scrollTop);
-};
+  const wrapElementHeight = computed(() => {
+    const el = scrollbarComponentRef.value?.getContainer();
+    return el ? el.clientHeight : 0;
+  });
 
-onMounted(() => {
-  if (wrapElement.value) {
-    scrollTop.value = wrapElement.value.scrollTop;
-  }
-});
+  const startNode = computed(() => {
+    const val = Math.floor(scrollTop.value / props.minChildHeight) - props.renderAhead;
+    return Math.max(0, val);
+  });
+
+  const visibleNodeCount = computed(() => {
+    return Math.ceil(wrapElementHeight.value / props.minChildHeight) + 2 * props.renderAhead;
+  });
+
+  const offsetY = computed(() => startNode.value * props.minChildHeight);
+  const visibleChildren = computed(() =>
+    props.items.slice(startNode.value, startNode.value + visibleNodeCount.value),
+  );
+
+  const onScroll = (event: Event) => {
+    scrollTop.value = (event.target as HTMLDivElement).scrollTop;
+  };
 </script>
 
 <template>
-  <div
-    ref="wrapElement"
+  <ui3n-scrollbar-vertical
+    ref="scrollbarComponentRef"
     :class="$style.ui3nVirtualScroll"
     @scroll="onScroll"
   >
@@ -70,30 +66,28 @@ onMounted(() => {
         </div>
       </div>
     </div>
-  </div>
+  </ui3n-scrollbar-vertical>
 </template>
 
 <style lang="scss" module>
-.ui3nVirtualScroll {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  background-color: var(--color-bg-block-primary-default);
-}
+  .ui3nVirtualScroll {
+    --ui3n-virtual-scroll-item-min-height: 16px;
 
-.viewport {
-  position: relative;
-  overflow: hidden;
-  will-change: transform;
-}
+    background-color: var(--color-bg-block-primary-default);
+  }
 
-.content {
-  will-change: transform;
-}
+  .viewport {
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+  }
 
-.item {
-  position: relative;
-  min-height: 16px;
-}
+  .content {
+    will-change: transform;
+  }
+
+  .item {
+    position: relative;
+    min-height: var(--ui3n-virtual-scroll-item-min-height);
+  }
 </style>
