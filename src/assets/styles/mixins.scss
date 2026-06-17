@@ -55,18 +55,23 @@
 
 
 /* stylelint-disable nesting-selector-no-missing-scoping-root */
-@mixin scrollbar($size: 200px) {
+@mixin scrollbar($size: 100px) {
+  @supports (-moz-appearance: none) {
+    scrollbar-color: var(--ui3n-sb-thumb, var(--color-bg-control-accent-default)) var(--ui3n-sb-track, transparent) !important;
+    scrollbar-width: thin !important;
+  }
+
   :global(::-webkit-scrollbar-track) {
-    background-color: transparent;
+    background-color: var(--ui3n-sb-track, transparent) !important;
   }
 
   :global(::-webkit-scrollbar-thumb) {
-    background-color: var(--color-bg-control-accent-default);
+    background-color: var(--ui3n-sb-thumb, var(--color-bg-control-accent-default)) !important;
     border-radius: 4px;
   }
 
   :global(::-webkit-scrollbar-thumb:hover) {
-    background-color: var(--color-bg-control-accent-hover);
+    background-color: var(--ui3n-sb-thumb-hover, var(--color-bg-control-accent-hover)) !important;
     cursor: pointer;
   }
 }

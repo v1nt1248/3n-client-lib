@@ -31,6 +31,8 @@ import type Ui3nSlider from './components/ui3n-slider/ui3n-slider.vue';
 import type Ui3nSelector from './components/ui3n-selector/ui3n-selector.vue';
 import type Ui3nMobileMenu from './components/ui3n-mobile-menu/ui3n-mobile-menu.vue';
 import type Ui3nMobileMenuItem from './components/ui3n-mobile-menu-item/ui3n-mobile-menu-item.vue';
+import type Ui3nScrollbarVertical from './components/ui3n-scrollbar-vertical/ui3n-scrollbar-vertical.vue';
+import type Ui3nScrollbarHorizontal from './components/ui3n-scrollbar-horizontal/ui3n-scroolbar-horizontal.vue';
 import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
 import type Ui3nResize from './directives/ui3n-resize';
@@ -78,6 +80,8 @@ declare module 'vue' {
     Ui3nTooltip: typeof Ui3nTooltip;
     Ui3nMobileMenu: typeof Ui3nMobileMenu;
     Ui3nMobileMenuItem: typeof Ui3nMobileMenuItem;
+    Ui3nScrollbarVertical: typeof Ui3nScrollbarVertical;
+    Ui3nScrollbarHorizontal: typeof Ui3nScrollbarHorizontal;
   }
 
   interface GlobalDirectives {

@@ -949,11 +949,11 @@ div {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: var(--s-default-outline-focused);
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 2px;
+  border-radius: 4px;
   height: 50px;
   background-color: var(--default-fill-pressed);
 }

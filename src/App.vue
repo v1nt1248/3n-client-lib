@@ -44,6 +44,7 @@
     font-family: Inter, system-ui, sans-serif;
     background-color: var(--shadow-key-1);
     color: var(--color-text-block-primary-default);
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 </style>

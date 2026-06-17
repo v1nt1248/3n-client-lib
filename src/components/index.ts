@@ -120,6 +120,20 @@ import type {
   Ui3nMobileMenuItemProps,
   Ui3nMobileMenuItemEmits,
 } from './ui3n-mobile-menu-item/types';
+import Ui3nScrollbarVertical from './ui3n-scrollbar-vertical/ui3n-scrollbar-vertical.vue';
+import type {
+  Ui3nScrollbarVerticalProps,
+  Ui3nScrollbarVerticalEmits,
+  Ui3nScrollbarVerticalSlots,
+  Ui3nScrollbarVerticalExpose,
+} from './ui3n-scrollbar-vertical/types';
+import Ui3nScrollbarHorizontal from './ui3n-scrollbar-horizontal/ui3n-scroolbar-horizontal.vue';
+import type {
+  Ui3nScrollbarHorizontalProps,
+  Ui3nScrollbarHorizontalEmits,
+  Ui3nScrollbarHorizontalSlots,
+  Ui3nScrollbarHorizontalExpose,
+} from './ui3n-scrollbar-horizontal/types';
 
 export {
   Ui3nIcon,
@@ -251,4 +265,14 @@ export {
   Ui3nMobileMenuItemBase,
   Ui3nMobileMenuItemProps,
   Ui3nMobileMenuItemEmits,
+  Ui3nScrollbarVertical,
+  Ui3nScrollbarVerticalProps,
+  Ui3nScrollbarVerticalEmits,
+  Ui3nScrollbarVerticalSlots,
+  Ui3nScrollbarVerticalExpose,
+  Ui3nScrollbarHorizontal,
+  Ui3nScrollbarHorizontalProps,
+  Ui3nScrollbarHorizontalEmits,
+  Ui3nScrollbarHorizontalSlots,
+  Ui3nScrollbarHorizontalExpose,
 };
