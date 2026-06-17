@@ -2,70 +2,61 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts';
 import vueDevTools from 'vite-plugin-vue-devtools';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 import { resolve } from 'node:path';
+import pkg from './package.json' assert { type: 'json' };
 
-const config = {
-  all: {
-    entry: resolve(__dirname, 'src/index.ts'),
-    fileName: 'ui3n-lib',
-  },
-  lib: {
-    entry: resolve(__dirname, 'src/ui3n-components.ts'),
-    fileName: 'ui3n-components',
-  },
-  plugins: {
-    entry: resolve(__dirname, 'src/ui3n-plugins.ts'),
-    fileName: 'ui3n-plugins',
-  },
-  utils: {
-    entry: resolve(__dirname, 'src/ui3n-utils.ts'),
-    fileName: 'ui3n-utils',
-  },
-};
-
-const currentConfig = config[process.env.LIB_NAME as keyof typeof config];
-
-if (currentConfig === undefined) {
-  throw new Error('LIB_NAME is not defined or is not valid');
-}
-
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
-    dts({ insertTypesEntry: true }),
-    nodePolyfills({
-      globals: {
-        Buffer: true,
-        process: true,
-      },
-      protocolImports: true,
-      include: ['url', 'fs', 'path'],
+    dts({
+      cleanVueFileName: true,
+      tsconfigPath: './tsconfig.json',
+      entryRoot: 'src',
+    }),
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'src/assets/styles/variables.css',
+          dest: '.',
+          rename: { stripBase: true },
+        },
+        {
+          src: 'src/assets/styles/mixins.scss',
+          dest: '.',
+          rename: { stripBase: true },
+        },
+      ],
     }),
   ],
   resolve: {
     alias: {
-      'source-map-js': 'source-map',
       '@': resolve(__dirname, 'src'),
     },
   },
   build: {
     outDir: 'dist',
     minify: 'oxc',
-    emptyOutDir: false,
+    emptyOutDir: true,
     lib: {
-      ...currentConfig,
+      entry: {
+        'ui3n-components': resolve(__dirname, 'src/ui3n-components.ts'),
+        'ui3n-plugins': resolve(__dirname, 'src/ui3n-plugins.ts'),
+        'ui3n-utils': resolve(__dirname, 'src/ui3n-utils.ts'),
+      },
       formats: ['es'],
       name: 'Ui3nLib',
       cssFileName: 'style',
     },
     rollupOptions: {
-      external: ['vue', 'pinia'],
+      external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {}), /^vue/],
       output: {
         exports: 'named',
         format: 'es',
+        entryFileNames: '[name].js',
+        chunkFileNames: 'chunks/[name]-[hash].js',
+        assetFileNames: '[name].[ext]',
       },
     },
   },
