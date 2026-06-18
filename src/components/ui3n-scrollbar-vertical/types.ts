@@ -11,6 +11,7 @@ export interface Ui3nScrollbarVerticalProps {
   thumbHoverColor?: string;
   thumbActiveColor?: string;
   trackWidth?: number;
+  trackRadius?: number | string;
   trackColor?: string;
 }
 
