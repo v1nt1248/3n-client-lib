@@ -8,6 +8,7 @@ export interface Ui3nScrollbarHorizontalProps {
   thumbHoverColor?: string;
   thumbActiveColor?: string;
   trackHeight?: number | string;
+  trackRadius?: number | string;
   trackColor?: string;
 }
 

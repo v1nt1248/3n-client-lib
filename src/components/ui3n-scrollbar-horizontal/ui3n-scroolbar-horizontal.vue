@@ -7,7 +7,7 @@
     Ui3nScrollbarHorizontalExpose,
   } from './types';
 
-  const MIN_WIDTH = 40;
+  const MIN_WIDTH = 32;
 
   const props = withDefaults(defineProps<Ui3nScrollbarHorizontalProps>(), {
     thumbMinWidth: MIN_WIDTH,
@@ -17,6 +17,7 @@
     thumbHoverColor: 'var(--color-bg-control-accent-hover)',
     thumbActiveColor: 'var(--color-bg-control-accent-focused)',
     trackHeight: 6,
+    trackRadius: 4,
     trackColor: 'transparent',
   });
 
@@ -90,6 +91,10 @@
   const trackHeightCss = computed(() => {
     const num = Number(props.trackHeight);
     return isNaN(num) ? String(props.trackHeight) : `${num}px`;
+  });
+  const trackRadiusCss = computed(() => {
+    const num = Number(props.trackRadius);
+    return isNaN(num) ? String(props.trackRadius) : `${num}px`;
   });
   const trackColorCss = computed(() => props.trackColor);
 
@@ -232,6 +237,7 @@
       '--ui3n-scrollbar-horizontal-thumb-hover-color': thumbHoverColorCss,
       '--ui3n-scrollbar-horizontal-thumb-active-color': thumbActiveColorCss,
       '--ui3n-scrollbar-horizontal-track-height': trackHeightCss,
+      '--ui3n-scrollbar-horizontal-track-radius': trackRadiusCss,
       '--ui3n-scrollbar-horizontal-track-color': trackColorCss,
     }"
     @mouseenter="isHovered = true"
@@ -293,6 +299,7 @@
     bottom: 2px;
     height: var(--ui3n-scrollbar-horizontal-track-height);
     background: var(--ui3n-scrollbar-horizontal-track-color);
+    border-radius: var(--ui3n-scrollbar-horizontal-track-radius);
     z-index: 10;
     visibility: hidden;
     opacity: 0;

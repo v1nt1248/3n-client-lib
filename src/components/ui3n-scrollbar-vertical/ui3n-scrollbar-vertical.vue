@@ -7,7 +7,7 @@
     Ui3nScrollbarVerticalExpose,
   } from './types';
 
-  const MIN_HEIGHT = 40;
+  const MIN_HEIGHT = 32;
 
   const props = withDefaults(defineProps<Ui3nScrollbarVerticalProps>(), {
     thumbMinHeight: MIN_HEIGHT,
@@ -17,6 +17,7 @@
     thumbHoverColor: 'var(--color-bg-control-accent-hover)',
     thumbActiveColor: 'var(--color-bg-control-accent-focused)',
     trackWidth: 6,
+    trackRadius: 4,
     trackColor: 'transparent',
   });
   const emits = defineEmits<Ui3nScrollbarVerticalEmits>();
@@ -90,6 +91,10 @@
     return isNaN(num) ? String(props.trackWidth) : `${num}px`;
   });
   const trackColorCss = computed(() => props.trackColor);
+  const trackRadiusCss = computed(() => {
+    const num = Number(props.trackRadius);
+    return isNaN(num) ? String(props.trackRadius) : `${num}px`;
+  });
 
   function updateMetrics() {
     if (!containerRef.value) {
@@ -233,6 +238,7 @@
       '--ui3n-scrollbar-thumb-hover-color': thumbHoverColorCss,
       '--ui3n-scrollbar-thumb-active-color': thumbActiveColorCss,
       '--ui3n-scrollbar-track-width': trackWidthCss,
+      '--ui3n-scrollbar-track-radius': trackRadiusCss,
       '--ui3n-scrollbar-track-color': trackColorCss,
     }"
     @mouseenter="isHovered = true"
@@ -293,6 +299,7 @@
     bottom: 0;
     width: var(--ui3n-scrollbar-track-width);
     background: var(--ui3n-scrollbar-track-color);
+    border-radius: var(--ui3n-scrollbar-track-radius);
     z-index: 10;
     visibility: hidden;
     opacity: 0;
