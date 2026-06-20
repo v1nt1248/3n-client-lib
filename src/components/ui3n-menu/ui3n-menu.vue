@@ -2,8 +2,8 @@
   import { computed, ref, watch, useTemplateRef } from 'vue';
   import { autoUpdate, flip, useFloating, offset, shift } from '@floating-ui/vue';
   import { default as vClickOutside } from '../../directives/ui3n-click-outside';
-  import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots, Ui3nMenuExpose } from './types';
   import { Nullable } from '@/types';
+  import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots, Ui3nMenuExpose } from './types';
 
   const props = withDefaults(defineProps<Ui3nMenuProps>(), {
     positionStrategy: 'absolute',
@@ -27,39 +27,49 @@
 
   const usedTriggerElement = computed(() => outerTriggerElement.value || menuTriggerElement.value);
 
-  const contentBorderRadiusCss = computed(() => {
-    if (typeof props.contentBorderRadius === 'number') {
-      return `${props.contentBorderRadius}px`;
+  const middleware = computed(() => {
+    const list = [
+      offset({
+        mainAxis: props.offsetY,
+        crossAxis: props.offsetX + 2,
+      }),
+    ];
+
+    if (props.allowFlip) {
+      list.push(
+        flip({
+          fallbackAxisSideDirection: 'end',
+          fallbackPlacements: ['top-end', 'bottom-end'],
+        }),
+      );
     }
 
-    const [tl, tr, br, bl] = props.contentBorderRadius;
-    return `${tl}px ${tr}px ${br}px ${bl}px`;
+    list.push(shift());
+    return list;
   });
-  const zIndexCss = computed(() => props.zIndex);
-
-  const middleware = [
-    offset({
-      mainAxis: props.offsetY,
-      crossAxis: props.offsetX + 2,
-    }),
-  ];
-
-  if (props.allowFlip) {
-    middleware.push(
-      flip({
-        fallbackAxisSideDirection: 'end',
-        fallbackPlacements: ['top-end', 'bottom-end'],
-      }),
-    );
-  }
-
-  middleware.push(shift());
 
   const { floatingStyles, isPositioned, update } = useFloating(usedTriggerElement, menuContentElement, {
     placement: 'bottom-start',
     strategy: props.positionStrategy,
     middleware,
     whileElementsMounted: props.positionAutoupdate || props.positionStrategy === 'fixed' ? autoUpdate : undefined,
+  });
+
+  const contentStylesComputed = computed(() => {
+    let borderRadiusStr = '';
+    if (typeof props.contentBorderRadius === 'number') {
+      borderRadiusStr = `${props.contentBorderRadius}px`;
+    } else if (Array.isArray(props.contentBorderRadius)) {
+      const [tl, tr, br, bl] = props.contentBorderRadius;
+      borderRadiusStr = `${tl}px ${tr}px ${br}px ${bl}px`;
+    }
+
+    return {
+      ...floatingStyles.value,
+      '--ui3n-menu-zIndex': String(props.zIndex),
+      ...(borderRadiusStr && { '--ui3n-menu-border-radius': borderRadiusStr }),
+      ...(props.contentStyles || {}),
+    };
   });
 
   function toggleMenu() {
@@ -78,7 +88,11 @@
     emits('update:modelValue', isShow.value);
   }
 
-  function onClickOutside() {
+  function onClickOutside(event: MouseEvent) {
+    if (usedTriggerElement.value?.contains(event.target as Node)) {
+      return;
+    }
+
     emits('click-outside');
     if (props.closeOnClickOutside) {
       isShow.value = false;
@@ -126,6 +140,7 @@
 <template>
   <div
     ref="menu-element"
+    :id="id"
     :class="$style.ui3nMenu"
   >
     <div
@@ -140,10 +155,7 @@
       v-if="isShow"
       ref="menu-content-element"
       v-click-outside="onClickOutside"
-      :style="{
-        ...floatingStyles,
-        ...(contentStyles && { ...contentStyles }),
-      }"
+      :style="contentStylesComputed"
       :class="$style.ui3nMenuContent"
       v-on="closeOnClick ? { click: onContentClick } : {}"
     >
@@ -157,7 +169,6 @@
 
   .ui3nMenu {
     --ui3n-menu-content-bg: var(--color-bg-control-secondary-default);
-    --ui3n-menu-content-border-raduis: v-bind(contentBorderRadiusCss);
 
     position: relative;
     max-width: max-content;
@@ -178,7 +189,7 @@
     position: absolute;
     border-radius: var(--ui3n-menu-content-border-raduis);
     background-color: var(--ui3n-menu-content-bg);
-    z-index: v-bind(zIndexCss);
+    z-index: var(--ui3n-menu-zIndex, 1000);
     overflow: hidden;
     @include mixins.dropShadow();
   }

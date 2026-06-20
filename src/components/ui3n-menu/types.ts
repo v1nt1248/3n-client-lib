@@ -5,6 +5,10 @@ import type { Ref, VNode } from 'vue';
  */
 export interface Ui3nMenuProps {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
    * Menu open state
    */
   modelValue?: boolean;

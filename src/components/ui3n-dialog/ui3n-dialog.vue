@@ -248,7 +248,7 @@
     display: flex;
     flex-direction: column;
     height: auto;
-    min-height: var(--spacing-xxl);
+    min-height: 48px;
     max-height: 95%;
     background-color: var(--color-bg-block-primary-default);
     border: 1px solid var(--color-border-block-primary-default);
@@ -281,7 +281,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    column-gap: var(--spacing-s);
+    column-gap: 8px;
     padding: var(--ui3n-dialog-title-padding);
     border-bottom: 1px solid var(--color-border-block-primary-default);
 
@@ -318,7 +318,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: var(--spacing-s);
+    gap: 8px;
   }
 
   .loading {

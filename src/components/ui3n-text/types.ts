@@ -1,5 +1,13 @@
 export interface Ui3nTextProps {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
+   * HTML name attribute for form submission
+   */
+  name?: string;
+  /**
    * Text value
    */
   modelValue: string;
@@ -85,4 +93,8 @@ export interface Ui3nTextEmits {
    * Called when validation status updates
    */
   (event: 'update:valid', value: boolean): void;
+}
+
+export interface Ui3nTextExpose {
+  clear: () => void;
 }

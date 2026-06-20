@@ -1,11 +1,11 @@
 <!-- @strictTemplates false -->
-
 <script lang="ts" setup>
   import { onMounted, ref, watch } from 'vue';
   import { patchTextareaMaxRowsSupport } from '@/utils';
-  import type { Ui3nTextEmits, Ui3nTextProps } from './types';
+  import type { Ui3nTextEmits, Ui3nTextProps, Ui3nTextExpose } from './types';
 
   const props = withDefaults(defineProps<Ui3nTextProps>(), {
+    name: undefined,
     rows: 6,
     maxRows: 6,
     label: '',
@@ -44,9 +44,10 @@
   }
 
   function onBlur(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+
     setTimeout(() => {
       isFocused.value = false;
-      const value = (event.target as HTMLInputElement).value;
       validate(value);
       emits('blur', event);
       emits('change', value);
@@ -84,6 +85,25 @@
     emits('keydown', event);
   }
 
+  function clear() {
+    text.value = '';
+    errorMessage.value = '';
+    isDirty.value = false;
+
+    if (textareaElement.value) {
+      textareaElement.value.value = '';
+    }
+
+    emits('update:modelValue', '');
+    emits('input', '');
+    emits('change', '');
+    emits('update:valid', true);
+  }
+
+  defineExpose<Ui3nTextExpose>({
+    clear,
+  });
+
   onMounted(() => {
     if (textareaElement.value) {
       patchTextareaMaxRowsSupport(textareaElement.value!);
@@ -94,6 +114,15 @@
       validate(text.value);
     }
   });
+
+  watch(
+    () => props.name,
+    newName => {
+      if (!newName) {
+        clear();
+      }
+    },
+  );
 
   watch(
     () => props.modelValue,
@@ -108,7 +137,10 @@
 </script>
 
 <template>
-  <div :class="[$style.ui3nText, disabled && $style.disabled, isFocused && $style.focused]">
+  <div
+    :id="id"
+    :class="[$style.ui3nText, disabled && $style.disabled, isFocused && $style.focused]"
+  >
     <label
       v-if="label"
       :class="$style.label"
@@ -121,6 +153,7 @@
         ref="textareaElement"
         :class="$style.content"
         :value="text"
+        :name="name"
         :placeholder="placeholder"
         :readonly="disabled"
         :rows="rows"
@@ -140,28 +173,34 @@
 
 <style lang="scss" module>
   .ui3nText {
+    --ui3n-text-border-radius: 4px;
+    --ui3n-text-label-font-size: 12px;
+    --ui3n-text-font-size: 13px;
+    --ui3n-text-padding-inline: 8px;
+    --ui3n-text-padding-block: 8px;
+
     position: relative;
     width: 100%;
-    border-radius: var(--spacing-xs);
+    border-radius: var(--ui3n-text-border-radius);
     padding: 1px;
   }
 
   .label {
     display: block;
     width: 100%;
-    font-size: var(--font-12);
-    line-height: var(--font-16);
+    font-size: var(--ui3n-text-label-font-size);
+    line-height: 1.33;
     font-weight: 600;
     color: var(--color-text-control-primary-default);
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 4px;
   }
 
   .body {
     position: relative;
     width: 100%;
-    padding: var(--spacing-s) 0;
+    padding: var(--ui3n-text-padding-block) 0;
     background-color: var(--color-bg-control-secondary-default);
-    border-radius: var(--spacing-xs);
+    border-radius: var(--ui3n-text-border-radius);
     transition: all 0.2s ease-in-out;
 
     &:hover {
@@ -186,12 +225,12 @@
     box-sizing: border-box;
     position: relative;
     width: 100%;
-    border-radius: var(--spacing-xs);
+    border-radius: var(--ui3n-text-border-radius);
     background-color: var(--color-bg-control-secondary-default);
-    padding: 0 var(--spacing-s);
+    padding: 0 var(--ui3n-text-padding-inline);
     font-family: Inter, system-ui, sans-serif;
-    font-size: var(--font-13);
-    line-height: var(--font-16);
+    font-size: var(--ui3n-text-font-size);
+    line-height: 1.23;
     font-weight: 400;
     color: var(--color-text-control-primary-default);
     transition: all 0.2s ease-in-out;
@@ -199,8 +238,8 @@
     &::placeholder {
       color: var(--color-text-control-secondary-default);
       font-style: italic;
-      font-size: var(--font-13);
-      line-height: var(--font-16);
+      font-size: var(--ui3n-text-font-size);
+      line-height: 1.23;
       font-weight: 400;
     }
 

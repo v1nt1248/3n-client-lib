@@ -1,4 +1,8 @@
 export interface Ui3nIconProps {
+  /**
+   * Root element id
+   */
+  id?: string;
   /** Icon name */
   icon: string;
   /** Icon title */
@@ -21,5 +25,5 @@ export interface Ui3nIconProps {
 
 export interface Ui3nIconEmits {
   /** Called when the icon is clicked */
-  (ev: 'click', value: Event): void;
+  (ev: 'click', value: MouseEvent): void;
 }

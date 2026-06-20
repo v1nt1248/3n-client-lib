@@ -5,14 +5,15 @@
   import size from 'lodash/size';
   import Ui3nChip from '../ui3n-chip/ui3n-chip.vue';
   import Ui3nMenu from '../ui3n-menu/ui3n-menu.vue';
-  import Ui3nHtml from '@/directives/ui3n-html';
-  import { markSearch, getRandomId } from '@/utils';
+  import Ui3nHtml from '../../directives/ui3n-html';
+  import { markSearch, getRandomId } from '../../utils';
   import type { Nullable } from '@/types';
-  import {
+  import type {
     Ui3nAutocompleteOptionBase,
     Ui3nAutocompleteProps,
     Ui3nAutocompleteEmits,
     Ui3nAutocompleteSlots,
+    Ui3nAutocompleteExpose,
   } from './types';
 
   const vUi3nHtml = Ui3nHtml;
@@ -36,6 +37,7 @@
   const inputEl = ref<Nullable<HTMLInputElement>>(null);
   const menuBodyEl = ref<Nullable<HTMLDivElement>>(null);
   const activeItemsIndex = ref<Nullable<number>>(null);
+  const isLastChipHighlighted = ref(false);
   const isNewValueValid = ref(true);
 
   const ids = computed(() =>
@@ -77,12 +79,14 @@
   });
 
   function onInput() {
+    isLastChipHighlighted.value = false;
     emits('update:search', query.value);
   }
 
   function onBlur() {
     emits('update:focused', false);
     activeItemsIndex.value = null;
+    isLastChipHighlighted.value = false;
 
     setTimeout(() => {
       isMenuOpen.value = false;
@@ -190,29 +194,79 @@
     }
   }
 
-  function onKeydown(event: KeyboardEvent, key: 'down' | 'up' | 'esc' | 'enter' | 'tab') {
+  function handleBackspaceKey() {
+    if (props.disabled || query.value !== '' || isEmpty(props.modelValue)) {
+      return;
+    }
+
+    if (!isLastChipHighlighted.value) {
+      isLastChipHighlighted.value = true;
+      return;
+    }
+
+    const updatedModelValue = cloneDeep(props.modelValue);
+    updatedModelValue.pop();
+    emits('update:modelValue', updatedModelValue);
+
+    isLastChipHighlighted.value = false;
+  }
+
+  function onKeydown(event: KeyboardEvent, key: 'down' | 'up' | 'esc' | 'enter' | 'tab' | 'backspace') {
     switch (key) {
-      case 'down':
+      case 'down': {
         event.preventDefault();
         event.stopPropagation();
         handlePressingDownKey();
         break;
-      case 'up':
+      }
+
+      case 'up': {
         event.preventDefault();
         event.stopPropagation();
         handlePressingUpKey();
         break;
+      }
+
       case 'esc':
       case 'tab':
         handlePressingEscOrTabKeys();
         break;
-      case 'enter':
+
+      case 'enter': {
         event.preventDefault();
         event.stopPropagation();
         handlePressingEnterKey();
         break;
+      }
+
+      case 'backspace':
+        handleBackspaceKey();
+        break;
     }
   }
+
+  function clear() {
+    query.value = '';
+    isMenuOpen.value = false;
+    activeItemsIndex.value = null;
+    isNewValueValid.value = true;
+
+    emits('update:modelValue', [] as unknown as T[] & Array<T[keyof T]>);
+    emits('update:search', '');
+  }
+
+  defineExpose<Ui3nAutocompleteExpose>({
+    clear,
+  });
+
+  watch(
+    () => props.name,
+    newName => {
+      if (!newName) {
+        clear();
+      }
+    },
+  );
 
   watch(
     () => size(filteredItems.value),
@@ -278,19 +332,31 @@
         ref="activatorEl"
         :class="$style.trigger"
       >
-        <template v-if="chips">
+        <transition-group
+          v-if="chips"
+          name="chipAnim"
+          tag="div"
+          :class="$style.chipsContainer"
+        >
           <!-- @vue-ignore -->
-          <template
+          <div
             v-for="(item, index) in modelValue"
-            :key="item.id"
+            :key="item.id || index"
+            :class="$style.chipWrapper"
           >
             <slot
               name="chip"
               :item="item"
               :index="index"
+              :is-highlighted="index === size(modelValue) - 1 && isLastChipHighlighted"
             >
               <ui3n-chip
                 height="32"
+                :color="
+                  index === size(modelValue) - 1 && isLastChipHighlighted
+                    ? 'var(--color-bg-control-primary-hover)'
+                    : undefined
+                "
                 round
                 closeable
                 @close="onChipClose(item)"
@@ -298,8 +364,8 @@
                 {{ returnObject ? (item as T)[props.itemTitle] : item }}
               </ui3n-chip>
             </slot>
-          </template>
-        </template>
+          </div>
+        </transition-group>
 
         <template v-else>
           <div :class="$style.displayValue">
@@ -322,6 +388,7 @@
           @keydown.esc="onKeydown($event, 'esc')"
           @keydown.enter="onKeydown($event, 'enter')"
           @keydown.tab="onKeydown($event, 'tab')"
+          @keydown.delete="onKeydown($event, 'backspace')"
         />
       </div>
 
@@ -493,5 +560,37 @@
     font-weight: 500;
     color: var(--color-text-control-primary-default);
     border-radius: var(--ui3n-autocomplete-border-radius);
+  }
+
+  .chipsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: flex-start;
+  }
+
+  .chipWrapper {
+    display: inline-flex;
+  }
+
+  :global {
+    .chipAnim-enter-from,
+    .chipAnim-leave-to {
+      opacity: 0;
+      transform: scale(0.85);
+    }
+
+    .chipAnim-enter-active,
+    .chipAnim-leave-active {
+      transition: all 0.2s ease;
+    }
+
+    .chipAnim-move {
+      transition: transform 0.2s ease;
+    }
+
+    .chipAnim-leave-active {
+      position: absolute !important;
+    }
   }
 </style>

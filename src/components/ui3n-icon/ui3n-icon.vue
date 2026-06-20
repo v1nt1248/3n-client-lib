@@ -11,11 +11,13 @@
 
   const widthVal = computed(() => props.size || props.width || 16);
   const heightVal = computed(() => props.size || props.height || 16);
-  const widthCss = computed(() => `${widthVal.value}px`);
-  const heightCss = computed(() => `${heightVal.value}px`);
 
   const iconStyle = computed(() => {
-    const value: Record<string, string> = {};
+    const value: Record<string, string> = {
+      '--ui3n-icon-width': `${widthVal.value}px`,
+      '--ui3n-icon-height': `${heightVal.value}px`,
+      '--ui3n-icon-color': props.color,
+    };
     const transformData = [];
     props.horizontalFlip && transformData.push('rotateY(180deg)');
     props.verticalFlip && transformData.push('rotateX(180deg)');
@@ -26,33 +28,29 @@
 
     return value;
   });
-
-  function onClick(ev: Event) {
-    emits('click', ev);
-  }
 </script>
 
 <template>
   <div
+    :id="id"
     :class="$style.ui3nIcon"
     :title="title"
     :style="iconStyle"
     v-bind="{ 'data-icon': icon }"
-    @click="onClick"
+    @click="emits('click', $event)"
   />
 </template>
 
 <style lang="scss" module>
   .ui3nIcon {
-    --ui3n-icon-color: v-bind(color);
-
     display: block;
-    min-width: v-bind(widthCss);
-    width: v-bind(widthCss);
-    max-width: v-bind(widthCss);
-    min-height: v-bind(heightCss);
-    height: v-bind(heightCss);
-    max-height: v-bind(heightCss);
+    min-width: var(--ui3n-icon-width);
+    width: var(--ui3n-icon-width);
+
+    min-height: var(--ui3n-icon-height);
+    height: var(--ui3n-icon-height);
+    max-height: var(--ui3n-icon-height);
+
     flex-grow: 0;
     flex-shrink: 0;
     background-color: currentcolor;

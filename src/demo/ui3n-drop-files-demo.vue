@@ -24,17 +24,27 @@
   <demo-layout title="Ui3nDropFiles, Ui3nInputFile">
     <demo-layout-cell label="Ui3nDropFiles (default)">
       <div :class="$style.block">
-        <ui3n-drop-files @select="onSelect1" />
+        <ui3n-drop-files
+          name="mFiles"
+          @select="onSelect1"
+        />
       </div>
     </demo-layout-cell>
 
     <demo-layout-cell label="Ui3nDropFiles + Ui3nInputFile">
       <div :class="$style.block">
-        <ui3n-drop-files permanent-display @select="onSelect2">
+        <ui3n-drop-files
+          permanent-display
+          @select="onSelect2"
+        >
           <template #additional-text>
             <div :class="$style.info">
               <span>You can <b>drag&drop</b> files here or</span>&nbsp;
-              <ui3n-input-file multiple button-text="Upload Files" @update:model-value="onSelect2" />
+              <ui3n-input-file
+                multiple
+                button-text="Upload Files"
+                @update:model-value="onSelect2"
+              />
             </div>
           </template>
         </ui3n-drop-files>

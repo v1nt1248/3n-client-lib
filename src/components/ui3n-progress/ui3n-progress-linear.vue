@@ -15,13 +15,22 @@
 
   const isValueShown = computed(() => props.withText && !props.indeterminate);
   const innerHeight = computed(() => toNumber(props.height));
-  const cssHeight = computed(() => `${innerHeight.value}px`);
   const innerValue = computed(() => toNumber(props.value));
   const displayValue = computed(() => (props.indeterminate ? `20%` : `${Math.min(innerValue.value, 100)}%`));
+
+  const progressStyle = computed(() => ({
+    '--ui3n-progress-linear-height': `${innerHeight.value}px`,
+    '--ui3n-progress-linear-bg': props.bgColor,
+    '--ui3n-progress-linear-color': props.color,
+    '--ui3n-progress-linear-font-size': `${Math.max(innerHeight.value - 2, 10)}px`,
+  }));
 </script>
 
 <template>
-  <div :class="[$style.ui3nProgressLinear, indeterminate && $style.indeterminate]">
+  <div
+    :style="progressStyle"
+    :class="[$style.ui3nProgressLinear, indeterminate && $style.indeterminate]"
+  >
     <div
       v-if="isValueShown && innerHeight < thresholdHeight"
       :class="[$style.text, $style.above]"
@@ -47,10 +56,6 @@
 
 <style lang="scss" module>
   .ui3nProgressLinear {
-    --ui3n-progress-linear-height: v-bind(cssHeight);
-    --ui3n-progress-linear-bg: v-bind(bgColor);
-    --ui3n-progress-linear-color: v-bind(color);
-
     position: relative;
     width: 100%;
   }
@@ -73,10 +78,11 @@
     height: var(--ui3n-progress-linear-height);
     border-radius: calc(var(--ui3n-progress-linear-height) - 2px);
     background-color: var(--ui3n-progress-linear-color);
+    transition: width 0.2s ease-in-out;
   }
 
   .text {
-    font-size: calc(var(--ui3n-progress-linear-height) - 2px);
+    font-size: var(--ui3n-progress-linear-font-size);
     font-weight: 500;
     line-height: var(--ui3n-progress-linear-height);
     color: var(--ui3n-progress-linear-bg);
@@ -93,6 +99,7 @@
 
   .indeterminate {
     .value {
+      transition: none;
       animation: 1s linear 0s infinite normal move;
     }
   }

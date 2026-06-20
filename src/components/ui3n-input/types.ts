@@ -2,6 +2,10 @@ import type { Ref, VNode } from 'vue';
 
 export interface Ui3nInputProps {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
    * Input value
    */
   modelValue: string;

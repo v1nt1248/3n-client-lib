@@ -1,16 +1,16 @@
 <script lang="ts" setup>
   import type { Ui3nStepLineBarProps } from './types';
 
-  withDefaults(
-    defineProps<Ui3nStepLineBarProps>(),
-    {
-      current: 1,
-    },
-  );
+  const props = withDefaults(defineProps<Ui3nStepLineBarProps>(), {
+    current: 1,
+  });
 </script>
 
 <template>
-  <div :class="$style.ui3nStepLineBar">
+  <div
+    :id="id"
+    :class="$style.ui3nStepLineBar"
+  >
     <div :class="$style.label">
       {{ label }}
     </div>
@@ -27,8 +27,6 @@
 
 <style lang="scss" module>
   .ui3nStepLineBar {
-    --ui3n-step-line-bar-steps: v-bind(steps);
-
     position: relative;
     width: 100%;
   }
@@ -54,7 +52,7 @@
 
   .step {
     position: relative;
-    width: calc((100% - (calc(var(--ui3n-step-line-bar-steps) - 1) * var(--spacing-s))) / var(--ui3n-step-line-bar-steps));
+    flex: 1;
     height: var(--spacing-xs);
     border-radius: var(--spacing-xs);
     background-color: var(--color-bg-control-secondary-default);

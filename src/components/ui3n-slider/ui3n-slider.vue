@@ -4,9 +4,10 @@
   import Ui3nTooltip from '../ui3n-tooltip/ui3n-tooltip.vue';
   import { round } from '@/utils';
   import type { Nullable } from '@/types';
-  import type { UI3nSliderProps, UI3nSliderEmits } from './types';
+  import type { UI3nSliderProps, UI3nSliderEmits, UI3nSliderExpose } from './types';
 
   const props = withDefaults(defineProps<UI3nSliderProps>(), {
+    name: undefined,
     min: 0,
     max: 100,
     labelVisible: 'normal',
@@ -34,14 +35,9 @@
   const innerValue = ref<number | [number, number]>(0);
   const selectedPointer = ref<Nullable<1 | 2>>(null);
 
-  const sliderHeight = computed(() => {
-    const height = Math.max(Number(props.trackHeight), Number(props.thumbSize));
-    return `${height}px`;
-  });
-  const trackHeightCss = computed(() => `${props.trackHeight}px`);
   const thumbSizeCss = computed(() => `${props.thumbSize}px`);
   const diff = computed(() => Number(props.max) - Number(props.min));
-  const innerStep = computed(() => props.step ? Number(props.step) : diff.value / 100);
+  const innerStep = computed(() => (props.step ? Number(props.step) : diff.value / 100));
 
   const activeBlockStyle = computed(() => {
     const style = {} as Record<'left' | 'width', string>;
@@ -51,15 +47,14 @@
       if (minVal <= Number(props.min)) {
         style.left = '0px';
       } else if (minVal < Number(props.max)) {
-        style.left = `${round((minVal - Number(props.min)) / diff.value * 100, 0)}%`;
+        style.left = `${round(((minVal - Number(props.min)) / diff.value) * 100, 0)}%`;
       }
 
       if (maxVal >= Number(props.max)) {
-        style.width = minVal <= Number(props.min)
-          ? '100%'
-          : `${round((Number(props.max) - minVal) / diff.value * 100, 0)}%`;
+        style.width =
+          minVal <= Number(props.min) ? '100%' : `${round(((Number(props.max) - minVal) / diff.value) * 100, 0)}%`;
       } else if (maxVal > Number(props.min)) {
-        style.width = `${round((maxVal - minVal) / diff.value * 100, 0)}%`;
+        style.width = `${round(((maxVal - minVal) / diff.value) * 100, 0)}%`;
       }
 
       return style;
@@ -73,30 +68,32 @@
       style.width = '100%';
     } else {
       style.left = '0px';
-      style.width = `${round(((innerValue.value as number) - Number(props.min)) / diff.value * 100, 0)}%`;
+      style.width = `${round((((innerValue.value as number) - Number(props.min)) / diff.value) * 100, 0)}%`;
     }
 
     return style;
   }) as ComputedRef<Record<string, string>>;
 
-  const pointer1PositionCss = computed(() => props.range
-    ? `calc(${activeBlockStyle.value.left} - calc(${thumbSizeCss.value} / 2))`
-    : `calc(${activeBlockStyle.value.width} - calc(${thumbSizeCss.value} / 2))`,
+  const pointer1PositionCss = computed(() =>
+    props.range
+      ? `calc(${activeBlockStyle.value.left} - calc(${thumbSizeCss.value} / 2))`
+      : `calc(${activeBlockStyle.value.width} - calc(${thumbSizeCss.value} / 2))`,
   );
-  const pointer2PositionCss = computed(() => props.range
-    ? `calc(${activeBlockStyle.value.width} + ${activeBlockStyle.value.left} - calc(${thumbSizeCss.value} / 2))`
-    : '200%',
+  const pointer2PositionCss = computed(() =>
+    props.range
+      ? `calc(${activeBlockStyle.value.width} + ${activeBlockStyle.value.left} - calc(${thumbSizeCss.value} / 2))`
+      : '200%',
   );
 
   const label1Text = computed(() => {
     if (props.range) {
       const val = (innerValue.value as [number, number])[0];
-      return props.transformValueMethod
-        ? props.transformValueMethod(val)
-        : `${val}`;
+      return props.transformValueMethod ? props.transformValueMethod(val) : `${val}`;
     }
 
-    return props.transformValueMethod ? props.transformValueMethod(innerValue.value as number) : `${innerValue.value}`;
+    return props.transformValueMethod
+      ? props.transformValueMethod(innerValue.value as number)
+      : `${innerValue.value}`;
   });
   const label2Text = computed(() => {
     if (!props.range) {
@@ -104,7 +101,23 @@
     }
 
     const val = (innerValue.value as [number, number])[1];
-    return props.transformValueMethod ? props.transformValueMethod(val) :  `${val}`;
+    return props.transformValueMethod ? props.transformValueMethod(val) : `${val}`;
+  });
+
+  const sliderStyle = computed(() => {
+    const height = Math.max(Number(props.trackHeight), Number(props.thumbSize));
+    return {
+      '--ui3n-slider-height': `${height}px`,
+      '--ui3n-slider-label-color': props.labelColor,
+      '--ui3n-slider-label-text-color': props.labelTextColor,
+      '--ui3n-slider-active-color': props.activeColor,
+      '--ui3n-slider-track-color': props.trackColor,
+      '--ui3n-slider-track-height': `${props.trackHeight}px`,
+      '--ui3n-slider-thumb-size': `${props.thumbSize}px`,
+      '--ui3n-slider-thumb-color': props.thumbColor,
+      '--ui3n-slider-pointer1-position': pointer1PositionCss.value,
+      '--ui3n-slider-pointer2-position': pointer2PositionCss.value,
+    };
   });
 
   function onMouseenter(pointer: 1 | 2) {
@@ -152,7 +165,8 @@
     }
 
     const sliderRefClientRect = sliderRef.value!.getBoundingClientRect();
-    const getValue = (leftPosition: number): number => Math.round(leftPosition / sliderRefClientRect.width * diff.value) + Number(props.min);
+    const getValue = (leftPosition: number): number =>
+      Math.round((leftPosition / sliderRefClientRect.width) * diff.value) + Number(props.min);
 
     let newLeft = event.clientX - shiftX.value[`${selectedPointer.value}`] - sliderRefClientRect.left;
     if (newLeft < 0) {
@@ -187,7 +201,7 @@
   function onTimelineClick(event: MouseEvent) {
     const { x } = event;
     const { x: sliderElStart, width: sliderElWidth } = sliderRef.value!.getBoundingClientRect();
-    const selectedValue = Math.round((x - sliderElStart) / sliderElWidth * diff.value) + Number(props.min);
+    const selectedValue = Math.round(((x - sliderElStart) / sliderElWidth) * diff.value) + Number(props.min);
 
     if (props.range) {
       const [minVal, maxVal] = innerValue.value as [number, number];
@@ -204,9 +218,30 @@
     emits('update:modelValue', innerValue.value);
   }
 
+  function clear() {
+    const resetValue = props.range
+      ? ([Number(props.min), Number(props.min)] as [number, number])
+      : Number(props.min);
+    innerValue.value = resetValue;
+    emits('update:modelValue', resetValue);
+  }
+
+  defineExpose<UI3nSliderExpose>({
+    clear,
+  });
+
+  watch(
+    () => props.name,
+    newName => {
+      if (!newName) {
+        clear();
+      }
+    },
+  );
+
   watch(
     () => JSON.stringify(props.modelValue),
-    (val) => {
+    val => {
       if (props.range) {
         if (val !== JSON.stringify(innerValue.value)) {
           innerValue.value = cloneDeep(props.modelValue);
@@ -220,7 +255,8 @@
       if (newVal !== innerValue.value) {
         innerValue.value = newVal;
       }
-    }, {
+    },
+    {
       immediate: true,
     },
   );
@@ -229,9 +265,33 @@
 <template>
   <div
     ref="sliderEl"
+    :id="id"
+    :style="sliderStyle"
     :class="[$style.ui3nSlider, disabled && $style.disabled]"
     @click.stop.prevent="onTimelineClick"
   >
+    <template v-if="name">
+      <template v-if="range">
+        <input
+          type="hidden"
+          :name="`${name}_min`"
+          :value="(innerValue as [number, number])[0]"
+        />
+        <input
+          type="hidden"
+          :name="`${name}_max`"
+          :value="(innerValue as [number, number])[1]"
+        />
+      </template>
+      <template v-else>
+        <input
+          type="hidden"
+          :name="name"
+          :value="innerValue as number"
+        />
+      </template>
+    </template>
+
     <div :class="$style.track">
       <div
         :class="$style.active"
@@ -290,17 +350,6 @@
 
 <style lang="scss" module>
   .ui3nSlider {
-    --ui3n-slider-height: v-bind(sliderHeight);
-    --ui3n-slider-label-color: v-bind(labelColor);
-    --ui3n-slider-label-text-color: v-bind(labelTextColor);
-    --ui3n-slider-active-color: v-bind(activeColor);
-    --ui3n-slider-track-color: v-bind(trackColor);
-    --ui3n-slider-track-height: v-bind(trackHeightCss);
-    --ui3n-slider-thumb-size: v-bind(thumbSizeCss);
-    --ui3n-slider-thumb-color: v-bind(thumbColor);
-    --ui3n-slider-pointer1-position: v-bind(pointer1PositionCss);
-    --ui3n-slider-pointer2-position: v-bind(pointer2PositionCss);
-
     position: relative;
     width: 100%;
     height: var(--ui3n-slider-height);

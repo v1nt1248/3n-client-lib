@@ -10,6 +10,14 @@ export type Ui3nRadioValue = boolean | string | number;
  */
 export interface Ui3nRadioProps {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
+   * HTML name attribute for form submission (used if radio is outside a group)
+   */
+  name?: string;
+  /**
    * Current radio value
    */
   modelValue?: Ui3nRadioValue;
@@ -50,6 +58,10 @@ export interface Ui3nRadioEmits {
   (ev: 'update:modelValue', value: Ui3nRadioValue): void;
 }
 
+export interface Ui3nRadioExpose {
+  clear: () => void;
+}
+
 /**
  * Radio component slots
  */
@@ -72,6 +84,10 @@ export interface Ui3nRadioSlots {
  * Radio group component properties
  */
 export interface Ui3nRadioGroupProps {
+  /**
+   * Root element id
+   */
+  id?: string;
   /**
    * Radio group name
    */
@@ -114,4 +130,8 @@ export interface Ui3nRadioGroupSlots {
    * Default slot
    */
   default: () => VNode;
+}
+
+export interface Ui3nRadioGroupExpose {
+  clear: () => void;
 }

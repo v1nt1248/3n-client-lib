@@ -135,7 +135,7 @@ export interface Ui3nAutocompleteSlots<T extends Ui3nAutocompleteOptionBase> {
   /**
    * Chip slot
    */
-  chip: (props: { item: T | T[keyof T]; index: number }) => VNode;
+  chip: (props: { item: T | T[keyof T]; index: number; isHighlighted: boolean }) => VNode;
   /**
    * No data text slot
    */
@@ -144,4 +144,8 @@ export interface Ui3nAutocompleteSlots<T extends Ui3nAutocompleteOptionBase> {
    * Selection slot
    */
   selection: (props: { value: T[] | Array<T[keyof T]> }) => VNode;
+}
+
+export interface Ui3nAutocompleteExpose {
+  clear: () => void;
 }

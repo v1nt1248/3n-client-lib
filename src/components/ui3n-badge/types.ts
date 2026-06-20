@@ -1,7 +1,9 @@
 import type { VNode } from 'vue';
 
 export interface Ui3nBadgeSimpleProps {
-  /** Root element  id*/
+  /**
+   * Root element id
+   */
   id?: string;
   /** For simple display as a circle */
   dot?: boolean;

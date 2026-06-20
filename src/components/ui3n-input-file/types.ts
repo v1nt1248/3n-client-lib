@@ -2,6 +2,14 @@ import { VNode } from 'vue';
 
 export interface Ui3nInputFileProps {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
+   * Input name attribute (for use in native forms)
+   */
+  name?: string;
+  /**
    * Selected files
    */
   modelValue?: File[] | FileList;
@@ -49,4 +57,8 @@ export interface Ui3nInputFileSlots {
    * Default slot
    */
   default: () => VNode;
+}
+
+export interface Ui3nInputFileExpose {
+  clear: () => void;
 }
