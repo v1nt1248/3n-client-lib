@@ -1,6 +1,10 @@
 import type { VNode } from 'vue';
 
 export interface Ui3nBadgeSimpleProps {
+  /**
+   * Root element id
+   */
+  id?: string;
   /** For simple display as a circle */
   dot?: boolean;
   /** Text displayed inside the circle */
@@ -11,7 +15,13 @@ export interface Ui3nBadgeSimpleProps {
   textColor?: string;
 }
 
+export interface Ui3nBadgeSimpleEmits {
+  (event: 'change:size', val: { width: number; height: number }): void;
+}
+
 export interface Ui3nBadgeProps {
+  /** Root element  id*/
+  id?: string;
   /** For simple display as a circle */
   dot?: boolean;
   /** Text displayed inside the circle */

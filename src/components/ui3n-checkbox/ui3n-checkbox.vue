@@ -1,8 +1,18 @@
 <script lang="ts" setup>
   import { computed, onMounted, watch, onBeforeMount, ref, useCssModule, useSlots } from 'vue';
-  import type { Ui3nCheckboxEmits, Ui3nCheckboxProps, Ui3nCheckboxSlots, Ui3nCheckboxValue } from './types';
+  import Ui3nRipple from '../../directives/ui3n-ripple';
+  import type {
+    Ui3nCheckboxEmits,
+    Ui3nCheckboxProps,
+    Ui3nCheckboxSlots,
+    Ui3nCheckboxValue,
+    Ui3nCheckboxExpose,
+  } from './types';
+
+  const vUi3nRipple = Ui3nRipple;
 
   const props = withDefaults(defineProps<Ui3nCheckboxProps>(), {
+    name: undefined,
     modelValue: false,
     checkedValue: true,
     uncheckedValue: false,
@@ -29,6 +39,13 @@
     return val.value === props.checkedValue ? 'checked' : 'unchecked';
   });
 
+  const nativeInputValue = computed(() => {
+    if (typeof val.value === 'boolean') {
+      return val.value ? 'on' : '';
+    }
+    return String(val.value);
+  });
+
   const mainCssClasses = computed(() => {
     const val = [$css.ui3nCheckbox];
 
@@ -46,25 +63,39 @@
     return val;
   });
 
-  onBeforeMount(() => {
-    const checkedValueType = typeof props.checkedValue;
-    const uncheckedValueType = typeof props.uncheckedValue;
-    const valueType = typeof props.modelValue;
-    if (
-      checkedValueType !== uncheckedValueType ||
-      checkedValueType !== valueType ||
-      uncheckedValueType !== valueType
-    ) {
-      throw Error('[Ui3nCheckbox] types of "value", "checkedValue" and "uncheckedValue" are different');
+  function change(ev: Event) {
+    ev.preventDefault();
+
+    val.value = checkBoxValue.value !== 'unchecked' ? props.uncheckedValue : props.checkedValue;
+
+    if (uncertain.value) {
+      uncertain.value = false;
     }
+
+    emits('change', val.value);
+    emits('update:modelValue', val.value);
+  }
+
+  function clear() {
+    val.value = props.uncheckedValue;
+    uncertain.value = false;
+
+    emits('change', val.value);
+    emits('update:modelValue', val.value);
+  }
+
+  defineExpose<Ui3nCheckboxExpose>({
+    clear,
   });
 
-  onMounted(() => {
-    if (checkboxEl.value) {
-      checkboxEl.value.style.setProperty('--ui3n-checkbox-size', `${props.size}px`);
-      checkboxEl.value.style.setProperty('--ui3n-checkbox-color', props.color);
-    }
-  });
+  watch(
+    () => props.name,
+    newName => {
+      if (!newName) {
+        clear();
+      }
+    },
+  );
 
   watch(
     () => props.modelValue,
@@ -96,26 +127,45 @@
     },
   );
 
-  function change(ev: Event) {
-    ev.preventDefault();
-
-    val.value = checkBoxValue.value !== 'unchecked' ? props.uncheckedValue : props.checkedValue;
-
-    if (uncertain.value) {
-      uncertain.value = false;
+  onBeforeMount(() => {
+    const checkedValueType = typeof props.checkedValue;
+    const uncheckedValueType = typeof props.uncheckedValue;
+    const valueType = typeof props.modelValue;
+    if (
+      checkedValueType !== uncheckedValueType ||
+      checkedValueType !== valueType ||
+      uncheckedValueType !== valueType
+    ) {
+      throw Error('[Ui3nCheckbox] types of "value", "checkedValue" and "uncheckedValue" are different');
     }
+  });
 
-    emits('change', val.value);
-    emits('update:modelValue', val.value);
-  }
+  onMounted(() => {
+    if (checkboxEl.value) {
+      checkboxEl.value.style.setProperty('--ui3n-checkbox-size', `${props.size}px`);
+      checkboxEl.value.style.setProperty('--ui3n-checkbox-color', props.color);
+    }
+  });
 </script>
 
 <template>
   <div
     ref="checkboxEl"
+    :id="id"
     :class="mainCssClasses"
   >
+    <input
+      type="checkbox"
+      style="display: none"
+      :name="name"
+      :id="id ? `${id}-native` : undefined"
+      :disabled="disabled"
+      :checked="checkBoxValue !== 'unchecked'"
+      :value="nativeInputValue"
+    />
+
     <div
+      v-ui3n-ripple
       :class="bodyCssClasses"
       :tabindex="disabled ? -1 : 0"
       @keydown.space="change"
@@ -195,6 +245,7 @@
 
   .ui3nCheckbox {
     --ui3n-checkbox-size: 16px;
+    --ui3n-checkbox-gap: 4px;
     --ui3n-checkbox-color: var(--color-icon-control-accent-default);
     --ui3n-checkbox-text-size: 12px;
     --ui3n-checkbox-text-color: var(--color-text-control-primary-default);
@@ -204,8 +255,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    min-height: var(--spacing-m);
-    gap: var(--spacing-s);
+    gap: var(--ui3n-checkbox-gap);
   }
 
   .noLabel {

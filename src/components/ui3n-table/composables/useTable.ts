@@ -199,6 +199,22 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
       emits('change:sort', currentConfig.value.sortOrder as Ui3nTableSort<T>);
   }
 
+  function clear() {
+    isRowKeyUsed.value && ((selectedRows.value as Array<T[keyof T]>) = []);
+    !isRowKeyUsed.value && (selectedRows.value as Set<T>).clear();
+    hasGroupActionsRow.value = false;
+    emits('select:row', []);
+  }
+
+  watch(
+    () => props.config?.tableName,
+    newTableName => {
+      if (!newTableName) {
+        clear();
+      }
+    },
+  );
+
   watch(
     tableColumnWidth,
     (val, oVal) => {
@@ -237,5 +253,6 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     processSelection,
     toggleSelectedRows,
     changeSortOrder,
+    clear,
   };
 }

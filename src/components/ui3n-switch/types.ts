@@ -5,6 +5,14 @@ import { VNode } from 'vue';
  */
 export interface Ui3nSwitchProps {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
+   * HTML name attribute for form submission
+   */
+  name?: string;
+  /**
    * Current switch value
    */
   modelValue: boolean;
@@ -45,4 +53,8 @@ export interface Ui3nSwitchSlots {
    * Default slot
    */
   default: () => VNode;
+}
+
+export interface Ui3nSwitchExpose {
+  clear: () => void;
 }

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-  import { computed, getCurrentInstance, inject, onBeforeMount, onMounted, ref, useSlots, watch } from 'vue';
-  import type { Ref } from 'vue';
-  import type { Nullable } from '../../types';
-  import type { Ui3nRadioEmits, Ui3nRadioProps, Ui3nRadioSlots, Ui3nRadioValue } from './types';
+  import { computed, getCurrentInstance, inject, onBeforeMount, ref, useSlots, watch } from 'vue';
+  import type { ComputedRef } from 'vue';
+  import type { Ui3nRadioEmits, Ui3nRadioProps, Ui3nRadioSlots, Ui3nRadioValue, Ui3nRadioExpose } from './types';
 
   const props = withDefaults(defineProps<Ui3nRadioProps>(), {
+    name: undefined,
     modelValue: false,
     checkedValue: true,
     uncheckedValue: false,
@@ -20,26 +20,29 @@
   const instance = getCurrentInstance();
   const isComponentPartOfGroup =
     instance?.parent?.type.__name === 'Ui3nRadioGroup' || instance?.parent?.type.__name === 'ui3n-radio-group';
-  const groupName = isComponentPartOfGroup ? instance?.parent?.props.name : '';
-
-  const radioEl = ref<HTMLDivElement | null>(null);
+  const groupName = (isComponentPartOfGroup ? instance?.parent?.props.name : '') as string;
 
   const {
     groupValue,
     updateGroupValue,
   }: {
-    groupValue: Nullable<Ref<Ui3nRadioValue>>;
-    updateGroupValue: Nullable<(value: Ui3nRadioValue) => void>;
+    groupValue: ComputedRef<Ui3nRadioValue> | null;
+    updateGroupValue: ((value: Ui3nRadioValue) => void) | null;
   } = groupName
     ? inject(`radio-group-${groupName}`)!
     : {
-      groupValue: null,
-      updateGroupValue: null,
-    };
+        groupValue: null,
+        updateGroupValue: null,
+      };
 
   const val = ref<Ui3nRadioValue>(groupName ? groupValue!.value : props.modelValue);
 
   const isOn = computed(() => val.value === props.checkedValue);
+
+  const radioStyle = computed(() => ({
+    '--ui3n-radio-size': `${props.size}px`,
+    '--ui3n-radio-color': props.color,
+  }));
 
   function change(ev: Event) {
     ev.preventDefault();
@@ -57,14 +60,28 @@
 
     val.value = props.checkedValue;
     updateGroupValue!(val.value);
-
-    // if (groupName) {
-    //   isOn.value && updateGroupValue!(val.value);
-    // } else {
-    //   emits('change', val.value);
-    //   emits('update:modelValue', val.value);
-    // }
   }
+
+  function clear() {
+    val.value = props.uncheckedValue;
+    if (!groupName) {
+      emits('change', val.value);
+      emits('update:modelValue', val.value);
+    }
+  }
+
+  defineExpose<Ui3nRadioExpose>({
+    clear,
+  });
+
+  watch(
+    () => props.name,
+    newName => {
+      if (!newName && !groupName) {
+        clear();
+      }
+    },
+  );
 
   onBeforeMount(() => {
     if (
@@ -73,14 +90,7 @@
       // @ts-ignore
       (!slots.checkedIcon && slots.uncheckedIcon)
     ) {
-      throw Error('[Ui3nRadio] Both checkedIcon and uncheckedIcon slots must have values ​​defined.');
-    }
-  });
-
-  onMounted(() => {
-    if (radioEl.value) {
-      radioEl.value.style.setProperty('--ui3n-radio-size', `${props.size}px`);
-      radioEl.value.style.setProperty('--ui3n-radio-color', props.color);
+      throw Error('[Ui3nRadio] Both checkedIcon and uncheckedIcon slots must have values defined.');
     }
   });
 
@@ -89,24 +99,6 @@
     newValue => {
       if (newValue !== val.value) {
         val.value = newValue;
-      }
-    },
-  );
-
-  watch(
-    () => props.size,
-    newValue => {
-      if (radioEl.value) {
-        radioEl.value.style.setProperty('--ui3n-radio-size', `${newValue}px`);
-      }
-    },
-  );
-
-  watch(
-    () => props.color,
-    newValue => {
-      if (radioEl.value) {
-        radioEl.value.style.setProperty('--ui3n-radio-color', newValue);
       }
     },
   );
@@ -124,9 +116,18 @@
 <template>
   <!-- eslint-disable max-len -->
   <div
-    ref="radioEl"
+    :style="radioStyle"
     :class="[$style.ui3nRadio, disabled && $style.disabled, !slots.default && $style.noLabel]"
   >
+    <input
+      type="radio"
+      hidden
+      :name="groupName || name"
+      :checked="isOn"
+      :value="String(checkedValue)"
+      :disabled="disabled"
+    />
+
     <div
       :class="[$style.body, disabled && $style.bodyDisabled]"
       :tabindex="disabled ? -1 : 0"
@@ -139,7 +140,6 @@
         name="checkedIcon"
       >
         <svg
-          xmlns="http://www.w3.org/2000/svg"
           :width="Number(size) - 4"
           :height="Number(size) - 4"
           viewBox="0 0 24 24"
@@ -157,7 +157,6 @@
         name="uncheckedIcon"
       >
         <svg
-          xmlns="http://www.w3.org/2000/svg"
           :width="Number(size) - 4"
           :height="Number(size) - 4"
           viewBox="0 0 24 24"
@@ -181,18 +180,14 @@
   @use '../../assets/styles/mixins' as mixins;
 
   .ui3nRadio {
-    --ui3n-radio-size: 16px;
-    --ui3n-radio-color: var(--color-icon-control-accent-default);
-    --ui3n-radio-text-size: 12px;
-    --ui3n-radio-text-color: var(--color-text-control-primary-default);
-    --ui3n-radio-text-weight: 500;
+    --ui3n-radio-min-height: 24px;
 
     position: relative;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    min-height: var(--spacing-vl);
-    gap: var(--spacing-s);
+    min-height: var(--ui3n-radio-min-height);
+    gap: 8px;
 
     &.disabled {
       --ui3n-radio-color: var(--color-icon-control-primary-disabled) !important;
@@ -213,10 +208,10 @@
   .body {
     position: relative;
     display: flex;
-    width: var(--ui3n-radio-size);
-    min-width: var(--ui3n-radio-size);
-    height: var(--ui3n-radio-size);
-    min-height: var(--ui3n-radio-size);
+    width: var(--ui3n-radio-size, 16px);
+    min-width: var(--ui3n-radio-size, 16px);
+    height: var(--ui3n-radio-size, 16px);
+    min-height: var(--ui3n-radio-size, 16px);
     justify-content: center;
     align-items: center;
     border-radius: 50%;
@@ -229,18 +224,18 @@
   }
 
   .label {
-    font-size: var(--ui3n-radio-text-size);
-    font-weight: var(--ui3n-radio-text-weight);
-    color: var(--ui3n-radio-text-color);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-control-primary-default);
     user-select: none;
   }
 
   .icon {
     color: var(--ui3n-radio-color);
-    min-height: calc(var(--ui3n-radion-size) - 2px);
-    height: calc(var(--ui3n-radion-size) - 2px);
-    min-width: calc(var(--ui3n-checkbox-size) - 2px);
-    width: calc(var(--ui3n-radion-size) - 2px);
+    min-height: calc(var(--ui3n-radio-size, 16px) - 2px);
+    height: calc(var(--ui3n-radio-size, 16px) - 2px);
+    min-width: calc(var(--ui3n-radio-size, 16px) - 2px);
+    width: calc(var(--ui3n-radio-size, 16px) - 2px);
     cursor: pointer;
   }
 

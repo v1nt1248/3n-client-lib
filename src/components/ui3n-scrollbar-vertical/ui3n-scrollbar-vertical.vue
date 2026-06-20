@@ -19,6 +19,7 @@
     trackWidth: 6,
     trackRadius: 4,
     trackColor: 'transparent',
+    autoUpdate: true,
   });
   const emits = defineEmits<Ui3nScrollbarVerticalEmits>();
   defineSlots<Ui3nScrollbarVerticalSlots>();
@@ -137,7 +138,6 @@
 
     containerRef.value.scrollTo({
       top: targetScrollTop,
-      behavior: 'smooth',
     });
   }
 
@@ -201,7 +201,7 @@
       resizeObserver = new ResizeObserver(updateMetrics);
       resizeObserver.observe(containerRef.value);
 
-      if (containerRef.value.firstElementChild) {
+      if (props.autoUpdate && containerRef.value.firstElementChild) {
         resizeObserver.observe(containerRef.value.firstElementChild);
       }
     }
@@ -224,8 +224,8 @@
     scrollTo: (options: ScrollToOptions) => {
       containerRef.value?.scrollTo(options);
     },
-
     getContainer: () => containerRef.value!,
+    updateMetrics,
   });
 </script>
 
@@ -255,7 +255,7 @@
     <div
       ref="trackRef"
       :class="[$style.track, { [$style.trackVisible]: isBarVisible }]"
-      @mousedown="onTrackClick"
+      @pointerdown="onTrackClick"
     >
       <div
         ref="thumbRef"

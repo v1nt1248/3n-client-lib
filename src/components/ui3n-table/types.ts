@@ -309,4 +309,8 @@ export type Ui3nTableExpose<T extends Ui3nTableBodyBaseItem> = {
    * Close group actions row
    */
   closeGroupActionsRow: () => void;
+  /**
+   * Clear all selected rows
+   */
+  clear: () => void;
 };

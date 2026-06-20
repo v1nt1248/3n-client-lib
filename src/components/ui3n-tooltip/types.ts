@@ -22,6 +22,10 @@ export type Ui3nTooltipPlacement =
  */
 export interface Ui3nTooltipProps {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
    * Whether tooltip is open
    */
   modelValue?: boolean;

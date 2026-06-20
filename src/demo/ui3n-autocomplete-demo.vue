@@ -99,6 +99,7 @@
       <demo-layout-cell label="Default">
         <ui3n-autocomplete
           v-model="value"
+          name="email"
           placeholder="Enter email address"
           :items="contactList"
           :custom-filter="filterContactList"

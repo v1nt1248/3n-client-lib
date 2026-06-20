@@ -1,19 +1,3 @@
-<!--
- Copyright (C) 2026 3NSoft Inc.
-
- This program is free software: you can redistribute it and/or modify it under
- the terms of the GNU General Public License as published by the Free Software
- Foundation, either version 3 of the License, or (at your option) any later
- version.
-
- This program is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- See the GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License along with
- this program. If not, see <http://www.gnu.org/licenses/>.
--->
 <script setup lang="ts" generic="T extends Ui3nSelectorOptionBase">
   import { ref, computed, type ComputedRef, useTemplateRef, watch } from 'vue';
   import isEmpty from 'lodash/isEmpty';
@@ -25,6 +9,7 @@
     Ui3nSelectorProps,
     Ui3nSelectorEmits,
     Ui3nSelectorSlots,
+    Ui3nSelectorExpose,
     Ui3nSelectorItemDisplayingFunction,
   } from './types';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
@@ -32,6 +17,7 @@
   import Ui3nMenu from '../ui3n-menu/ui3n-menu.vue';
 
   const props = withDefaults(defineProps<Ui3nSelectorProps<T>>(), {
+    name: undefined,
     label: '',
     items: () => [] as T[],
     itemValue: 'id',
@@ -219,6 +205,23 @@
     }
   }
 
+  function clear() {
+    resetValue();
+  }
+
+  defineExpose<Ui3nSelectorExpose>({
+    clear,
+  });
+
+  watch(
+    () => props.name,
+    newName => {
+      if (!newName) {
+        clear();
+      }
+    },
+  );
+
   watch(
     () => isMenuOpen.value,
     (val, oVal) => {
@@ -245,7 +248,17 @@
 </script>
 
 <template>
-  <div :class="$style.ui3nSelector">
+  <div
+    :id="id"
+    :class="$style.ui3nSelector"
+  >
+    <input
+      v-if="name && modelValue"
+      type="hidden"
+      :name="name"
+      :value="typeof modelValue === 'object' ? JSON.stringify(modelValue) : String(modelValue)"
+    />
+
     <label
       v-if="label"
       :class="$style.label"
@@ -362,7 +375,15 @@
   @use '@/assets/styles/mixins' as mixins;
 
   .ui3nSelector {
-    --selector-activator-height: 32px;
+    --ui3n-selector-activator-height: 32px;
+    --ui3n-selector-border-radius: calc(var(--ui3n-selector-activator-height) / 2.5);
+    --ui3n-selector-font-size: 12px;
+    --ui3n-selector-trigger-padding: 0 24px 0 8px;
+    --ui3n-selector-trigger-font-size: 13px;
+    --ui3n-selector-item-min-height: 32px;
+    --ui3n-selector-item-padding: 4px;
+    --ui3n-selector-item-font-size: 13px;
+    --ui3n-selector-item-border-radius: 4px;
 
     position: relative;
     width: 100%;
@@ -371,35 +392,37 @@
   .label {
     display: block;
     width: 100%;
-    font-size: var(--font-12);
+    font-size: var(--ui3n-selector-font-size);
     font-weight: 500;
-    line-height: var(--font-16);
+    line-height: 1.33;
     color: var(--color-text-control-primary-default);
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 4px;
   }
 
   .menu {
     width: 100%;
     max-width: 100% !important;
+    border-radius: var(--ui3n-selector-border-radius);
 
     & > div {
       max-width: 100% !important;
+      border-radius: var(--ui3n-selector-border-radius);
     }
   }
 
   .trigger {
     display: flex;
     width: 100%;
-    height: var(--selector-activator-height);
-    padding: 0 var(--spacing-ml) 0 var(--spacing-s);
+    height: var(--ui3n-selector-activator-height);
+    padding: var(--ui3n-selector-trigger-padding);
     justify-content: flex-start;
     align-items: center;
     background-color: var(--color-bg-control-secondary-default);
-    border-radius: var(--spacing-xs);
+    border-radius: var(--ui3n-selector-border-radius);
     color: var(--color-text-control-primary-default);
-    font-size: var(--font-13);
+    font-size: var(--ui3n-selector-trigger-font-size);
     font-weight: 400;
-    line-height: var(--font-16);
+    line-height: 1.23;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
     @include mixins.text-overflow-ellipsis();
@@ -423,13 +446,13 @@
     }
 
     &.clearable {
-      padding-right: calc(var(--spacing-xxl) + var(--spacing-xs));
+      padding-right: 52px;
     }
 
     .clearBtn {
       position: absolute;
-      top: var(--spacing-xs);
-      right: var(--spacing-ml);
+      top: 4px;
+      right: 24px;
     }
 
     &.triggerFocused {
@@ -442,32 +465,32 @@
     position: relative;
     width: 100%;
     background-color: var(--color-bg-block-primary-default);
-    padding: var(--spacing-xs);
+    padding: var(--ui3n-selector-body-padding);
 
     .noData {
       display: flex;
-      min-height: var(--spacing-l);
+      min-height: var(--ui3n-selector-item-min-height);
       justify-content: flex-start;
       align-items: center;
-      padding: var(--spacing-xs) var(--spacing-s);
-      font-size: var(--font-13);
-      line-height: var(--font-16);
+      padding: var(--ui3n-selector-item-padding) calc(var(--ui3n-selector-item-padding) * 2);
+      font-size: var(--ui3n-selector-item-font-size);
+      line-height: 1.33;
       font-weight: 500;
       color: var(--color-text-control-primary-default);
-      border-radius: var(--spacing-xs);
+      border-radius: var(--ui3n-selector-item-border-radius);
     }
 
     .item {
       display: flex;
-      min-height: var(--spacing-l);
+      min-height: var(--ui3n-selector-item-min-height);
       justify-content: flex-start;
       align-items: center;
-      padding: var(--spacing-xs) var(--spacing-s);
-      font-size: var(--font-13);
-      line-height: var(--font-16);
+      padding: var(--ui3n-selector-item-padding) calc(var(--ui3n-selector-item-padding) * 2);
+      font-size: var(--ui3n-selector-item-font-size);
+      line-height: 1.33;
       font-weight: 500;
       color: var(--color-text-control-primary-default);
-      border-radius: var(--spacing-xs);
+      border-radius: var(--ui3n-selector-item-border-radius);
       user-select: none;
       cursor: pointer;
 

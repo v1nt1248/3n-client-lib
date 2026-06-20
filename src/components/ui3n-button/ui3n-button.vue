@@ -104,6 +104,7 @@
   <button
     ref="buttonEl"
     v-ui3n-ripple
+    :id="id"
     :class="mainCssClasses"
     type="button"
     :disabled="disabled"
@@ -135,12 +136,16 @@
   .ui3nButton {
     --ui3n-button-height: 32px;
     --ui3n-button-border-radius: calc(var(--ui3n-button-height) / 2);
+    --ui3n-button-gap: 4px;
     --ui3n-button-outline-color: transparent;
-    --ui3n-button-padding: 0 var(--spacing-m);
-    --ui3n-button-padding-when-icon: var(--spacing-s);
-    --ui3n-button-text-size: var(--font-12);
+    --ui3n-button-padding: 0 16px;
+    --ui3n-button-padding-when-icon: 8px;
+    --ui3n-button-text-size: 12px;
     --ui3n-button-text-color: var(--color-text-button-primary-default);
     --ui3n-button-bg-color: var(--color-bg-button-primary-default);
+    --ui3n-button-icon-small: 24px;
+    --ui3n-button-icon-regular: 32px;
+    --ui3n-button-icon-large: 48px;
 
     position: relative;
     width: max-content;
@@ -149,7 +154,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    column-gap: var(--spacing-xs);
+    column-gap: var(--ui3n-button-gap);
     border: none;
     border-radius: var(--ui3n-button-border-radius);
     outline: 2px solid var(--ui3n-button-outline-color);
@@ -182,23 +187,23 @@
 
   .regular {
     --ui3n-button-height: 32px;
-    --ui3n-button-padding: 0 var(--spacing-m);
-    --ui3n-button-padding-when-icon: var(--spacing-s);
-    --ui3n-button-text-size: var(--font-12);
+    --ui3n-button-padding: 0 16px;
+    --ui3n-button-padding-when-icon: 8px;
+    --ui3n-button-text-size: 12px;
   }
 
   .small {
     --ui3n-button-height: 24px;
-    --ui3n-button-padding: 0 var(--spacing-s);
-    --ui3n-button-padding-when-icon: var(--spacing-xs);
-    --ui3n-button-text-size: var(--font-12);
+    --ui3n-button-padding: 0 8px;
+    --ui3n-button-padding-when-icon: 4px;
+    --ui3n-button-text-size: 12px;
   }
 
   .large {
     --ui3n-button-height: 48px;
-    --ui3n-button-padding: 0 var(--spacing-m);
-    --ui3n-button-padding-when-icon: var(--spacing-s);
-    --ui3n-button-text-size: var(--font-15);
+    --ui3n-button-padding: 0 16px;
+    --ui3n-button-padding-when-icon: 8px;
+    --ui3n-button-text-size: 15px;
   }
 
   .block {
@@ -534,18 +539,18 @@
     }
 
     &.regular {
-      min-width: var(--spacing-l);
-      width: var(--spacing-l);
+      min-width: var(--ui3n-button-icon-regular);
+      width: var(--ui3n-button-icon-regular);
     }
 
     &.small {
-      min-width: var(--spacing-ml);
-      width: var(--spacing-ml);
+      min-width: var(--ui3n-button-icon-small);
+      width: var(--ui3n-button-icon-small);
     }
 
     &.large {
-      min-width: var(--spacing-xxl);
-      width: var(--spacing-xxl);
+      min-width: var(--ui3n-button-icon-large);
+      width: var(--ui3n-button-icon-large);
     }
   }
 

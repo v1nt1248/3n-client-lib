@@ -869,6 +869,7 @@
       <div class="demo-row__title">--- TABLE ---</div>
       <div class="demo-row__table">
         <ui3n-table
+          table-name="test1"
           :config="tableValue.config"
           :head="tableValue.head"
           :body="tableValue.body"
@@ -897,6 +898,7 @@
             type="info"
             :with-icon="false"
             :content="notificationsExamples.info"
+            :on-close="() => console.log('CLOSE NOTIFICATION!!!')"
           />
         </div>
       </div>

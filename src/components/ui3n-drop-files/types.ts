@@ -5,6 +5,10 @@ import { VNode } from 'vue';
  */
 export interface Ui3nDropFilesProps {
   /**
+   * HTML name attribute for form submission
+   */
+  name?: string;
+  /**
    * Drop files title
    */
   title?: string;
@@ -45,4 +49,8 @@ export interface Ui3nDropFilesSlots {
    * Additional text slot
    */
   'additional-text': () => VNode;
+}
+
+export interface Ui3nDropFilesExpose {
+  clear: () => void;
 }

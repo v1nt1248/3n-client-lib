@@ -5,6 +5,10 @@ import { VNode } from 'vue';
  */
 export interface Ui3nChipProps {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
    * Chip height
    */
   height?: number | string;
@@ -53,7 +57,8 @@ export interface Ui3nChipEmits {
   /**
    * Called when chip is closed
    */
-  (ev: 'close'): void;
+  (event: 'close'): void;
+  (event: 'click', value: MouseEvent): void;
 }
 
 /**

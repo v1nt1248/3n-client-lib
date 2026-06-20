@@ -34,7 +34,7 @@
     return val;
   });
 
-  function onClick(ev: Event) {
+  function onClick(ev: MouseEvent) {
     emits('click', ev);
   }
 </script>
@@ -58,7 +58,9 @@
 
 <style lang="scss" module>
   .ui3nBreadcrumb {
-    --ui3n-breadcrumb-font-size: var(--spacing-m);
+    --ui3n-breadcrumb-font-size: 16px;
+    --ui3n-breadcrumb-padding-inline: 4px;
+    --ui3n-breadcrumb-separator-distance: 8px;
     --ui3n-breadcrumb-color-default: var(--color-text-block-primary-default);
     --ui3n-breadcrumb-color-selected: var(--color-text-block-accent-default);
 
@@ -70,14 +72,14 @@
   .separator {
     display: flex;
     align-items: center;
-    margin: 0 var(--spacing-s);
+    margin: 0 var(--ui3n-breadcrumb-separator-distance);
   }
 
   .ui3nBreadcrumbActive {
     font-size: var(--ui3n-breadcrumb-font-size);
     line-height: 1.25;
     color: var(--ui3n-breadcrumb-color-default);
-    padding-right: var(--spacing-xs);
+    padding-right: var(--ui3n-breadcrumb-padding-inline);
 
     &:hover {
       cursor: pointer;
@@ -90,7 +92,7 @@
   }
 
   .ui3nBreadcrumbSeparator {
-    padding-left: var(--spacing-xs);
+    padding-left: var(--ui3n-breadcrumb-padding-inline);
   }
 
   .ui3nBreadcrumbDisabled {
