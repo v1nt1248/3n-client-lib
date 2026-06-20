@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+  import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
   import type { Nullable } from '@/types';
   import type { Ui3nTooltipProps, Ui3nTooltipEmits, Ui3nTooltipSlots } from './types';
   import { arrow, autoUpdate, offset, useFloating } from '@floating-ui/vue';
@@ -20,23 +20,17 @@
   defineSlots<Ui3nTooltipSlots>();
 
   const showTooltip = ref(false);
-  const referenceEl = ref<Nullable<HTMLElement>>(null);
+  const referenceContainer = ref<Nullable<HTMLElement>>(null);
   const floatingEl = ref<Nullable<HTMLElement>>(null);
   const floatingArrowEl = ref<Nullable<HTMLElement>>(null);
 
-  const maxContentWidthCssValue = computed(() => `${props.maxContentWidth}px`);
-  const baseOffsetCssValue = computed(() => `${-baseOffset}px`);
-  const arrowSizeCssValue = computed(() => `${baseOffset}px`);
   const mainPlacement = computed(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [part1, _] = props.placement.split('-');
+    const [part1] = props.placement.split('-');
     return part1;
   });
+
   const offsetOptions = computed(() => {
-    const options = {
-      mainAxis: 0,
-      crossAxis: 0,
-    };
+    const options = { mainAxis: 0, crossAxis: 0 };
     switch (mainPlacement.value) {
       case 'top':
         options.mainAxis = -1 * Number(props.offsetY) + baseOffset;
@@ -58,16 +52,32 @@
     return options;
   });
 
-  const { floatingStyles, isPositioned, middlewareData } = useFloating(referenceEl, floatingEl, {
+  const middlewareComputed = computed(() => [
+    offset(offsetOptions.value),
+    arrow({ element: floatingArrowEl, padding: 8 }),
+  ]);
+
+  const { floatingStyles, isPositioned, middlewareData } = useFloating(referenceContainer, floatingEl, {
     open: showTooltip,
     placement: props.placement,
     strategy: props.positionStrategy,
-    middleware: [offset(offsetOptions.value), arrow({ element: floatingArrowEl, padding: 8 })],
+    middleware: middlewareComputed,
     whileElementsMounted: props.positionStrategy === 'fixed' ? autoUpdate : undefined,
   });
 
+  const tooltipStylesComputed = computed(() => ({
+    ...floatingStyles.value,
+    '--ui3n-tooltip-bg-color': props.color,
+    '--ui3n-tooltip-text-color': props.textColor,
+    '--ui3n-tooltip-max-width': `${props.maxContentWidth}px`,
+    '--ui3n-tooltip-arrow-size': `${baseOffset}px`,
+    '--ui3n-tooltip-base-offset': `${-baseOffset}px`,
+  }));
+
   function onMouseenter() {
-    if (props.disabled) return;
+    if (props.disabled) {
+      return;
+    }
 
     showTooltip.value = true;
     emits('open');
@@ -75,7 +85,9 @@
   }
 
   function onMouseleave() {
-    if (props.disabled && !showTooltip.value) return;
+    if (props.disabled && !showTooltip.value) {
+      return;
+    }
 
     showTooltip.value = false;
     emits('close');
@@ -83,7 +95,9 @@
   }
 
   function onClick() {
-    if (props.disabled && !showTooltip.value) return;
+    if (props.disabled && !showTooltip.value) {
+      return;
+    }
 
     if (showTooltip.value) {
       onMouseleave();
@@ -93,32 +107,28 @@
   }
 
   onMounted(() => {
-    const inst = getCurrentInstance();
-    const el = inst?.vnode?.el;
-    if (!el) {
-      throw new Error('[ui3n-tooltip] A reference element is absent.');
+    if (!referenceContainer.value) {
+      return;
     }
 
-    referenceEl.value = el.nodeName === '#text' ? el.nextElementSibling : el;
-
-    if (!referenceEl.value) return;
-
     if (props.trigger === 'hover') {
-      referenceEl.value!.addEventListener('mouseenter', onMouseenter);
-      referenceEl.value!.addEventListener('mouseleave', onMouseleave);
+      referenceContainer.value.addEventListener('mouseenter', onMouseenter);
+      referenceContainer.value.addEventListener('mouseleave', onMouseleave);
     } else if (props.trigger === 'click') {
-      referenceEl.value!.addEventListener('click', onClick);
+      referenceContainer.value.addEventListener('click', onClick);
     }
   });
 
   onBeforeUnmount(() => {
-    if (!referenceEl.value) return;
+    if (!referenceContainer.value) {
+      return;
+    }
 
     if (props.trigger === 'hover') {
-      referenceEl.value!.removeEventListener('mouseenter', onMouseenter);
-      referenceEl.value!.removeEventListener('mouseleave', onMouseleave);
+      referenceContainer.value.removeEventListener('mouseenter', onMouseenter);
+      referenceContainer.value.removeEventListener('mouseleave', onMouseleave);
     } else if (props.trigger === 'click') {
-      referenceEl.value!.removeEventListener('click', onClick);
+      referenceContainer.value.removeEventListener('click', onClick);
     }
   });
 
@@ -134,13 +144,18 @@
 </script>
 
 <template>
-  <slot />
+  <div
+    ref="referenceContainer"
+    :class="$style.container"
+  >
+    <slot />
+  </div>
 
   <div
     v-if="showTooltip"
     ref="floatingEl"
     :class="$style.floating"
-    :style="floatingStyles"
+    :style="tooltipStylesComputed"
   >
     <slot name="content">
       <div :class="$style.content">
@@ -159,10 +174,13 @@
 </template>
 
 <style lang="scss" module>
-  .floating {
-    --ui3n-tooltip-bg-color: v-bind(color);
-    --ui3n-tooltip-text-color: v-bind(textColor);
+  .container {
+    display: inline-block;
+    width: max-content;
+    max-width: 100%;
+  }
 
+  .floating {
     width: max-content;
     z-index: 5;
   }
@@ -175,41 +193,41 @@
     &-top,
     &-bottom {
       border-style: solid;
-      border-width: 0 v-bind(arrowSizeCssValue) v-bind(arrowSizeCssValue) v-bind(arrowSizeCssValue);
+      border-width: 0 var(--ui3n-tooltip-arrow-size) var(--ui3n-tooltip-arrow-size) var(--ui3n-tooltip-arrow-size);
       border-color: transparent transparent var(--ui3n-tooltip-bg-color) transparent;
     }
 
     &-top {
-      bottom: v-bind(baseOffsetCssValue);
+      bottom: var(--ui3n-tooltip-base-offset);
       transform: rotate(180deg);
     }
 
     &-bottom {
-      top: v-bind(baseOffsetCssValue);
+      top: var(--ui3n-tooltip-base-offset);
       transform: rotate(0deg);
     }
 
     &-left,
     &-right {
       border-style: solid;
-      border-width: v-bind(arrowSizeCssValue) 0 v-bind(arrowSizeCssValue) v-bind(arrowSizeCssValue);
+      border-width: var(--ui3n-tooltip-arrow-size) 0 var(--ui3n-tooltip-arrow-size) var(--ui3n-tooltip-arrow-size);
       border-color: transparent transparent transparent var(--ui3n-tooltip-bg-color);
     }
 
     &-left {
-      right: v-bind(baseOffsetCssValue);
+      right: var(--ui3n-tooltip-base-offset);
       transform: rotate(0deg);
     }
 
     &-right {
-      left: v-bind(baseOffsetCssValue);
+      left: var(--ui3n-tooltip-base-offset);
       transform: rotate(180deg);
     }
   }
 
   .content {
     position: relative;
-    max-width: v-bind(maxContentWidthCssValue);
+    max-width: var(--ui3n-tooltip-max-width);
     padding: 6px var(--spacing-s);
     border-radius: 6px;
     font-size: var(--font-11);

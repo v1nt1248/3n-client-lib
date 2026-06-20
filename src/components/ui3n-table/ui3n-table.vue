@@ -1,7 +1,13 @@
 <script setup lang="ts" generic="T extends Ui3nTableBodyBaseItem">
   import size from 'lodash/size';
   import { useTable } from './composables/useTable';
-  import type { Ui3nTableBodyBaseItem, Ui3nTableEmits, Ui3nTableProps, Ui3nTableSlots, Ui3nTableExpose } from './types';
+  import type {
+    Ui3nTableBodyBaseItem,
+    Ui3nTableEmits,
+    Ui3nTableProps,
+    Ui3nTableSlots,
+    Ui3nTableExpose,
+  } from './types';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
   import Ui3nCheckbox from '../ui3n-checkbox/ui3n-checkbox.vue';
   import Ui3nTableSortIcon from './ui3n-table-sort-icon.vue';
@@ -27,6 +33,7 @@
     processSelection,
     toggleSelectedRows,
     changeSortOrder,
+    clear,
   } = useTable(props, emits);
 
   const eventHandlers = {
@@ -39,6 +46,7 @@
     selectedRowsArray,
     hasGroupActionsRow,
     closeGroupActionsRow,
+    clear,
   });
 </script>
 
@@ -47,6 +55,19 @@
     ref="tableEl"
     :class="$style.ui3nTable"
   >
+    <fieldset
+      v-if="config?.tableName && selectedRowsSize > 0"
+      :class="$style.hiddenBlock"
+    >
+      <input
+        v-for="(row, rowIndex) in selectedRowsArray"
+        :key="getRowKey(row, rowIndex)"
+        type="hidden"
+        :name="config.selectable === 'multiple' ? `${config.tableName}[]` : config.tableName"
+        :value="String(getRowKey(row, rowIndex))"
+      />
+    </fieldset>
+
     <div :class="[$style.header, showGroupActionsRow && $style.withGroupActions]">
       <!-- group actions -->
       <div
@@ -112,9 +133,7 @@
     <div :class="$style.body">
       <template v-if="config?.showNoDataMessage && !size(body.content)">
         <slot name="no-data">
-          <div :class="$style.noData">
-            No data
-          </div>
+          <div :class="$style.noData">No data</div>
         </slot>
       </template>
 
@@ -204,8 +223,13 @@
     --ui3n-table-group-actions-bg-color: var(--color-bg-block-primary-default);
     --ui3n-table-header-bg-color: var(--color-bg-table-header-default);
     --ui3n-table-header-color: var(--color-text-table-primary-default);
+    --ui3n-table-header-font-size: 14px;
+    --ui3n-table-padding-inline: 16px;
     --ui3n-table-row-color: var(--color-text-table-primary-default);
     --ui3n-table-row-bg-color-selected: var(--color-bg-control-primary-hover);
+    --ui3n-table-row-checkbox-width: 16px;
+    --ui3n-table-cell-font-size: 12px;
+    --ui3n-table-nodata-height: 48px;
     --ui3n-table-nodata-color: var(--color-text-control-secondary-default);
 
     position: relative;
@@ -219,6 +243,13 @@
     align-items: stretch;
   }
 
+  .hiddenBlock {
+    display: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
   .header {
     position: sticky;
     top: 0;
@@ -228,7 +259,7 @@
     display: grid;
     grid-template-columns: var(--ui3n-table-columns-width);
     background-color: var(--ui3n-table-header-bg-color);
-    padding-left: var(--spacing-m);
+    padding-left: var(--ui3n-table-padding-inline);
     z-index: 5;
 
     &.withGroupActions {
@@ -238,7 +269,7 @@
     }
 
     .headerItemWrapper:not(:first-child) {
-      padding: 0 var(--spacing-xs);
+      padding: 0 calc(var(--ui3n-table-padding-inline) / 4);
     }
   }
 
@@ -267,7 +298,7 @@
 
   .headerText {
     display: block;
-    font-size: var(--font-14);
+    font-size: var(--ui3n-table-header-font-size);
     font-weight: 500;
     color: var(--ui3n-table-header-color);
     @include mixins.text-overflow-ellipsis();
@@ -275,7 +306,7 @@
 
   .sortableActive {
     .headerItem {
-      gap: var(--spacing-s);
+      gap: 8px;
     }
   }
 
@@ -286,7 +317,7 @@
     display: flex;
     width: 100%;
     height: var(--ui3n-table-group-actions-height);
-    padding: 0 var(--spacing-m);
+    padding: 0 var(--ui3n-table-padding-inline);
     justify-content: space-between;
     align-items: center;
     background-color: var(--ui3n-table-group-actions-bg-color);
@@ -298,7 +329,7 @@
   .groupActionsBody {
     display: flex;
     height: 100%;
-    padding: 0 var(--spacing-s);
+    padding: 0 calc(var(--ui3n-table-padding-inline) / 2);
     flex-grow: 1;
   }
 
@@ -318,7 +349,7 @@
     background-color: transparent;
 
     &:not(.customRow) {
-      padding-left: var(--spacing-m);
+      padding-left: var(--ui3n-table-padding-inline);
       display: grid;
       grid-template-columns: var(--ui3n-table-columns-width);
     }
@@ -340,7 +371,7 @@
     position: absolute;
     top: 0;
     left: 16px;
-    width: var(--spacing-m);
+    width: var(--ui3n-table-row-checkbox-width);
     height: 100%;
     display: flex;
     justify-content: flex-start;
@@ -356,12 +387,12 @@
     align-items: center;
 
     &.bodyItemFirst {
-      padding-left: var(--spacing-ml);
+      padding-left: calc(var(--ui3n-table-padding-inline) * 1.5);
     }
   }
 
   .cell {
-    font-size: var(--font-12);
+    font-size: var(--ui3n-table-cell-font-size);
     font-weight: 400;
     color: var(--ui3n-table-row-color);
   }
@@ -369,12 +400,12 @@
   .noData {
     position: relative;
     width: 100%;
-    height: var(--spacing-xxl);
-    padding-top: var(--spacing-ml);
+    height: var(--ui3n-table-nodata-height);
+    padding-top: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: var(--font-12);
+    font-size: var(--ui3n-table-cell-font-size);
     font-weight: 600;
     color: var(--ui3n-table-nodata-color);
   }

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { computed, onBeforeMount, onBeforeUnmount, ref, useCssModule } from 'vue';
+  import { computed, onBeforeUnmount, ref, useCssModule, watch } from 'vue';
   import toNumber from 'lodash/toNumber';
   import type { Ui3nProgressCircularProps } from './types';
 
@@ -19,7 +19,6 @@
   const isValueShown = computed(() => props.withText && !props.indeterminate);
 
   const innerSize = computed(() => toNumber(props.size));
-  const cssSize = computed(() => `${innerSize.value}px`);
   const innerWidth = computed(() => {
     if (props.width) {
       return toNumber(props.width);
@@ -32,15 +31,24 @@
 
     return 6 + Math.round(diff / 20);
   });
-  const cssWidth = computed(() => `${innerWidth.value}px`);
+
   const innerValue = computed(() => toNumber(props.value));
   const fontSize = computed(() => `${Math.floor((innerSize.value - 2 * innerWidth.value) / 3.2)}px`);
 
   const circleRadius = computed(() => Math.round(innerSize.value / 2) - Math.round(innerWidth.value / 2));
   const circumference = computed(() => Math.round(Math.PI * 2 * circleRadius.value));
 
-  const timerId = ref();
+  const timerId = ref<ReturnType<typeof setInterval> | null>(null);
   const indeterminateModeValue = ref(0);
+  const isInverse = ref(false);
+
+  const progressStyle = computed(() => ({
+    '--ui3n-progress-circular-size': `${innerSize.value}px`,
+    '--ui3n-progress-circular-width': `${innerWidth.value}px`,
+    '--ui3n-progress-circular-font-size': fontSize.value,
+    '--ui3n-progress-circular-bg': props.bgColor,
+    '--ui3n-progress-circular-color': props.color,
+  }));
 
   const strokeDasharray = computed(() => {
     const value = props.indeterminate ? indeterminateModeValue.value : innerValue.value;
@@ -50,42 +58,58 @@
   });
 
   function changeValueForIndeterminateMode() {
+    if (timerId.value) {
+      return;
+    }
+
     const indeterminateModeValuesLength = indeterminateModeValues.length;
     let index = 0;
+
     timerId.value = setInterval(() => {
       indeterminateModeValue.value = indeterminateModeValues[index % indeterminateModeValuesLength];
       index += 1;
       if (index % indeterminateModeValuesLength === 1) {
-        if (element.value?.classList.contains($style.inverse)) {
-          element.value?.classList.remove($style.inverse);
-        } else {
-          element.value?.classList.add($style.inverse);
-        }
+        isInverse.value = !isInverse.value;
       }
     }, 200);
   }
 
-  onBeforeMount(() => {
-    if (props.indeterminate) {
-      changeValueForIndeterminateMode();
+  function clearIndeterminateTimer() {
+    if (timerId.value) {
+      clearInterval(timerId.value);
+      timerId.value = null;
     }
-  });
+  }
+
+  watch(
+    () => props.indeterminate,
+    isIndeterminate => {
+      if (isIndeterminate) {
+        changeValueForIndeterminateMode();
+      } else {
+        clearIndeterminateTimer();
+        isInverse.value = false;
+        indeterminateModeValue.value = 0;
+      }
+    },
+    { immediate: true },
+  );
 
   onBeforeUnmount(() => {
-    clearInterval(timerId.value);
+    clearIndeterminateTimer();
   });
 </script>
 
 <template>
   <div
     ref="element"
-    :class="[$style.ui3nProgressCircular, indeterminate && $style.indeterminate]"
+    :style="progressStyle"
+    :class="[$style.ui3nProgressCircular, indeterminate && $style.indeterminate, isInverse && $style.inverse]"
   >
     <svg
       :height="innerSize"
       :width="innerSize"
       :class="$style.pie"
-      xmlns="http://www.w3.org/2000/svg"
     >
       <circle
         :class="$style.background"
@@ -114,12 +138,6 @@
 
 <style lang="scss" module>
   .ui3nProgressCircular {
-    --ui3n-progress-circular-size: v-bind(cssSize);
-    --ui3n-progress-circular-width: v-bind(cssWidth);
-    --ui3n-progress-circular-font-size: v-bind(fontSize);
-    --ui3n-progress-circular-bg: v-bind(bgColor);
-    --ui3n-progress-circular-color: v-bind(color);
-
     position: relative;
     min-width: var(--ui3n-progress-circular-size);
     width: var(--ui3n-progress-circular-size);

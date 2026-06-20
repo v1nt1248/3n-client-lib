@@ -1,19 +1,3 @@
-<!--
- Copyright (C) 2025 3NSoft Inc.
-
- This program is free software: you can redistribute it and/or modify it under
- the terms of the GNU General Public License as published by the Free Software
- Foundation, either version 3 of the License, or (at your option) any later
- version.
-
- This program is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- See the GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License along with
- this program. If not, see <http://www.gnu.org/licenses/>.
--->
 <script setup lang="ts" generic="T extends Ui3nAutocompleteOptionBase">
   import { computed, ref, watch } from 'vue';
   import cloneDeep from 'lodash/cloneDeep';
@@ -21,14 +5,15 @@
   import size from 'lodash/size';
   import Ui3nChip from '../ui3n-chip/ui3n-chip.vue';
   import Ui3nMenu from '../ui3n-menu/ui3n-menu.vue';
-  import Ui3nHtml from '@/directives/ui3n-html';
-  import { markSearch, getRandomId } from '@/utils';
+  import Ui3nHtml from '../../directives/ui3n-html';
+  import { markSearch, getRandomId } from '../../utils';
   import type { Nullable } from '@/types';
-  import {
+  import type {
     Ui3nAutocompleteOptionBase,
     Ui3nAutocompleteProps,
     Ui3nAutocompleteEmits,
     Ui3nAutocompleteSlots,
+    Ui3nAutocompleteExpose,
   } from './types';
 
   const vUi3nHtml = Ui3nHtml;
@@ -52,6 +37,7 @@
   const inputEl = ref<Nullable<HTMLInputElement>>(null);
   const menuBodyEl = ref<Nullable<HTMLDivElement>>(null);
   const activeItemsIndex = ref<Nullable<number>>(null);
+  const isLastChipHighlighted = ref(false);
   const isNewValueValid = ref(true);
 
   const ids = computed(() =>
@@ -93,12 +79,14 @@
   });
 
   function onInput() {
+    isLastChipHighlighted.value = false;
     emits('update:search', query.value);
   }
 
   function onBlur() {
     emits('update:focused', false);
     activeItemsIndex.value = null;
+    isLastChipHighlighted.value = false;
 
     setTimeout(() => {
       isMenuOpen.value = false;
@@ -206,29 +194,79 @@
     }
   }
 
-  function onKeydown(event: KeyboardEvent, key: 'down' | 'up' | 'esc' | 'enter' | 'tab') {
+  function handleBackspaceKey() {
+    if (props.disabled || query.value !== '' || isEmpty(props.modelValue)) {
+      return;
+    }
+
+    if (!isLastChipHighlighted.value) {
+      isLastChipHighlighted.value = true;
+      return;
+    }
+
+    const updatedModelValue = cloneDeep(props.modelValue);
+    updatedModelValue.pop();
+    emits('update:modelValue', updatedModelValue);
+
+    isLastChipHighlighted.value = false;
+  }
+
+  function onKeydown(event: KeyboardEvent, key: 'down' | 'up' | 'esc' | 'enter' | 'tab' | 'backspace') {
     switch (key) {
-      case 'down':
+      case 'down': {
         event.preventDefault();
         event.stopPropagation();
         handlePressingDownKey();
         break;
-      case 'up':
+      }
+
+      case 'up': {
         event.preventDefault();
         event.stopPropagation();
         handlePressingUpKey();
         break;
+      }
+
       case 'esc':
       case 'tab':
         handlePressingEscOrTabKeys();
         break;
-      case 'enter':
+
+      case 'enter': {
         event.preventDefault();
         event.stopPropagation();
         handlePressingEnterKey();
         break;
+      }
+
+      case 'backspace':
+        handleBackspaceKey();
+        break;
     }
   }
+
+  function clear() {
+    query.value = '';
+    isMenuOpen.value = false;
+    activeItemsIndex.value = null;
+    isNewValueValid.value = true;
+
+    emits('update:modelValue', [] as unknown as T[] & Array<T[keyof T]>);
+    emits('update:search', '');
+  }
+
+  defineExpose<Ui3nAutocompleteExpose>({
+    clear,
+  });
+
+  watch(
+    () => props.name,
+    newName => {
+      if (!newName) {
+        clear();
+      }
+    },
+  );
 
   watch(
     () => size(filteredItems.value),
@@ -246,6 +284,42 @@
 
 <template>
   <div :class="$style.ui3nAutocomplete">
+    <!-- 'hidden inputs' block for setting of 'name' attr when used in a form -->
+    <fieldset
+      v-if="name && !isEmpty(modelValue)"
+      :class="$style.hiddenBlock"
+    >
+      <template v-if="!multiple">
+        <input
+          type="hidden"
+          :name="name"
+          :value="returnObject ? JSON.stringify(modelValue) : modelValue"
+        />
+      </template>
+
+      <template v-else>
+        <template v-if="!returnObject">
+          <input
+            v-for="(val, index) in modelValue as Array<T[keyof T]>"
+            :key="`${name}-flat-${index}`"
+            type="hidden"
+            :name="`${name}[]`"
+            :value="val"
+          />
+        </template>
+
+        <template v-else>
+          <input
+            v-for="(item, index) in modelValue as T[]"
+            :key="item.id || `${name}-obj-${index}`"
+            type="hidden"
+            :name="`${name}[]`"
+            :value="JSON.stringify(item)"
+          />
+        </template>
+      </template>
+    </fieldset>
+
     <ui3n-menu
       v-model="isMenuOpen"
       :offset-x="2"
@@ -258,19 +332,31 @@
         ref="activatorEl"
         :class="$style.trigger"
       >
-        <template v-if="chips">
+        <transition-group
+          v-if="chips"
+          name="chipAnim"
+          tag="div"
+          :class="$style.chipsContainer"
+        >
           <!-- @vue-ignore -->
-          <template
+          <div
             v-for="(item, index) in modelValue"
-            :key="item.id"
+            :key="item.id || index"
+            :class="$style.chipWrapper"
           >
             <slot
               name="chip"
               :item="item"
               :index="index"
+              :is-highlighted="index === size(modelValue) - 1 && isLastChipHighlighted"
             >
               <ui3n-chip
                 height="32"
+                :color="
+                  index === size(modelValue) - 1 && isLastChipHighlighted
+                    ? 'var(--color-bg-control-primary-hover)'
+                    : undefined
+                "
                 round
                 closeable
                 @close="onChipClose(item)"
@@ -278,8 +364,8 @@
                 {{ returnObject ? (item as T)[props.itemTitle] : item }}
               </ui3n-chip>
             </slot>
-          </template>
-        </template>
+          </div>
+        </transition-group>
 
         <template v-else>
           <div :class="$style.displayValue">
@@ -302,6 +388,7 @@
           @keydown.esc="onKeydown($event, 'esc')"
           @keydown.enter="onKeydown($event, 'enter')"
           @keydown.tab="onKeydown($event, 'tab')"
+          @keydown.delete="onKeydown($event, 'backspace')"
         />
       </div>
 
@@ -356,16 +443,28 @@
 
 <style lang="scss" module>
   .ui3nAutocomplete {
-    --autocomplete-min-height: var(--spacing-l);
+    --ui3n-autocomplete-min-height: 32px;
+    --ui3n-autocomplete-font-size: 12px;
+    --ui3n-autocomplete-item-font-size: 13px;
+    --ui3n-autocomplete-padding-inline: 8px;
+    --ui3n-autocomplete-padding-block: 4px;
+    --ui3n-autocomplete-border-radius: 4px;
 
     position: relative;
     width: 100%;
-    min-height: var(--autocomplete-min-height);
+    min-height: var(--ui3n-autocomplete-min-height);
 
     :global(.match-search) {
       font-weight: 600;
       color: var(--color-text-control-accent-default) !important;
     }
+  }
+
+  .hiddenBlock {
+    display: none;
+    border: none;
+    padding: 0;
+    margin: 0;
   }
 
   .trigger {
@@ -374,23 +473,23 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: var(--spacing-xs);
+    gap: 4px;
   }
 
   .displayValue {
-    font-size: var(--font-12);
-    line-height: var(--autocomplete-min-height);
+    font-size: var(--ui3n-autocomplete-font-size);
+    line-height: var(--ui3n-autocomplete-min-height);
     font-weight: 400;
     color: var(--color-text-control-primary-default);
   }
 
   .input {
-    border-radius: var(--spacing-xs);
-    padding: 0 var(--spacing-s);
+    border-radius: var(--ui3n-autocomplete-border-radius);
+    padding: 0 var(--ui3n-autocomplete-padding-inline);
     flex-grow: 1;
-    height: var(--autocomplete-min-height);
-    font-size: var(--font-12);
-    line-height: var(--autocomplete-min-height);
+    height: var(--ui3n-autocomplete-min-height);
+    font-size: var(--ui3n-autocomplete-font-size);
+    line-height: var(--ui3n-autocomplete-min-height);
     font-weight: 400;
     color: var(--color-text-control-primary-default);
     background-color: transparent;
@@ -407,8 +506,8 @@
     }
 
     &.inputWithError {
-      height: calc(var(--autocomplete-min-height) - 2px);
-      padding: 0 calc(var(--spacing-s) - 1px);
+      height: calc(var(--ui3n-autocomplete-min-height) - 2px);
+      padding: 0 calc(var(--ui3n-autocomplete-padding-inline) - 1px);
       border: 1px solid var(--error-content-default);
     }
   }
@@ -416,20 +515,20 @@
   .body {
     position: relative;
     background-color: var(--color-bg-block-primary-default);
-    padding: var(--spacing-xs);
+    padding: 4px;
   }
 
   .item {
     display: flex;
-    min-height: var(--spacing-l);
+    min-height: var(--ui3n-autocomplete-min-height);
     justify-content: flex-start;
     align-items: center;
-    padding: var(--spacing-xs) var(--spacing-s);
-    font-size: var(--font-13);
-    line-height: var(--font-16);
+    padding: var(--ui3n-autocomplete-padding-block) var(--ui3n-autocomplete-padding-inline);
+    font-size: var(--ui3n-autocomplete-item-font-size);
+    line-height: 1.23;
     font-weight: 500;
     color: var(--color-text-control-primary-default);
-    border-radius: var(--spacing-xs);
+    border-radius: var(--ui3n-autocomplete-border-radius);
     user-select: none;
     cursor: pointer;
 
@@ -452,14 +551,46 @@
 
   .noData {
     display: flex;
-    min-height: var(--spacing-l);
+    min-height: var(--ui3n-autocomplete-min-height);
     justify-content: flex-start;
     align-items: center;
-    padding: var(--spacing-xs) var(--spacing-s);
-    font-size: var(--font-13);
-    line-height: var(--font-16);
+    padding: var(--ui3n-autocomplete-padding-block) var(--ui3n-autocomplete-padding-inline);
+    font-size: var(--ui3n-autocomplete-item-font-size);
+    line-height: 1.23;
     font-weight: 500;
     color: var(--color-text-control-primary-default);
-    border-radius: var(--spacing-xs);
+    border-radius: var(--ui3n-autocomplete-border-radius);
+  }
+
+  .chipsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: flex-start;
+  }
+
+  .chipWrapper {
+    display: inline-flex;
+  }
+
+  :global {
+    .chipAnim-enter-from,
+    .chipAnim-leave-to {
+      opacity: 0;
+      transform: scale(0.85);
+    }
+
+    .chipAnim-enter-active,
+    .chipAnim-leave-active {
+      transition: all 0.2s ease;
+    }
+
+    .chipAnim-move {
+      transition: transform 0.2s ease;
+    }
+
+    .chipAnim-leave-active {
+      position: absolute !important;
+    }
   }
 </style>

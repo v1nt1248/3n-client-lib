@@ -5,6 +5,10 @@ import type { VNode } from 'vue';
  */
 export interface Ui3nListProps<T> {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
    * List title
    */
   title?: string;

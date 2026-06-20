@@ -15,6 +15,7 @@
 <template>
   <div
     ref="listElement"
+    :id="id"
     :class="$style.ui3nList"
   >
     <div :class="[$style.ui3nListTitle, sticky && $style.ui3nListTitleSticky]">
@@ -55,6 +56,7 @@
   .ui3nList {
     --ui3n-list-item-height: 28px;
     --ui3n-list-bg-color: transparent;
+    --ui3n-list-padding-block: 4px;
 
     position: relative;
     width: 100%;
@@ -81,7 +83,7 @@
     position: relative;
     width: 100%;
     min-height: var(--ui3n-list-item-height);
-    padding: 4px 0;
+    padding: var(--ui3n-list-padding-block) 0;
     display: flex;
     justify-content: flex-start;
     align-items: center;

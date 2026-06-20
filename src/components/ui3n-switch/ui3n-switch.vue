@@ -1,15 +1,13 @@
 <script lang="ts" setup>
-  import { onMounted, ref, watch, useSlots } from 'vue';
-  import type { Ui3nSwitchEmits, Ui3nSwitchProps, Ui3nSwitchSlots } from './types';
+  import { computed, ref, watch, useSlots } from 'vue';
+  import type { Ui3nSwitchEmits, Ui3nSwitchProps, Ui3nSwitchSlots, Ui3nSwitchExpose } from './types';
 
-  const props = withDefaults(
-    defineProps<Ui3nSwitchProps>(),
-    {
-      size: 16,
-      color: 'var(--color-icon-control-accent-default)',
-      disabled: false,
-    },
-  );
+  const props = withDefaults(defineProps<Ui3nSwitchProps>(), {
+    name: undefined,
+    size: 16,
+    color: 'var(--color-icon-control-accent-default)',
+    disabled: false,
+  });
 
   const emits = defineEmits<Ui3nSwitchEmits>();
 
@@ -19,18 +17,10 @@
   const switchEl = ref<HTMLDivElement | null>(null);
   const val = ref<boolean>(false);
 
-  onMounted(() => {
-    if (switchEl.value) {
-      switchEl.value.style.setProperty('--ui3n-switch-color', `${props.color}`);
-      props.size && switchEl.value.style.setProperty('--ui3n-switch-size', `${props.size}px`);
-    }
-  });
-
-  watch(
-    () => props.modelValue,
-    newValue => val.value = newValue,
-    { immediate: true },
-  );
+  const switchStyle = computed(() => ({
+    '--ui3n-switch-color': props.color,
+    '--ui3n-switch-size': `${props.size}px`,
+  }));
 
   function change(ev: Event) {
     ev.preventDefault();
@@ -39,13 +29,55 @@
     emits('change', val.value);
     emits('update:modelValue', val.value);
   }
+
+  function clear() {
+    val.value = false;
+    emits('change', false);
+    emits('update:modelValue', false);
+  }
+
+  defineExpose<Ui3nSwitchExpose>({
+    clear,
+  });
+
+  watch(
+    () => props.name,
+    newName => {
+      if (!newName) {
+        clear();
+      }
+    },
+  );
+
+  watch(
+    () => props.modelValue,
+    newValue => (val.value = newValue),
+    { immediate: true },
+  );
 </script>
 
 <template>
   <div
     ref="switchEl"
-    :class="[$style.ui3nSwitch, val && $style.checked, !slots.default && $style.noLabel, disabled && $style.disabled]"
+    :id="id"
+    :style="switchStyle"
+    :class="[
+      $style.ui3nSwitch,
+      val && $style.checked,
+      !slots.default && $style.noLabel,
+      disabled && $style.disabled,
+    ]"
   >
+    <input
+      v-if="name"
+      type="checkbox"
+      hidden
+      :name="name"
+      :checked="val"
+      :disabled="disabled"
+      :value="val ? 'on' : ''"
+    />
+
     <div
       :class="$style.body"
       :tabindex="disabled ? -1 : 0"
@@ -75,7 +107,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: var(--spacing-s);
+    gap: 8px;
   }
 
   .body {

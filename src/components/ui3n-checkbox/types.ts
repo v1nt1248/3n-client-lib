@@ -10,6 +10,14 @@ export type Ui3nCheckboxValue = boolean | string | number;
  */
 export interface Ui3nCheckboxProps {
   /**
+   * Root element  id
+   */
+  id?: string;
+  /**
+   * HTML name attribute for form submission
+   */
+  name?: string;
+  /**
    * Current checkbox value
    */
   modelValue: Ui3nCheckboxValue;
@@ -63,4 +71,8 @@ export interface Ui3nCheckboxSlots {
    * Default slot
    */
   default: () => VNode;
+}
+
+export interface Ui3nCheckboxExpose {
+  clear: () => void;
 }

@@ -81,6 +81,14 @@ export interface Ui3nContentEditableEmits {
  */
 export interface Ui3nEditableProps {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
+   * HTML name attribute for form submission
+   */
+  name?: string;
+  /**
    * Current value of the editable content
    */
   modelValue: string;
@@ -142,4 +150,8 @@ export interface Ui3nEditableEmits {
    * Focusout event
    */
   (event: 'focusout'): void;
+}
+
+export interface Ui3nEditableExpose {
+  clear: () => void;
 }

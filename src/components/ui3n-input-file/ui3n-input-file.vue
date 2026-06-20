@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
   import size from 'lodash/size';
   import last from 'lodash/last';
   import trim from 'lodash/trim';
   import { getRandomId, formatFileSize } from '@/utils';
-  import type { Ui3nInputFileProps, Ui3nInputFileEmits, Ui3nInputFileSlots } from './types';
   import type { Nullable } from '@/types';
+  import type { Ui3nInputFileProps, Ui3nInputFileEmits, Ui3nInputFileSlots, Ui3nInputFileExpose } from './types';
 
   const props = withDefaults(defineProps<Ui3nInputFileProps>(), {
+    name: undefined,
     modelValue: () => [],
     buttonText: 'Select file',
     allowedFileTypes: '*',
@@ -15,7 +16,7 @@
   const emits = defineEmits<Ui3nInputFileEmits>();
   defineSlots<Ui3nInputFileSlots>();
 
-  const id = getRandomId(4);
+  const id = props.id || getRandomId(4);
   const fileInput = ref<Nullable<HTMLInputElement>>(null);
 
   function selectFiles(ev: MouseEvent) {
@@ -80,15 +81,8 @@
       return true;
     }
 
-    const total = files.reduce((acc, file) => {
-      const { size } = file;
-      if (size) {
-        acc += size;
-      }
-      return acc;
-    }, 0);
-
-    const isValid = total <= Number(props.maxNumberOfFiles);
+    const totalCount = size(props.modelValue) + size(files);
+    const isValid = totalCount <= Number(props.maxNumberOfFiles);
     if (!isValid) {
       emits('error', `You cannot select more than ${props.maxNumberOfFiles} files.`);
     }
@@ -116,6 +110,26 @@
     fileInput.value && fileInput.value.files && processFiles([...fileInput.value.files]);
     fileInput.value && (fileInput.value!.value = '');
   }
+
+  function clear() {
+    if (fileInput.value) {
+      fileInput.value.value = '';
+    }
+    emits('update:modelValue', []);
+  }
+
+  defineExpose<Ui3nInputFileExpose>({
+    clear,
+  });
+
+  watch(
+    () => props.name,
+    newName => {
+      if (!newName) {
+        clear();
+      }
+    },
+  );
 </script>
 
 <template>
@@ -132,7 +146,7 @@
       :id="id"
       ref="fileInput"
       type="file"
-      name="file"
+      :name="name || 'file'"
       hidden
       :multiple="multiple"
       :accept="allowedFileTypes"
@@ -144,16 +158,19 @@
 
 <style lang="scss" module>
   .ui3nInputFile {
+    --ui3n-input-file-font-size: 12px;
+    --ui3n-input-file-padding-inline: 4px;
+
     position: relative;
     width: max-content;
   }
 
   .label {
-    font-size: var(--font-12);
+    font-size: var(--ui3n-input-file-font-size);
     font-weight: 500;
-    line-height: var(--font-16);
+    line-height: 1.33;
     color: var(--color-text-button-secondary-default);
-    padding: 0 var(--space-xs);
+    padding: 0 var(--ui3n-input-file-padding-inline);
     cursor: pointer;
 
     &:hover {

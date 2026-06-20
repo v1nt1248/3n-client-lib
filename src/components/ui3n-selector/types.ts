@@ -28,6 +28,14 @@ export type Ui3nSelectorValue<T extends Ui3nSelectorOptionBase> = T | T[keyof T]
  */
 export interface Ui3nSelectorProps<T extends Ui3nSelectorOptionBase> {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
+   * HTML name attribute for form submission
+   */
+  name?: string;
+  /**
    * Current selector value
    */
   modelValue: Ui3nSelectorValue<T>;
@@ -146,4 +154,8 @@ export interface Ui3nSelectorSlots<T extends Ui3nSelectorOptionBase> {
    * Selection slot
    */
   selection?: (props: { value: Ui3nSelectorValue<T>; selectedItem: T | undefined }) => VNode;
+}
+
+export interface Ui3nSelectorExpose {
+  clear: () => void;
 }

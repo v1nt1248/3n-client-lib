@@ -3,6 +3,10 @@
  */
 export interface Ui3nStepLineBarProps {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
    * Step label
    */
   label: string;

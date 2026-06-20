@@ -3,10 +3,12 @@
   import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
   import type { Ui3nTableSortIconProps } from './types';
 
-  const props = defineProps<Ui3nTableSortIconProps>();
+  const props = withDefaults(defineProps<Ui3nTableSortIconProps>(), {
+    size: 16,
+    color: 'var(--color-icon-table-primary-default)',
+  });
 
-  const iconSize = computed(() => props.size ? +props.size : 16);
-  const iconColor = computed(() => props.color || 'var(--color-icon-table-primary-default)');
+  const iconName = computed(() => (props.value === 'asc' ? 'round-arrow-upward' : 'round-arrow-downward'));
 </script>
 
 <template>
@@ -15,11 +17,10 @@
     name="fade"
   >
     <ui3n-icon
-      :key="value === 'asc' ? 'round-arrow-upward' : 'round-arrow-downward'"
-      :icon="value === 'asc' ? 'round-arrow-upward' : 'round-arrow-downward'"
-      :width="iconSize"
-      :height="iconSize"
-      :color="iconColor"
+      :key="iconName"
+      :icon="iconName"
+      :size="Number(size)"
+      :color="color"
     />
   </transition>
 </template>

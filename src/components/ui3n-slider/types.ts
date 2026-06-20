@@ -1,5 +1,13 @@
 export interface UI3nSliderProps {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
+   * HTML name attribute for form submission
+   */
+  name?: string;
+  /**
    * Current slider value
    */
   modelValue: number | [number, number];
@@ -69,4 +77,8 @@ export interface UI3nSliderEmits {
    * Emitted when model value updates
    */
   (event: 'update:modelValue', value: number | [number, number]): void;
+}
+
+export interface UI3nSliderExpose {
+  clear: () => void;
 }

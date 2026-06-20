@@ -5,6 +5,10 @@ import { VNode } from 'vue';
  */
 export interface Ui3nTabsProps {
   /**
+   * Root element id
+   */
+  id?: string;
+  /**
    * Current active tab index
    */
   modelValue: number;

@@ -3,8 +3,8 @@
   import Ui3nIcon from '@/components/ui3n-icon/ui3n-icon.vue';
   import Ui3nRipple from '@/directives/ui3n-ripple';
   import Ui3nClickOutside from '@/directives/ui3n-click-outside';
-  import type { Ui3nEditableProps, Ui3nEditableEmits } from './types';
   import type { Nullable } from '@/types';
+  import type { Ui3nEditableProps, Ui3nEditableEmits, Ui3nEditableExpose } from './types';
 
   const vUi3nRipple = Ui3nRipple;
   const vUi3nClickOutside = Ui3nClickOutside;
@@ -124,6 +124,16 @@
     }
   }
 
+  function clear() {
+    value.value = '';
+    initialValue.value = '';
+    emits('update:modelValue', '');
+  }
+
+  defineExpose<Ui3nEditableExpose>({
+    clear,
+  });
+
   watch(
     () => props.modelValue,
     (val, oVal) => {
@@ -140,14 +150,31 @@
       !props.disabled && emits('toggle:editMode', val);
     },
   );
+
+  watch(
+    () => props.name,
+    newName => {
+      if (!newName) {
+        clear();
+      }
+    },
+  );
 </script>
 
 <template>
   <div
+    :id="id"
     v-ui3n-click-outside="onClickOutside"
     :class="[$style.ui3nEditable, disabled && $style.ui3nEditableDisabled]"
-    @focusin="emits('focusin', $event);"
+    @focusin="emits('focusin', $event)"
   >
+    <input
+      v-if="name"
+      type="hidden"
+      :name="name"
+      :value="value"
+    />
+
     <template v-if="inEdit">
       <span
         ref="hiddenEl"
@@ -165,7 +192,7 @@
         @keydown.enter="done"
         @keydown.tab="done"
         @keydown.esc="cancel"
-      >
+      />
 
       <div
         v-ui3n-ripple
@@ -224,16 +251,21 @@
     --ui3n-editable-min-width: v-bind(cssMinWidth);
     --ui3n-editable-max-width: v-bind(cssMaxWidth);
     --ui3n-editable-height: 24px;
+    --ui3n-editable-font-size: 12px;
+    --ui3n-editable-border-radius: 4px;
+    --ui3n-editable-padding-base: 4px;
+    --ui3n-editable-padding: 4px 44px 4px 4px;
+    --ui3n-editable-button-size: 16px;
 
     position: relative;
     box-sizing: border-box;
     width: max-content;
     max-width: var(--ui3n-editable-max-width);
     height: var(--ui3n-editable-height);
-    border-radius: var(--spacing-xs);
-    font-size: var(--font-12);
+    border-radius: var(--ui3n-editable-border-radius);
+    font-size: var(--ui3n-editable-font-size);
     font-weight: 400;
-    line-height: var(--font-16);
+    line-height: 1.33;
     color: var(--color-text-table-primary-default);
     overflow: hidden;
   }
@@ -248,8 +280,8 @@
     height: var(--ui3n-editable-height);
     min-width: var(--ui3n-editable-min-width);
     max-width: var(--ui3n-editable-max-width);
-    padding: var(--spacing-xs) 44px var(--spacing-xs) var(--spacing-xs);
-    border-radius: var(--spacing-xs);
+    padding: var(--ui3n-editable-padding);
+    border-radius: var(--ui3n-editable-border-radius);
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -278,19 +310,19 @@
     position: relative;
     min-width: var(--ui3n-editable-min-width);
     max-width: calc(100% - 52px);
-    padding: var(--spacing-xs) 44px var(--spacing-xs) var(--spacing-xs);
-    font-size: var(--font-12);
+    padding: var(--ui3n-editable-padding);
+    font-size: var(--ui3n-editable-font-size);
     font-weight: 400;
-    line-height: var(--font-16);
-    border-radius: var(--spacing-xs);
+    line-height: 1.33;
+    border-radius: var(--ui3n-editable-border-radius);
 
     &::placeholder {
       color: var(--color-text-table-secondary-default);
     }
 
     &.inEdit {
-      padding-top: calc(var(--spacing-xs) - 1px);
-      padding-bottom: calc(var(--spacing-xs) - 1px);
+      padding-top: calc(var(--ui3n-editable-padding-base) - 1px);
+      padding-bottom: calc(var(--ui3n-editable-padding-base) - 1px);
 
       &:not(.inEditWarning) {
         border: 1px solid var(--color-border-table-accent-default);
@@ -314,10 +346,10 @@
 
   .btn {
     position: absolute;
-    width: var(--spacing-m);
-    min-width: var(--spacing-m);
-    height: var(--spacing-m);
-    min-height: var(--spacing-m);
+    width: var(--ui3n-editable-button-size);
+    min-width: var(--ui3n-editable-button-size);
+    height: var(--ui3n-editable-button-size);
+    min-height: var(--ui3n-editable-button-size);
     border-radius: 50%;
     background-color: transparent;
     cursor: pointer;
@@ -334,20 +366,20 @@
     }
 
     &.editBtn {
-      top: var(--spacing-xs);
-      right: var(--spacing-xs);
+      top: 4px;
+      right: 4px;
       opacity: 0;
     }
 
     &.cancelBtn {
-      top: var(--spacing-xs);
-      right: var(--spacing-xs);
+      top: 4px;
+      right: 4px;
       opacity: 1;
     }
 
     &.doneBtn {
-      top: var(--spacing-xs);
-      right: var(--spacing-ml);
+      top: 4px;
+      right: 24px;
       opacity: 1;
     }
   }

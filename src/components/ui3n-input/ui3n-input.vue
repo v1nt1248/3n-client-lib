@@ -6,6 +6,9 @@
 
   const props = withDefaults(defineProps<Ui3nInputProps>(), {
     modelValue: '',
+    name: undefined,
+    maxlength: undefined,
+    minlength: undefined,
     type: 'text',
     size: 'regular',
     label: '',
@@ -177,10 +180,20 @@
       }
     },
   );
+
+  watch(
+    () => props.name,
+    newName => {
+      if (!newName) {
+        clearValue();
+      }
+    },
+  );
 </script>
 
 <template>
   <div
+    :id="id"
     :class="[
       $style.ui3nInput,
       size === 'large' && $style.large,
@@ -359,7 +372,7 @@
     padding: 0 var(--ui3n-input-padding-x);
     background-color: transparent;
     font-size: var(--ui3n-input-font-size);
-    line-height: var(--spacing-m);
+    line-height: 1.23;
     font-weight: 400;
     color: var(--color-text-control-primary-default);
     transition: color 0.2s ease-in-out;

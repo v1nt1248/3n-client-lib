@@ -1,47 +1,47 @@
 <script lang="ts" setup>
-  import { onMounted, ref } from 'vue';
-  import { Ui3nResize } from '@/directives';
-  import type { Ui3nDropFilesEmits, Ui3nDropFilesProps, Ui3nDropFilesSlots } from './types';
+  import { onMounted, ref, watch } from 'vue';
+  import Ui3nResize from '../../directives/ui3n-resize';
+  import type { Ui3nDropFilesEmits, Ui3nDropFilesProps, Ui3nDropFilesSlots, Ui3nDropFilesExpose } from './types';
 
   const vUi3nResize = Ui3nResize;
 
-  withDefaults(
-    defineProps<Ui3nDropFilesProps>(),
-    {
-      title: 'Upload',
-      text: '',
-      additionalText: '',
-    },
-  );
+  const props = withDefaults(defineProps<Ui3nDropFilesProps>(), {
+    name: undefined,
+    title: 'Upload',
+    text: '',
+    additionalText: '',
+    permanentDisplay: false,
+  });
   const emits = defineEmits<Ui3nDropFilesEmits>();
   defineSlots<Ui3nDropFilesSlots>();
 
   const wrapperElement = ref<HTMLDivElement | null>(null);
+  const fileInput = ref<HTMLInputElement | null>(null);
   const wrapperElementMinSize = ref(0);
   const isOverDropPlace = ref(false);
   const isOverDropZone = ref(false);
 
-  function onDragenter(ev: MouseEvent) {
+  function onDragenter(ev: DragEvent) {
     ev.preventDefault();
     isOverDropPlace.value = true;
   }
 
-  function onDragleave(ev: MouseEvent) {
+  function onDragleave(ev: DragEvent) {
     ev.preventDefault();
     isOverDropPlace.value = false;
   }
 
-  function onDropzoneDragover(ev: MouseEvent) {
+  function onDropzoneDragover(ev: DragEvent) {
     ev.preventDefault();
     ev.stopPropagation();
   }
 
-  function onDropzoneDragenter(ev: MouseEvent) {
+  function onDropzoneDragenter(ev: DragEvent) {
     ev.preventDefault();
     isOverDropZone.value = true;
   }
 
-  function onDropzoneDragleave(ev: MouseEvent) {
+  function onDropzoneDragleave(ev: DragEvent) {
     ev.preventDefault();
     isOverDropZone.value = false;
   }
@@ -49,9 +49,17 @@
   function onDrop(ev: DragEvent) {
     ev.stopPropagation();
     ev.preventDefault();
-    if (ev.dataTransfer!.files) {
-      emits('select', ev.dataTransfer!.files);
+
+    if (ev.dataTransfer?.files) {
+      const files = ev.dataTransfer.files;
+
+      if (fileInput.value) {
+        fileInput.value.files = files;
+      }
+
+      emits('select', files);
     }
+
     isOverDropPlace.value = false;
     isOverDropZone.value = false;
   }
@@ -59,16 +67,41 @@
   function calcElementsSizes() {
     if (wrapperElement.value) {
       wrapperElementMinSize.value = Math.min(wrapperElement.value.clientHeight, wrapperElement.value.clientWidth);
-      wrapperElement.value.style.setProperty('--dropzone-height', `${wrapperElementMinSize.value}px`);
+      wrapperElement.value.style.setProperty('--ui3n-dropzone-height', `${wrapperElementMinSize.value}px`);
+
       let titleFontSize = 12;
       if (wrapperElementMinSize.value > 100 && wrapperElementMinSize.value <= 240) {
         titleFontSize = 16;
       } else if (wrapperElementMinSize.value > 240) {
         titleFontSize = 20;
       }
-      wrapperElement.value.style.setProperty('--dropzone-title-font', `${titleFontSize}px`);
+      wrapperElement.value.style.setProperty('--ui3n-dropzone-title-font', `${titleFontSize}px`);
     }
   }
+
+  function clear() {
+    if (fileInput.value) {
+      fileInput.value.value = '';
+    }
+    isOverDropPlace.value = false;
+    isOverDropZone.value = false;
+
+    const dataTransfer = new DataTransfer();
+    emits('select', dataTransfer.files);
+  }
+
+  defineExpose<Ui3nDropFilesExpose>({
+    clear,
+  });
+
+  watch(
+    () => props.name,
+    newName => {
+      if (!newName && fileInput.value) {
+        fileInput.value.value = '';
+      }
+    },
+  );
 
   onMounted(() => {
     calcElementsSizes();
@@ -83,11 +116,21 @@
     :class="[
       $style.ui3nDropFiles,
       permanentDisplay && $style.ui3nDropFilesWithBorder,
-      (isOverDropPlace || isOverDropZone) && $style.ui3nDropFilesWithAccentBorder
+      (isOverDropPlace || isOverDropZone) && $style.ui3nDropFilesWithAccentBorder,
     ]"
     @dragenter="onDragenter"
+    @dragover.prevent
     @dragleave="onDragleave"
   >
+    <input
+      v-if="name"
+      ref="fileInput"
+      type="file"
+      :name="name"
+      multiple
+      hidden
+    />
+
     <slot />
 
     <div
@@ -130,14 +173,15 @@
 
 <style lang="scss" module>
   .ui3nDropFiles {
-    --dropzone-height: 0;
-    --dropzone-title-font: 0;
+    --ui3n-dropzone-height: 0;
+    --ui3n-dropzone-title-font: 0;
+    --ui3n-dropzone-border-radius: 4px;
 
     position: relative;
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    border-radius: var(--spacing-s);
+    border-radius: var(--ui3n-dropzone-border-radius);
   }
 
   .ui3nDropFilesWithBorder {
@@ -156,13 +200,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    row-gap: var(--spacing-m);
-    inset: var(--spacing-xs);
+    row-gap: 16px;
+    inset: 4px;
     z-index: 5;
   }
 
   .ui3nDropFilesDropzoneTitle {
-    font-size: var(--dropzone-title-font);
+    font-size: var(--ui3n-dropzone-title-font);
     font-weight: 500;
     color: var(--color-text-table-secondary-default);
     margin: 0;
@@ -171,8 +215,8 @@
 
   .ui3nDropFilesDropzoneIcon {
     position: relative;
-    width: calc(var(--dropzone-height) * 0.4);
-    height: calc(var(--dropzone-height) * 0.4);
+    width: calc(var(--ui3n-dropzone-height) * 0.4);
+    height: calc(var(--ui3n-dropzone-height) * 0.4);
     border-radius: 50%;
     background-color: var(--color-bg-button-tritery-default);
     display: flex;
