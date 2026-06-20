@@ -13,6 +13,7 @@ export interface Ui3nScrollbarVerticalProps {
   trackWidth?: number;
   trackRadius?: number | string;
   trackColor?: string;
+  autoUpdate?: boolean;
 }
 
 /**
@@ -35,4 +36,5 @@ export interface Ui3nScrollbarVerticalSlots {
 export interface Ui3nScrollbarVerticalExpose {
   scrollTo(options: ScrollToOptions): void;
   getContainer(): HTMLDivElement;
+  updateMetrics(): void;
 }

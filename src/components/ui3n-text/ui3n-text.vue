@@ -1,3 +1,5 @@
+<!-- @strictTemplates false -->
+
 <script lang="ts" setup>
   import { onMounted, ref, watch } from 'vue';
   import { patchTextareaMaxRowsSupport } from '@/utils';

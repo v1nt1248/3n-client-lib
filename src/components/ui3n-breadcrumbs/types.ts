@@ -28,7 +28,7 @@ export interface Ui3nBreadcrumbEmits {
   /**
    * Called when the breadcrumb is clicked
    */
-  (ev: 'click', value: Event): void;
+  (ev: 'click', value: MouseEvent): void;
 }
 
 /**

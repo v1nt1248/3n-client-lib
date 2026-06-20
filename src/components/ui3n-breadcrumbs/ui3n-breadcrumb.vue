@@ -34,7 +34,7 @@
     return val;
   });
 
-  function onClick(ev: Event) {
+  function onClick(ev: MouseEvent) {
     emits('click', ev);
   }
 </script>

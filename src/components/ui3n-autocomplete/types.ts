@@ -26,6 +26,10 @@ export type Ui3nAutocompleteValue<T extends Ui3nAutocompleteOptionBase> = {
  */
 export interface Ui3nAutocompleteProps<T extends Ui3nAutocompleteOptionBase> {
   /**
+   * HTML name attribute for form submission
+   */
+  name?: string;
+  /**
    * Whether to show chips
    * @default false
    */

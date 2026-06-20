@@ -23,6 +23,7 @@
   >();
 
   const hasDefaultSlot = computed(() => !!slots.default);
+
   const style = computed(() => {
     const [xPosition, yPosition] = props.position.split('-');
     return {
@@ -44,6 +45,7 @@
       <slot />
 
       <ui3n-badge-simple
+        :id="id"
         :dot="dot"
         :value="value"
         :color="color"
@@ -57,6 +59,7 @@
 
   <ui3n-badge-simple
     v-else
+    :id="id"
     :dot="dot"
     :value="value"
     :color="color"
@@ -74,6 +77,7 @@
   .ui3nBadgeWrapper {
     position: relative;
     width: max-content;
+    min-width: var(--ui3n-badge-size);
   }
 
   .ui3nBadgeContent {

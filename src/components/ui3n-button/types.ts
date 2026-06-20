@@ -1,6 +1,6 @@
-import type { VNode } from 'vue';
+import type { ButtonHTMLAttributes, VNode } from 'vue';
 
-export interface Ui3nButtonProps {
+export interface Ui3nButtonProps extends /*@vue-ignore */ Omit<ButtonHTMLAttributes, 'type'> {
   /** Button type */
   type?: 'primary' | 'secondary' | 'tertiary' | 'outline' | 'icon' | 'custom';
   /** Button size */
