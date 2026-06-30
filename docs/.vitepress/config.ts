@@ -55,6 +55,13 @@ export default defineConfig({
     ],
   ],
   appearance: false,
+
+  async buildEnd() {
+    setTimeout(() => {
+      process.exit(0);
+    }, 500);
+  },
+
   themeConfig: {
     sidebar: [
       {
@@ -80,7 +87,10 @@ export default defineConfig({
           { text: 'Ui3nNotification', link: '/components/ui3n-notification/ui3n-notification' },
           { text: 'Ui3nProgress', link: '/components/ui3n-progress/ui3n-progress' },
           { text: 'Ui3nRadioGroup', link: '/components/ui3n-radio-group/ui3n-radio-group' },
-          { text: 'Ui3nScrollbarHorizontal', link: '/components/ui3n-scrollbar-horizontal/ui3n-scrollbar-horizontal' },
+          {
+            text: 'Ui3nScrollbarHorizontal',
+            link: '/components/ui3n-scrollbar-horizontal/ui3n-scrollbar-horizontal',
+          },
           { text: 'Ui3nScrollbarVertical', link: '/components/ui3n-scrollbar-vertical/ui3n-scrollbar-vertical' },
           { text: 'Ui3nSelector', link: '/components/ui3n-selector/ui3n-selector' },
           { text: 'Ui3nSlider', link: '/components/ui3n-slider/ui3n-slider' },
@@ -95,6 +105,7 @@ export default defineConfig({
       },
     ],
   },
+
   vite: {
     css: {
       preprocessorOptions: {
