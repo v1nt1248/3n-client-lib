@@ -6,6 +6,8 @@
 
     <Ui3nButton type="tertiary">Tertiary</Ui3nButton>
 
+    <Ui3nButton type="outline">Outline</Ui3nButton>
+
     <Ui3nButton
       type="icon"
       icon="round-info"

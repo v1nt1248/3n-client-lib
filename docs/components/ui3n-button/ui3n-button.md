@@ -10,6 +10,12 @@ import Example04 from './Example04.vue';
 import Example04Raw from './Example04.vue?raw';
 import Example05 from './Example05.vue';
 import Example05Raw from './Example05.vue?raw';
+import Example06 from './Example06.vue';
+import Example06Raw from './Example06.vue?raw';
+import Example07 from './Example07.vue';
+import Example07Raw from './Example07.vue?raw';
+import Example08 from './Example08.vue';
+import Example08Raw from './Example08.vue?raw';
 
 const buttonMeta = data.find(c => c.name === 'ui3n-button');
 </script>
@@ -42,7 +48,7 @@ Button component with various styles and capabilities.
 
 <DemoBlock
   title="Button types"
-  description="Different button types: primary, secondary, tertiary, icon, custom"
+  description="Different button types: primary, secondary, tertiary, outline, icon, custom"
   :code="Example02Raw"
   hide-script-block
   hide-style-block
@@ -54,7 +60,7 @@ Button component with various styles and capabilities.
 
 <DemoBlock
   title="Button sizes"
-  description="Regular and small button sizes"
+  description="Regular, small and large button sizes"
   :code="Example03Raw"
   hide-script-block
   hide-style-block
@@ -84,4 +90,36 @@ Button component with various styles and capabilities.
   hide-style-block
 >
   <Example05></Example05>
+</DemoBlock>
+
+### Square buttons
+
+<DemoBlock
+  title="Square buttons"
+  description="Buttons with square corners using the square prop"
+  :code="Example06Raw"
+  only-template-content
+>
+  <Example06></Example06>
+</DemoBlock>
+
+### Icon customization
+
+<DemoBlock
+  title="Icon customization"
+  description="Custom icon size and color using iconSize and iconColor props"
+  :code="Example07Raw"
+  only-template-content
+>
+  <Example07></Example07>
+</DemoBlock>
+
+### Events
+
+<DemoBlock
+  title="Events"
+  description="Button events: init, click, enter, focus, blur"
+  :code="Example08Raw"
+>
+  <Example08></Example08>
 </DemoBlock>

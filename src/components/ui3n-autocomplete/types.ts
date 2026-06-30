@@ -58,6 +58,11 @@ export interface Ui3nAutocompleteProps<T extends Ui3nAutocompleteOptionBase> {
    */
   hideSelected?: boolean;
   /**
+   * Whether to lock scroll when menu is open
+   * @default false
+   */
+  lockScroll?: boolean;
+  /**
    * Items to display
    */
   items: T[];

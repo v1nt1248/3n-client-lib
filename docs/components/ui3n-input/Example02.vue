@@ -1,0 +1,23 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import Ui3nInput from '@/components/ui3n-input/ui3n-input.vue';
+
+const value1 = ref('');
+const value2 = ref('');
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 16px;">
+    <Ui3nInput
+      v-model="value1"
+      label="Regular size"
+      placeholder="Regular input"
+    />
+    <Ui3nInput
+      v-model="value2"
+      label="Large size"
+      size="large"
+      placeholder="Large input"
+    />
+  </div>
+</template>

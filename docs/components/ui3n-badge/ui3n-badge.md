@@ -8,11 +8,17 @@ import Example03 from './Example03.vue';
 import Example03Raw from './Example03.vue?raw';
 import Example04 from './Example04.vue';
 import Example04Raw from './Example04.vue?raw';
+import Example05 from './Example05.vue';
+import Example05Raw from './Example05.vue?raw';
+import Example06 from './Example06.vue';
+import Example06Raw from './Example06.vue?raw';
 
 const badgeMeta = data.find(c => c.name === 'ui3n-badge');
 </script>
 
 # Ui3nBadge
+
+Badge component for displaying status indicators, notifications, and counts.
 
 <ComponentDoc
   :props="badgeMeta.props"
@@ -20,6 +26,8 @@ const badgeMeta = data.find(c => c.name === 'ui3n-badge');
   :slots="badgeMeta.slots"
   :exposes="badgeMeta.exposes"
 />
+
+## Usage Examples
 
 ### Simple use
 
@@ -64,4 +72,25 @@ const badgeMeta = data.find(c => c.name === 'ui3n-badge');
   hide-style-block
 >
   <Example04></Example04>
+</DemoBlock>
+
+### Standalone badge
+
+<DemoBlock
+  title="Standalone badge"
+  description="Badge without wrapper element (no default slot)"
+  :code="Example05Raw"
+  only-template-content
+>
+  <Example05></Example05>
+</DemoBlock>
+
+### Overflow value (99+)
+
+<DemoBlock
+  title="Overflow value (99+)"
+  description="Display '99+' for large counts - typical pattern for notifications"
+  :code="Example06Raw"
+>
+  <Example06></Example06>
 </DemoBlock>

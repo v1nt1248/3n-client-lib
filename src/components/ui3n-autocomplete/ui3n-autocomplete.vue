@@ -19,6 +19,7 @@
   const vUi3nHtml = Ui3nHtml;
 
   const props = withDefaults(defineProps<Ui3nAutocompleteProps<T>>(), {
+    lockScroll: false,
     clearOnSelect: false,
     filterKeys: () => [],
     hideSelected: false,
@@ -133,7 +134,7 @@
   function handlePressingDownKey() {
     if (activeItemsIndex.value === null) {
       activeItemsIndex.value = 0;
-      menuBodyEl.value && menuBodyEl.value.focus();
+      menuBodyEl.value && menuBodyEl.value.focus({ preventScroll: true });
       return;
     }
 
@@ -145,7 +146,7 @@
   function handlePressingUpKey() {
     if (activeItemsIndex.value === null) {
       activeItemsIndex.value = size(filteredItems.value) - 1;
-      menuBodyEl.value && menuBodyEl.value.focus();
+      menuBodyEl.value && menuBodyEl.value.focus({ preventScroll: true });
       return;
     }
 
@@ -167,7 +168,7 @@
     if (activeItemsIndex.value === null && !isMenuOpen.value) {
       isMenuOpen.value = true;
       activeItemsIndex.value = 0;
-      menuBodyEl.value && menuBodyEl.value.focus();
+      menuBodyEl.value && menuBodyEl.value.focus({ preventScroll: true });
       return;
     }
 
@@ -322,8 +323,10 @@
 
     <ui3n-menu
       v-model="isMenuOpen"
+      :lock-scroll="lockScroll"
       :offset-x="2"
       :offset-y="4"
+      position-strategy="fixed"
       position-autoupdate
       :content-border-radius="[0, 0, 8, 8]"
       :disabled="disabled"
@@ -381,7 +384,7 @@
           :placeholder="isEmpty(modelValue) && placeholder ? placeholder : ''"
           :disabled="disabled"
           @input="onInput"
-          @focusin="emits('update:focused', true)"
+          @focusin.prevent="emits('update:focused', true)"
           @focusout="onBlur"
           @keydown.down="onKeydown($event, 'down')"
           @keydown.up="onKeydown($event, 'up')"

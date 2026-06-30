@@ -32,6 +32,11 @@ export interface Ui3nMenuProps {
    */
   allowFlip?: boolean;
   /**
+   * Whether to lock scroll when menu is open
+   * @default false
+   */
+  lockScroll?: boolean;
+  /**
    * Offset X
    * @default 0
    */
