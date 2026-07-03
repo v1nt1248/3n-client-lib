@@ -52,7 +52,7 @@
     font-size: 12px;
     color: var(--color-text-block-secondary-default);
     padding: 8px 12px;
-    background: var(--color-bg-block-secondary-default);
+    background: var(--color-bg-block-darkery-default);
     border-radius: 4px;
   }
 </style>

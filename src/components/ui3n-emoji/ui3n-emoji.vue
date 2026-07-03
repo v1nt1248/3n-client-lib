@@ -1,25 +1,31 @@
 <script lang="ts" setup>
-  import { computed, onMounted, ref, watch } from 'vue';
+  import { computed, ref, watch } from 'vue';
   import { emoticons } from '@/constants/emoticons';
   import type { Ui3nEmojiEmits, Ui3nEmojiProps } from './types';
 
-  const props = withDefaults(
-    defineProps<Ui3nEmojiProps>(),
-    {
-      size: 16,
-      readonly: false,
-    },
-  );
+  const props = withDefaults(defineProps<Ui3nEmojiProps>(), {
+    size: 16,
+    readonly: false,
+  });
   const emits = defineEmits<Ui3nEmojiEmits>();
 
   const emojiElement = ref<HTMLDivElement | null>(null);
   const emojiData = computed(() => emoticons[props.emoji]);
 
-  onMounted(() => {
-    if (emojiElement.value) {
-      emojiElement.value.style.setProperty('--ui3n-emoji-size', `${props.size}px`);
-    }
+  const inlineStyles = computed(() => {
+    const isNumeric = !isNaN(Number(props.size));
+    const sizeStr = isNumeric ? `${props.size}px` : String(props.size);
+
+    return {
+      '--ui3n-emoji-size': sizeStr,
+      'line-height': sizeStr,
+    };
   });
+
+  function onClick(ev: Event) {
+    ev.stopPropagation();
+    emits('click', ev);
+  }
 
   watch(
     () => props.emoji,
@@ -30,27 +36,14 @@
     },
     { immediate: true },
   );
-
-  watch(
-    () => props.size,
-    (newValue, prevValue) => {
-      if (emojiElement.value && newValue && newValue !== prevValue) {
-        emojiElement.value.style.setProperty('--ui3n-emoji-size', `${newValue}px`);
-      }
-    },
-  );
-
-  const onClick = (ev: Event) => {
-    ev.stopImmediatePropagation();
-    emits('click', ev);
-  };
 </script>
 
 <template>
   <div
     ref="emojiElement"
     :class="[$style.ui3nEmoji, readonly && $style.readonly]"
-    v-on="readonly ? {} : { 'click': onClick }"
+    :style="inlineStyles"
+    v-on="readonly ? {} : { click: onClick }"
   >
     {{ emojiData && emojiData.value }}
   </div>
@@ -69,6 +62,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    user-select: none;
   }
 
   .readonly {

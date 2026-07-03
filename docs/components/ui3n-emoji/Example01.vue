@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Ui3nEmoji from '@/components/ui3n-emoji/ui3n-emoji.vue';
+  import Ui3nEmoji from '@/components/ui3n-emoji/ui3n-emoji.vue';
 </script>
 
 <template>
@@ -13,9 +13,9 @@ import Ui3nEmoji from '@/components/ui3n-emoji/ui3n-emoji.vue';
 </template>
 
 <style lang="scss" module>
-.wrapper {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
+  .wrapper {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
 </style>

@@ -23,19 +23,17 @@
 
   const inEdit = ref(false);
 
-  const cssMinWidth = computed(() => `${minWidth}px`);
-
-  const cssMaxWidth = computed(() => {
-    if (!props.maxWidth) {
-      return '100%';
+  const inlineStyles = computed(() => {
+    let maxWidthStr = '100%';
+    if (props.maxWidth) {
+      const maxWidthAsNumber = Number(props.maxWidth);
+      maxWidthStr = Number.isNaN(maxWidthAsNumber) ? (props.maxWidth as string) : `${maxWidthAsNumber}px`;
     }
 
-    const maxWidthAsNumber = Number(props.maxWidth);
-    if (Number.isNaN(maxWidthAsNumber)) {
-      return props.maxWidth as string;
-    }
-
-    return `${maxWidthAsNumber}px`;
+    return {
+      '--ui3n-editable-min-width': `${minWidth}px`,
+      '--ui3n-editable-max-width': maxWidthStr,
+    };
   });
 
   const isContentTruncated = computed(() => {
@@ -55,8 +53,12 @@
   });
 
   function setInputWidth() {
-    hiddenEl.value!.textContent = value.value || props.placeholder || '...';
-    const newWidth = Math.max(hiddenEl.value!.scrollWidth, minWidth);
+    if (!hiddenEl.value) {
+      return;
+    }
+
+    hiddenEl.value.textContent = value.value || props.placeholder || '';
+    const newWidth = Math.max(hiddenEl.value.scrollWidth + 48, minWidth);
     inputElWidth.value = `${newWidth}px`;
   }
 
@@ -78,8 +80,7 @@
   }
 
   function onInput(ev: Event) {
-    // @ts-ignore
-    value.value = ev.target!.value || '';
+    value.value = (ev.target as HTMLInputElement).value || '';
     setInputWidth();
   }
 
@@ -96,6 +97,7 @@
       initialValue.value = value.value;
       emits('update:modelValue', value.value);
     }
+
     emits('done');
     inEdit.value = false;
   }
@@ -109,6 +111,7 @@
       value.value = initialValue.value;
       emits('update:modelValue', value.value);
     }
+
     emits('cancel');
     inEdit.value = false;
   }
@@ -165,7 +168,13 @@
   <div
     :id="id"
     v-ui3n-click-outside="onClickOutside"
-    :class="[$style.ui3nEditable, disabled && $style.ui3nEditableDisabled]"
+    :class="[
+      $style.ui3nEditable,
+      disabled && $style.ui3nEditableDisabled,
+      inEdit && $style.ui3nEditableInEdit,
+      inEdit && !isValid && $style.ui3nEditableInEditWarning,
+    ]"
+    :style="inlineStyles"
     @focusin="emits('focusin', $event)"
   >
     <input
@@ -183,7 +192,7 @@
 
       <input
         ref="inputEl"
-        :class="[$style.input, inEdit && $style.inEdit, inEdit && !isValid && $style.inEditWarning]"
+        :class="$style.input"
         :style="{ width: inputElWidth }"
         :value="value"
         :placeholder="placeholder"
@@ -248,13 +257,14 @@
   @use '../../assets/styles/mixins' as mixins;
 
   .ui3nEditable {
-    --ui3n-editable-min-width: v-bind(cssMinWidth);
-    --ui3n-editable-max-width: v-bind(cssMaxWidth);
+    --ui3n-editable-min-width: 60px;
+    --ui3n-editable-max-width: 100%;
     --ui3n-editable-height: 24px;
     --ui3n-editable-font-size: 12px;
     --ui3n-editable-border-radius: 4px;
-    --ui3n-editable-padding-base: 4px;
-    --ui3n-editable-padding: 4px 44px 4px 4px;
+    //--ui3n-editable-padding-base: 4px;
+    //--ui3n-editable-padding: 0 4px;
+    //--ui3n-editable-padding: 4px 44px 4px 4px;
     --ui3n-editable-button-size: 16px;
 
     position: relative;
@@ -265,9 +275,22 @@
     border-radius: var(--ui3n-editable-border-radius);
     font-size: var(--ui3n-editable-font-size);
     font-weight: 400;
-    line-height: 1.33;
+    line-height: var(--ui3n-editable-height);
     color: var(--color-text-table-primary-default);
     overflow: hidden;
+    border: 1px solid transparent;
+
+    &.ui3nEditableInEdit {
+      background-color: var(--color-bg-control-primary-default, #fff);
+
+      &:not(.ui3nEditableInEditWarning) {
+        border: 1px solid var(--color-border-table-accent-default);
+      }
+
+      &.ui3nEditableInEditWarning {
+        border: 1px solid var(--error-content-default);
+      }
+    }
   }
 
   .ui3nEditableDisabled {
@@ -277,15 +300,23 @@
 
   .content {
     position: relative;
+    box-sizing: border-box;
     height: var(--ui3n-editable-height);
     min-width: var(--ui3n-editable-min-width);
     max-width: var(--ui3n-editable-max-width);
-    padding: var(--ui3n-editable-padding);
+    padding: 0 24px 0 4px;
     border-radius: var(--ui3n-editable-border-radius);
     display: flex;
     justify-content: flex-start;
     align-items: center;
     cursor: pointer;
+    border: 1px solid transparent;
+
+    span {
+      display: block;
+      max-width: 100%;
+      @include mixins.text-overflow-ellipsis();
+    }
 
     &.contentEmpty {
       color: var(--color-text-table-secondary-default);
@@ -298,43 +329,28 @@
         opacity: 1;
       }
     }
-
-    span {
-      display: block;
-      max-width: 100%;
-      @include mixins.text-overflow-ellipsis();
-    }
   }
 
   .input {
     position: relative;
+    height: 100%;
+    box-sizing: border-box;
     min-width: var(--ui3n-editable-min-width);
-    max-width: calc(100% - 52px);
-    padding: var(--ui3n-editable-padding);
+    max-width: 100%;
+    padding: 0 44px 0 4px;
+    font-family: inherit;
     font-size: var(--ui3n-editable-font-size);
     font-weight: 400;
-    line-height: 1.33;
+    line-height: var(--ui3n-editable-height);
     border-radius: var(--ui3n-editable-border-radius);
+    background-color: transparent;
+    border: none;
 
     &::placeholder {
       color: var(--color-text-table-secondary-default);
     }
 
-    &.inEdit {
-      padding-top: calc(var(--ui3n-editable-padding-base) - 1px);
-      padding-bottom: calc(var(--ui3n-editable-padding-base) - 1px);
-
-      &:not(.inEditWarning) {
-        border: 1px solid var(--color-border-table-accent-default);
-      }
-
-      &.inEditWarning {
-        border: 1px solid var(--error-content-default);
-      }
-    }
-
     &:focus-visible {
-      border: none;
       outline: none;
     }
   }
@@ -342,6 +358,12 @@
   .hidden {
     position: absolute;
     visibility: hidden;
+    padding: 0;
+    font-family: inherit;
+    font-size: var(--ui3n-editable-font-size);
+    font-weight: 400;
+    line-height: var(--ui3n-editable-height);
+    white-space: pre;
   }
 
   .btn {

@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import Ui3nInput from '@/components/ui3n-input/ui3n-input.vue';
+  import { ref } from 'vue';
+  import Ui3nInput from '@/components/ui3n-input/ui3n-input.vue';
 
-const value1 = ref('');
-const value2 = ref('Valid text');
-const value3 = ref('');
+  const value1 = ref('');
+  const value2 = ref('Valid text');
+  const value3 = ref('');
 
-const requiredRule = (v: unknown) => !!v || 'Field is required';
-const minLengthRule = (v: unknown) => (typeof v === 'string' && v.length >= 3) || 'Minimum 3 characters';
+  const requiredRule = (v: unknown) => !!v || 'Field is required';
+  const minLengthRule = (v: unknown) => (typeof v === 'string' && v.length >= 3) || 'Minimum 3 characters';
 </script>
 
 <template>
-  <div style="display: flex; flex-direction: column; gap: 16px;">
+  <div style="display: flex; flex-direction: column; gap: 16px">
     <Ui3nInput
       v-model="value1"
       label="Required field"

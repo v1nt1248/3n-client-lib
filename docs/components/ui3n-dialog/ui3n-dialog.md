@@ -43,7 +43,10 @@ To build a dialog, create a component using the `<ui3n-dialog>` framework wrappe
 **Dialog Template (`Example01.vue`):**
 ```vue
 <template>
-  <ui3n-dialog v-bind="dialogProps" @action="emits('action', \$event)">
+  <ui3n-dialog
+    v-bind="dialogProps"
+    @action="emits('action', $event)"
+  >
     <template #body>
       <div class="dialog-body">{{ text }}</div>
     </template>
@@ -69,7 +72,10 @@ You can completely control button text, styling, and structural states (like `dr
 **Dialog Template (`Example02.vue`):**
 ```vue
 <template>
-  <ui3n-dialog v-bind="dialogProps" @action="emits('action', \$event)">
+  <ui3n-dialog
+    v-bind="dialogProps"
+    @action="emits('action', $event)"
+  >
     <template #body>
       <div class="dialog-body">{{ message }}</div>
     </template>
@@ -95,10 +101,25 @@ Components can completely replace the predefined sections of the layout structur
 **Dialog Template (`Example03.vue`):**
 ```vue
 <template>
-  <ui3n-dialog v-bind="dialogProps" @action="emits('action', \$event)">
-    <template #header><h3>Custom Title Status</h3></template>
-    <template #body><p>Custom body text area...</p></template>
-    <template #actions><ui3n-button @click="emits('action', { event: 'confirm' })">Apply</ui3n-button></template>
+  <ui3n-dialog
+    v-bind="dialogProps"
+    @action="emits('action', $event)"
+  >
+    <template #header>
+      <h3>Custom Title Status</h3>
+    </template>
+    
+    <template #body>
+      <p>Custom body text area...</p>
+    </template>
+    
+    <template #actions>
+      <ui3n-button
+        @click="emits('action', { event: 'confirm' })"
+      >
+        Apply
+      </ui3n-button>
+    </template>
   </ui3n-dialog>
 </template>
 ```
@@ -121,9 +142,16 @@ You can supply initial form values into the container and receive the modified e
 **Dialog Template (`Example04.vue`):**
 ```vue
 <template>
-  <ui3n-dialog v-bind="dialogProps" :is-valid="isValid" @action="handleAction">
+  <ui3n-dialog
+    v-bind="dialogProps"
+    :is-valid="isValid"
+    @action="handleAction"
+  >
     <template #body>
-      <ui3n-input v-model="localForm.name" @input="onInput" />
+      <ui3n-input
+        v-model="localForm.name"
+        @input="onInput"
+      />
     </template>
   </ui3n-dialog>
 </template>

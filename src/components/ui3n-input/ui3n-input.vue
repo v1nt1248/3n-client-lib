@@ -61,7 +61,7 @@
     return (event.target as HTMLInputElement).value;
   }
 
-  function validate(value: string) {
+  function validate(value: string, forceEmit = false) {
     const errors: string[] = [];
     for (const rule of props.rules) {
       if (typeof rule !== 'function') {
@@ -77,7 +77,7 @@
     }
 
     errorMessage.value = errors.join('. ');
-    if (isDirty.value || props.validateAtStartup) {
+    if (isDirty.value || props.validateAtStartup || forceEmit) {
       emits('update:valid', errors.length === 0);
     }
   }
@@ -152,13 +152,10 @@
 
   onMounted(() => {
     internalValue.value = props.modelValue ?? '';
-    if (inputElement.value) {
-      inputElement.value.value = internalValue.value;
-      if (props.autofocus) {
-        inputElement.value.focus();
-      }
-      emits('init', inputElement.value);
+    if (inputElement.value && props.autofocus) {
+      inputElement.value.focus();
     }
+    emits('init', inputElement.value);
 
     if (props.validateAtStartup) {
       isDirty.value = true;
@@ -172,11 +169,7 @@
       const normalized = val ?? '';
       if (normalized !== internalValue.value) {
         internalValue.value = normalized;
-
-        if (inputElement.value) {
-          inputElement.value.value = normalized;
-        }
-        validate(normalized);
+        validate(normalized, true);
       }
     },
   );
@@ -231,6 +224,7 @@
         :name="name"
         :maxlength="maxlength"
         :minlength="minlength"
+        :value="internalValue"
         :class="$style.ui3nInputField"
         @input="onInput"
         @keydown.enter="onEnterKeydown"
@@ -455,6 +449,14 @@
 
     .inputWrapper {
       outline: 1px solid var(--error-content-default);
+    }
+
+    &:focus-within {
+      .inputWrapper {
+        background-color: var(--color-bg-control-secondary-focused);
+        outline: 1px solid var(--error-content-default);
+        box-shadow: 0 0 0 1px var(--error-content-default);
+      }
     }
   }
 
