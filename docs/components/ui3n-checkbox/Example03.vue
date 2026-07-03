@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-/**
- * Checkbox sizes
- * Different checkbox sizes: 12px, 16px, 24px, 32px
- */
+  /**
+   * Checkbox sizes
+   * Different checkbox sizes: 12px, 16px, 24px, 32px
+   */
 
-const small = ref(true);
-const medium = ref(true);
-const large = ref(true);
-const xlarge = ref(true);
+  const small = ref(true);
+  const medium = ref(true);
+  const large = ref(true);
+  const xlarge = ref(true);
 </script>
 
 <template>
@@ -53,14 +53,14 @@ const xlarge = ref(true);
 </template>
 
 <style scoped>
-.example-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+  .example-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 
-.size-row {
-  display: flex;
-  align-items: center;
-}
+  .size-row {
+    display: flex;
+    align-items: center;
+  }
 </style>

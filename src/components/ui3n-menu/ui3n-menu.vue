@@ -290,13 +290,13 @@
     --ui3n-menu-content-bg: var(--color-bg-control-secondary-default);
 
     position: relative;
-    max-width: max-content;
+    width: 100%;
     overflow: visible;
   }
 
   .ui3nMenuTrigger {
     position: relative;
-    max-width: max-content;
+    width: 100%;
 
     &.ui3nMenuTriggerDisabled {
       pointer-events: none;

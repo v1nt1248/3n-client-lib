@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-/**
- * Basic checkbox usage
- * Simple checkbox with v-model binding
- */
+  /**
+   * Basic checkbox usage
+   * Simple checkbox with v-model binding
+   */
 
-const isChecked = ref(false);
+  const isChecked = ref(false);
 </script>
 
 <template>
@@ -20,17 +20,17 @@ const isChecked = ref(false);
 </template>
 
 <style scoped>
-.example-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+  .example-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 
-.status {
-  font-size: 12px;
-  color: var(--color-text-block-secondary-default);
-  padding: 8px 12px;
-  background: var(--color-bg-block-secondary-default);
-  border-radius: 4px;
-}
+  .status {
+    font-size: 12px;
+    color: oklch(0.65 0.17 140);
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
 </style>

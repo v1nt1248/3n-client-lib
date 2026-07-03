@@ -1,8 +1,8 @@
 <script setup lang="ts">
-/**
- * Basic breadcrumbs usage
- * Demonstrates a simple navigation path with default separator '/'
- */
+  /**
+   * Basic breadcrumbs usage
+   * Demonstrates a simple navigation path with default separator '/'
+   */
 </script>
 
 <template>

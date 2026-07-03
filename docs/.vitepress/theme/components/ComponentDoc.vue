@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { computed } from 'vue';
+
   interface ComponentPropInfo {
     name: string;
     description: string;
@@ -26,12 +28,25 @@
     props: string;
   }
 
-  defineProps<{
+  const propsData = defineProps<{
     props?: ComponentPropInfo[];
     events?: ComponentEventInfo[];
     slots?: ComponentSlotInfo[];
     exposes?: ComponentExposeInfo[];
   }>();
+
+  const filteredExposes = computed(() => {
+    if (!propsData.exposes) {
+      return [];
+    }
+
+    return propsData.exposes.filter(ex => !ex.name.startsWith('$') && !ex.name.startsWith('_'));
+  });
+
+  function formatType(typeStr: string): string {
+    if (!typeStr) return '';
+    return typeStr.replace(/\s\|\s/g, ' | ');
+  }
 </script>
 
 <template>
@@ -41,14 +56,13 @@
       class="section"
     >
       <h3 class="section-title">Props</h3>
-
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
               <th>Name</th>
               <th>Type</th>
-              <th>Default value</th>
+              <th>Default</th>
               <th>Description</th>
             </tr>
           </thead>
@@ -63,22 +77,42 @@
                 <span
                   v-if="prop.required"
                   class="required-badge"
-                  title="Required"
+                  title="Required property"
+                  >*</span
                 >
-                  *
-                </span>
               </td>
 
-              <td class="type">
-                <code>{{ prop.type }}</code>
+              <td class="type complex-type">
+                <code>{{ formatType(prop.type) }}</code>
               </td>
 
               <td class="default-value">
-                <code v-if="prop.default">{{ prop.default }}</code>
+                <code v-if="prop.default && prop.default !== 'undefined'">
+                  {{ prop.default }}
+                </code>
+
+                <span
+                  v-else
+                  class="empty-value"
+                >
+                  —
+                </span>
               </td>
 
               <td class="description">
-                <span>{{ prop.description }}</span>
+                <p
+                  v-if="prop.description"
+                  class="desc-text"
+                >
+                  {{ prop.description }}
+                </p>
+
+                <span
+                  v-else
+                  class="empty-value"
+                >
+                  No description provided
+                </span>
               </td>
             </tr>
           </tbody>
@@ -91,13 +125,12 @@
       class="section"
     >
       <h3 class="section-title">Events</h3>
-
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
-              <th>Event</th>
-              <th>Value type</th>
+              <th>Event Name</th>
+              <th>Arguments / Value Type</th>
               <th>Description</th>
             </tr>
           </thead>
@@ -111,12 +144,24 @@
                 <code>{{ event.name }}</code>
               </td>
 
-              <td class="type">
+              <td class="type complex-type">
                 <code>{{ event.value.replace(/^\[|\]$/g, '') }}</code>
               </td>
 
               <td class="description">
-                <span>{{ event.description }}</span>
+                <p
+                  v-if="event.description"
+                  class="desc-text"
+                >
+                  {{ event.description }}
+                </p>
+
+                <span
+                  v-else
+                  class="empty-value"
+                >
+                  —
+                </span>
               </td>
             </tr>
           </tbody>
@@ -129,13 +174,12 @@
       class="section"
     >
       <h3 class="section-title">Slots</h3>
-
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Props</th>
+              <th>Slot Name</th>
+              <th>Scope Props (v-slot)</th>
               <th>Description</th>
             </tr>
           </thead>
@@ -146,15 +190,36 @@
               :key="slot.name"
             >
               <td class="name">
-                <code>{{ slot.name }}</code>
+                <code>#{{ slot.name }}</code>
               </td>
 
-              <td class="type">
-                <code v-if="slot.props !== 'any'">{{ slot.props }}</code>
+              <td class="type complex-type">
+                <code v-if="slot.props && slot.props !== 'any' && slot.props !== '{}'">
+                  {{ slot.props }}
+                </code>
+
+                <span
+                  v-else
+                  class="empty-value"
+                >
+                  —
+                </span>
               </td>
 
               <td class="description">
-                <span>{{ slot.description }}</span>
+                <p
+                  v-if="slot.description"
+                  class="desc-text"
+                >
+                  {{ slot.description }}
+                </p>
+
+                <span
+                  v-else
+                  class="empty-value"
+                >
+                  —
+                </span>
               </td>
             </tr>
           </tbody>
@@ -163,36 +228,47 @@
     </div>
 
     <div
-      v-if="exposes && exposes.length"
+      v-if="filteredExposes.length"
       class="section"
     >
-      <h3 class="section-title">Exposes</h3>
-
+      <h3 class="section-title">Public Methods & Exposes</h3>
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Props</th>
+              <th>Method Name</th>
+              <th>Signature / Type</th>
               <th>Description</th>
             </tr>
           </thead>
 
           <tbody>
             <tr
-              v-for="expose in exposes"
+              v-for="expose in filteredExposes"
               :key="expose.name"
             >
               <td class="name">
-                <code>{{ expose.name }}</code>
+                <code>{{ expose.name }}()</code>
               </td>
 
-              <td class="type">
+              <td class="type complex-type">
                 <code>{{ expose.props }}</code>
               </td>
 
               <td class="description">
-                <span>{{ expose.description }}</span>
+                <p
+                  v-if="expose.description"
+                  class="desc-text"
+                >
+                  {{ expose.description }}
+                </p>
+
+                <span
+                  v-else
+                  class="empty-value"
+                >
+                  —
+                </span>
               </td>
             </tr>
           </tbody>
@@ -204,13 +280,13 @@
 
 <style scoped>
   .component-doc {
-    padding: 24px 0;
+    padding: 16px 0;
   }
 
   .section {
     position: relative;
     width: 100%;
-    margin-bottom: 8px;
+    margin-bottom: 32px;
   }
 
   .section-title {
@@ -219,24 +295,27 @@
     line-height: 1;
     color: var(--color-text-block-accent-default);
     margin: 0 0 16px 0;
+    border-bottom: 1px solid var(--color-border-table-primary-default);
+    padding-bottom: 8px;
   }
 
   .table-wrapper {
     position: relative;
     width: 100%;
     overflow-x: auto;
+    border-radius: 6px;
   }
 
   table {
+    width: 100%;
     border-collapse: collapse;
-    padding-bottom: 16px;
+    margin: 0;
   }
 
   th {
     height: 48px;
-    padding: 0 8px;
+    padding: 10px 12px;
     background-color: var(--color-bg-table-header-default);
-    vertical-align: central;
     text-align: left;
     font-size: 14px;
     font-weight: 600;
@@ -246,13 +325,11 @@
   }
 
   td {
-    padding: 8px;
+    padding: 12px;
     vertical-align: top;
-    background-color: transparent;
     border: 1px solid var(--color-border-table-primary-default);
     font-size: 13px;
-    font-weight: 400;
-    line-height: 16px;
+    line-height: 1.6;
     color: var(--color-text-table-primary-default);
   }
 
@@ -265,24 +342,53 @@
   }
 
   code {
-    display: inline-block;
     font-family: ui-monospace, 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
     padding: 3px 6px;
     border-radius: 4px;
-    font-size: 13px !important;
+    font-size: 12px !important;
     font-weight: 500;
-    line-height: 1 !important;
+    line-height: 1.4 !important;
   }
 
   .name {
-    min-width: 120px;
-    white-space: nowrap;
+    width: 15%;
     font-weight: 500;
   }
 
   .name code {
     color: var(--color-text-table-primary-default) !important;
     background-color: var(--color-bg-table-cell-selected) !important;
+  }
+
+  .complex-type {
+    width: 30%;
+  }
+
+  .complex-type code {
+    white-space: pre-wrap;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-color: transparent;
+    color: var(--color-text-table-primary-default);
+    font-weight: 600;
+  }
+
+  .default-value {
+    width: 15%;
+  }
+
+  .default-value code {
+    color: var(--color-text-chat-bubble-user-quote-selected) !important;
+    background-color: var(--color-bg-chat-bubble-user-quote-selected) !important;
+  }
+
+  .description {
+    width: 40%;
+  }
+
+  .desc-text {
+    margin: 0;
+    white-space: pre-wrap;
   }
 
   .required-badge {
@@ -292,27 +398,9 @@
     font-weight: 600;
   }
 
-  .type {
-    white-space: nowrap;
-    min-width: 120px;
-  }
-
-  .type code {
-    color: var(--color-text-chat-bubble-user-quote-selected) !important;
-    background-color: var(--color-bg-chat-bubble-user-quote-selected) !important;
-  }
-
-  .default-value {
-    white-space: nowrap;
-    min-width: 120px;
-  }
-
-  .default-value code {
-    color: var(--color-text-chat-bubble-user-quote-selected) !important;
-    background-color: var(--color-bg-chat-bubble-user-quote-selected) !important;
-  }
-
-  .description {
-    min-width: 200px;
+  .empty-value {
+    color: var(--color-text-control-secondary-default);
+    font-style: italic;
+    font-size: 12px;
   }
 </style>

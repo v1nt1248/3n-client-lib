@@ -1,12 +1,20 @@
 <script lang="ts" setup>
+  import { provide, useSlots } from 'vue';
   import type { Ui3nBreadcrumbsProps, Ui3nBreadcrumbsSlots } from './types';
 
-  withDefaults(defineProps<Ui3nBreadcrumbsProps>(), {
+  const props = withDefaults(defineProps<Ui3nBreadcrumbsProps>(), {
     separator: '/',
     disabled: false,
   });
 
+  const slots = useSlots();
   defineSlots<Ui3nBreadcrumbsSlots>();
+
+  provide('ui3n-breadcrumbs-context', {
+    separator: () => props.separator,
+    disabled: () => props.disabled,
+    customSeparatorSlot: slots.separator,
+  });
 </script>
 
 <template>
@@ -20,5 +28,8 @@
     position: relative;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    padding: 0;
+    margin: 0;
   }
 </style>

@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-interface User {
-  id: string;
-  name: string;
-  role: string;
-  avatar: string;
-}
+  interface User {
+    id: string;
+    name: string;
+    role: string;
+    avatar: string;
+  }
 
-const items: User[] = [
-  { id: '1', name: 'John Doe', role: 'Developer', avatar: '👨‍💻' },
-  { id: '2', name: 'Jane Smith', role: 'Designer', avatar: '👩‍🎨' },
-  { id: '3', name: 'Bob Wilson', role: 'Manager', avatar: '👨‍💼' },
-  { id: '4', name: 'Alice Brown', role: 'QA Engineer', avatar: '👩‍🔬' },
-];
+  const items: User[] = [
+    { id: '1', name: 'John Doe', role: 'Developer', avatar: '👨‍💻' },
+    { id: '2', name: 'Jane Smith', role: 'Designer', avatar: '👩‍🎨' },
+    { id: '3', name: 'Bob Wilson', role: 'Manager', avatar: '👨‍💼' },
+    { id: '4', name: 'Alice Brown', role: 'QA Engineer', avatar: '👩‍🔬' },
+  ];
 
-const value = ref([]);
+  const value = ref([]);
 </script>
 
 <template>
@@ -45,30 +45,37 @@ const value = ref([]);
   .demo-container {
     width: 350px;
   }
+
   .custom-item {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 4px 0;
   }
+
   .avatar {
     font-size: 20px;
   }
+
   .item-info {
     display: flex;
     flex-direction: column;
   }
+
   .item-name {
     font-weight: 500;
     font-size: 13px;
   }
+
   .item-role {
     font-size: 11px;
     color: var(--color-text-block-secondary-default);
   }
+
   .value-display {
     margin-top: 8px;
     font-size: 12px;
-    color: var(--color-text-block-secondary-default);
+    font-weight: 600;
+    color: oklch(0.65 0.17 140);
   }
 </style>

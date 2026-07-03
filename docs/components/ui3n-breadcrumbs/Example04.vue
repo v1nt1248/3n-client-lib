@@ -1,8 +1,8 @@
 <script setup lang="ts">
-/**
- * Disabled state examples
- * Shows how to disable entire breadcrumbs container or individual items
- */
+  /**
+   * Disabled state examples
+   * Shows how to disable entire breadcrumbs container or individual items
+   */
 </script>
 
 <template>
@@ -34,21 +34,21 @@
 </template>
 
 <style scoped>
-.examples {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+  .examples {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 
-.example-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+  .example-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 
-.label {
-  font-size: 12px;
-  color: var(--color-text-block-secondary-default);
-  font-weight: 500;
-}
+  .label {
+    font-size: 12px;
+    color: var(--color-text-block-secondary-default);
+    font-weight: 500;
+  }
 </style>

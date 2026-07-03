@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { onMounted, onUnmounted, ref, watch } from 'vue';
-  // import { createHighlighter } from 'shiki';
-  import { getHighlighter } from '../../utils/shiki';
+  import { getHighlighter, type Highlighter as ShikiInstanceType } from '../../utils/shiki';
 
   const props = defineProps<{
     code: string;
@@ -10,12 +9,13 @@
     hideStyleBlock?: boolean;
     onlyTemplateContent?: boolean;
   }>();
+
   const emits = defineEmits<{
     (event: 'update:processed-code', value: string): void;
   }>();
 
   const highlightedCode = ref('');
-  let shiki: Highlighter | null = null;
+  let shikiInstance: ShikiInstanceType | null = null;
   let observer: MutationObserver | null = null;
 
   const THEME_MAP: Record<string, string> = {
@@ -27,26 +27,26 @@
   function dedent(code: string): string {
     const lines = code.split('\n');
 
-    // 1. Находим все непустые строки и их отступы
     const indents = lines
       .filter(line => line.trim().length > 0)
       .map(line => {
         const match = line.match(/^(\s*)/);
-        return match ? match[1].length : 0;
+        return match ? match[0].length : 0;
       });
 
-    if (indents.length === 0) return code;
+    if (indents.length === 0) {
+      return code;
+    }
 
-    // 2. Минимальный отступ среди всех значимых строк
     const minIndent = Math.min(...indents);
+    if (minIndent === 0) {
+      return code;
+    }
 
-    if (minIndent === 0) return code;
-
-    // 3. Обрезаем ровно minIndent
     return lines
       .map(line => (line.length >= minIndent ? line.substring(minIndent) : line.trimStart()))
       .join('\n')
-      .trim(); // Убираем лишние хвосты
+      .trim();
   }
 
   function processCode(rawCode: string): string {
@@ -69,12 +69,14 @@
     }
 
     result = result.trim();
+    result = result.replace(/^\s*[\r\n]/gm, '');
     result = result.replace(/\n{3,}/g, '\n\n');
+
     return dedent(result);
   }
 
   function updateHighlight() {
-    if (!shiki) {
+    if (!shikiInstance) {
       return;
     }
 
@@ -86,24 +88,31 @@
         : 'dark2-theme';
 
     const finalCode = processCode(props.code);
+
     emits('update:processed-code', finalCode);
-    highlightedCode.value = shiki.codeToHtml(finalCode, {
+
+    highlightedCode.value = shikiInstance.codeToHtml(finalCode, {
       lang: props.lang || 'vue',
       theme: THEME_MAP[activeThemeKey],
     });
   }
 
+  async function initAndHighlight() {
+    if (!shikiInstance) {
+      shikiInstance = await getHighlighter();
+    }
+    updateHighlight();
+  }
+
   watch(
     () => [props.code, props.hideScriptBlock, props.hideStyleBlock, props.onlyTemplateContent],
     async () => {
-      shiki = await getHighlighter();
-      updateHighlight();
+      initAndHighlight();
     },
   );
 
   onMounted(async () => {
-    shiki = await getHighlighter();
-    updateHighlight();
+    initAndHighlight();
 
     observer = new MutationObserver(() => {
       updateHighlight();
@@ -130,10 +139,20 @@
 <style scoped>
   .shiki-wrapper :deep(pre) {
     margin: 0;
-    padding: 1.5rem;
+    padding: 20px 24px;
     background-color: transparent !important;
     font-family: ui-monospace, 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
-    font-size: 0.85em;
+    font-size: 13px;
+    line-height: 1.6;
     overflow-x: auto;
+  }
+
+  .shiki-wrapper :deep(pre)::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .shiki-wrapper :deep(pre)::-webkit-scrollbar-thumb {
+    background-color: var(--color-border-table-primary-default);
+    border-radius: 4px;
   }
 </style>

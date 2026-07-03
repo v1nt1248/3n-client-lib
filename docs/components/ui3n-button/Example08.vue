@@ -1,36 +1,36 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-const eventLog = ref<string[]>([]);
+  const eventLog = ref<string[]>([]);
 
-function logEvent(eventName: string, data?: any) {
-  const timestamp = new Date().toLocaleTimeString();
-  const message = data ? `${timestamp}: ${eventName} - ${JSON.stringify(data)}` : `${timestamp}: ${eventName}`;
-  eventLog.value.unshift(message);
-  if (eventLog.value.length > 5) {
-    eventLog.value.pop();
+  function logEvent(eventName: string, data?: any) {
+    const timestamp = new Date().toLocaleTimeString();
+    const message = data ? `${timestamp}: ${eventName} - ${JSON.stringify(data)}` : `${timestamp}: ${eventName}`;
+    eventLog.value.unshift(message);
+    if (eventLog.value.length > 5) {
+      eventLog.value.pop();
+    }
   }
-}
 
-function handleInit(el: HTMLButtonElement) {
-  logEvent('init', { tagName: el.tagName });
-}
+  function handleInit(el: HTMLButtonElement) {
+    logEvent('init', { tagName: el.tagName });
+  }
 
-function handleClick(event: Event) {
-  logEvent('click', { type: event.type });
-}
+  function handleClick(event: Event) {
+    logEvent('click', { type: event.type });
+  }
 
-function handleEnter(el: HTMLButtonElement) {
-  logEvent('enter', { tagName: el.tagName });
-}
+  function handleEnter(el: HTMLButtonElement) {
+    logEvent('enter', { tagName: el.tagName });
+  }
 
-function handleFocus(event: Event) {
-  logEvent('focus', { type: event.type });
-}
+  function handleFocus(event: Event) {
+    logEvent('focus', { type: event.type });
+  }
 
-function handleBlur(event: Event) {
-  logEvent('blur', { type: event.type });
-}
+  function handleBlur(event: Event) {
+    logEvent('blur', { type: event.type });
+  }
 </script>
 
 <template>
@@ -81,7 +81,7 @@ function handleBlur(event: Event) {
 
   .log-section {
     padding: 12px;
-    background-color: var(--color-bg-block-secondary-default);
+    background-color: var(--color-bg-block-darkery-default);
     border-radius: 8px;
     font-size: 11px;
     font-family: monospace;
@@ -94,14 +94,14 @@ function handleBlur(event: Event) {
   }
 
   .log-empty {
-    color: var(--color-text-block-tertiary-default);
+    color: var(--color-text-block-accent-default);
     font-style: italic;
   }
 
   .log-item {
     padding: 4px 0;
     color: var(--color-text-block-secondary-default);
-    border-bottom: 1px solid var(--color-border-block-secondary-default);
+    border-bottom: 1px solid var(--color-border-block-primary-default);
   }
 
   .log-item:last-child {

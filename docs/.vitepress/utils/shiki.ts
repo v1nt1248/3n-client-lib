@@ -20,3 +20,5 @@ export async function getHighlighter() {
 
   return promise;
 }
+
+export type Highlighter = Highlighter;

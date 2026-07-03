@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-/**
- * Checkbox colors
- * Custom checkbox colors using the color prop
- */
+  /**
+   * Checkbox colors
+   * Custom checkbox colors using the color prop
+   */
 
-const blue = ref(true);
-const green = ref(true);
-const red = ref(true);
-const purple = ref(true);
-const orange = ref(true);
+  const blue = ref(true);
+  const green = ref(true);
+  const red = ref(true);
+  const purple = ref(true);
+  const orange = ref(true);
 </script>
 
 <template>
@@ -53,9 +53,9 @@ const orange = ref(true);
 </template>
 
 <style scoped>
-.example-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
+  .example-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
 </style>

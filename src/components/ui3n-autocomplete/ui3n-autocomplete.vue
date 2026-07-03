@@ -489,8 +489,9 @@
   .input {
     border-radius: var(--ui3n-autocomplete-border-radius);
     padding: 0 var(--ui3n-autocomplete-padding-inline);
-    flex-grow: 1;
+    flex: 1 1 60px;
     height: var(--ui3n-autocomplete-min-height);
+    width: 100%;
     font-size: var(--ui3n-autocomplete-font-size);
     line-height: var(--ui3n-autocomplete-min-height);
     font-weight: 400;

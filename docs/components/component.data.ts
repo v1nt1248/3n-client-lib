@@ -1,5 +1,17 @@
-import { createChecker } from 'vue-component-meta';
+import { createChecker, type ComponentMetaChecker } from 'vue-component-meta';
 import { resolve, basename } from 'node:path';
+
+let globalChecker: ComponentMetaChecker | null = null;
+
+function getChecker(): ComponentMetaChecker {
+  if (!globalChecker) {
+    const tsconfigPath = resolve(__dirname, '../../tsconfig.json');
+    globalChecker = createChecker(tsconfigPath, {
+      schema: true,
+    });
+  }
+  return globalChecker;
+}
 
 export default {
   watch: ['../../src/components/**/*.vue'],
@@ -9,12 +21,9 @@ export default {
       throw new Error('Still could not find createChecker');
     }
 
-    const tsconfigPath = resolve(__dirname, '../../tsconfig.json');
-    const checker = createChecker(tsconfigPath, {
-      schema: true,
-    });
+    const checker = getChecker();
 
-    return watchedFiles
+    const result = watchedFiles
       .map(file => {
         const meta = checker.getComponentMeta(file);
         return {
@@ -47,5 +56,15 @@ export default {
         };
       })
       .filter(Boolean);
+
+    if (process.env.NODE_ENV === 'production' || process.env.VITE_USER_NODE_ENV === 'production') {
+      if (typeof checker.clearCache === 'function') {
+        checker.clearCache();
+      }
+
+      globalChecker = null;
+    }
+
+    return result;
   },
 };

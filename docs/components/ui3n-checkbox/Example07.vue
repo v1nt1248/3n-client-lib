@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-/**
- * Custom values
- * Using custom checkedValue and uncheckedValue instead of boolean
- */
+  /**
+   * Custom values
+   * Using custom checkedValue and uncheckedValue instead of boolean
+   */
 
-// String values
-const status = ref<'active' | 'inactive'>('inactive');
+  // String values
+  const status = ref<'active' | 'inactive'>('inactive');
 
-// Number values
-const priority = ref<number>(0);
+  // Number values
+  const priority = ref<number>(0);
 
-// Object-like values using strings
-const theme = ref<'light' | 'dark'>('light');
+  // Object-like values using strings
+  const theme = ref<'light' | 'dark'>('light');
 </script>
 
 <template>
@@ -54,21 +54,21 @@ const theme = ref<'light' | 'dark'>('light');
 </template>
 
 <style scoped>
-.example-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+  .example-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 
-.example-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+  .example-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 
-.label {
-  font-size: 12px;
-  color: var(--color-text-block-secondary-default);
-  font-weight: 500;
-}
+  .label {
+    font-size: 12px;
+    color: var(--color-text-block-secondary-default);
+    font-weight: 500;
+  }
 </style>

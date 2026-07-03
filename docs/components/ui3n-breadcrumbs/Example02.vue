@@ -1,8 +1,8 @@
 <script setup lang="ts">
-/**
- * Custom separator examples
- * Shows different separator characters: arrow, chevron, pipe
- */
+  /**
+   * Custom separator examples
+   * Shows different separator characters: arrow, chevron, pipe
+   */
 </script>
 
 <template>
@@ -37,21 +37,21 @@
 </template>
 
 <style scoped>
-.examples {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+  .examples {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 
-.example-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+  .example-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-.label {
-  font-size: 12px;
-  color: var(--color-text-block-secondary-default);
-  min-width: 120px;
-}
+  .label {
+    font-size: 12px;
+    color: var(--color-text-block-secondary-default);
+    min-width: 120px;
+  }
 </style>

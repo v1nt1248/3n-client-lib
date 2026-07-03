@@ -17,10 +17,9 @@
     "isolatedModules": true,
     "noEmit": false,
     "jsx": "preserve",
-    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ]
     },
     "plugins": [
@@ -38,7 +37,8 @@
     "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "ignoreDeprecations": "6.0"
   },
   "vueCompilerOptions": {
     "strictTemplates": true,
@@ -53,7 +53,8 @@
   ],
   "exclude": [
     "src/App.vue",
-    "src/main.ts"
+    "src/main.ts",
+    "docs/**/*"
   ],
   "references": [
     {

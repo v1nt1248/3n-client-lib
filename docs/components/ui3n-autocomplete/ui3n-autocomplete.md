@@ -18,6 +18,10 @@ import Example08 from './Example08.vue';
 import Example08Raw from './Example08.vue?raw';
 import Example09 from './Example09.vue';
 import Example09Raw from './Example09.vue?raw';
+import Example10 from './Example10.vue';
+import Example10Raw from './Example10.vue?raw';
+import Example11 from './Example11.vue';
+import Example11Raw from './Example11.vue?raw';
 
 const componentMeta = data.find(c => c.name === 'ui3n-autocomplete');
 </script>
@@ -137,3 +141,24 @@ Autocomplete component with search, multi-select, chips, and custom filtering ca
 >
   <Example09></Example09>
 </DemoBlock>
+
+### Remote async search
+
+<DemoBlock
+  title="Remote async search"
+  description="Listen to search updates to fetch items from a remote server dynamically with loading status"
+  :code="Example10Raw"
+>
+  <Example10></Example10>
+</DemoBlock>
+
+### Preselected initial values
+
+<DemoBlock
+  title="Preselected initial values"
+  description="Demonstrates how the component automatically parses and renders pre-populated model values for both primitive IDs and objects"
+  :code="Example11Raw"
+>
+  <Example11></Example11>
+</DemoBlock>
+

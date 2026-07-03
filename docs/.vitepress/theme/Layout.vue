@@ -20,7 +20,7 @@
       </div>
     </template>
 
-    <template #footer-content-after>
+    <template #layout-bottom>
       <ui3n-dialog-provider />
     </template>
   </Layout>

@@ -5,12 +5,15 @@
     <ui3n-badge value="1" position="right-top">
       <div class="block">Top Right</div>
     </ui3n-badge>
+
     <ui3n-badge value="2" position="right-bottom">
       <div class="block">Bottom Right</div>
     </ui3n-badge>
+
     <ui3n-badge value="3" position="left-top">
       <div class="block">Top Left</div>
     </ui3n-badge>
+
     <ui3n-badge value="4" position="left-bottom">
       <div class="block">Bottom Left</div>
     </ui3n-badge>

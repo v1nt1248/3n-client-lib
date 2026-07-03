@@ -65,6 +65,8 @@ export interface Ui3nBreadcrumbsProps {
  * Breadcrumbs component slots
  */
 export interface Ui3nBreadcrumbsSlots {
+  /** Global separator slot for the entire chain */
+  separator?: () => VNode;
   /**
    * Default slot
    */

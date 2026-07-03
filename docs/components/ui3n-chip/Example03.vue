@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-const chips = ref([
-  { id: 1, label: 'Vue.js', icon: 'shield-check-outline' },
-  { id: 2, label: 'TypeScript', icon: 'book-open-blank-variant' },
-  { id: 3, label: 'Vite', icon: 'numbers' },
-]);
+  const chips = ref([
+    { id: 1, label: 'Vue.js', icon: 'shield-check-outline' },
+    { id: 2, label: 'TypeScript', icon: 'book-open-blank-variant' },
+    { id: 3, label: 'Vite', icon: 'numbers' },
+  ]);
 </script>
 
 <template>

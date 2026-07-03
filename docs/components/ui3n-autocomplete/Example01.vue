@@ -21,7 +21,7 @@
       :lock-scroll="true"
       placeholder="Select a fruit"
     />
-    <div class="value-display">Selected: {{ value }}</div>
+    <div class="value-display">Selected: {{ value.join(', ') || '- none -' }}</div>
   </div>
 </template>
 
@@ -29,9 +29,11 @@
   .demo-container {
     width: 300px;
   }
+
   .value-display {
     margin-top: 8px;
     font-size: 12px;
-    color: var(--color-text-block-secondary-default);
+    font-weight: 600;
+    color: oklch(0.65 0.17 140);
   }
 </style>

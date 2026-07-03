@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-  import { computed, onMounted, watch, onBeforeMount, ref, useCssModule, useSlots } from 'vue';
+  import { computed, onBeforeMount, ref, useCssModule, useSlots, watch } from 'vue';
   import Ui3nRipple from '../../directives/ui3n-ripple';
   import type {
     Ui3nCheckboxEmits,
+    Ui3nCheckboxExpose,
     Ui3nCheckboxProps,
     Ui3nCheckboxSlots,
     Ui3nCheckboxValue,
-    Ui3nCheckboxExpose,
   } from './types';
 
   const vUi3nRipple = Ui3nRipple;
@@ -16,7 +16,7 @@
     modelValue: false,
     checkedValue: true,
     uncheckedValue: false,
-    size: '16',
+    size: 16,
     color: 'var(--color-icon-control-accent-default)',
     indeterminate: false,
     disabled: false,
@@ -28,14 +28,14 @@
   const $css = useCssModule();
 
   const checkboxEl = ref<HTMLDivElement | null>(null);
-  const val = ref<Ui3nCheckboxValue>(props.uncheckedValue || false);
-  const uncertain = ref(false);
+
+  const val = ref<Ui3nCheckboxValue>(props.modelValue);
+  const uncertain = ref(props.indeterminate);
 
   const checkBoxValue = computed(() => {
     if (uncertain.value) {
       return 'indeterminate';
     }
-
     return val.value === props.checkedValue ? 'checked' : 'unchecked';
   });
 
@@ -46,21 +46,31 @@
     return String(val.value);
   });
 
+  const iconSizeInline = computed(() => {
+    const numericSize = parseFloat(String(props.size));
+    return isNaN(numericSize) ? 12 : numericSize - 4;
+  });
+
+  const inlineStyles = computed(() => ({
+    '--ui3n-checkbox-size': typeof props.size === 'number' ? `${props.size}px` : props.size,
+    '--ui3n-checkbox-color': props.color,
+  }));
+
   const mainCssClasses = computed(() => {
-    const val = [$css.ui3nCheckbox];
+    const classes = [$css.ui3nCheckbox];
 
-    props.disabled && val.push($css.disabled);
-    !slots.default && val.push($css.noLabel);
+    props.disabled && classes.push($css.disabled);
+    !slots.default && classes.push($css.noLabel);
 
-    return val;
+    return classes;
   });
 
   const bodyCssClasses = computed(() => {
-    const val = [$css.ui3nCheckboxBody];
+    const classes = [$css.ui3nCheckboxBody];
 
-    checkBoxValue.value === 'unchecked' ? val.push($css.unfilled) : val.push($css.filled);
+    checkBoxValue.value === 'unchecked' ? classes.push($css.unfilled) : classes.push($css.filled);
 
-    return val;
+    return classes;
   });
 
   function change(ev: Event) {
@@ -100,31 +110,11 @@
   watch(
     () => props.modelValue,
     newValue => (val.value = newValue),
-    { immediate: true },
   );
 
   watch(
     () => props.indeterminate,
     newValue => (uncertain.value = newValue),
-    { immediate: true },
-  );
-
-  watch(
-    () => props.size,
-    newValue => {
-      if (checkboxEl.value) {
-        checkboxEl.value.style.setProperty('--ui3n-checkbox-size', `${newValue}px`);
-      }
-    },
-  );
-
-  watch(
-    () => props.color,
-    newValue => {
-      if (checkboxEl.value) {
-        checkboxEl.value.style.setProperty('--ui3n-checkbox-color', newValue);
-      }
-    },
   );
 
   onBeforeMount(() => {
@@ -139,13 +129,6 @@
       throw Error('[Ui3nCheckbox] types of "value", "checkedValue" and "uncheckedValue" are different');
     }
   });
-
-  onMounted(() => {
-    if (checkboxEl.value) {
-      checkboxEl.value.style.setProperty('--ui3n-checkbox-size', `${props.size}px`);
-      checkboxEl.value.style.setProperty('--ui3n-checkbox-color', props.color);
-    }
-  });
 </script>
 
 <template>
@@ -153,6 +136,7 @@
     ref="checkboxEl"
     :id="id"
     :class="mainCssClasses"
+    :style="inlineStyles"
   >
     <input
       type="checkbox"
@@ -174,22 +158,12 @@
     >
       <svg
         v-if="checkBoxValue === 'checked'"
-        :width="Number(size) - 4"
-        :height="Number(size) - 4"
+        :width="iconSizeInline"
+        :height="iconSizeInline"
         viewBox="0 0 24 24"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg"
         :class="$style.ui3nCheckboxIcon"
       >
-        <g
-          id="SVGRepo_bgCarrier"
-          stroke-width="0"
-        />
-        <g
-          id="SVGRepo_tracerCarrier"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
         <g id="SVGRepo_iconCarrier">
           <path
             d="M20.0001 7L9.0001 18L4 13"
@@ -203,22 +177,12 @@
 
       <svg
         v-if="checkBoxValue === 'indeterminate'"
-        :width="Number(size) - 4"
-        :height="Number(size) - 4"
+        :width="iconSizeInline"
+        :height="iconSizeInline"
         viewBox="0 0 24 24"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg"
         :class="$style.ui3nCheckboxIcon"
       >
-        <g
-          id="SVGRepo_bgCarrier"
-          stroke-width="0"
-        />
-        <g
-          id="SVGRepo_tracerCarrier"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
         <g id="SVGRepo_iconCarrier">
           <path
             d="M7 12L17 12"
@@ -275,6 +239,9 @@
     border: calc(var(--ui3n-checkbox-size) / 10) solid var(--ui3n-checkbox-color);
     cursor: pointer;
     overflow: hidden;
+    transition:
+      border-color 0.2s,
+      background-color 0.2s;
   }
 
   .filled {
@@ -296,8 +263,7 @@
   }
 
   .ui3nCheckboxIcon {
-    min-height: calc(var(--ui3n-checkbox-size) - 4px);
-    min-width: calc(var(--ui3n-checkbox-size) - 4px);
+    display: block;
   }
 
   .ui3nCheckboxLabel {
@@ -309,7 +275,7 @@
   }
 
   .disabled {
-    opacity: 0.7;
+    opacity: 0.5;
     pointer-events: none;
   }
 </style>
