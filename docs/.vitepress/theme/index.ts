@@ -51,7 +51,11 @@ import Ui3nTable from '../../../src/components/ui3n-table/ui3n-table.vue';
 import Ui3nTabs from '../../../src/components/ui3n-tabs/ui3n-tabs.vue';
 import Ui3nText from '../../../src/components/ui3n-text/ui3n-text.vue';
 import Ui3nTooltip from '../../../src/components/ui3n-tooltip/ui3n-tooltip.vue';
+import Ui3nScrollbarVertical from '../../../src/components/ui3n-scrollbar-vertical/ui3n-scrollbar-vertical.vue';
+import Ui3nScrollbarHorizontal from '../../../src/components/ui3n-scrollbar-horizontal/ui3n-scroolbar-horizontal.vue';
 import Ui3nVirtualScroll from '../../../src/components/ui3n-virtual-scroll/ui3n-virtual-scroll.vue';
+import Ui3nMobileMenu from '../../../src/components/ui3n-mobile-menu/ui3n-mobile-menu.vue';
+import Ui3nMobileMenuItem from '../../../src/components/ui3n-mobile-menu-item/ui3n-mobile-menu-item.vue';
 
 export default {
   extends: DefaultTheme,
@@ -106,6 +110,10 @@ export default {
     app.component('Ui3nTabs', Ui3nTabs);
     app.component('Ui3nText', Ui3nText);
     app.component('Ui3nTooltip', Ui3nTooltip);
+    app.component('Ui3nScrollbarVertical', Ui3nScrollbarVertical);
+    app.component('Ui3nScrollbarHorizontal', Ui3nScrollbarHorizontal);
     app.component('Ui3nVirtualScroll', Ui3nVirtualScroll);
+    app.component('Ui3nMobileMenu', Ui3nMobileMenu);
+    app.component('Ui3nMobileMenuItem', Ui3nMobileMenuItem);
   },
 };

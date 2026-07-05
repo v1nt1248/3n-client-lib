@@ -24,8 +24,6 @@
   const menuContentElement = useTemplateRef<HTMLDivElement>('menu-content-element');
   const isShow = ref(false);
 
-  let targetScrollElement: HTMLElement | null = null;
-
   const outerTriggerElement = ref<Nullable<HTMLElement>>(props.triggerElement || null);
 
   const usedTriggerElement = computed(() => outerTriggerElement.value || menuTriggerElement.value);
@@ -106,76 +104,65 @@
     }
 
     const trigger = usedTriggerElement.value;
-    targetScrollElement = getVerticalScrollParent(trigger);
+    const scrollParent = getVerticalScrollParent(trigger);
 
-    if (targetScrollElement) {
-      const el = targetScrollElement;
+    if (scrollParent) {
+      const currentLocks = Number(scrollParent.dataset.scrollLocksCount || '0');
 
-      const currentLocks = Number(el.dataset.scrollLocksCount || '0');
-
-      // If this is the FIRST menu opened for this container
       if (currentLocks === 0) {
-        el.dataset.scrollLocksCount = '1';
+        scrollParent.dataset.scrollLocksCount = '1';
+        scrollParent.dataset.originalOverscroll = scrollParent.style.overscrollBehaviorY || '';
+        scrollParent.style.overscrollBehaviorY = 'contain';
 
-        // We remember the original overscroll-behavior-y in data-original-overscroll
-        el.dataset.originalOverscroll = el.style.overscrollBehaviorY || '';
-
-        // Isolating scrolling
-        el.style.overscrollBehaviorY = 'contain';
-
-        if (targetScrollElement === document.body) {
+        if (scrollParent === document.body) {
           document.addEventListener('wheel', preventScrollEvent, { passive: false });
           document.addEventListener('touchmove', preventScrollEvent, { passive: false });
         } else {
-          targetScrollElement.addEventListener('wheel', preventScrollEvent, { passive: false });
-          targetScrollElement.addEventListener('touchmove', preventScrollEvent, { passive: false });
+          scrollParent.addEventListener('wheel', preventScrollEvent, { passive: false });
+          scrollParent.addEventListener('touchmove', preventScrollEvent, { passive: false });
         }
       } else {
-        // If the container is already blocked by another menu, simply increment the counter
-        el.dataset.scrollLocksCount = String(currentLocks + 1);
+        scrollParent.dataset.scrollLocksCount = String(currentLocks + 1);
       }
     }
   }
 
   function unlockScroll() {
-    if (!targetScrollElement) {
+    const trigger = usedTriggerElement.value;
+    const scrollParent = getVerticalScrollParent(trigger);
+
+    if (!scrollParent) {
       return;
     }
 
-    const el = targetScrollElement;
-    const currentLocks = Number(el.dataset.scrollLocksCount || '0');
+    const currentLocks = Number(scrollParent.dataset.scrollLocksCount || '0');
 
     if (currentLocks > 0) {
       const newLocks = currentLocks - 1;
 
-      // Release the lock only when the LAST menu holding this container has closed
       if (newLocks === 0) {
-        const originalOverscroll = el.dataset.originalOverscroll;
+        const originalOverscroll = scrollParent.dataset.originalOverscroll;
 
         if (originalOverscroll) {
-          el.style.overscrollBehaviorY = originalOverscroll;
+          scrollParent.style.overscrollBehaviorY = originalOverscroll;
         } else {
-          el.style.removeProperty('overscroll-behavior-y');
+          scrollParent.style.removeProperty('overscroll-behavior-y');
         }
 
-        if (targetScrollElement === document.body) {
+        if (scrollParent === document.body) {
           document.removeEventListener('wheel', preventScrollEvent);
           document.removeEventListener('touchmove', preventScrollEvent);
         } else {
-          targetScrollElement.removeEventListener('wheel', preventScrollEvent);
-          targetScrollElement.removeEventListener('touchmove', preventScrollEvent);
+          scrollParent.removeEventListener('wheel', preventScrollEvent);
+          scrollParent.removeEventListener('touchmove', preventScrollEvent);
         }
 
-        // We completely remove data attributes from the DOM tree to avoid leaving garbage.
-        delete el.dataset.scrollLocksCount;
-        delete el.dataset.originalOverscroll;
+        delete scrollParent.dataset.scrollLocksCount;
+        delete scrollParent.dataset.originalOverscroll;
       } else {
-        // If there are still open menus, simply keep the reduced counter
-        el.dataset.scrollLocksCount = String(newLocks);
+        scrollParent.dataset.scrollLocksCount = String(newLocks);
       }
     }
-
-    targetScrollElement = null;
   }
 
   function toggleMenu() {
@@ -208,27 +195,26 @@
   }
 
   watch(
-    () => props.modelValue,
-    async val => {
-      if (!val) {
+    () => isShow.value,
+    val => {
+      if (val) {
+        lockScroll();
+      } else {
         unlockScroll();
       }
+    },
+  );
 
-      if (isShow.value !== val) {
+  watch(
+    () => props.modelValue,
+    val => {
+      if (val !== undefined && isShow.value !== val) {
         isShow.value = val;
+        val ? emits('open') : emits('close');
       }
     },
     { immediate: true },
   );
-
-  watch(isPositioned, val => {
-    if (val) {
-      lockScroll();
-      emits('opened');
-    } else {
-      emits('closed');
-    }
-  });
 
   watch(
     () => props.triggerElement,
@@ -290,7 +276,8 @@
     --ui3n-menu-content-bg: var(--color-bg-control-secondary-default);
 
     position: relative;
-    width: 100%;
+    width: max-content;
+    display: inline-block;
     overflow: visible;
   }
 

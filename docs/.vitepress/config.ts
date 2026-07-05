@@ -83,7 +83,6 @@ export default defineConfig({
           { text: 'Ui3nList', link: '/components/ui3n-list/ui3n-list' },
           { text: 'Ui3nMenu', link: '/components/ui3n-menu/ui3n-menu' },
           { text: 'Ui3nMobileMenu', link: '/components/ui3n-mobile-menu/ui3n-mobile-menu' },
-          { text: 'Ui3nMobileMenuItem', link: '/components/ui3n-mobile-menu-item/ui3n-mobile-menu-item' },
           { text: 'Ui3nNotification', link: '/components/ui3n-notification/ui3n-notification' },
           { text: 'Ui3nProgress', link: '/components/ui3n-progress/ui3n-progress' },
           { text: 'Ui3nRadioGroup', link: '/components/ui3n-radio-group/ui3n-radio-group' },

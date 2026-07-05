@@ -25,10 +25,6 @@ export interface Ui3nNotificationProps {
    */
   withIcon?: boolean;
   /**
-   * Teleport target
-   */
-  teleport?: string;
-  /**
    * Called when notification opens
    */
   onOpen?: () => void;

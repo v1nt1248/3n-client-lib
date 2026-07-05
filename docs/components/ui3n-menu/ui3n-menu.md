@@ -6,6 +6,8 @@ import Example02 from './Example02.vue';
 import Example02Raw from './Example02.vue?raw';
 import Example03 from './Example03.vue';
 import Example03Raw from './Example03.vue?raw';
+import Example04 from './Example04.vue';
+import Example04Raw from './Example04.vue?raw';
 
 const menuMeta = data.find(c => c.name === 'ui3n-menu');
 </script>
@@ -29,7 +31,8 @@ Context menu component with customizable positioning and behavior.
   title="Simple menu"
   description="Basic menu with default trigger"
   :code="Example01Raw"
-  only-template-content
+  hide-script-block
+  hide-style-block
 >
   <Example01></Example01>
 </DemoBlock>
@@ -56,4 +59,15 @@ Context menu component with customizable positioning and behavior.
   hide-style-block
 >
   <Example03></Example03>
+</DemoBlock>
+
+### Context menu by coordinates
+
+<DemoBlock
+  title="Context menu by coordinates"
+  description="Opening menu at mouse pointer coordinates using a virtual trigger element on right click"
+  :code="Example04Raw"
+  hide-style-block
+>
+  <Example04></Example04>
 </DemoBlock>

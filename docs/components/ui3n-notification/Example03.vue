@@ -1,59 +1,81 @@
+<script setup lang="ts">
+  import { getCurrentInstance } from 'vue';
+
+  const app = getCurrentInstance();
+  const createNotice = app?.appContext.config.globalProperties.$createNotice;
+
+  const types = ['success', 'warning', 'info', 'error'] as const;
+
+  const messages = {
+    success: ['Operation completed successfully!', 'Configuration saved to server.', 'User permissions updated.'],
+    warning: ['Please review your input fields.', 'Session expires in 5 minutes.', 'Disk space is running low.'],
+    info: [
+      'System background update in progress.',
+      'New version 2.4.0 is available.',
+      'Synchronizing database index.',
+    ],
+    error: [
+      'An error occurred during network processing.',
+      'Failed to establish database connection.',
+      'Critical package loss detected.',
+    ],
+  };
+
+  function showRandomFastToast() {
+    if (!createNotice) {
+      return;
+    }
+
+    const randomType = types[Math.floor(Math.random() * types.length)];
+    const typeMessages = messages[randomType];
+    const randomText = typeMessages[Math.floor(Math.random() * typeMessages.length)];
+
+    createNotice({
+      type: randomType,
+      content: `[Fast] ${randomText}`,
+      duration: 2500,
+      position: 'right',
+    });
+  }
+
+  function showRandomStickyToast() {
+    if (!createNotice) return;
+
+    const randomType = types[Math.floor(Math.random() * types.length)];
+    const typeMessages = messages[randomType];
+    const randomText = typeMessages[Math.floor(Math.random() * typeMessages.length)];
+
+    createNotice({
+      type: randomType,
+      content: `[Sticky] ${randomText}`,
+      duration: 0,
+      position: 'right',
+    });
+  }
+</script>
+
 <template>
-  <div class="notifications-container">
-    <Ui3nNotification
-      v-for="notification in notifications"
-      :key="notification.id"
-      :type="notification.type"
-      :content="notification.content"
-      :duration="3000"
-      :on-close="() => removeNotification(notification.id)"
-    />
-    <Ui3nButton @click="addNotification">
-      Add Notification
+  <div class="buttons-grid">
+    <Ui3nButton
+      type="secondary"
+      @click="showRandomFastToast"
+    >
+      ⚡️ Trigger Random Fast Toast (2.5s)
+    </Ui3nButton>
+
+    <Ui3nButton
+      type="secondary"
+      @click="showRandomStickyToast"
+    >
+      📌 Trigger Random Sticky (Manual Close)
     </Ui3nButton>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue';
-
-type NotificationType = 'success' | 'warning' | 'info' | 'error';
-
-interface Notification {
-  id: number;
-  type: NotificationType;
-  content: string;
-}
-
-const notifications = ref<Notification[]>([]);
-let nextId = 1;
-
-const types: NotificationType[] = ['success', 'warning', 'info', 'error'];
-const messages = [
-  'File uploaded successfully',
-  'Please check your settings',
-  'New update available',
-  'Connection lost',
-];
-
-const addNotification = () => {
-  const typeIndex = Math.floor(Math.random() * types.length);
-  notifications.value.push({
-    id: nextId++,
-    type: types[typeIndex],
-    content: messages[typeIndex],
-  });
-};
-
-const removeNotification = (id: number) => {
-  notifications.value = notifications.value.filter(n => n.id !== id);
-};
-</script>
-
 <style scoped>
-.notifications-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+  .buttons-grid {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
 </style>

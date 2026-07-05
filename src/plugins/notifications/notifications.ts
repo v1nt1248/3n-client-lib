@@ -1,42 +1,33 @@
 import { type App, type Plugin, createApp } from 'vue';
 import { getRandomId } from '../../utils';
-import Ui3nNotification from '../../components/ui3n-notification/ui3n-notification.vue';
+import Ui3nNotificationContainer from '../../components/ui3n-notification/ui3n-notification-container.vue';
 import type { Ui3nNotificationProps } from '../../components/ui3n-notification/types';
 import type { NotificationsPlugin } from './types';
 import { NOTIFICATIONS_KEY } from '@/constants';
 
 export const notifications: Plugin = {
   install: (app: App) => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const containerDiv = document.createElement('div');
+    document.body.appendChild(containerDiv);
+    const containerApp = createApp(Ui3nNotificationContainer);
+
+    containerApp._context.provides = app._context.provides;
+
+    const containerInstance = containerApp.mount(containerDiv) as any;
+
     const $createNotice = (params: Ui3nNotificationProps) => {
-      const div = document.createElement('div');
-      const parentElement =
-        !params.teleport || params.teleport === 'body' ? document.body : document.querySelector(params.teleport);
-      const duration = params.duration ?? 1500;
+      const id = params.id || getRandomId(6);
+      const duration = params.duration !== undefined ? params.duration : 1500;
 
-      if (parentElement) {
-        const componentInstance = createApp(Ui3nNotification, {
-          id: getRandomId(6),
-          content: params.content,
-          ...(params.type && { type: params.type }),
-          ...(params.position && { position: params.position }),
-          ...(params.withIcon && { withIcon: params.withIcon }),
-          ...(params.onOpen && { onOpen: params.onOpen }),
-          duration,
-          onClose: () => {
-            (component.$el as Element).remove();
-            componentInstance && componentInstance.unmount && componentInstance.unmount();
-          },
-        });
-        const component = componentInstance.mount(div);
-        parentElement.appendChild(component.$el);
-
-        if (duration) {
-          setTimeout(() => {
-            (component.$el as Element).remove();
-            componentInstance && componentInstance.unmount && componentInstance.unmount();
-          }, duration);
-        }
-      }
+      containerInstance.add({
+        ...params,
+        id,
+        duration,
+      });
     };
 
     app.config.globalProperties.$createNotice = $createNotice;

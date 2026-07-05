@@ -1,9 +1,16 @@
+<script setup lang="ts">
+  import { ref } from 'vue';
+
+  const isOpen = ref(false);
+</script>
+
 <template>
-  <div>
-    <Ui3nButton @click="isOpen = !isOpen">
-      {{ isOpen ? 'Close Menu' : 'Open Menu' }}
-    </Ui3nButton>
+  <div class="controlled-demo">
     <Ui3nMenu v-model="isOpen">
+      <Ui3nButton type="primary">
+        {{ isOpen ? 'Menu is Open' : 'Open Controlled Menu' }}
+      </Ui3nButton>
+
       <template #menu>
         <div class="menu-content">
           <div class="menu-item">Option A</div>
@@ -12,27 +19,40 @@
         </div>
       </template>
     </Ui3nMenu>
+
+    <div class="status-preview">
+      External state 'isOpen': <strong>{{ isOpen }}</strong>
+    </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue';
-
-const isOpen = ref(false);
-</script>
-
 <style scoped>
-.menu-content {
-  padding: 8px 0;
-  min-width: 150px;
-}
+  .controlled-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
 
-.menu-item {
-  padding: 8px 16px;
-  cursor: pointer;
-}
+  .status-preview {
+    font-size: 12px;
+    color: var(--color-text-table-secondary-default);
+  }
 
-.menu-item:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
+  .menu-content {
+    padding: 4px 0;
+    min-width: 160px;
+    background-color: var(--color-bg-control-secondary-default);
+  }
+
+  .menu-item {
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--color-text-control-primary-default);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .menu-item:hover {
+    background-color: var(--color-bg-control-primary-hover);
+  }
 </style>

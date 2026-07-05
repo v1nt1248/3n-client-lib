@@ -1,5 +1,21 @@
 import type { Ref, VNode } from 'vue';
 
+export interface Ui3nVirtualElement {
+  getBoundingClientRect: () =>
+    | DOMRect
+    | {
+        x: number;
+        y: number;
+        top: number;
+        left: number;
+        right: number;
+        bottom: number;
+        width: number;
+        height: number;
+      };
+  contextElement?: HTMLElement;
+}
+
 /**
  * Menu component properties
  */
@@ -15,7 +31,7 @@ export interface Ui3nMenuProps {
   /**
    * Trigger element
    */
-  triggerElement?: HTMLElement;
+  triggerElement?: HTMLElement | Ui3nVirtualElement;
   /**
    * Position strategy
    * @default 'absolute'
