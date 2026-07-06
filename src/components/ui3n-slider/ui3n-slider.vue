@@ -75,14 +75,10 @@
   }) as ComputedRef<Record<string, string>>;
 
   const pointer1PositionCss = computed(() =>
-    props.range
-      ? `calc(${activeBlockStyle.value.left} - calc(${thumbSizeCss.value} / 2))`
-      : `calc(${activeBlockStyle.value.width} - calc(${thumbSizeCss.value} / 2))`,
+    props.range ? `calc(${activeBlockStyle.value.left} + 1px)` : `${activeBlockStyle.value.width}`,
   );
   const pointer2PositionCss = computed(() =>
-    props.range
-      ? `calc(${activeBlockStyle.value.width} + ${activeBlockStyle.value.left} - calc(${thumbSizeCss.value} / 2))`
-      : '200%',
+    props.range ? `calc(${activeBlockStyle.value.width} + ${activeBlockStyle.value.left} - 1px)` : '200%',
   );
 
   const label1Text = computed(() => {
@@ -312,7 +308,7 @@
         :model-value="showLabel['1']"
         :content="label1Text"
         trigger="manual"
-        placement="top-start"
+        placement="top"
         position-strategy="absolute"
         :color="labelColor"
         :text-color="labelTextColor"
@@ -336,7 +332,7 @@
         :model-value="showLabel['2']"
         :content="label2Text"
         trigger="manual"
-        placement="top-start"
+        placement="top"
         position-strategy="absolute"
         :color="labelColor"
         :text-color="labelTextColor"
@@ -381,7 +377,8 @@
 
   .pointerWrapper {
     position: absolute;
-    top: 0;
+    //top: calc(var(--ui3n-slider-track-height) / 2 * -1);
+    top: calc(var(--ui3n-slider-track-height) * -1);
     width: var(--ui3n-slider-thumb-size);
     height: var(--ui3n-slider-thumb-size);
     border-radius: 50%;

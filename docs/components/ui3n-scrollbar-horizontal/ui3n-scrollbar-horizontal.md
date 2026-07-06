@@ -5,7 +5,7 @@ import Example01Raw from './Example01.vue?raw';
 import Example02 from './Example02.vue';
 import Example02Raw from './Example02.vue?raw';
 
-const scrollbarHorizontalMeta = data.find(c => c.name === 'ui3n-scroolbar-horizontal');
+const scrollbarHorizontalMeta = data.find(c => c.name === 'ui3n-scrollbar-horizontal');
 </script>
 
 # Ui3nScrollbarHorizontal

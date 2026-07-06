@@ -1,9 +1,13 @@
 <script lang="ts" setup>
+  import { computed } from 'vue';
   import type { Ui3nStepLineBarProps } from './types';
 
   const props = withDefaults(defineProps<Ui3nStepLineBarProps>(), {
+    steps: 1,
     current: 1,
   });
+
+  const validatedSteps = computed(() => Math.max(0, Math.floor(props.steps)));
 </script>
 
 <template>
@@ -17,7 +21,7 @@
 
     <div :class="$style.body">
       <div
-        v-for="step in steps"
+        v-for="step in validatedSteps"
         :key="step"
         :class="[$style.step, step <= current && $style.active]"
       />

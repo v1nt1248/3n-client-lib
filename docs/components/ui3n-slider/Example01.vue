@@ -6,13 +6,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-const value = ref(50);
+  const value = ref(50);
 </script>
 
 <style scoped>
-.slider-container {
-  width: 300px;
-}
+  .slider-container {
+    width: 300px;
+  }
 </style>

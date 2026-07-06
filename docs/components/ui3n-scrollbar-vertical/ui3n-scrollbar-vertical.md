@@ -5,7 +5,12 @@ import Example01Raw from './Example01.vue?raw';
 import Example02 from './Example02.vue';
 import Example02Raw from './Example02.vue?raw';
 
-const scrollbarVerticalMeta = data.find(c => c.name === 'ui3n-scrollbar-vertical');
+const scrollbarVerticalMeta = data.find(c => c.name === 'ui3n-scrollbar-vertical') || {
+  props: [],
+  events: [],
+  slots: [],
+  exposes: []
+};
 </script>
 
 # Ui3nScrollbarVertical
@@ -29,7 +34,7 @@ Vertical scrollbar component with customizable appearance and behavior.
   :code="Example01Raw"
   only-template-content
 >
-  <Example01></Example01>
+  <ClientOnly><Example01></Example01></ClientOnly>
 </DemoBlock>
 
 ### Custom styled scrollbar
@@ -41,5 +46,5 @@ Vertical scrollbar component with customizable appearance and behavior.
   hide-script-block
   hide-style-block
 >
-  <Example02></Example02>
+  <ClientOnly><Example02></Example02></ClientOnly>
 </DemoBlock>

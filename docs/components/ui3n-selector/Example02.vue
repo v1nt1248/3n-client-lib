@@ -1,30 +1,55 @@
+<script setup lang="ts">
+  import { ref } from 'vue';
+  import type { Ui3nSelectorOptionBase } from '@/components/ui3n-selector/types';
+
+  const selectedItem = ref<Ui3nSelectorOptionBase | null>(null);
+
+  const items: Ui3nSelectorOptionBase[] = [
+    { id: 'f-1', name: 'Apple' },
+    { id: 'f-2', name: 'Banana' },
+    { id: 'f-3', name: 'Cherry' },
+    { id: 'f-4', name: 'Date' },
+    { id: 'f-5', name: 'Elderberry' },
+    { id: 'f-6', name: 'Fig' },
+  ];
+</script>
+
 <template>
-  <Ui3nSelector
-    v-model="selected"
-    :items="items"
-    item-display="name"
-    item-value="id"
-    placeholder="Search and select..."
-    label="With Search"
-    :with-search="true"
-    :clearable="true"
-  />
-  <p>Selected: {{ selected }}</p>
+  <div class="demo-wrapper">
+    <Ui3nSelector
+      v-model="selectedItem"
+      :items="items"
+      item-display="name"
+      placeholder="Select fruit (Returns full object)"
+      label="Clearable Fruit Selector"
+      :clearable="true"
+      :return-object="true"
+    />
+    <p class="result-text">
+      Selected Object Output: <code class="code-box">{{ selectedItem ?? 'null' }}</code>
+    </p>
+  </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue';
+<style scoped>
+  .demo-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 400px;
+  }
 
-const selected = ref(null);
+  .result-text {
+    font-size: 12px;
+    color: var(--color-text-control-secondary-default);
+  }
 
-const items = [
-  { id: 1, name: 'Apple' },
-  { id: 2, name: 'Banana' },
-  { id: 3, name: 'Cherry' },
-  { id: 4, name: 'Date' },
-  { id: 5, name: 'Elderberry' },
-  { id: 6, name: 'Fig' },
-  { id: 7, name: 'Grape' },
-  { id: 8, name: 'Honeydew' },
-];
-</script>
+  .code-box {
+    font-family: monospace;
+    font-size: 11px;
+    background-color: var(--color-bg-control-secondary-default);
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+</style>

@@ -10,10 +10,10 @@
 </template>
 
 <style scoped>
-.progress-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 300px;
-}
+  .progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 300px;
+  }
 </style>

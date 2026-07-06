@@ -1,129 +1,76 @@
 <script lang="ts" setup>
-  import { computed, onBeforeUnmount, ref, useCssModule, watch } from 'vue';
-  import toNumber from 'lodash/toNumber';
+  import { computed } from 'vue';
   import type { Ui3nProgressCircularProps } from './types';
-
-  const thresholdSize = 64;
-  const indeterminateModeValues = [1, 5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 85, 90, 95, 99];
 
   const props = withDefaults(defineProps<Ui3nProgressCircularProps>(), {
     value: 0,
     size: 64,
     bgColor: 'var(--color-bg-control-primary-default)',
     color: 'var(--color-bg-control-accent-default)',
+    indeterminate: false,
+    withText: false,
   });
 
-  const $style = useCssModule();
+  const parseToNumber = (val: number | string): number => {
+    const num = parseFloat(String(val));
+    return isNaN(num) ? 0 : num;
+  };
 
-  const element = ref<HTMLDivElement>();
+  const innerSize = computed(() => parseToNumber(props.size) || 64);
+  const innerValue = computed(() => Math.min(Math.max(parseToNumber(props.value), 0), 100));
   const isValueShown = computed(() => props.withText && !props.indeterminate);
 
-  const innerSize = computed(() => toNumber(props.size));
-  const innerWidth = computed(() => {
+  const virtualStrokeWidth = computed(() => {
     if (props.width) {
-      return toNumber(props.width);
+      return (parseToNumber(props.width) / innerSize.value) * 100;
     }
-
-    const diff = innerSize.value - thresholdSize;
-    if (diff <= 0) {
-      return Math.round(innerSize.value / 10);
-    }
-
-    return 6 + Math.round(diff / 20);
+    return 8;
   });
 
-  const innerValue = computed(() => toNumber(props.value));
-  const fontSize = computed(() => `${Math.floor((innerSize.value - 2 * innerWidth.value) / 3.2)}px`);
-
-  const circleRadius = computed(() => Math.round(innerSize.value / 2) - Math.round(innerWidth.value / 2));
-  const circumference = computed(() => Math.round(Math.PI * 2 * circleRadius.value));
-
-  const timerId = ref<ReturnType<typeof setInterval> | null>(null);
-  const indeterminateModeValue = ref(0);
-  const isInverse = ref(false);
-
-  const progressStyle = computed(() => ({
-    '--ui3n-progress-circular-size': `${innerSize.value}px`,
-    '--ui3n-progress-circular-width': `${innerWidth.value}px`,
-    '--ui3n-progress-circular-font-size': fontSize.value,
-    '--ui3n-progress-circular-bg': props.bgColor,
-    '--ui3n-progress-circular-color': props.color,
-  }));
+  const virtualRadius = computed(() => (100 - virtualStrokeWidth.value) / 2);
+  const virtualCircumference = computed(() => Math.round(Math.PI * 2 * virtualRadius.value));
 
   const strokeDasharray = computed(() => {
-    const value = props.indeterminate ? indeterminateModeValue.value : innerValue.value;
-    const dash = Math.round((circumference.value * value!) / 100);
-    const gap = circumference.value - dash;
+    const dash = Math.round((virtualCircumference.value * innerValue.value) / 100);
+    const gap = virtualCircumference.value - dash;
     return `${dash} ${gap}`;
   });
 
-  function changeValueForIndeterminateMode() {
-    if (timerId.value) {
-      return;
-    }
+  const fontSize = computed(() => `${Math.floor(innerSize.value / 3.8)}px`);
 
-    const indeterminateModeValuesLength = indeterminateModeValues.length;
-    let index = 0;
-
-    timerId.value = setInterval(() => {
-      indeterminateModeValue.value = indeterminateModeValues[index % indeterminateModeValuesLength];
-      index += 1;
-      if (index % indeterminateModeValuesLength === 1) {
-        isInverse.value = !isInverse.value;
-      }
-    }, 200);
-  }
-
-  function clearIndeterminateTimer() {
-    if (timerId.value) {
-      clearInterval(timerId.value);
-      timerId.value = null;
-    }
-  }
-
-  watch(
-    () => props.indeterminate,
-    isIndeterminate => {
-      if (isIndeterminate) {
-        changeValueForIndeterminateMode();
-      } else {
-        clearIndeterminateTimer();
-        isInverse.value = false;
-        indeterminateModeValue.value = 0;
-      }
-    },
-    { immediate: true },
-  );
-
-  onBeforeUnmount(() => {
-    clearIndeterminateTimer();
-  });
+  const progressStyle = computed(() => ({
+    '--ui3n-progress-circular-size': `${innerSize.value}px`,
+    '--ui3n-progress-circular-font-size': fontSize.value,
+    '--ui3n-progress-circular-bg': props.bgColor,
+    '--ui3n-progress-circular-color': props.color,
+    '--ui3n-progress-virtual-width': String(virtualStrokeWidth.value),
+  }));
 </script>
 
 <template>
   <div
-    ref="element"
     :style="progressStyle"
-    :class="[$style.ui3nProgressCircular, indeterminate && $style.indeterminate, isInverse && $style.inverse]"
+    :class="[$style.ui3nProgressCircular, indeterminate && $style.indeterminate]"
   >
     <svg
       :height="innerSize"
       :width="innerSize"
+      viewBox="0 0 100 100"
       :class="$style.pie"
     >
       <circle
         :class="$style.background"
-        :r="circleRadius"
-        cx="50%"
-        cy="50%"
+        :r="virtualRadius"
+        cx="50"
+        cy="50"
       />
 
       <circle
         :class="$style.chart"
-        :r="circleRadius"
-        cx="50%"
-        cy="50%"
-        :stroke-dasharray="strokeDasharray"
+        :r="virtualRadius"
+        cx="50"
+        cy="50"
+        :stroke-dasharray="indeterminate ? undefined : strokeDasharray"
       />
     </svg>
 
@@ -139,80 +86,93 @@
 <style lang="scss" module>
   .ui3nProgressCircular {
     position: relative;
+    display: inline-flex;
     min-width: var(--ui3n-progress-circular-size);
     width: var(--ui3n-progress-circular-size);
     min-height: var(--ui3n-progress-circular-size);
     height: var(--ui3n-progress-circular-size);
-    border-radius: 50%;
-    display: flex;
     justify-content: center;
     align-items: center;
-
-    &.inverse {
-      .background {
-        stroke: var(--ui3n-progress-circular-color) !important;
-      }
-
-      .chart {
-        stroke: var(--ui3n-progress-circular-bg) !important;
-      }
-    }
-
-    &:not(.indeterminate) {
-      .chart {
-        transition: 0.2s ease-in-out all;
-      }
-    }
+    user-select: none;
   }
 
   .pie {
-    min-width: var(--ui3n-progress-circular-size);
-    width: var(--ui3n-progress-circular-size);
-    min-height: var(--ui3n-progress-circular-size);
-    height: var(--ui3n-progress-circular-size);
-    border-radius: 50%;
     transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
   }
 
   .background {
     fill: none;
     stroke: var(--ui3n-progress-circular-bg);
-    stroke-width: var(--ui3n-progress-circular-width);
+    stroke-width: var(--ui3n-progress-virtual-width);
+    transition: stroke 0.2s ease;
   }
 
   .chart {
     fill: none;
     stroke: var(--ui3n-progress-circular-color);
-    stroke-width: var(--ui3n-progress-circular-width);
+    stroke-width: var(--ui3n-progress-virtual-width);
+    transition:
+      stroke-dasharray 0.2s ease-in-out,
+      stroke 0.2s ease;
   }
 
   .text {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: var(--ui3n-progress-circular-font-size);
-    font-weight: 500;
+    font-weight: 600;
+    line-height: 1;
     color: var(--ui3n-progress-circular-color);
   }
 
   .indeterminate {
-    .pie {
-      animation: 0.75s linear 0s infinite normal spin;
+    animation: circular-spin 2s linear infinite;
+
+    .chart {
+      stroke-linecap: round;
+      animation: circular-dash 1.5s cubic-bezier(0.42, 0, 0.58, 1) infinite;
     }
   }
 
-  @keyframes spin {
-    0% {
-      transform: rotate(-90deg);
+  :global {
+    @keyframes circular-spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
-    100% {
-      transform: rotate(270deg);
+    :global {
+      @keyframes circular-spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes circular-dash {
+        0% {
+          stroke-dasharray: 1 289;
+          stroke-dashoffset: 0;
+        }
+        50% {
+          stroke-dasharray: 216 289;
+          stroke-dashoffset: -35;
+        }
+        100% {
+          stroke-dasharray: 1 289;
+          stroke-dashoffset: -289;
+        }
+      }
     }
   }
 </style>

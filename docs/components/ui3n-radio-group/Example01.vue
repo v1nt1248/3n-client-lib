@@ -1,37 +1,35 @@
 <template>
   <div class="radio-container">
     <Ui3nRadio
-      v-model="selected"
-      checked-value="option1"
+      v-model="isAgreed"
+      :checked-value="true"
+      :unchecked-value="false"
     >
-      Option 1
+      I accept the user license agreement
     </Ui3nRadio>
-    <Ui3nRadio
-      v-model="selected"
-      checked-value="option2"
-    >
-      Option 2
-    </Ui3nRadio>
-    <Ui3nRadio
-      v-model="selected"
-      checked-value="option3"
-    >
-      Option 3
-    </Ui3nRadio>
-    <p>Selected: {{ selected }}</p>
+
+    <p class="status-text">
+      Agreement state: <strong>{{ isAgreed ? 'Accepted' : 'Rejected' }}</strong>
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-const selected = ref('option1');
+  const isAgreed = ref(false);
 </script>
 
 <style scoped>
-.radio-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+  .radio-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .status-text {
+    font-size: 12px;
+    color: var(--color-text-control-secondary-default);
+  }
 </style>

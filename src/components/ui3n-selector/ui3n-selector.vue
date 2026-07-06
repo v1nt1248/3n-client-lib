@@ -22,7 +22,6 @@
     items: () => [] as T[],
     itemValue: 'id',
     clearable: false,
-    withSearch: false,
     returnObject: false,
     noDataText: '',
   });
@@ -37,28 +36,16 @@
   const isFocused = ref(false);
   const activeItemIndex = ref<Nullable<number>>(null);
 
-  const query = ref('');
-  const processedQuery = computed(() => query.value.toLowerCase());
-
   const filteredItems = computed(() => {
-    return props.items
-      .filter(item => {
-        if (props.customFilter) {
-          return props.customFilter(item, query.value);
-        }
+    return props.items.filter(item => {
+      if (!props.hideSelected) {
+        return true;
+      }
 
-        const itemDisplayingVal = getItemTitle(item, true);
-        return itemDisplayingVal.includes(processedQuery.value);
-      })
-      .filter(item => {
-        if (!props.hideSelected) {
-          return true;
-        }
-
-        return props.returnObject
-          ? (props.modelValue as T).id !== item.id
-          : (props.modelValue as T[keyof T]) !== item[props.itemValue];
-      });
+      return props.returnObject
+        ? (props.modelValue as T).id !== item.id
+        : (props.modelValue as T[keyof T]) !== item[props.itemValue];
+    });
   }) as ComputedRef<T[]>;
 
   const displayingSelection = computed(() => {
@@ -79,24 +66,23 @@
     return selectedItem ? getItemTitle(selectedItem) : props.modelValue;
   });
 
-  function getItemTitle(value: T | T[keyof T], withProcessing?: boolean): string {
-    if (!value) {
+  function getItemTitle(item: T, withProcessing?: boolean): string {
+    if (!item || typeof item !== 'object') {
       return '';
     }
 
-    if (typeof value !== 'object') {
-      const val = (value as T[keyof T]).toString();
-      return withProcessing ? val.toLowerCase() : val;
+    const isItemDisplayFunction = props.itemDisplay && typeof props.itemDisplay === 'function';
+    const preVal: unknown = isItemDisplayFunction
+      ? (props.itemDisplay as Ui3nSelectorItemDisplayingFunction<T>)(item)
+      : props.itemDisplay
+        ? item[props.itemDisplay as keyof T]
+        : item.id;
+
+    if (preVal === undefined || preVal === null) {
+      return '';
     }
 
-    const isItemDisplayFunction = props.itemDisplay && typeof props.itemDisplay === 'function';
-    const preVal = isItemDisplayFunction
-      ? (props.itemDisplay as Ui3nSelectorItemDisplayingFunction<T>)(value as T)
-      : props.itemDisplay
-        ? (value as T)[props.itemDisplay as keyof T]
-        : (value as T).id;
-    // @ts-expect-error
-    const val = preVal.toString();
+    const val = String(preVal);
     return withProcessing ? val.toLowerCase() : val;
   }
 
@@ -105,11 +91,15 @@
     emits('focus');
   }
 
-  function onBlur() {
-    setTimeout(() => {
-      isFocused.value = false;
-      emits('blur');
-    }, 100);
+  function onBlur(event: FocusEvent) {
+    const target = event.relatedTarget as HTMLElement;
+
+    if (activatorEl.value?.contains(target) || bodyEl.value?.contains(target)) {
+      return;
+    }
+
+    isFocused.value = false;
+    emits('blur');
   }
 
   function onItemClick(item: T) {
@@ -119,7 +109,6 @@
 
     const newValue = props.returnObject ? item : item[props.itemValue];
     emits('update:modelValue', newValue);
-    query.value = '';
     isMenuOpen.value = false;
   }
 
@@ -127,7 +116,6 @@
     emits('update:modelValue', null);
     isMenuOpen.value = false;
     activeItemIndex.value = null;
-    query.value = '';
   }
 
   function handlePressingDownKey() {
@@ -157,7 +145,7 @@
   function handlePressingEscOrTabKeys() {
     emits('blur');
     isMenuOpen.value = false;
-    bodyEl.value!.blur();
+    bodyEl.value?.blur();
     activatorEl.value && activatorEl.value.blur();
   }
 
@@ -177,7 +165,6 @@
       const item = filteredItems.value[activeItemIndex.value!];
       onItemClick(item);
       activeItemIndex.value = null;
-      query.value = '';
     }
   }
 
@@ -226,6 +213,11 @@
     () => isMenuOpen.value,
     (val, oVal) => {
       if (val !== oVal && val) {
+        if (activatorEl.value) {
+          const rect = activatorEl.value.getBoundingClientRect();
+          activatorEl.value.style.setProperty('--ui3n-selector-width', `${rect.width}px`);
+        }
+
         if (props.modelValue) {
           const selectedItemIndex = filteredItems.value.findIndex(item => {
             if (typeof props.modelValue === 'object') {
@@ -240,7 +232,6 @@
         emits('list:open');
       } else if (val !== oVal && !val) {
         activeItemIndex.value = null;
-        query.value = '';
         emits('list:close');
       }
     },
@@ -272,13 +263,14 @@
       :offset-y="4"
       position-autoupdate
       :content-border-radius="8"
-      :content-styles="{ width: '100%' }"
+      :content-styles="{ width: '100%', minWidth: 'var(--ui3n-selector-width, 200px)' }"
       :class="$style.menu"
       :disabled="disabled"
+      @click="() => !disabled && (isMenuOpen = !isMenuOpen)"
     >
       <div
         ref="activator"
-        tabindex="0"
+        :tabindex="disabled ? -1 : 0"
         :class="[
           $style.trigger,
           isFocused && $style.triggerFocused,
@@ -313,6 +305,7 @@
           :disabled="disabled"
           :class="$style.clearBtn"
           @click.stop.prevent="resetValue"
+          @mousedown.stop.prevent
         />
 
         <ui3n-icon
@@ -349,7 +342,6 @@
                   :item="item"
                   :index="index"
                   :active-index="activeItemIndex"
-                  :query="query"
                 >
                   {{ getItemTitle(item) }}
                 </slot>
@@ -384,6 +376,7 @@
     --ui3n-selector-item-padding: 4px;
     --ui3n-selector-item-font-size: 13px;
     --ui3n-selector-item-border-radius: 4px;
+    --ui3n-selector-body-padding: 4px;
 
     position: relative;
     width: 100%;
@@ -466,6 +459,9 @@
     width: 100%;
     background-color: var(--color-bg-block-primary-default);
     padding: var(--ui3n-selector-body-padding);
+    box-shadow: 0 4px 12px var(--shadow-close);
+    border: 1px solid var(--color-border-control-tritery-default);
+    border-radius: 8px;
 
     .noData {
       display: flex;

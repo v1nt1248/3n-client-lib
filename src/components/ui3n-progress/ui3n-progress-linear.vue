@@ -1,6 +1,5 @@
 <script lang="ts" setup>
   import { computed } from 'vue';
-  import toNumber from 'lodash/toNumber';
   import type { Ui3nProgressLinearProps } from './types';
 
   const thresholdHeight = 12;
@@ -11,12 +10,23 @@
     height: 2,
     bgColor: 'var(--color-bg-control-primary-default)',
     color: 'var(--color-bg-control-accent-default)',
+    indeterminate: false,
+    withText: false,
+  });
+
+  const parseToNumber = (val: number | string): number => {
+    const num = parseFloat(String(val));
+    return isNaN(num) ? 0 : num;
+  };
+
+  const innerHeight = computed(() => parseToNumber(props.height));
+  const innerValue = computed(() => {
+    const val = parseToNumber(props.value);
+    return Math.min(Math.max(val, 0), 100);
   });
 
   const isValueShown = computed(() => props.withText && !props.indeterminate);
-  const innerHeight = computed(() => toNumber(props.height));
-  const innerValue = computed(() => toNumber(props.value));
-  const displayValue = computed(() => (props.indeterminate ? `20%` : `${Math.min(innerValue.value, 100)}%`));
+  const displayValue = computed(() => `${innerValue.value}%`);
 
   const progressStyle = computed(() => ({
     '--ui3n-progress-linear-height': `${innerHeight.value}px`,
@@ -41,7 +51,7 @@
     <div :class="$style.body">
       <div
         :class="$style.value"
-        :style="{ width: displayValue }"
+        :style="indeterminate ? undefined : { width: displayValue }"
       >
         <div
           v-if="isValueShown && innerHeight >= thresholdHeight && innerValue >= thresholdValue"
@@ -58,6 +68,7 @@
   .ui3nProgressLinear {
     position: relative;
     width: 100%;
+    user-select: none;
   }
 
   .body {
@@ -66,7 +77,7 @@
     height: var(--ui3n-progress-linear-height);
     border-radius: calc(var(--ui3n-progress-linear-height) - 2px);
     background-color: var(--ui3n-progress-linear-bg);
-    overflow-x: hidden;
+    overflow: hidden;
   }
 
   .value {
@@ -75,7 +86,8 @@
     align-items: center;
     position: absolute;
     left: 0;
-    height: var(--ui3n-progress-linear-height);
+    top: 0;
+    height: 100%;
     border-radius: calc(var(--ui3n-progress-linear-height) - 2px);
     background-color: var(--ui3n-progress-linear-color);
     transition: width 0.2s ease-in-out;
@@ -83,9 +95,10 @@
 
   .text {
     font-size: var(--ui3n-progress-linear-font-size);
-    font-weight: 500;
+    font-weight: 600;
     line-height: var(--ui3n-progress-linear-height);
     color: var(--ui3n-progress-linear-bg);
+    white-space: nowrap;
   }
 
   .above {
@@ -95,22 +108,26 @@
     font-size: var(--font-14);
     line-height: var(--font-16);
     color: var(--color-bg-control-accent-default);
+    margin-bottom: 4px;
   }
 
   .indeterminate {
     .value {
       transition: none;
-      animation: 1s linear 0s infinite normal move;
+      width: 25%;
+      left: 0;
+      top: 0;
+      height: 100%;
+      animation: linear-fly 1.4s linear infinite;
     }
   }
 
-  @keyframes move {
-    from {
-      left: -22%;
+  @keyframes linear-fly {
+    0% {
+      transform: translateX(-105%);
     }
-
-    to {
-      left: 122%;
+    100% {
+      transform: translateX(405%);
     }
   }
 </style>

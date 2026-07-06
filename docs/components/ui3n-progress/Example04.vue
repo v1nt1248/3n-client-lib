@@ -16,9 +16,9 @@
 </template>
 
 <style scoped>
-.progress-container {
-  display: flex;
-  gap: 24px;
-  align-items: center;
-}
+  .progress-container {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
 </style>

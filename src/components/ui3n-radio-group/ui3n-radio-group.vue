@@ -23,8 +23,9 @@
     emits('change', value);
   }
 
-  provide(`radio-group-${props.name}`, {
+  provide('ui3n-radio-group-context', {
     groupValue: computed(() => groupValue.value),
+    groupName: computed(() => props.name || ''),
     updateGroupValue,
   });
 

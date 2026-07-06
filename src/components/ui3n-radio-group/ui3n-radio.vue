@@ -17,27 +17,25 @@
 
   const slots = useSlots();
 
-  const instance = getCurrentInstance();
-  const isComponentPartOfGroup =
-    instance?.parent?.type.__name === 'Ui3nRadioGroup' || instance?.parent?.type.__name === 'ui3n-radio-group';
-  const groupName = (isComponentPartOfGroup ? instance?.parent?.props.name : '') as string;
+  const groupContext = inject<{
+    groupValue: ComputedRef<Ui3nRadioValue>;
+    groupName: ComputedRef<string>;
+    updateGroupValue: (value: Ui3nRadioValue) => void;
+  } | null>('ui3n-radio-group-context', null);
 
-  const {
-    groupValue,
-    updateGroupValue,
-  }: {
-    groupValue: ComputedRef<Ui3nRadioValue> | null;
-    updateGroupValue: ((value: Ui3nRadioValue) => void) | null;
-  } = groupName
-    ? inject(`radio-group-${groupName}`)!
-    : {
-        groupValue: null,
-        updateGroupValue: null,
-      };
+  const isComponentPartOfGroup = computed(() => groupContext !== null);
+  const finalGroupName = computed(() => (groupContext ? groupContext.groupName.value : props.name || ''));
 
-  const val = ref<Ui3nRadioValue>(groupName ? groupValue!.value : props.modelValue);
+  const val = ref<Ui3nRadioValue>(
+    isComponentPartOfGroup.value && groupContext ? groupContext.groupValue.value : props.modelValue,
+  );
 
-  const isOn = computed(() => val.value === props.checkedValue);
+  const isOn = computed(() => {
+    if (isComponentPartOfGroup.value && groupContext) {
+      return groupContext.groupValue.value === props.checkedValue;
+    }
+    return val.value === props.checkedValue;
+  });
 
   const radioStyle = computed(() => ({
     '--ui3n-radio-size': `${props.size}px`,
@@ -46,8 +44,11 @@
 
   function change(ev: Event) {
     ev.preventDefault();
+    if (props.disabled) {
+      return;
+    }
 
-    if (!groupName) {
+    if (!isComponentPartOfGroup.value) {
       val.value = isOn.value ? props.uncheckedValue : props.checkedValue;
       emits('change', val.value);
       emits('update:modelValue', val.value);
@@ -58,13 +59,14 @@
       return;
     }
 
-    val.value = props.checkedValue;
-    updateGroupValue!(val.value);
+    if (groupContext) {
+      groupContext.updateGroupValue(props.checkedValue);
+    }
   }
 
   function clear() {
     val.value = props.uncheckedValue;
-    if (!groupName) {
+    if (!isComponentPartOfGroup.value) {
       emits('change', val.value);
       emits('update:modelValue', val.value);
     }
@@ -74,40 +76,29 @@
     clear,
   });
 
+  onBeforeMount(() => {
+    const hasChecked = !!slots['checkedIcon'];
+    const hasUnchecked = !!slots['uncheckedIcon'];
+
+    if ((hasChecked && !hasUnchecked) || (!hasChecked && hasUnchecked)) {
+      throw Error('[Ui3nRadio] Both checkedIcon and uncheckedIcon slots must have values defined.');
+    }
+  });
+
   watch(
     () => props.name,
     newName => {
-      if (!newName && !groupName) {
+      if (!newName && !isComponentPartOfGroup.value) {
         clear();
       }
     },
   );
-
-  onBeforeMount(() => {
-    if (
-      // @ts-ignore
-      (slots.checkedIcon && !slots.uncheckedIcon) ||
-      // @ts-ignore
-      (!slots.checkedIcon && slots.uncheckedIcon)
-    ) {
-      throw Error('[Ui3nRadio] Both checkedIcon and uncheckedIcon slots must have values defined.');
-    }
-  });
 
   watch(
     () => props.modelValue,
     newValue => {
       if (newValue !== val.value) {
         val.value = newValue;
-      }
-    },
-  );
-
-  watch(
-    () => groupValue?.value,
-    newVal => {
-      if (groupName) {
-        val.value = newVal === props.checkedValue ? props.checkedValue : props.uncheckedValue;
       }
     },
   );
@@ -122,7 +113,7 @@
     <input
       type="radio"
       hidden
-      :name="groupName || name"
+      :name="finalGroupName"
       :checked="isOn"
       :value="String(checkedValue)"
       :disabled="disabled"

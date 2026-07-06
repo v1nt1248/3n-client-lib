@@ -13,13 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-const rangeValue = ref([20, 80]);
+  const rangeValue = ref([20, 80]);
 </script>
 
 <style scoped>
-.slider-container {
-  width: 300px;
-}
+  .slider-container {
+    width: 300px;
+  }
 </style>

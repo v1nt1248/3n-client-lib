@@ -37,7 +37,7 @@
   const isScrollingNow = ref(false);
 
   let resizeObserver: ResizeObserver | null = null;
-  let scrollTimeout: number | undefined;
+  let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
   let startY = 0;
   let startScrollTop = 0;
 
@@ -113,9 +113,9 @@
     }
 
     isScrollingNow.value = true;
-    window.clearTimeout(scrollTimeout);
+    scrollTimeout && clearTimeout(scrollTimeout);
 
-    scrollTimeout = window.setTimeout(() => {
+    scrollTimeout = setTimeout(() => {
       isScrollingNow.value = false;
     }, 1500);
 
@@ -146,7 +146,9 @@
       return;
     }
 
-    e.preventDefault();
+    if (e.pointerType === 'mouse') {
+      e.preventDefault();
+    }
     e.stopPropagation();
 
     thumbRef.value.setPointerCapture(e.pointerId);
@@ -209,7 +211,7 @@
 
   onBeforeUnmount(() => {
     resizeObserver?.disconnect();
-    window.clearTimeout(scrollTimeout);
+    scrollTimeout && clearTimeout(scrollTimeout);
 
     if (thumbRef.value) {
       thumbRef.value.removeEventListener('pointermove', onThumbPointerMove);
@@ -275,7 +277,8 @@
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow-x: visible;
+    overflow-y: hidden;
   }
 
   .scrollbarContainer {
@@ -283,6 +286,7 @@
     width: 100%;
     height: 100%;
     overflow-y: auto;
+    overflow-x: visible;
     scrollbar-width: none;
 
     &::-webkit-scrollbar {

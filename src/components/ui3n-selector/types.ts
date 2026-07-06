@@ -60,10 +60,6 @@ export interface Ui3nSelectorProps<T extends Ui3nSelectorOptionBase> {
    */
   itemDisplay?: keyof T | Ui3nSelectorItemDisplayingFunction<T>;
   /**
-   * Custom filter function
-   */
-  customFilter?: (value: Ui3nSelectorValue<T>, query: string) => boolean;
-  /**
    * Whether to return the whole object or just the value
    * @default false
    */
@@ -73,11 +69,6 @@ export interface Ui3nSelectorProps<T extends Ui3nSelectorOptionBase> {
    * @default false
    */
   clearable?: boolean;
-  /**
-   * Whether to show search input
-   * @default false
-   */
-  withSearch?: boolean;
   /**
    * Whether to hide selected item
    * @default false
@@ -149,7 +140,7 @@ export interface Ui3nSelectorSlots<T extends Ui3nSelectorOptionBase> {
   /**
    * Item slot
    */
-  item?: (props: { item: T; index: number; activeIndex: Nullable<number>; query?: string }) => VNode;
+  item?: (props: { item: T; index: number; activeIndex: Nullable<number> }) => VNode;
   /**
    * Selection slot
    */

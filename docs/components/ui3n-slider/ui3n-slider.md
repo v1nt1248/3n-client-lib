@@ -7,7 +7,12 @@ import Example02Raw from './Example02.vue?raw';
 import Example03 from './Example03.vue';
 import Example03Raw from './Example03.vue?raw';
 
-const sliderMeta = data.find(c => c.name === 'ui3n-slider');
+const sliderMeta = data.find(c => c.name === 'ui3n-slider') || {
+  props: [],
+  events: [],
+  slots: [],
+  exposes: []
+};
 </script>
 
 # Ui3nSlider

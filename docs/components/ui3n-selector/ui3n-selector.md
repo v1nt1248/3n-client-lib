@@ -23,37 +23,39 @@ Selector component for choosing items from a dropdown list with search and custo
 
 ## Usage Examples
 
-### Simple selector
+### Country Selection (Flat Value Mode)
+Demonstrates the standard single dropdown selection where the component tracks and returns a primitive identifier (`id`) string.
 
 <DemoBlock
-  title="Simple selector"
-  description="Basic selector with items"
+  title="Country Selection"
+  description="Standard selector with flat string items and primitive model tracking"
   :code="Example01Raw"
-  only-template-content
+  hide-script-block
+  hide-style-block
 >
-  <Example01></Example01>
+  <ClientOnly><Example01></Example01></ClientOnly>
 </DemoBlock>
 
-### Selector with search
+### Fruit Selection (Clearable Mode)
+Demonstrates a dropdown list with fruit options where the component returns the complete entity object and provides an integrated close button to quickly reset the selected value.
 
 <DemoBlock
-  title="Selector with search"
-  description="Selector with search input for filtering items"
+  title="Fruit Selection"
+  description="Clearable selector returning the full data object with an integrated quick-reset button"
   :code="Example02Raw"
-  hide-script-block
   hide-style-block
 >
-  <Example02></Example02>
+  <ClientOnly><Example02></Example02></ClientOnly>
 </DemoBlock>
 
-### Selector with custom item slot
+### Custom Layout (Item & Selection Slots)
+Demonstrates utilizing template slots to override both the dropdown menu rows and the field trigger displaying view with customized avatar elements.
 
 <DemoBlock
-  title="Selector with custom item slot"
-  description="Selector with custom item rendering"
+  title="Custom Item & Selection Layout"
+  description="Selector component overriding default rows and placeholder text with complex markup slots"
   :code="Example03Raw"
-  hide-script-block
   hide-style-block
 >
-  <Example03></Example03>
+  <ClientOnly><Example03></Example03></ClientOnly>
 </DemoBlock>

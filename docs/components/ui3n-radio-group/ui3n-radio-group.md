@@ -6,6 +6,8 @@ import Example02 from './Example02.vue';
 import Example02Raw from './Example02.vue?raw';
 import Example03 from './Example03.vue';
 import Example03Raw from './Example03.vue?raw';
+import Example04 from './Example04.vue';
+import Example04Raw from './Example04.vue?raw';
 
 const radioMeta = data.find(c => c.name === 'ui3n-radio');
 const radioGroupMeta = data.find(c => c.name === 'ui3n-radio-group');
@@ -72,4 +74,15 @@ Radio group component for managing multiple radio buttons.
   hide-style-block
 >
   <Example03></Example03>
+</DemoBlock>
+
+### Custom icons slot
+
+<DemoBlock
+  title="Custom icons slot"
+  description="Radio buttons with custom icons for checked and unchecked states using slots"
+  :code="Example04Raw"
+  hide-style-block
+>
+  <Example04></Example04>
 </DemoBlock>

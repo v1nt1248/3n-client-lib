@@ -5,7 +5,12 @@ import Example01Raw from './Example01.vue?raw';
 import Example02 from './Example02.vue';
 import Example02Raw from './Example02.vue?raw';
 
-const stepLineBarMeta = data.find(c => c.name === 'ui3n-step-line-bar');
+const stepLineBarMeta = data.find(c => c.name === 'ui3n-step-line-bar') || {
+  props: [],
+  events: [],
+  slots: [],
+  exposes: []
+};
 </script>
 
 # Ui3nStepLineBar
@@ -29,7 +34,7 @@ Step line bar component for displaying progress through a series of steps.
   :code="Example01Raw"
   only-template-content
 >
-  <Example01></Example01>
+  <ClientOnly><Example01></Example01></ClientOnly>
 </DemoBlock>
 
 ### Interactive step line bar
@@ -41,5 +46,5 @@ Step line bar component for displaying progress through a series of steps.
   hide-script-block
   hide-style-block
 >
-  <Example02></Example02>
+  <ClientOnly><Example02></Example02></ClientOnly>
 </DemoBlock>

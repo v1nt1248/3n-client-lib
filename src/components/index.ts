@@ -143,7 +143,7 @@ import type {
   Ui3nScrollbarVerticalSlots,
   Ui3nScrollbarVerticalExpose,
 } from './ui3n-scrollbar-vertical/types';
-import Ui3nScrollbarHorizontal from './ui3n-scrollbar-horizontal/ui3n-scroolbar-horizontal.vue';
+import Ui3nScrollbarHorizontal from './ui3n-scrollbar-horizontal/ui3n-scrollbar-horizontal.vue';
 import type {
   Ui3nScrollbarHorizontalProps,
   Ui3nScrollbarHorizontalEmits,
