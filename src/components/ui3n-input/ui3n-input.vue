@@ -152,10 +152,14 @@
 
   onMounted(() => {
     internalValue.value = props.modelValue ?? '';
-    if (inputElement.value && props.autofocus) {
-      inputElement.value.focus();
+
+    if (inputElement.value) {
+      emits('init', inputElement.value);
+
+      if (props.autofocus) {
+        inputElement.value.focus();
+      }
     }
-    emits('init', inputElement.value);
 
     if (props.validateAtStartup) {
       isDirty.value = true;

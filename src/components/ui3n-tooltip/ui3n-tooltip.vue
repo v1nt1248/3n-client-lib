@@ -15,6 +15,7 @@
     offsetX: 0,
     offsetY: 0,
     trigger: 'hover',
+    disabled: false,
   });
   const emits = defineEmits<Ui3nTooltipEmits>();
   defineSlots<Ui3nTooltipSlots>();
@@ -23,6 +24,8 @@
   const referenceContainer = ref<Nullable<HTMLElement>>(null);
   const floatingEl = ref<Nullable<HTMLElement>>(null);
   const floatingArrowEl = ref<Nullable<HTMLElement>>(null);
+
+  const isClient = ref(false);
 
   const mainPlacement = computed(() => {
     const [part1] = props.placement.split('-');
@@ -65,14 +68,21 @@
     whileElementsMounted: props.positionStrategy === 'fixed' ? autoUpdate : undefined,
   });
 
-  const tooltipStylesComputed = computed(() => ({
-    ...floatingStyles.value,
-    '--ui3n-tooltip-bg-color': props.color,
-    '--ui3n-tooltip-text-color': props.textColor,
-    '--ui3n-tooltip-max-width': `${props.maxContentWidth}px`,
-    '--ui3n-tooltip-arrow-size': `${baseOffset}px`,
-    '--ui3n-tooltip-base-offset': `${-baseOffset}px`,
-  }));
+  const tooltipStylesComputed = computed(() => {
+    const maxWidth =
+      typeof props.maxContentWidth === 'number' || !isNaN(Number(props.maxContentWidth))
+        ? `${props.maxContentWidth}px`
+        : String(props.maxContentWidth);
+
+    return {
+      ...floatingStyles.value,
+      '--ui3n-tooltip-bg-color': props.color,
+      '--ui3n-tooltip-text-color': props.textColor,
+      '--ui3n-tooltip-max-width': maxWidth,
+      '--ui3n-tooltip-arrow-size': `${baseOffset}px`,
+      '--ui3n-tooltip-base-offset': `${-baseOffset}px`,
+    };
+  });
 
   function onMouseenter() {
     if (props.disabled) {
@@ -106,8 +116,19 @@
     }
   }
 
-  onMounted(() => {
+  function removeEventListeners() {
     if (!referenceContainer.value) {
+      return;
+    }
+
+    referenceContainer.value.removeEventListener('mouseenter', onMouseenter);
+    referenceContainer.value.removeEventListener('mouseleave', onMouseleave);
+    referenceContainer.value.removeEventListener('click', onClick);
+  }
+
+  function setupEventListeners() {
+    removeEventListeners();
+    if (!referenceContainer.value || props.disabled) {
       return;
     }
 
@@ -117,19 +138,19 @@
     } else if (props.trigger === 'click') {
       referenceContainer.value.addEventListener('click', onClick);
     }
+  }
+
+  onMounted(() => {
+    isClient.value = true;
+    setupEventListeners();
   });
 
   onBeforeUnmount(() => {
-    if (!referenceContainer.value) {
-      return;
-    }
+    removeEventListeners();
+  });
 
-    if (props.trigger === 'hover') {
-      referenceContainer.value.removeEventListener('mouseenter', onMouseenter);
-      referenceContainer.value.removeEventListener('mouseleave', onMouseleave);
-    } else if (props.trigger === 'click') {
-      referenceContainer.value.removeEventListener('click', onClick);
-    }
+  watch([() => props.trigger, () => props.disabled], () => {
+    setupEventListeners();
   });
 
   watch(

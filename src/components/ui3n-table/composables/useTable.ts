@@ -2,6 +2,7 @@ import { computed, type Ref, ref, watch, UnwrapRef } from 'vue';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import size from 'lodash/size';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   Ui3nTableBodyBaseItem,
   Ui3nTableConfig,
@@ -43,7 +44,7 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
 
     const { config = {}, head } = props;
     const { columnStyle } = config;
-    const keys = head.map(h => h.key);
+    const keys = head.filter(h => !h.hidden).map(h => h.key);
     return keys.reduce((res, key, index) => {
       const width = get(columnStyle, [key, 'width'], '1fr');
       res = index === 0 ? `${width}` : `${res} ${width}`;
@@ -79,7 +80,7 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     const { config = {}, head } = props;
     const { sortOrder } = config;
     if (!isEmpty(sortOrder)) {
-      return sortOrder;
+      return cloneDeep(sortOrder);
     }
 
     for (const h of head) {
@@ -146,12 +147,16 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
         const index = (selectedRows.value as Array<T[keyof T]>).findIndex(
           keyValue => keyValue === row[currentConfig.value.fieldAsRowKey as keyof T],
         );
-        (selectedRows.value as Array<T[keyof T]>).splice(index, 1);
+        if (index !== -1) {
+          (selectedRows.value as Array<T[keyof T]>).splice(index, 1);
+        }
       }
     } else {
-      isRowKeyUsed.value &&
+      if (isRowKeyUsed.value) {
         (selectedRows.value as Array<T[keyof T]>).push(row[currentConfig.value.fieldAsRowKey as keyof T]);
-      !isRowKeyUsed.value && (selectedRows.value as Set<T>).add(row);
+      } else {
+        (selectedRows.value as Set<T>).add(row);
+      }
     }
   }
 
@@ -164,7 +169,9 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
       selectInMultipleMode(row);
     }
 
-    !withoutEvents && emits('select:row', selectedRowsArray.value);
+    if (!withoutEvents) {
+      emits('select:row', selectedRowsArray.value);
+    }
   }
 
   function toggleSelectedRows(val: Ui3nCheckboxValue) {
@@ -191,17 +198,24 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
       currentConfig.value.sortOrder.direction =
         currentConfig.value.sortOrder?.direction === 'asc' ? 'desc' : 'asc';
     } else {
-      currentConfig.value.sortOrder!.field = field as UnwrapRef<keyof T>;
-      currentConfig.value.sortOrder!.direction = 'desc';
+      currentConfig.value.sortOrder = {
+        field: field as UnwrapRef<keyof T>,
+        direction: 'desc',
+      };
     }
 
-    currentConfig.value.sortOrder?.field &&
+    if (currentConfig.value.sortOrder?.field) {
       emits('change:sort', currentConfig.value.sortOrder as Ui3nTableSort<T>);
+    }
   }
 
   function clear() {
-    isRowKeyUsed.value && ((selectedRows.value as Array<T[keyof T]>) = []);
-    !isRowKeyUsed.value && (selectedRows.value as Set<T>).clear();
+    if (isRowKeyUsed.value) {
+      (selectedRows.value as Array<T[keyof T]>) = [];
+    } else {
+      (selectedRows.value as Set<T>).clear();
+    }
+
     hasGroupActionsRow.value = false;
     emits('select:row', []);
   }
@@ -215,17 +229,17 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     },
   );
 
-  watch(
-    tableColumnWidth,
-    (val, oVal) => {
-      if (val && val !== oVal) {
-        tableEl.value && tableEl.value.style.setProperty('--ui3n-table-columns-width', val);
-      }
-    },
-    {
-      immediate: true,
-    },
-  );
+  // watch(
+  //   tableColumnWidth,
+  //   (val, oVal) => {
+  //     if (val && val !== oVal) {
+  //       tableEl.value && tableEl.value.style.setProperty('--ui3n-table-columns-width', val);
+  //     }
+  //   },
+  //   {
+  //     immediate: true,
+  //   },
+  // );
 
   watch(
     () => selectedRowsSize.value,
@@ -238,6 +252,7 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
 
   return {
     tableEl,
+    tableColumnWidth,
     unusedPlaceCssStyle,
     currentConfig,
     visibleColumns,

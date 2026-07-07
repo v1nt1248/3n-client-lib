@@ -1,3 +1,13 @@
+<script setup lang="ts">
+  import { ref } from 'vue';
+
+  const small = ref(true);
+  const medium = ref(true);
+  const large = ref(false);
+
+  const isDisabledChecked = ref(true);
+</script>
+
 <template>
   <div class="switch-container">
     <Ui3nSwitch
@@ -5,44 +15,39 @@
       :size="20"
       color="#4caf50"
     >
-      Small green
+      Small green (Size 20)
     </Ui3nSwitch>
+
     <Ui3nSwitch
       v-model="medium"
       :size="30"
       color="#2196f3"
     >
-      Medium blue
+      Medium blue (Size 30)
     </Ui3nSwitch>
+
     <Ui3nSwitch
       v-model="large"
       :size="40"
       color="#ff9800"
     >
-      Large orange
+      Large orange (Size 40)
     </Ui3nSwitch>
+
     <Ui3nSwitch
-      v-model="disabled"
+      v-model="isDisabledChecked"
       :disabled="true"
     >
-      Disabled
+      Disabled state
     </Ui3nSwitch>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue';
-
-const small = ref(true);
-const medium = ref(true);
-const large = ref(false);
-const disabled = ref(true);
-</script>
-
 <style scoped>
-.switch-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+  .switch-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
 </style>

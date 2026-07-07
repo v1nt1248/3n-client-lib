@@ -734,7 +734,8 @@
           <ui3n-button
             type="secondary"
             class="tabs__item"
-            >Option 4
+          >
+            Option 4
           </ui3n-button>
         </ui3n-tabs>
       </div>

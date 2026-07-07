@@ -18,6 +18,7 @@
 
   const {
     tableEl,
+    tableColumnWidth,
     unusedPlaceCssStyle,
     currentConfig,
     visibleColumns,
@@ -53,6 +54,7 @@
 <template>
   <div
     ref="tableEl"
+    :style="{ '--ui3n-table-columns-width': tableColumnWidth }"
     :class="$style.ui3nTable"
   >
     <fieldset
@@ -192,7 +194,7 @@
                   :cell="row[col.key]"
                 >
                   <span :class="$style.cell">
-                    {{ row[col.key] }}
+                    {{ col.format ? col.format(row[col.key]) : row[col.key] }}
                   </span>
                 </slot>
               </div>

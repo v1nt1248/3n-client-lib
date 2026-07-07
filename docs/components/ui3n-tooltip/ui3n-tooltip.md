@@ -7,7 +7,12 @@ import Example02Raw from './Example02.vue?raw';
 import Example03 from './Example03.vue';
 import Example03Raw from './Example03.vue?raw';
 
-const tooltipMeta = data.find(c => c.name === 'ui3n-tooltip');
+const tooltipMeta = data.find(c => c.name === 'ui3n-tooltip') || {
+  props: [],
+  events: [],
+  slots: [],
+  exposes: []
+};
 </script>
 
 # Ui3nTooltip
@@ -29,9 +34,10 @@ Tooltip component for displaying additional information on hover or click.
   title="Simple tooltip"
   description="Basic tooltip on hover"
   :code="Example01Raw"
-  only-template-content
+  hide-script-block
+  hide-style-block
 >
-  <Example01></Example01>
+  <ClientOnly><Example01></Example01></ClientOnly>
 </DemoBlock>
 
 ### Tooltip placements
@@ -43,7 +49,7 @@ Tooltip component for displaying additional information on hover or click.
   hide-script-block
   hide-style-block
 >
-  <Example02></Example02>
+  <ClientOnly><Example02></Example02></ClientOnly>
 </DemoBlock>
 
 ### Custom tooltip content
@@ -55,5 +61,5 @@ Tooltip component for displaying additional information on hover or click.
   hide-script-block
   hide-style-block
 >
-  <Example03></Example03>
+  <ClientOnly><Example03></Example03></ClientOnly>
 </DemoBlock>

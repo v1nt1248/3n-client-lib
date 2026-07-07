@@ -11,6 +11,7 @@
     label: '',
     placeholder: '',
     disabled: false,
+    validateAtStartup: false,
   });
   const emits = defineEmits<Ui3nTextEmits>();
 
@@ -20,7 +21,7 @@
   const isFocused = ref(false);
   const errorMessage = ref('');
 
-  function validate(text: string) {
+  function validate(text: string, force = false) {
     errorMessage.value = '';
     if (props.rules && props.rules.length) {
       for (const validateFunction of props.rules) {
@@ -33,7 +34,7 @@
       }
     }
 
-    if (isDirty.value) {
+    if (isDirty.value || force || props.validateAtStartup) {
       emits('update:valid', !errorMessage.value);
     }
   }
@@ -46,13 +47,14 @@
   function onBlur(event: Event) {
     const value = (event.target as HTMLInputElement).value;
 
+    validate(value);
+    emits('update:modelValue', value);
+    emits('change', value);
+
     setTimeout(() => {
       isFocused.value = false;
-      validate(value);
       emits('blur', event);
-      emits('change', value);
-      emits('update:modelValue', value);
-    }, 100);
+    }, 50);
   }
 
   function onInput(event: Event) {
@@ -129,7 +131,7 @@
     (val, oldVal) => {
       if ((val ?? '') !== (oldVal ?? '')) {
         text.value = val ?? '';
-        validate(text.value);
+        validate(text.value, isDirty.value || props.validateAtStartup);
       }
     },
     { immediate: true },
@@ -139,7 +141,12 @@
 <template>
   <div
     :id="id"
-    :class="[$style.ui3nText, disabled && $style.disabled, isFocused && $style.focused]"
+    :class="[
+      $style.ui3nText,
+      disabled && $style.disabled,
+      isFocused && $style.focused,
+      errorMessage && $style.hasError,
+    ]"
   >
     <label
       v-if="label"
@@ -167,6 +174,13 @@
         @focusin="onFocus"
         @focusout="onBlur"
       />
+    </div>
+
+    <div
+      v-if="errorMessage"
+      :class="$style.errorBlock"
+    >
+      {{ errorMessage }}
     </div>
   </div>
 </template>
@@ -271,5 +285,19 @@
     .content {
       background-color: var(--color-bg-control-secondary-focused);
     }
+  }
+
+  .hasError {
+    .body {
+      border-color: var(--error-fill-default);
+    }
+  }
+
+  .errorBlock {
+    margin-top: 4px;
+    font-size: 11px;
+    line-height: 13px;
+    color: var(--error-content-default);
+    font-weight: 400;
   }
 </style>

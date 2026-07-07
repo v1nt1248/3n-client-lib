@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-  import { computed, nextTick, onUnmounted, ref, watch, useTemplateRef } from 'vue';
+  import { computed, onUnmounted, ref, watch, useTemplateRef } from 'vue';
   import { autoUpdate, flip, useFloating, offset, shift } from '@floating-ui/vue';
   import { default as vClickOutside } from '../../directives/ui3n-click-outside';
   import { Nullable } from '@/types';
-  import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots, Ui3nMenuExpose } from './types';
+  import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots, Ui3nMenuExpose, Ui3nVirtualElement } from './types';
 
   const props = withDefaults(defineProps<Ui3nMenuProps>(), {
     lockScroll: false,
@@ -24,9 +24,26 @@
   const menuContentElement = useTemplateRef<HTMLDivElement>('menu-content-element');
   const isShow = ref(false);
 
-  const outerTriggerElement = ref<Nullable<HTMLElement>>(props.triggerElement || null);
+  const outerTriggerElement = ref<Nullable<HTMLElement | Ui3nVirtualElement>>(props.triggerElement || null);
 
   const usedTriggerElement = computed(() => outerTriggerElement.value || menuTriggerElement.value);
+
+  const nativeHtmlTriggerElement = computed<HTMLElement | null>(() => {
+    const trigger = usedTriggerElement.value;
+    if (!trigger) {
+      return null;
+    }
+
+    if (trigger instanceof HTMLElement) {
+      return trigger;
+    }
+
+    if ('contextElement' in trigger && trigger.contextElement instanceof HTMLElement) {
+      return trigger.contextElement;
+    }
+
+    return null;
+  });
 
   const middleware = computed(() => {
     const list = [
@@ -103,8 +120,7 @@
       return;
     }
 
-    const trigger = usedTriggerElement.value;
-    const scrollParent = getVerticalScrollParent(trigger);
+    const scrollParent = getVerticalScrollParent(nativeHtmlTriggerElement.value);
 
     if (scrollParent) {
       const currentLocks = Number(scrollParent.dataset.scrollLocksCount || '0');
@@ -128,8 +144,7 @@
   }
 
   function unlockScroll() {
-    const trigger = usedTriggerElement.value;
-    const scrollParent = getVerticalScrollParent(trigger);
+    const scrollParent = getVerticalScrollParent(nativeHtmlTriggerElement.value);
 
     if (!scrollParent) {
       return;
@@ -182,7 +197,7 @@
   }
 
   function onClickOutside(event: MouseEvent) {
-    if (usedTriggerElement.value?.contains(event.target as Node)) {
+    if (nativeHtmlTriggerElement.value?.contains(event.target as Node)) {
       return;
     }
 
@@ -247,6 +262,7 @@
     ref="menu-element"
     :id="id"
     :class="$style.ui3nMenu"
+    @click="emits('click', $event)"
   >
     <div
       ref="menu-trigger-element"

@@ -7,13 +7,17 @@ import Example02Raw from './Example02.vue?raw';
 import Example03 from './Example03.vue';
 import Example03Raw from './Example03.vue?raw';
 
-const tableMeta = data.find(c => c.name === 'ui3n-table');
-const tableSortIconMeta = data.find(c => c.name === 'ui3n-table-sort-icon');
+const tableMeta = data.find(c => c.name === 'ui3n-table') || {
+  props: [], events: [], slots: [], exposes: []
+};
+const tableSortIconMeta = data.find(c => c.name === 'ui3n-table-sort-icon') || {
+  props: [], events: [], slots: [], exposes: []
+};
 </script>
 
 # Ui3nTable
 
-Table component with sorting, selection, and customizable slots.
+`Ui3nTable` is a high-performance tabular data grid built on top of CSS Grid, supporting dynamic column templates, declarative sorting states, and context-aware row selection layers.
 
 <ComponentDoc
   :props="tableMeta.props"
@@ -24,7 +28,7 @@ Table component with sorting, selection, and customizable slots.
 
 ## Ui3nTableSortIcon
 
-Sort icon component for table headers.
+Internal presentation control used within table headers to visualize directional column sorting transitions.
 
 <ComponentDoc
   :props="tableSortIconMeta.props"
@@ -36,17 +40,20 @@ Sort icon component for table headers.
 ## Usage Examples
 
 ### Simple table
+Basic read-only layout displaying flat structured dataset objects.
 
 <DemoBlock
   title="Simple table"
   description="Basic table with data"
   :code="Example01Raw"
-  only-template-content
+  hide-script-block
+  hide-style-block
 >
-  <Example01></Example01>
+  <ClientOnly><Example01></Example01></ClientOnly>
 </DemoBlock>
 
 ### Table with sorting
+Demonstrates intercepting header clicks and rendering automated direction sort icon indicators.
 
 <DemoBlock
   title="Table with sorting"
@@ -55,10 +62,11 @@ Sort icon component for table headers.
   hide-script-block
   hide-style-block
 >
-  <Example02></Example02>
+  <ClientOnly><Example02></Example02></ClientOnly>
 </DemoBlock>
 
 ### Table with selection
+Demonstrates enabling row checkboxes, batch operations triggering, and managing global form selection arrays.
 
 <DemoBlock
   title="Table with selection"
@@ -67,5 +75,5 @@ Sort icon component for table headers.
   hide-script-block
   hide-style-block
 >
-  <Example03></Example03>
+  <ClientOnly><Example03></Example03></ClientOnly>
 </DemoBlock>

@@ -2,6 +2,7 @@
   <div class="tooltip-container">
     <Ui3nTooltip trigger="click">
       <Ui3nButton>Click for rich tooltip</Ui3nButton>
+
       <template #content>
         <div class="custom-content">
           <h4>User Profile</h4>
@@ -15,21 +16,27 @@
 </template>
 
 <style scoped>
-.tooltip-container {
-  padding: 40px;
-}
+  .tooltip-container {
+    padding: 40px;
+  }
 
-.custom-content {
-  padding: 8px;
-}
+  .custom-content {
+    padding: 8px;
+    background-color: var(--color-bg-block-darkery-default);
+    color: var(--color-text-block-darkery-default);
+    border-radius: 8px;
+  }
 
-.custom-content h4 {
-  margin: 0 0 8px 0;
-  font-size: 14px;
-}
+  .custom-content h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: inherit;
+  }
 
-.custom-content p {
-  margin: 4px 0;
-  font-size: 12px;
-}
+  .custom-content p {
+    margin: 4px 0;
+    font-size: 12px;
+    line-height: 16px;
+    color: inherit;
+  }
 </style>

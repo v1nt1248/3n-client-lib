@@ -266,7 +266,13 @@
       :content-styles="{ width: '100%', minWidth: 'var(--ui3n-selector-width, 200px)' }"
       :class="$style.menu"
       :disabled="disabled"
-      @click="() => !disabled && (isMenuOpen = !isMenuOpen)"
+      @click="
+        () => {
+          if (!disabled) {
+            isMenuOpen = !isMenuOpen;
+          }
+        }
+      "
     >
       <div
         ref="activator"

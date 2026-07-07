@@ -235,10 +235,11 @@
       >
         <div
           v-for="(item, index) in visibleChildren"
-          :key="item.id"
+          :key="item.id ?? `v-node-${startNode + index}`"
           :ref="el => setItemRef(el, item.id ?? startNode + index)"
           v-bind="{ 'data-sid': item.id ?? startNode + index }"
           :class="$style.item"
+          :style="{ minHeight: `${props.minChildHeight}px` }"
         >
           <slot
             name="item"
@@ -271,7 +272,6 @@
 
   .item {
     position: relative;
-    min-height: v-bind('props.minChildHeight + "px"');
     box-sizing: border-box;
   }
 </style>

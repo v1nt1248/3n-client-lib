@@ -7,7 +7,7 @@
 </template>
 
 <style scoped>
-.tooltip-container {
-  padding: 40px;
-}
+  .tooltip-container {
+    padding: 40px;
+  }
 </style>

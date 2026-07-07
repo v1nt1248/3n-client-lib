@@ -10,11 +10,9 @@
   });
 
   const emits = defineEmits<Ui3nSwitchEmits>();
-
   defineSlots<Ui3nSwitchSlots>();
 
   const slots = useSlots();
-  const switchEl = ref<HTMLDivElement | null>(null);
   const val = ref<boolean>(false);
 
   const switchStyle = computed(() => ({
@@ -24,6 +22,9 @@
 
   function change(ev: Event) {
     ev.preventDefault();
+    if (props.disabled) {
+      return;
+    }
 
     val.value = !val.value;
     emits('change', val.value);
@@ -58,15 +59,18 @@
 
 <template>
   <div
-    ref="switchEl"
     :id="id"
     :style="switchStyle"
+    :tabindex="disabled ? -1 : 0"
     :class="[
       $style.ui3nSwitch,
       val && $style.checked,
       !slots.default && $style.noLabel,
       disabled && $style.disabled,
     ]"
+    @keydown.enter="change"
+    @keydown.space="change"
+    @click="change"
   >
     <input
       v-if="name"
@@ -78,13 +82,7 @@
       :value="val ? 'on' : ''"
     />
 
-    <div
-      :class="$style.body"
-      :tabindex="disabled ? -1 : 0"
-      @keydown.enter="change"
-      @keydown.space="change"
-      @click="change"
-    >
+    <div :class="$style.body">
       <div :class="[$style.dot, val ? $style.right : $style.left]" />
     </div>
 
@@ -104,10 +102,17 @@
     --ui3n-switch-font-weight: 500;
 
     position: relative;
-    display: flex;
+    display: inline-flex;
     justify-content: flex-start;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-border-control-accent-focused);
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
   }
 
   .body {
@@ -116,7 +121,7 @@
     height: var(--ui3n-switch-size);
     width: calc(var(--ui3n-switch-size) * 2);
     border-radius: var(--ui3n-switch-size);
-    cursor: pointer;
+    transition: background-color 0.2s ease;
   }
 
   .checked {
@@ -135,23 +140,23 @@
 
   .dot {
     --ui3n-switch-dot-size: calc(var(--ui3n-switch-size) / 4 * 3);
+    --ui3n-switch-dot-margin: calc(var(--ui3n-switch-size) / 8);
 
     position: absolute;
     width: var(--ui3n-switch-dot-size);
     height: var(--ui3n-switch-dot-size);
     border-radius: 50%;
     background-color: var(--color-bg-control-primary-default);
-    top: 0;
-    margin: calc(var(--ui3n-switch-size) / 8);
-    transition: all 250ms ease-in-out;
+    top: var(--ui3n-switch-dot-margin);
+    transition: left 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .left {
-    left: 0;
+    left: var(--ui3n-switch-dot-margin);
   }
 
   .right {
-    left: calc(100% - var(--ui3n-switch-size));
+    left: calc(100% - var(--ui3n-switch-dot-size) - var(--ui3n-switch-dot-margin));
   }
 
   .label {
@@ -159,11 +164,11 @@
     font-weight: var(--ui3n-switch-font-weight);
     color: var(--ui3n-switch-font-color);
     user-select: none;
-    cursor: pointer;
   }
 
   .disabled {
-    opacity: 0.7;
+    opacity: 0.5;
     pointer-events: none;
+    cursor: not-allowed;
   }
 </style>

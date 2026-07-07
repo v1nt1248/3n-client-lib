@@ -153,11 +153,11 @@ export interface Ui3nInputSlots {
   /**
    * Slot for prepend icon (displayed at the start of the input)
    */
-  'prepend-icon'?: () => VNode[];
+  'prepend-icon'?: () => VNode;
   /**
    * Slot for append icon (displayed at the end of the input)
    */
-  'append-icon'?: () => VNode[];
+  'append-icon'?: () => VNode;
 }
 
 export interface Ui3nInputExpose {

@@ -18,7 +18,6 @@
 
   const tabs = ref<HTMLDivElement | null>(null);
   const activeIndex = ref(props.modelValue);
-  const children = ref<HTMLCollection | null>(null);
 
   const tabsStyle = computed(() => ({
     '--ui3n-tabs-active-color': props.activeColor,
@@ -44,28 +43,6 @@
           child.classList.add($style.active);
         } else {
           child.classList.remove($style.active);
-        }
-      }
-    }
-  }
-
-  function initialTabsActivity(): void {
-    if (children.value) {
-      for (let i = 0; i < children.value.length; i++) {
-        // @ts-ignore
-        children.value[i].dataset.index = `${i}`;
-        children.value[i].classList.add($style.item);
-      }
-    }
-  }
-
-  function setTabsActivity(index: number): void {
-    if (children.value) {
-      for (let i = 0; i < children.value.length; i++) {
-        if (i === index) {
-          children.value[i].classList.add($style.active);
-        } else {
-          children.value[i].classList.remove($style.active);
         }
       }
     }

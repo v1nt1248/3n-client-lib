@@ -7,7 +7,12 @@ import Example02Raw from './Example02.vue?raw';
 import Example03 from './Example03.vue';
 import Example03Raw from './Example03.vue?raw';
 
-const tabsMeta = data.find(c => c.name === 'ui3n-tabs');
+const tabsMeta = data.find(c => c.name === 'ui3n-tabs') || {
+  props: [],
+  events: [],
+  slots: [],
+  exposes: []
+};
 </script>
 
 # Ui3nTabs
@@ -29,9 +34,10 @@ Tabs component for organizing content into tabbed sections.
   title="Simple tabs"
   description="Basic horizontal tabs"
   :code="Example01Raw"
-  only-template-content
+  hide-script-block
+  hide-style-block
 >
-  <Example01></Example01>
+  <ClientOnly><Example01></Example01></ClientOnly>
 </DemoBlock>
 
 ### Vertical tabs
@@ -43,7 +49,7 @@ Tabs component for organizing content into tabbed sections.
   hide-script-block
   hide-style-block
 >
-  <Example02></Example02>
+  <ClientOnly><Example02></Example02></ClientOnly>
 </DemoBlock>
 
 ### Customized tabs
@@ -55,5 +61,5 @@ Tabs component for organizing content into tabbed sections.
   hide-script-block
   hide-style-block
 >
-  <Example03></Example03>
+  <ClientOnly><Example03></Example03></ClientOnly>
 </DemoBlock>

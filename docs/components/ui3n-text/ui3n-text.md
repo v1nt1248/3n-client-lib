@@ -7,7 +7,12 @@ import Example02Raw from './Example02.vue?raw';
 import Example03 from './Example03.vue';
 import Example03Raw from './Example03.vue?raw';
 
-const textMeta = data.find(c => c.name === 'ui3n-text');
+const textMeta = data.find(c => c.name === 'ui3n-text') || {
+  props: [],
+  events: [],
+  slots: [],
+  exposes: []
+};
 </script>
 
 # Ui3nText
@@ -31,7 +36,7 @@ Textarea component for multi-line text input with validation support.
   :code="Example01Raw"
   only-template-content
 >
-  <Example01></Example01>
+  <ClientOnly><Example01></Example01></ClientOnly>
 </DemoBlock>
 
 ### Text area with label
@@ -43,7 +48,7 @@ Textarea component for multi-line text input with validation support.
   hide-script-block
   hide-style-block
 >
-  <Example02></Example02>
+  <ClientOnly><Example02></Example02></ClientOnly>
 </DemoBlock>
 
 ### Text area with validation
@@ -55,5 +60,5 @@ Textarea component for multi-line text input with validation support.
   hide-script-block
   hide-style-block
 >
-  <Example03></Example03>
+  <ClientOnly><Example03></Example03></ClientOnly>
 </DemoBlock>

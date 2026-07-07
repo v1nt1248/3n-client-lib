@@ -29,7 +29,7 @@ Virtual scroll component for efficiently rendering large lists by only rendering
   :code="Example01Raw"
   only-template-content
 >
-  <Example01></Example01>
+  <ClientOnly><Example01></Example01></ClientOnly>
 </DemoBlock>
 
 ### Virtual scroll with custom rendering
@@ -41,5 +41,5 @@ Virtual scroll component for efficiently rendering large lists by only rendering
   hide-script-block
   hide-style-block
 >
-  <Example02></Example02>
+  <ClientOnly><Example02></Example02></ClientOnly>
 </DemoBlock>

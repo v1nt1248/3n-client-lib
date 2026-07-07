@@ -160,7 +160,7 @@
     position: absolute;
     inset: 0;
     background-color: oklch(from var(--color-bg-block-primary-default) calc(l * 0.1) c h / 0.5);
-    backdrop-filter: blur(v-bind(blurValue));
+    backdrop-filter: blur(var(--ui3n-menu-blur-custom, 0px));
     z-index: 1;
     cursor: pointer;
   }

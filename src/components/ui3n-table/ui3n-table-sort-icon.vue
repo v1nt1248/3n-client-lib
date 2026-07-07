@@ -9,6 +9,11 @@
   });
 
   const iconName = computed(() => (props.value === 'asc' ? 'round-arrow-upward' : 'round-arrow-downward'));
+
+  const parsedSize = computed(() => {
+    const num = Number(props.size);
+    return isNaN(num) ? 16 : num;
+  });
 </script>
 
 <template>
@@ -19,7 +24,7 @@
     <ui3n-icon
       :key="iconName"
       :icon="iconName"
-      :size="Number(size)"
+      :size="parsedSize"
       :color="color"
     />
   </transition>

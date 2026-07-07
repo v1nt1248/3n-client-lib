@@ -7,7 +7,12 @@ import Example02Raw from './Example02.vue?raw';
 import Example03 from './Example03.vue';
 import Example03Raw from './Example03.vue?raw';
 
-const switchMeta = data.find(c => c.name === 'ui3n-switch');
+const switchMeta = data.find(c => c.name === 'ui3n-switch') || {
+  props: [],
+  events: [],
+  slots: [],
+  exposes: []
+};
 </script>
 
 # Ui3nSwitch
@@ -31,7 +36,7 @@ Switch component for toggling boolean values.
   :code="Example01Raw"
   only-template-content
 >
-  <Example01></Example01>
+  <ClientOnly><Example01></Example01></ClientOnly>
 </DemoBlock>
 
 ### Switch with label
@@ -43,7 +48,7 @@ Switch component for toggling boolean values.
   hide-script-block
   hide-style-block
 >
-  <Example02></Example02>
+  <ClientOnly><Example02></Example02></ClientOnly>
 </DemoBlock>
 
 ### Customized switch
@@ -55,5 +60,5 @@ Switch component for toggling boolean values.
   hide-script-block
   hide-style-block
 >
-  <Example03></Example03>
+  <ClientOnly><Example03></Example03></ClientOnly>
 </DemoBlock>

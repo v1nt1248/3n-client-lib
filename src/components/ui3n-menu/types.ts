@@ -95,6 +95,8 @@ export interface Ui3nMenuProps {
  * Menu component emits
  */
 export interface Ui3nMenuEmits {
+  /** Called when the menu is clicked */
+  (ev: 'click', value: Event): void;
   /**
    * Emitted when menu opens
    */
