@@ -14,12 +14,6 @@ export default defineConfig({
       cleanVueFileName: true,
       tsconfigPath: './tsconfig.json',
       entryRoot: 'src',
-      beforeWriteFile: (filePath, content) => {
-        return {
-          filePath: filePath.replace('/dist/src/', '/dist/'),
-          content,
-        };
-      },
     }),
     viteStaticCopy({
       targets: [
