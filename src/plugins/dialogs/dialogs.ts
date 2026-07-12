@@ -1,10 +1,10 @@
 /*  eslint-disable @typescript-eslint/no-explicit-any */
 import { markRaw, type App, type Component, ref, type Ref } from 'vue';
-import type { ExtractComponentProps } from '@/types';
+import type { ExtractComponentProps } from '../../types';
 import type { DialogsPlugin, DialogOptions } from './types';
-import type { Ui3nDialogEvent } from '@/components/ui3n-dialog/types';
+import type { Ui3nDialogEvent } from '../../components/ui3n-dialog/types';
 import { getRandomId } from '../../utils';
-import { DIALOGS_KEY } from '@/constants';
+import { DIALOGS_KEY } from '../../constants';
 
 export default {
   install(app: App) {

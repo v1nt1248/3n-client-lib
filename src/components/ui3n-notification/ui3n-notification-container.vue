@@ -45,14 +45,14 @@
 <style lang="scss" module>
   .ui3nNotificationsWrapper {
     position: fixed;
-    top: 24px;
-    right: 24px;
+    top: 16px;
+    right: 16px;
     z-index: 9999;
     display: flex;
     flex-direction: column;
     gap: 8px;
     max-width: 380px;
-    width: 100%;
+    width: calc(100% - 32px);
     pointer-events: none;
   }
 

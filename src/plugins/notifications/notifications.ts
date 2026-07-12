@@ -3,7 +3,7 @@ import { getRandomId } from '../../utils';
 import Ui3nNotificationContainer from '../../components/ui3n-notification/ui3n-notification-container.vue';
 import type { Ui3nNotificationProps } from '../../components/ui3n-notification/types';
 import type { NotificationsPlugin } from './types';
-import { NOTIFICATIONS_KEY } from '@/constants';
+import { NOTIFICATIONS_KEY } from '../../constants';
 
 export const notifications: Plugin = {
   install: (app: App) => {

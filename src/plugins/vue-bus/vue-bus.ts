@@ -2,7 +2,7 @@
 import type { App, Plugin } from 'vue';
 import mitt from 'mitt';
 import type { VueEventBus } from './types';
-import { VUEBUS_KEY } from '@/constants';
+import { VUEBUS_KEY } from '../../constants';
 
 const emitter = mitt<any>();
 

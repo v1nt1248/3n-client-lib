@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Component, Ref } from 'vue';
-import type { ExtractComponentProps } from '@/types';
-import type { Ui3nDialogEvent } from '@/components/ui3n-dialog/types';
+import type { ExtractComponentProps } from '../../types';
+import type { Ui3nDialogEvent } from '../../components/ui3n-dialog/types';
 import type { DialogOptions } from './types';
 
 export function storeDialogs(context: any): {
