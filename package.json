@@ -2,7 +2,7 @@
   "name": "@v1nt1248/3nclient-lib",
   "license": "AGPL-3.0-or-later",
   "author": "v1nt1248",
-  "version": "0.3.35",
+  "version": "0.3.36",
   "description": "Library for 3NWeb clients",
   "type": "module",
   "files": [
@@ -104,17 +104,5 @@
     "vue-eslint-parser": "10.4.0",
     "vue-tsc": "3.3.2"
   },
-  "packageManager": "pnpm@10.33.0",
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "@algolia/client-search",
-        "search-insights"
-      ]
-    },
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "vue-demi"
-    ]
-  }
+  "packageManager": "pnpm@11.18.0"
 }

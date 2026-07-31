@@ -67,7 +67,12 @@ import type {
 import Ui3nList from './ui3n-list/ui3n-list.vue';
 import type { Ui3nListProps, Ui3nListEmits, Ui3nListSlots } from './ui3n-list/types';
 import Ui3nVirtualScroll from './ui3n-virtual-scroll/ui3n-virtual-scroll.vue';
-import type { Ui3nVirtualScrollProps, Ui3nVirtualScrollSlots } from './ui3n-virtual-scroll/types';
+import type {
+  Ui3nVirtualScrollProps,
+  Ui3nVirtualScrollEmits,
+  Ui3nVirtualScrollSlots,
+  Ui3nVirtualScrollExpose,
+} from './ui3n-virtual-scroll/types';
 import Ui3nTabs from './ui3n-tabs/ui3n-tabs.vue';
 import type { Ui3nTabsProps, Ui3nTabsEmits, Ui3nTabsSlots } from './ui3n-tabs/types';
 import Ui3nBadge from './ui3n-badge/ui3n-badge.vue';
@@ -225,7 +230,9 @@ export {
   Ui3nListSlots,
   Ui3nVirtualScroll,
   Ui3nVirtualScrollProps,
+  Ui3nVirtualScrollEmits,
   Ui3nVirtualScrollSlots,
+  Ui3nVirtualScrollExpose,
   Ui3nTabs,
   Ui3nTabsProps,
   Ui3nTabsEmits,

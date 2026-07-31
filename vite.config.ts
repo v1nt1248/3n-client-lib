@@ -32,7 +32,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
+      '@': resolve(import.meta.dirname, 'src'),
     },
   },
   build: {
@@ -41,9 +41,9 @@ export default defineConfig({
     emptyOutDir: true,
     lib: {
       entry: {
-        'ui3n-components': resolve(__dirname, 'src/ui3n-components.ts'),
-        'ui3n-plugins': resolve(__dirname, 'src/ui3n-plugins.ts'),
-        'ui3n-utils': resolve(__dirname, 'src/ui3n-utils.ts'),
+        'ui3n-components': resolve(import.meta.dirname, 'src/ui3n-components.ts'),
+        'ui3n-plugins': resolve(import.meta.dirname, 'src/ui3n-plugins.ts'),
+        'ui3n-utils': resolve(import.meta.dirname, 'src/ui3n-utils.ts'),
       },
       formats: ['es'],
       name: 'Ui3nLib',

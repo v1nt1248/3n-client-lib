@@ -7,7 +7,7 @@
       <template #item="{ value, index }">
         <div class="item">
           <span class="index">#{{ index + 1 }}</span>
-          <span class="value">{{ value }}</span>
+          <span class="value">{{ value.label }}</span>
         </div>
       </template>
     </Ui3nVirtualScroll>
@@ -15,7 +15,11 @@
 </template>
 
 <script setup lang="ts">
-  const items = Array.from({ length: 10000 }, (_, i) => `Item ${i + 1}`);
+  // Every item needs an id: it keys the measured heights and the scroll anchor
+  const items = Array.from({ length: 10000 }, (_, i) => ({
+    id: (i + 1).toString(),
+    label: `Item ${i + 1}`,
+  }));
 </script>
 
 <style scoped>
