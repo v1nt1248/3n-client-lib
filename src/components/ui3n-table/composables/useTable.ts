@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import size from 'lodash/size';
 import cloneDeep from 'lodash/cloneDeep';
-import {
+import type {
   Ui3nTableBodyBaseItem,
   Ui3nTableConfig,
   Ui3nTableEmits,

@@ -194,9 +194,7 @@
             ]"
             :style="[
               h.headCellStyle,
-              hIndex < stickyColumnsCount
-                ? { left: stickyColumnLefts[hIndex], zIndex: 6 + hIndex }
-                : undefined,
+              hIndex < stickyColumnsCount ? { left: stickyColumnLefts[hIndex], zIndex: 6 + hIndex } : undefined,
             ]"
           >
             <div
@@ -314,6 +312,7 @@
       </div>
     </div>
   </Ui3nScrollbar>
+
   <div
     v-else
     ref="tableEl"
@@ -376,9 +375,7 @@
           ]"
           :style="[
             h.headCellStyle,
-            hIndex < stickyColumnsCount
-              ? { left: stickyColumnLefts[hIndex], zIndex: 6 + hIndex }
-              : undefined,
+            hIndex < stickyColumnsCount ? { left: stickyColumnLefts[hIndex], zIndex: 6 + hIndex } : undefined,
           ]"
         >
           <div
