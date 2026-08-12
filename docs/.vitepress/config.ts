@@ -91,6 +91,7 @@ export default defineConfig({
             link: '/components/ui3n-scrollbar-horizontal/ui3n-scrollbar-horizontal',
           },
           { text: 'Ui3nScrollbarVertical', link: '/components/ui3n-scrollbar-vertical/ui3n-scrollbar-vertical' },
+          { text: 'Ui3nScrollbar', link: '/components/ui3n-scrollbar/ui3n-scrollbar' },
           { text: 'Ui3nSelector', link: '/components/ui3n-selector/ui3n-selector' },
           { text: 'Ui3nSlider', link: '/components/ui3n-slider/ui3n-slider' },
           { text: 'Ui3nStepLineBar', link: '/components/ui3n-step-line-bar/ui3n-step-line-bar' },
