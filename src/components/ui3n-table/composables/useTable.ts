@@ -1,9 +1,9 @@
-import { computed, type Ref, ref, watch, UnwrapRef } from 'vue';
+import { computed, type Ref, ref, watch, UnwrapRef, onBeforeUnmount } from 'vue';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import size from 'lodash/size';
 import cloneDeep from 'lodash/cloneDeep';
-import {
+import type {
   Ui3nTableBodyBaseItem,
   Ui3nTableConfig,
   Ui3nTableEmits,
@@ -12,7 +12,21 @@ import {
 } from '@/components/ui3n-table/types';
 import type { Ui3nCheckboxValue } from '@/components/ui3n-checkbox/types';
 
-export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<T>, emits: Ui3nTableEmits<T>) {
+const ABSOLUTE_CSS_SIZE_RE = /^-?\d+(\.\d+)?(px|rem|em|ch|ex|cm|mm|in|pt|pc)$/i;
+
+export function isAbsoluteCssSize(value: string): boolean {
+  if (!value || typeof value !== 'string') {
+    return false;
+  }
+
+  return ABSOLUTE_CSS_SIZE_RE.test(value.trim());
+}
+
+export function useTable<T extends Ui3nTableBodyBaseItem>(
+  props: Ui3nTableProps<T>,
+  emits: Ui3nTableEmits<T>,
+  scrollbarContainerRef?: Ref<HTMLDivElement | null>,
+) {
   const tableEl = ref<HTMLDivElement | null>(null);
   const currentConfig = ref<Pick<Ui3nTableConfig<T>, 'sortOrder' | 'fieldAsRowKey'>>({
     sortOrder: setInitialSortOrder(),
@@ -22,6 +36,9 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     ? ref([])
     : (ref(new Set()) as Ref<Set<T>>);
   const hasGroupActionsRow = ref(false);
+  const scrollportWidth = ref<number | null>(null);
+
+  let resizeObserver: ResizeObserver | null = null;
 
   const isRowKeyUsed = computed(() => !!currentConfig.value.fieldAsRowKey);
   const visibleColumns = computed(() => props.head.filter(h => !h.hidden));
@@ -37,6 +54,77 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
   );
   const showGroupActionsRow = computed(() => props.config?.selectable === 'multiple' && hasGroupActionsRow.value);
 
+  function getInvalidStickyColumnWidths(): Array<{ key: string; width: string }> {
+    const { columnStyle } = props.config ?? {};
+    const invalid: Array<{ key: string; width: string }> = [];
+
+    for (const h of visibleColumns.value) {
+      const width = get(columnStyle, [h.key, 'width'], '') as string;
+      if (!isAbsoluteCssSize(width)) {
+        invalid.push({ key: String(h.key), width: width || '(missing)' });
+      }
+    }
+
+    return invalid;
+  }
+
+  const stickyColumnsRequested = computed(() => {
+    const n = Number(props.config?.stickyColumns);
+    if (!Number.isFinite(n) || n < 1) {
+      return 0;
+    }
+
+    return Math.floor(n);
+  });
+
+  const stickyColumnsCount = computed(() => {
+    if (!stickyColumnsRequested.value) {
+      return 0;
+    }
+
+    const max = Math.max(0, visibleColumns.value.length - 1);
+    if (!max) {
+      return 0;
+    }
+
+    if (getInvalidStickyColumnWidths().length) {
+      return 0;
+    }
+
+    return Math.min(stickyColumnsRequested.value, max);
+  });
+
+  const stickyColumnsActive = computed(() => stickyColumnsCount.value > 0);
+
+  const stickyColumnLefts = computed(() => {
+    const count = stickyColumnsCount.value;
+    if (!count) {
+      return [] as string[];
+    }
+
+    const { columnStyle } = props.config ?? {};
+    const widths = visibleColumns.value.slice(0, count).map(h => {
+      return (get(columnStyle, [h.key, 'width'], '0px') as string).trim();
+    });
+
+    const lefts: string[] = [];
+    for (let i = 0; i < count; i++) {
+      if (i === 0) {
+        lefts.push('0px');
+        continue;
+      }
+
+      if (i === 1) {
+        lefts.push(widths[0]);
+        continue;
+      }
+
+      lefts.push(`calc(${widths.slice(0, i).join(' + ')})`);
+    }
+
+    return lefts;
+  });
+
   const tableColumnWidth = computed(() => {
     if (!tableEl.value) {
       return '100%';
@@ -45,8 +133,12 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     const { config = {}, head } = props;
     const { columnStyle } = config;
     const keys = head.filter(h => !h.hidden).map(h => h.key);
+    const useAbsolute = stickyColumnsActive.value;
+
     return keys.reduce((res, key, index) => {
-      const width = get(columnStyle, [key, 'width'], '1fr');
+      const width = useAbsolute
+        ? (get(columnStyle, [key, 'width']) as string)
+        : (get(columnStyle, [key, 'width'], '1fr') as string);
       res = index === 0 ? `${width}` : `${res} ${width}`;
       return res;
     }, '');
@@ -220,6 +312,29 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     emits('select:row', []);
   }
 
+  function disconnectScrollportObserver() {
+    resizeObserver?.disconnect();
+    resizeObserver = null;
+  }
+
+  function syncScrollportObserver() {
+    disconnectScrollportObserver();
+
+    const el = scrollbarContainerRef?.value ?? tableEl.value;
+    if (!el || !stickyColumnsActive.value) {
+      scrollportWidth.value = null;
+      return;
+    }
+
+    const updateWidth = () => {
+      scrollportWidth.value = el.clientWidth;
+    };
+
+    updateWidth();
+    resizeObserver = new ResizeObserver(updateWidth);
+    resizeObserver.observe(el);
+  }
+
   watch(
     () => props.config?.tableName,
     newTableName => {
@@ -229,18 +344,6 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     },
   );
 
-  // watch(
-  //   tableColumnWidth,
-  //   (val, oVal) => {
-  //     if (val && val !== oVal) {
-  //       tableEl.value && tableEl.value.style.setProperty('--ui3n-table-columns-width', val);
-  //     }
-  //   },
-  //   {
-  //     immediate: true,
-  //   },
-  // );
-
   watch(
     () => selectedRowsSize.value,
     (val, oldVal) => {
@@ -249,6 +352,52 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
       }
     },
   );
+
+  watch(
+    () => ({
+      requested: stickyColumnsRequested.value,
+      tableName: props.config?.tableName,
+      visibleCount: visibleColumns.value.length,
+      columnKeys: visibleColumns.value.map(h => String(h.key)).join('\0'),
+      widths: visibleColumns.value
+        .map(h => `${String(h.key)}=${get(props.config?.columnStyle, [h.key, 'width'], '')}`)
+        .join('\0'),
+    }),
+    ({ requested, tableName, visibleCount }) => {
+      if (!requested) {
+        return;
+      }
+
+      const tableLabel = tableName ? ` tableName="${tableName}"` : '';
+      const max = Math.max(0, visibleCount - 1);
+
+      if (requested > max) {
+        console.warn(
+          `[Ui3nTable] stickyColumns clamped:${tableLabel} requested=${requested}, max=${max} (visibleColumns.length - 1).`,
+        );
+      }
+
+      const invalid = getInvalidStickyColumnWidths();
+      if (!invalid.length) {
+        return;
+      }
+
+      const details = invalid.map(({ key, width }) => `key="${key}" width="${width}"`).join(', ');
+      console.warn(
+        `[Ui3nTable] stickyColumns disabled:${tableLabel} column width must be an absolute CSS length.\nInvalid: ${details}`,
+      );
+    },
+    { immediate: true },
+  );
+
+  watch([tableEl, stickyColumnsActive, scrollbarContainerRef], syncScrollportObserver, {
+    immediate: true,
+    flush: 'post',
+  });
+
+  onBeforeUnmount(() => {
+    disconnectScrollportObserver();
+  });
 
   return {
     tableEl,
@@ -261,6 +410,10 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(props: Ui3nTableProps<
     selectedRows,
     selectedRowsArray,
     selectedRowsSize,
+    stickyColumnsActive,
+    stickyColumnsCount,
+    stickyColumnLefts,
+    scrollportWidth,
     closeGroupActionsRow,
     getRowKey,
     isRowSelected,

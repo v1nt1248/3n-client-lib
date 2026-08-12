@@ -155,6 +155,16 @@ import type {
   Ui3nScrollbarHorizontalSlots,
   Ui3nScrollbarHorizontalExpose,
 } from './ui3n-scrollbar-horizontal/types';
+import Ui3nScrollbar from './ui3n-scrollbar/ui3n-scrollbar.vue';
+import type {
+  Ui3nScrollbarProps,
+  Ui3nScrollbarEmits,
+  Ui3nScrollbarSlots,
+  Ui3nScrollbarExpose,
+  Ui3nScrollbarAxes,
+  Ui3nScrollbarVerticalOptions,
+  Ui3nScrollbarHorizontalOptions,
+} from './ui3n-scrollbar/types';
 
 export {
   Ui3nIcon,
@@ -311,4 +321,12 @@ export {
   Ui3nScrollbarHorizontalEmits,
   Ui3nScrollbarHorizontalSlots,
   Ui3nScrollbarHorizontalExpose,
+  Ui3nScrollbar,
+  Ui3nScrollbarProps,
+  Ui3nScrollbarEmits,
+  Ui3nScrollbarSlots,
+  Ui3nScrollbarExpose,
+  Ui3nScrollbarAxes,
+  Ui3nScrollbarVerticalOptions,
+  Ui3nScrollbarHorizontalOptions,
 };

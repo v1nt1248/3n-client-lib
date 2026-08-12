@@ -6,8 +6,9 @@ stages:
 
 prep:
   stage: prep
-  image: node-20_pnpm-9.3.0
+  image: deno_node-22_pnpm-10.18.3
   script:
+    - npm install -g pnpm@11.18.0
     - pnpm i --frozen-lockfile
   artifacts:
     paths:
@@ -17,7 +18,7 @@ prep:
 
 build module:
   stage: build
-  image: node-20_pnpm-9.3.0
+  image: deno_node-22_pnpm-10.18.3
   needs:
     - prep
   script:
@@ -30,7 +31,7 @@ build module:
 
 build docs:
   stage: build
-  image: node-20_pnpm-9.3.0
+  image: deno_node-22_pnpm-10.18.3
   needs:
     - prep
   script:
@@ -53,7 +54,7 @@ publish docs:
 
 publish to npm:
   stage: publish
-  image: node-20_pnpm-9.3.0
+  image: deno_node-22_pnpm-10.18.3
   needs:
     - prep
     - build module
