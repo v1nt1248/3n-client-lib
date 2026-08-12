@@ -59,6 +59,48 @@ export type Ui3nTableConfig<T extends Ui3nTableBodyBaseItem, K extends keyof T =
    * Minimum height for unused place
    */
   minHeightUnusedPlace?: number | string;
+  /**
+   * Number of leading visible columns to pin on horizontal scroll.
+   * `0` / omitted — off. Clamped to at most `visibleColumns.length - 1`.
+   * Requires absolute widths (e.g. px/rem) on all visible columns when > 0.
+   * @default 0
+   */
+  stickyColumns?: number;
+  /**
+   * Custom scrollbar settings.
+   * When omitted, native browser overflow is used.
+   */
+  scrollbar?: {
+    /**
+     * Which overflow axes to enable.
+     * @default 'both'
+     */
+    axes?: 'vertical' | 'horizontal' | 'both';
+    vertical?: {
+      thumbMinHeight?: number | string;
+      thumbHeight?: number | string | 'auto';
+      thumbRadius?: number | string;
+      thumbColor?: string;
+      thumbHoverColor?: string;
+      thumbActiveColor?: string;
+      trackWidth?: number;
+      trackRadius?: number | string;
+      trackColor?: string;
+      /** Offset of vertical track from top (usually set by table for sticky header). */
+      trackOffsetTop?: number | string;
+    };
+    horizontal?: {
+      thumbMinWidth?: number | string;
+      thumbWidth?: number | string | 'auto';
+      thumbRadius?: number | string;
+      thumbColor?: string;
+      thumbHoverColor?: string;
+      thumbActiveColor?: string;
+      trackHeight?: number | string;
+      trackRadius?: number | string;
+      trackColor?: string;
+    };
+  };
 };
 
 /**
@@ -201,6 +243,16 @@ export type Ui3nTableBodyRowSlotScope<T extends Ui3nTableBodyBaseItem, K extends
    * Column styles
    */
   columnStyle?: { [P in Omit<K, 'id'> as string | number]: Record<string, string> };
+  /**
+   * Effective sticky column count after validation/clamp (`0` = off).
+   * Custom `#row`: first `stickyColumnsCount` direct children should be sticky cells
+   * with `left: stickyColumnLefts[i]`.
+   */
+  stickyColumnsCount?: number;
+  /**
+   * CSS `left` values for sticky columns `[0 .. stickyColumnsCount - 1]`.
+   */
+  stickyColumnLefts?: string[];
   /**
    * Events
    */

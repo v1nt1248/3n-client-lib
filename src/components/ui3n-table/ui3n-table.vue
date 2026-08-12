@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T extends Ui3nTableBodyBaseItem">
   import size from 'lodash/size';
+  import { computed, onBeforeUnmount, ref, watch } from 'vue';
   import { useTable } from './composables/useTable';
   import type {
     Ui3nTableBodyBaseItem,
@@ -11,10 +12,17 @@
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
   import Ui3nCheckbox from '../ui3n-checkbox/ui3n-checkbox.vue';
   import Ui3nTableSortIcon from './ui3n-table-sort-icon.vue';
+  import Ui3nScrollbar from '../ui3n-scrollbar/ui3n-scrollbar.vue';
 
   const props = defineProps<Ui3nTableProps<T>>();
   const emits = defineEmits<Ui3nTableEmits<T>>();
   defineSlots<Ui3nTableSlots<T, string & keyof T>>();
+
+  const scrollbarRef = ref<InstanceType<typeof Ui3nScrollbar> | null>(null);
+  const scrollbarContainer = computed(() => scrollbarRef.value?.getContainer() ?? null);
+  const headerEl = ref<HTMLDivElement | null>(null);
+  const headerHeight = ref(0);
+  let headerResizeObserver: ResizeObserver | null = null;
 
   const {
     tableEl,
@@ -27,6 +35,10 @@
     selectedRows,
     selectedRowsArray,
     selectedRowsSize,
+    stickyColumnsActive,
+    stickyColumnsCount,
+    stickyColumnLefts,
+    scrollportWidth,
     closeGroupActionsRow,
     getRowKey,
     isRowSelected,
@@ -35,11 +47,69 @@
     toggleSelectedRows,
     changeSortOrder,
     clear,
-  } = useTable(props, emits);
+  } = useTable(props, emits, scrollbarContainer);
 
   const eventHandlers = {
     select: processSelection,
   };
+
+  const scrollbarAxes = computed(() => props.config?.scrollbar?.axes ?? 'both');
+
+  const scrollbarVertical = computed(() => {
+    const base = props.config?.scrollbar?.vertical ?? {};
+    const axes = scrollbarAxes.value;
+    const needsVerticalOffset = axes === 'vertical' || axes === 'both';
+
+    if (!needsVerticalOffset || !headerHeight.value) {
+      return base;
+    }
+
+    return {
+      ...base,
+      trackOffsetTop: headerHeight.value,
+    };
+  });
+
+  const tableStyle = computed(() => {
+    const style: Record<string, string> = {
+      '--ui3n-table-columns-width': tableColumnWidth.value,
+    };
+
+    if (scrollportWidth.value != null) {
+      style['--ui3n-table-scrollport-width'] = `${scrollportWidth.value}px`;
+    }
+
+    return style;
+  });
+
+  function syncHeaderObserver() {
+    headerResizeObserver?.disconnect();
+    headerResizeObserver = null;
+
+    const el = headerEl.value;
+    if (!el || !props.config?.scrollbar) {
+      headerHeight.value = 0;
+      return;
+    }
+
+    const update = () => {
+      headerHeight.value = el.offsetHeight;
+    };
+
+    update();
+    headerResizeObserver = new ResizeObserver(update);
+    headerResizeObserver.observe(el);
+  }
+
+  watch([headerEl, () => props.config?.scrollbar, showGroupActionsRow], syncHeaderObserver, {
+    immediate: true,
+    flush: 'post',
+  });
+
+  onBeforeUnmount(() => {
+    headerResizeObserver?.disconnect();
+    headerResizeObserver = null;
+  });
 
   defineExpose<Ui3nTableExpose<T>>({
     getRowStyle,
@@ -52,10 +122,202 @@
 </script>
 
 <template>
+  <Ui3nScrollbar
+    v-if="config?.scrollbar"
+    ref="scrollbarRef"
+    :class="$style.tableHost"
+    :axes="scrollbarAxes"
+    :vertical="scrollbarVertical"
+    :horizontal="config.scrollbar.horizontal"
+  >
+    <div
+      ref="tableEl"
+      :style="tableStyle"
+      :class="[$style.ui3nTable, $style.ui3nTableInsideScrollbar, stickyColumnsActive && $style.stickyColumns]"
+    >
+      <fieldset
+        v-if="config?.tableName && selectedRowsSize > 0"
+        :class="$style.hiddenBlock"
+      >
+        <input
+          v-for="(row, rowIndex) in selectedRowsArray"
+          :key="getRowKey(row, rowIndex)"
+          type="hidden"
+          :name="config.selectable === 'multiple' ? `${config.tableName}[]` : config.tableName"
+          :value="String(getRowKey(row, rowIndex))"
+        />
+      </fieldset>
+
+      <div
+        ref="headerEl"
+        :class="[$style.header, showGroupActionsRow && $style.withGroupActions]"
+      >
+        <!-- group actions -->
+        <div
+          v-if="showGroupActionsRow"
+          :class="$style.groupActions"
+        >
+          <ui3n-checkbox
+            :indeterminate="selectedRowsSize < body.content.length && selectedRowsSize !== 0"
+            :model-value="selectedRowsSize === body.content.length"
+            @change="toggleSelectedRows"
+          >
+            Selected: {{ selectedRowsSize }}
+          </ui3n-checkbox>
+
+          <div :class="$style.groupActionsBody">
+            <slot
+              name="group-actions"
+              :selected-rows="selectedRowsArray"
+            />
+          </div>
+
+          <ui3n-button
+            type="secondary"
+            @click="closeGroupActionsRow"
+          >
+            Cancel
+          </ui3n-button>
+        </div>
+        <!-- table header  -->
+        <template
+          v-for="(h, hIndex) in visibleColumns"
+          :key="h.key"
+        >
+          <div
+            :class="[
+              $style.headerItemWrapper,
+              hIndex === 0 && $style.headerItemFirst,
+              hIndex < stickyColumnsCount && $style.headerItemSticky,
+              h.sortable && $style.sortable,
+              h.sortable && currentConfig.sortOrder?.field === h.key && $style.sortableActive,
+            ]"
+            :style="[
+              h.headCellStyle,
+              hIndex < stickyColumnsCount ? { left: stickyColumnLefts[hIndex], zIndex: 6 + hIndex } : undefined,
+            ]"
+          >
+            <div
+              :class="$style.headerItem"
+              :style="h.headCellStyle"
+              v-on="h.sortable ? { click: () => changeSortOrder(h.key) } : {}"
+            >
+              <slot :name="`header-cell-${h.key as string & keyof T}`">
+                <span :class="$style.headerText">
+                  {{ h.text }}
+                </span>
+              </slot>
+              <ui3n-table-sort-icon
+                v-if="h.sortable && currentConfig.sortOrder?.field === h.key"
+                :value="currentConfig.sortOrder?.direction"
+                size="16"
+              />
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- table: body -->
+      <div :class="$style.body">
+        <template v-if="config?.showNoDataMessage && !size(body.content)">
+          <slot name="no-data">
+            <div :class="$style.noData">No data</div>
+          </slot>
+        </template>
+
+        <template v-else>
+          <template v-if="$slots['row']">
+            <div
+              v-for="(row, rowIndex) in body.content"
+              :key="getRowKey(row, rowIndex)"
+              :class="[
+                $style.row,
+                $slots['row'] && $style.customRow,
+                isRowSelected(row) && $style.selected,
+                config.selectable && $style.selectable,
+              ]"
+            >
+              <slot
+                name="row"
+                :row="row"
+                :row-style="getRowStyle(row)"
+                :row-index="rowIndex"
+                :is-row-selected="isRowSelected(row)"
+                :column-style="config?.columnStyle"
+                :sticky-columns-count="stickyColumnsCount"
+                :sticky-column-lefts="stickyColumnLefts"
+                :events="eventHandlers"
+              />
+            </div>
+          </template>
+
+          <template v-else>
+            <div
+              v-for="(row, rowIndex) in body.content"
+              :key="getRowKey(row, rowIndex)"
+              :class="[$style.row, isRowSelected(row) && $style.selected, config.selectable && $style.selectable]"
+              :style="getRowStyle(row)"
+            >
+              <div
+                v-if="config.selectable"
+                :class="$style.rowCheckbox"
+              >
+                <ui3n-checkbox
+                  :model-value="isRowSelected(row)"
+                  @change="processSelection(row)"
+                />
+              </div>
+
+              <template
+                v-for="(col, colIndex) in visibleColumns"
+                :key="col.key"
+              >
+                <div
+                  :class="[
+                    $style.bodyItem,
+                    colIndex === 0 && $style.bodyItemFirst,
+                    colIndex < stickyColumnsCount && $style.bodyItemSticky,
+                  ]"
+                  :style="
+                    colIndex < stickyColumnsCount
+                      ? { left: stickyColumnLefts[colIndex], zIndex: 2 + colIndex }
+                      : undefined
+                  "
+                >
+                  <slot
+                    :name="`row-cell-${col.key as string & keyof T}`"
+                    :row="row"
+                    :row-index="rowIndex"
+                    :is-row-selected="isRowSelected(row)"
+                    :column-style="config?.columnStyle"
+                    :cell="row[col.key]"
+                  >
+                    <span :class="$style.cell">
+                      {{ col.format ? col.format(row[col.key]) : row[col.key] }}
+                    </span>
+                  </slot>
+                </div>
+              </template>
+            </div>
+          </template>
+        </template>
+      </div>
+
+      <!-- table: unused space-->
+      <div
+        :class="$style.unusedPlace"
+        :style="unusedPlaceCssStyle"
+      >
+        <slot name="unused-place" />
+      </div>
+    </div>
+  </Ui3nScrollbar>
+
   <div
+    v-else
     ref="tableEl"
-    :style="{ '--ui3n-table-columns-width': tableColumnWidth }"
-    :class="$style.ui3nTable"
+    :style="tableStyle"
+    :class="[$style.ui3nTable, stickyColumnsActive && $style.stickyColumns]"
   >
     <fieldset
       v-if="config?.tableName && selectedRowsSize > 0"
@@ -100,16 +362,21 @@
       </div>
       <!-- table header  -->
       <template
-        v-for="h in visibleColumns"
+        v-for="(h, hIndex) in visibleColumns"
         :key="h.key"
       >
         <div
           :class="[
             $style.headerItemWrapper,
+            hIndex === 0 && $style.headerItemFirst,
+            hIndex < stickyColumnsCount && $style.headerItemSticky,
             h.sortable && $style.sortable,
             h.sortable && currentConfig.sortOrder?.field === h.key && $style.sortableActive,
           ]"
-          :style="h.headCellStyle"
+          :style="[
+            h.headCellStyle,
+            hIndex < stickyColumnsCount ? { left: stickyColumnLefts[hIndex], zIndex: 6 + hIndex } : undefined,
+          ]"
         >
           <div
             :class="$style.headerItem"
@@ -158,6 +425,8 @@
               :row-index="rowIndex"
               :is-row-selected="isRowSelected(row)"
               :column-style="config?.columnStyle"
+              :sticky-columns-count="stickyColumnsCount"
+              :sticky-column-lefts="stickyColumnLefts"
               :events="eventHandlers"
             />
           </div>
@@ -184,7 +453,18 @@
               v-for="(col, colIndex) in visibleColumns"
               :key="col.key"
             >
-              <div :class="[$style.bodyItem, colIndex === 0 && $style.bodyItemFirst]">
+              <div
+                :class="[
+                  $style.bodyItem,
+                  colIndex === 0 && $style.bodyItemFirst,
+                  colIndex < stickyColumnsCount && $style.bodyItemSticky,
+                ]"
+                :style="
+                  colIndex < stickyColumnsCount
+                    ? { left: stickyColumnLefts[colIndex], zIndex: 2 + colIndex }
+                    : undefined
+                "
+              >
                 <slot
                   :name="`row-cell-${col.key as string & keyof T}`"
                   :row="row"
@@ -217,6 +497,13 @@
 <style lang="scss" module>
   @use '@/assets/styles/mixins.scss' as mixins;
 
+  .tableHost {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
   .ui3nTable {
     --ui3n-table-columns-width: auto;
     --ui3n-table-base-head-height: 36px;
@@ -243,6 +530,24 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
+  }
+
+  /* Scroll lives on Ui3nScrollbar; overflow must stay visible so sticky sticks to scrollport. */
+  .ui3nTableInsideScrollbar {
+    width: max-content;
+    min-width: 100%;
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
+
+    &.stickyColumns {
+      overflow: visible;
+
+      .body {
+        width: max-content;
+        min-width: 100%;
+      }
+    }
   }
 
   .hiddenBlock {
@@ -414,5 +719,70 @@
 
   .unusedPlace {
     flex-grow: 1;
+  }
+
+  .stickyColumns {
+    overflow: auto;
+
+    .header,
+    .row {
+      width: max-content;
+      min-width: 100%;
+      display: grid;
+      grid-template-columns: var(--ui3n-table-columns-width);
+    }
+
+    .header {
+      padding-left: 0;
+    }
+
+    .row:not(.customRow) {
+      padding-left: 0;
+    }
+
+    .row.customRow {
+      padding-left: 0;
+    }
+
+    .headerItemSticky {
+      position: sticky;
+      background-color: var(--ui3n-table-header-bg-color);
+    }
+
+    .headerItemFirst.headerItemSticky {
+      padding-left: var(--ui3n-table-padding-inline);
+    }
+
+    .headerItemWrapper:not(.headerItemFirst) {
+      padding: 0 calc(var(--ui3n-table-padding-inline) / 4);
+    }
+
+    .bodyItemSticky {
+      position: sticky;
+      background-color: var(--color-bg-table-cell-default);
+    }
+
+    .bodyItemFirst.bodyItemSticky {
+      padding-left: calc(var(--ui3n-table-padding-inline) + var(--ui3n-table-padding-inline) * 1.5);
+    }
+
+    .row:hover .bodyItemSticky {
+      background-color: var(--color-bg-control-primary-hover);
+    }
+
+    .row.selected .bodyItemSticky {
+      background-color: var(--ui3n-table-row-bg-color-selected);
+    }
+
+    .rowCheckbox {
+      position: sticky;
+      left: var(--ui3n-table-padding-inline);
+      z-index: 3;
+    }
+
+    .groupActions {
+      width: var(--ui3n-table-scrollport-width, 100%);
+      left: 0;
+    }
   }
 </style>

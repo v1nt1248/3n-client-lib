@@ -32,3 +32,4 @@ docs/.vitepress/cache
 /.ollamassist/
 .continueignore
 /plans/
+/.kilo
