@@ -46,6 +46,7 @@ export const iconList: string[] = [
   'outline-file-upload',
   'outline-folder',
   'outline-folder-open',
+  'outline-forward',
   'outline-hard-drive',
   'outline-heart-plus',
   'outline-image',
