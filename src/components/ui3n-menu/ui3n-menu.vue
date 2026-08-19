@@ -74,18 +74,18 @@
   });
 
   const contentStylesComputed = computed(() => {
-    let borderRadiusStr = '';
+    let contentBorderRadiusStr = '';
     if (typeof props.contentBorderRadius === 'number') {
-      borderRadiusStr = `${props.contentBorderRadius}px`;
+      contentBorderRadiusStr = `${props.contentBorderRadius}px`;
     } else if (Array.isArray(props.contentBorderRadius)) {
       const [tl, tr, br, bl] = props.contentBorderRadius;
-      borderRadiusStr = `${tl}px ${tr}px ${br}px ${bl}px`;
+      contentBorderRadiusStr = `${tl}px ${tr}px ${br}px ${bl}px`;
     }
 
     return {
       ...floatingStyles.value,
       '--ui3n-menu-zIndex': String(props.zIndex),
-      ...(borderRadiusStr && { '--ui3n-menu-border-radius': borderRadiusStr }),
+      ...(contentBorderRadiusStr && { '--ui3n-menu-content-border-radius': contentBorderRadiusStr }),
       ...(props.contentStyles || {}),
     };
   });
