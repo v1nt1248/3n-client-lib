@@ -26,6 +26,7 @@
     items: () => [],
     itemTitle: 'name',
     itemValue: 'id',
+    addNewValue: false,
   });
   const emits = defineEmits<Ui3nAutocompleteEmits<T>>();
   defineSlots<Ui3nAutocompleteSlots<T>>();
@@ -40,6 +41,7 @@
   const activeItemsIndex = ref<Nullable<number>>(null);
   const isLastChipHighlighted = ref(false);
   const isNewValueValid = ref(true);
+  const selectedFromMenu = ref(false);
 
   const ids = computed(() =>
     props.returnObject ? (props.modelValue as T[]).map(item => item.id) : (props.modelValue as Array<T[keyof T]>),
@@ -89,10 +91,58 @@
     activeItemsIndex.value = null;
     isLastChipHighlighted.value = false;
 
+    if (!selectedFromMenu.value) {
+      tryAddNewValue();
+    }
+
     setTimeout(() => {
       isMenuOpen.value = false;
       query.value = '';
+      selectedFromMenu.value = false;
     }, 150);
+  }
+
+  function tryAddNewValue(): boolean {
+    if (!props.addNewValue || props.disabled) return false;
+
+    const text = query.value.trim();
+    if (!text) return false;
+
+    isNewValueValid.value = !props.newValueValidator ? true : props.newValueValidator(text);
+    emits('valid:new-value', isNewValueValid.value);
+    if (!isNewValueValid.value) return false;
+
+    const item = {
+      id: getRandomId(6),
+      [props.itemTitle]: text,
+      [props.itemValue]: text,
+    } as unknown as T;
+
+    if (!props.multiple) {
+      const newValue = props.returnObject ? [item] : [item[props.itemValue]];
+      emits('update:modelValue', newValue);
+    } else {
+      const alreadyPresent = props.returnObject
+        ? (props.modelValue as T[]).some(
+            v => v[props.itemValue] === item[props.itemValue] || v[props.itemTitle] === item[props.itemTitle],
+          )
+        : props.modelValue.some(v => v === item[props.itemValue]);
+
+      if (!alreadyPresent) {
+        const updatedValue = cloneDeep(props.modelValue);
+        // @ts-ignore
+        updatedValue.push(props.returnObject ? item : item[props.itemValue]);
+        emits('update:modelValue', updatedValue);
+      }
+    }
+
+    isNewValueValid.value = true;
+    props.clearOnSelect && (query.value = '');
+    return true;
+  }
+
+  function onItemMouseDown() {
+    selectedFromMenu.value = true;
   }
 
   function onItemClick(item: T) {
@@ -155,7 +205,7 @@
     }
   }
 
-  function handlePressingEscOrTabKeys() {
+  function handlePressingEscKey() {
     emits('update:focused', false);
     isMenuOpen.value = false;
     activeItemsIndex.value = null;
@@ -164,34 +214,35 @@
     activatorEl.value && activatorEl.value.blur();
   }
 
+  function handlePressingTabKey() {
+    if (props.addNewValue) {
+      tryAddNewValue();
+    }
+
+    emits('update:focused', false);
+    isMenuOpen.value = false;
+    activeItemsIndex.value = null;
+    query.value = '';
+  }
+
   function handlePressingEnterKey() {
-    if (activeItemsIndex.value === null && !isMenuOpen.value) {
-      isMenuOpen.value = true;
-      activeItemsIndex.value = 0;
-      menuBodyEl.value && menuBodyEl.value.focus({ preventScroll: true });
-      return;
-    }
-
-    if (activeItemsIndex.value === null && isMenuOpen.value && query.value) {
-      isNewValueValid.value = !props.newValueValidator ? true : props.newValueValidator(query.value);
-      emits('valid:new-value', isNewValueValid.value);
-      if (isNewValueValid.value) {
-        const item = {
-          id: getRandomId(6),
-          [props.itemTitle]: query.value,
-          [props.itemValue]: query.value,
-        };
-        onItemClick(item as unknown as T);
-      }
-      props.clearOnSelect && (query.value = '');
-      return;
-    }
-
     if (activeItemsIndex.value !== null) {
       const item = filteredItems.value[activeItemsIndex.value!];
       onItemClick(item);
       activeItemsIndex.value = null;
       props.clearOnSelect && (query.value = '');
+      return;
+    }
+
+    if (props.addNewValue && query.value.trim()) {
+      tryAddNewValue();
+      return;
+    }
+
+    if (!isMenuOpen.value) {
+      isMenuOpen.value = true;
+      activeItemsIndex.value = 0;
+      menuBodyEl.value && menuBodyEl.value.focus({ preventScroll: true });
     }
   }
 
@@ -229,8 +280,11 @@
       }
 
       case 'esc':
+        handlePressingEscKey();
+        break;
+
       case 'tab':
-        handlePressingEscOrTabKeys();
+        handlePressingTabKey();
         break;
 
       case 'enter': {
@@ -251,6 +305,7 @@
     isMenuOpen.value = false;
     activeItemsIndex.value = null;
     isNewValueValid.value = true;
+    selectedFromMenu.value = false;
 
     emits('update:modelValue', [] as unknown as T[] & Array<T[keyof T]>);
     emits('update:search', '');
@@ -414,6 +469,7 @@
                   activeItemsIndex === index && $style.itemSelected,
                   disabled && $style.itemDisabled,
                 ]"
+                @mousedown="onItemMouseDown"
                 @click.stop.prevent="onItemClick(item)"
               >
                 <slot

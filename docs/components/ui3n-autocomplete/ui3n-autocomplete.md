@@ -112,7 +112,7 @@ Autocomplete component with search, multi-select, chips, and custom filtering ca
 
 <DemoBlock
   title="Add new value"
-  description="Allow adding new values with validation. Type a new tag and press Enter"
+  description="Allow adding new values with validation. Type a new tag and press Enter, Tab, or leave the field"
   :code="Example07Raw"
   hide-style-block
 >

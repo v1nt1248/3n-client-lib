@@ -19,18 +19,17 @@ docs/.vitepress/dist/*.*
 docs/.vitepress/cache
 
 # Editor directories and files
-.DS_Store
 .vscode/*
 !.vscode/extensions.json
 .idea
-.kilo
-.continueignore
+.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-.ollamassist
-plans
-
+/.ollamassist/
+.continueignore
+/plans/
+/.kilo
