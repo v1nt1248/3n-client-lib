@@ -16,6 +16,7 @@
     closeOnClick: true,
     closeOnClickOutside: true,
     disabled: false,
+    width: 'max-content',
   });
   const emits = defineEmits<Ui3nMenuEmits>();
   defineSlots<Ui3nMenuSlots>();
@@ -88,6 +89,13 @@
       ...(contentBorderRadiusStr && { '--ui3n-menu-content-border-radius': contentBorderRadiusStr }),
       ...(props.contentStyles || {}),
     };
+  });
+
+  const rootStyles = computed(() => {
+    const numericWidth = !isNaN(Number(props.width));
+    const widthStr = numericWidth ? `${props.width}px` : String(props.width);
+
+    return { width: widthStr };
   });
 
   function preventScrollEvent(e: Event) {
@@ -262,6 +270,7 @@
     ref="menu-element"
     :id="id"
     :class="$style.ui3nMenu"
+    :style="rootStyles"
     @click="emits('click', $event)"
   >
     <div
@@ -292,7 +301,6 @@
     --ui3n-menu-content-bg: var(--color-bg-control-secondary-default);
 
     position: relative;
-    width: max-content;
     display: inline-block;
     overflow: visible;
   }
