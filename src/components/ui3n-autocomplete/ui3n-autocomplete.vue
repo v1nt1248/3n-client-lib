@@ -392,7 +392,7 @@
         :class="$style.trigger"
       >
         <transition-group
-          v-if="chips"
+          v-if="chips && !isEmpty(modelValue)"
           name="chipAnim"
           tag="div"
           :class="$style.chipsContainer"
@@ -511,6 +511,7 @@
     --ui3n-autocomplete-border-radius: 4px;
 
     position: relative;
+    display: flex;
     width: 100%;
     min-height: var(--ui3n-autocomplete-min-height);
 
@@ -547,8 +548,8 @@
     border-radius: var(--ui3n-autocomplete-border-radius);
     padding: 0 var(--ui3n-autocomplete-padding-inline);
     flex: 1 1 60px;
+    min-width: 60px;
     height: var(--ui3n-autocomplete-min-height);
-    width: 100%;
     font-size: var(--ui3n-autocomplete-font-size);
     line-height: var(--ui3n-autocomplete-min-height);
     font-weight: 400;
@@ -628,6 +629,10 @@
     flex-wrap: wrap;
     gap: 4px;
     align-items: flex-start;
+
+    &:empty {
+      display: none;
+    }
   }
 
   .chipWrapper {
