@@ -323,6 +323,7 @@
 
     <ui3n-menu
       v-model="isMenuOpen"
+      width="100%"
       :lock-scroll="lockScroll"
       :offset-x="2"
       :offset-y="4"

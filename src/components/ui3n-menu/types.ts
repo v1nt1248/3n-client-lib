@@ -25,6 +25,11 @@ export interface Ui3nMenuProps {
    */
   id?: string;
   /**
+   * Root element width
+   * @default 'max-content'
+   */
+  width?: string | number;
+  /**
    * Menu open state
    */
   modelValue?: boolean;

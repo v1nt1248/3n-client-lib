@@ -259,6 +259,7 @@
 
     <ui3n-menu
       v-model="isMenuOpen"
+      width="100%"
       :offset-x="-3"
       :offset-y="4"
       position-autoupdate
@@ -399,8 +400,6 @@
   }
 
   .menu {
-    width: 100%;
-    max-width: 100% !important;
     border-radius: var(--ui3n-selector-border-radius);
 
     & > div {
