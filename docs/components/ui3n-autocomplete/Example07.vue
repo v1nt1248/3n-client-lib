@@ -20,7 +20,7 @@
     <ui3n-autocomplete
       v-model="value"
       :items="items"
-      placeholder="Type and press Enter to add tags"
+      placeholder="Type a tag and press Enter, Tab, or leave the field"
       multiple
       chips
       clear-on-select
@@ -28,7 +28,7 @@
       :new-value-validator="validateTag"
     />
     <div class="value-display">Tags: {{ value.join(', ') || 'none' }}</div>
-    <div class="hint">Type a new tag (2-20 chars) and press Enter to add it</div>
+    <div class="hint">Type a new tag (2-20 chars) and press Enter, Tab, or leave the field to add it</div>
   </div>
 </template>
 
