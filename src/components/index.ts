@@ -29,6 +29,7 @@ import type {
   Ui3nCheckboxValue,
 } from './ui3n-checkbox/types';
 import Ui3nNotification from './ui3n-notification/ui3n-notification.vue';
+import type { Ui3nNotificationProps } from './ui3n-notification/types';
 import Ui3nTableSortIcon from './ui3n-table/ui3n-table-sort-icon.vue';
 import Ui3nTable from './ui3n-table/ui3n-table.vue';
 import type {
@@ -205,6 +206,7 @@ export {
   Ui3nCheckboxExpose,
   Ui3nCheckboxValue,
   Ui3nNotification,
+  Ui3nNotificationProps,
   Ui3nTableSortIcon,
   Ui3nTableSortIconProps,
   Ui3nTable,
