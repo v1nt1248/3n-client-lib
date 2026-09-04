@@ -1,10 +1,10 @@
 import { getCurrentScope, onScopeDispose } from 'vue';
-import type { Fn } from '@/types';
+import type { Fn } from '../../types';
 
 export function tryOnScopeDispose(fn: Fn) {
   if (getCurrentScope()) {
-    onScopeDispose(fn)
-    return true
+    onScopeDispose(fn);
+    return true;
   }
-  return false
+  return false;
 }

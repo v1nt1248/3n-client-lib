@@ -1,5 +1,5 @@
 import { blobToB64 } from './blob-to-b64';
-import type { Nullable } from '@/types';
+import type { Nullable } from '../../types';
 
 export async function createVideoThumbnail(
   file: File,

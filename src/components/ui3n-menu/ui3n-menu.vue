@@ -2,7 +2,7 @@
   import { computed, onUnmounted, ref, watch, useTemplateRef } from 'vue';
   import { autoUpdate, flip, useFloating, offset, shift } from '@floating-ui/vue';
   import { default as vClickOutside } from '../../directives/ui3n-click-outside';
-  import { Nullable } from '@/types';
+  import type { Nullable } from '../../types/components.types';
   import type { Ui3nMenuEmits, Ui3nMenuProps, Ui3nMenuSlots, Ui3nMenuExpose, Ui3nVirtualElement } from './types';
 
   const props = withDefaults(defineProps<Ui3nMenuProps>(), {

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
   import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-  import type { Nullable } from '@/types';
-  import type { Ui3nTooltipProps, Ui3nTooltipEmits, Ui3nTooltipSlots } from './types';
   import { arrow, autoUpdate, offset, useFloating } from '@floating-ui/vue';
+  import type { Nullable } from '../../types';
+  import type { Ui3nTooltipProps, Ui3nTooltipEmits, Ui3nTooltipSlots } from './types';
 
   const baseOffset = 5;
 

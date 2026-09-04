@@ -2,8 +2,8 @@
   import { computed, ref, useTemplateRef, watch, ComputedRef } from 'vue';
   import cloneDeep from 'lodash/cloneDeep';
   import Ui3nTooltip from '../ui3n-tooltip/ui3n-tooltip.vue';
-  import { round } from '@/utils';
-  import type { Nullable } from '@/types';
+  import { round } from '../../utils';
+  import type { Nullable } from '../../types';
   import type { UI3nSliderProps, UI3nSliderEmits, UI3nSliderExpose } from './types';
 
   const props = withDefaults(defineProps<UI3nSliderProps>(), {

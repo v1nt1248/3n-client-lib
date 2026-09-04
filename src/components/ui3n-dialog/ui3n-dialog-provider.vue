@@ -1,8 +1,8 @@
 <script lang="ts" setup generic="V extends any, E extends string = never">
   /* eslint-disable @typescript-eslint/no-explicit-any */
   import { type Component, inject } from 'vue';
-  import type { DialogsPlugin } from '@/plugins';
-  import type { ExtractComponentProps } from '@/types';
+  import type { DialogsPlugin } from '../../plugins/dialogs/types';
+  import type { ExtractComponentProps } from '../../types/components.types';
   import type { Ui3nDialogComponentProps, Ui3nDialogEvent } from './types';
   import { DIALOGS_KEY } from '@/constants';
 

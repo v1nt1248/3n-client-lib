@@ -1,4 +1,4 @@
-import type { Task, TaskRunnerInstance } from '@/types';
+import type { Task, TaskRunnerInstance } from '../../types';
 import { schedulerYield } from './scheduler-yield';
 
 export class TaskRunner implements TaskRunnerInstance {

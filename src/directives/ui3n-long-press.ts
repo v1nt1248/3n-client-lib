@@ -1,5 +1,5 @@
 import type { DirectiveBinding, ObjectDirective } from 'vue';
-import { unrefElement } from '@/utils';
+import { unrefElement } from '../utils';
 
 export type Ui3nLongPressBindingValue = {
   handler: (event: PointerEvent) => void;
@@ -32,10 +32,7 @@ function getDir(binding: DirectiveBinding<Ui3nLongPressBindingValue>) {
   return binding.dir as Ui3nLongExtendedDirective;
 }
 
-function pointerdownEvent(
-  binding: DirectiveBinding<Ui3nLongPressBindingValue>,
-  event: PointerEvent,
-) {
+function pointerdownEvent(binding: DirectiveBinding<Ui3nLongPressBindingValue>, event: PointerEvent) {
   const { modifiers = {} as Ui3nLongPressModifiers, value = {} as Ui3nLongPressBindingValue } = binding;
   const { handler, delay = DEFAULT_DELAY } = value;
 
@@ -63,10 +60,7 @@ function pointerdownEvent(
   dir.timeout = setTimeout(() => handler(event), delay);
 }
 
-function pointerupEvent(
-  binding: DirectiveBinding<Ui3nLongPressBindingValue>,
-  event: PointerEvent,
-) {
+function pointerupEvent(binding: DirectiveBinding<Ui3nLongPressBindingValue>, event: PointerEvent) {
   const { modifiers = {} as Ui3nLongPressModifiers, value = {} as Ui3nLongPressBindingValue } = binding;
   const { onMouseUpCb } = value;
 
@@ -94,10 +88,7 @@ function pointerupEvent(
   }
 }
 
-function pointermoveEvent(
-  binding: DirectiveBinding<Ui3nLongPressBindingValue>,
-  event: PointerEvent,
-) {
+function pointermoveEvent(binding: DirectiveBinding<Ui3nLongPressBindingValue>, event: PointerEvent) {
   const { modifiers = {} as Ui3nLongPressModifiers, value = {} as Ui3nLongPressBindingValue } = binding;
   const { distanceThreshold = DEFAULT_THRESHOLD } = value;
 

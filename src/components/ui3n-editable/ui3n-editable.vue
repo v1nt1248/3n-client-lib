@@ -1,9 +1,9 @@
 <script lang="ts" setup>
   import { computed, nextTick, ref, watch } from 'vue';
-  import Ui3nIcon from '@/components/ui3n-icon/ui3n-icon.vue';
-  import Ui3nRipple from '@/directives/ui3n-ripple';
-  import Ui3nClickOutside from '@/directives/ui3n-click-outside';
-  import type { Nullable } from '@/types';
+  import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
+  import Ui3nRipple from '../../directives/ui3n-ripple';
+  import Ui3nClickOutside from '../../directives/ui3n-click-outside';
+  import type { Nullable } from '../../types/components.types';
   import type { Ui3nEditableProps, Ui3nEditableEmits, Ui3nEditableExpose } from './types';
 
   const vUi3nRipple = Ui3nRipple;

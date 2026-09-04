@@ -1,7 +1,7 @@
 <!-- @strictTemplates false -->
 <script lang="ts" setup>
   import { onMounted, ref, watch } from 'vue';
-  import { patchTextareaMaxRowsSupport } from '@/utils';
+  import { patchTextareaMaxRowsSupport } from '../../utils';
   import type { Ui3nTextEmits, Ui3nTextProps, Ui3nTextExpose } from './types';
 
   const props = withDefaults(defineProps<Ui3nTextProps>(), {

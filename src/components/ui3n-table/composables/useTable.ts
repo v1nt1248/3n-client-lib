@@ -9,8 +9,8 @@ import type {
   Ui3nTableEmits,
   Ui3nTableProps,
   Ui3nTableSort,
-} from '@/components/ui3n-table/types';
-import type { Ui3nCheckboxValue } from '@/components/ui3n-checkbox/types';
+} from '../types';
+import type { Ui3nCheckboxValue } from '../../ui3n-checkbox/types';
 
 const ABSOLUTE_CSS_SIZE_RE = /^-?\d+(\.\d+)?(px|rem|em|ch|ex|cm|mm|in|pt|pc)$/i;
 

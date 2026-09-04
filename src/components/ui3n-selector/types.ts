@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { VNode } from 'vue';
-import type { PrepareComponentEmits, Nullable } from '@/types';
+import type { PrepareComponentEmits, Nullable } from '../../types';
 
 /**
  * Base selector option interface

@@ -1,8 +1,8 @@
 import { onMounted, ref, watch } from 'vue';
 import debounce from 'lodash/debounce';
 import sanitizeHtml from 'sanitize-html';
-import { selectAll } from '@/utils';
-import type { Nullable } from '@/types';
+import { selectAll } from '../../utils';
+import type { Nullable } from '../../types/components.types';
 import type { Ui3nContentEditableEmits, Ui3nContentEditableProps } from './types';
 
 export function useContentEditable(props: Ui3nContentEditableProps, emits: Ui3nContentEditableEmits) {

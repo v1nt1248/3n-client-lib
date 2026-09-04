@@ -1,5 +1,5 @@
 import type { VNode } from 'vue';
-import type { Ui3nIconField } from '@/types';
+import type { Ui3nIconField } from '../../types/components.types';
 
 /**
  * Dialog event base types

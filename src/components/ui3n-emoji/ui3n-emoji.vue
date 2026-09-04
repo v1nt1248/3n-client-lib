@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { computed, ref, watch } from 'vue';
-  import { emoticons } from '@/constants/emoticons';
+  import { emoticons } from '../../constants/emoticons';
   import type { Ui3nEmojiEmits, Ui3nEmojiProps } from './types';
 
   const props = withDefaults(defineProps<Ui3nEmojiProps>(), {

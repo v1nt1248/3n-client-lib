@@ -1,7 +1,7 @@
 import type { DirectiveBinding } from 'vue';
 import { autoUpdate, computePosition, offset } from '@floating-ui/dom';
-import { getRandomId } from '@/utils';
-import type { Nullable } from '@/types';
+import { getRandomId } from '../utils';
+import type { Nullable } from '../types';
 
 export type Ui3nTitleDirectivePlacement =
   | 'top'

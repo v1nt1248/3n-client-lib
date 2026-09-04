@@ -3,8 +3,8 @@
   import size from 'lodash/size';
   import last from 'lodash/last';
   import trim from 'lodash/trim';
-  import { getRandomId, formatFileSize } from '@/utils';
-  import type { Nullable } from '@/types';
+  import { getRandomId, formatFileSize } from '../../utils';
+  import type { Nullable } from '../../types/components.types';
   import type { Ui3nInputFileProps, Ui3nInputFileEmits, Ui3nInputFileSlots, Ui3nInputFileExpose } from './types';
 
   const props = withDefaults(defineProps<Ui3nInputFileProps>(), {

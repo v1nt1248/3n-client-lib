@@ -1,6 +1,6 @@
 /*  eslint-disable @typescript-eslint/no-explicit-any */
 import type { Component, Ref } from 'vue';
-import type { ExtractComponentProps } from '@/types';
+import type { ExtractComponentProps } from '../../types/components.types';
 import type { Ui3nDialogEvent } from '../../components/ui3n-dialog/types';
 
 export interface DialogOptions<V, E extends string = never> {

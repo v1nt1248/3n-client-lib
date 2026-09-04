@@ -2,8 +2,8 @@
   import { ref, computed, type ComputedRef, useTemplateRef, watch } from 'vue';
   import isEmpty from 'lodash/isEmpty';
   import size from 'lodash/size';
-  import { getRandomId } from '@/utils';
-  import type { Nullable } from '@/types';
+  import { getRandomId } from '../../utils';
+  import type { Nullable } from '../../types';
   import type {
     Ui3nSelectorOptionBase,
     Ui3nSelectorProps,
