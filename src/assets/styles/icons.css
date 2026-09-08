@@ -2,6 +2,14 @@
   --svg: url('../icons/material-symbols--ad-group-outline.svg');
 }
 
+[data-icon='audio-capture-rounded'] {
+  --svg: url('../icons/material-symbols--audio-capture-rounded.svg');
+}
+
+[data-icon='broken-image-outline'] {
+  --svg: url('../icons/material-symbols--broken-image-outline-rounded.svg');
+}
+
 [data-icon='cards-star-outline'] {
   --svg: url('../icons/material-symbols--cards-star-outline.svg');
 }
@@ -36,6 +44,10 @@
 
 [data-icon='group'] {
   --svg: url('../icons/mdi--group.svg');
+}
+
+[data-icon='hangout-video-outline'] {
+  --svg: url('../icons/material-symbols--hangout-video-outline-rounded.svg');
 }
 
 [data-icon='heading-h1'] {
@@ -76,6 +88,10 @@
 
 [data-icon='vertical-align-top'] {
   --svg: url('../icons/ic--baseline-vertical-align-top.svg');
+}
+
+[data-icon='voice-chat'] {
+  --svg: url('../icons/ic--baseline-voice-chat.svg');
 }
 
 [data-icon='outline-account-circle'] {
@@ -316,6 +332,10 @@
 
 [data-icon='outline-videocam'] {
   --svg: url('../icons/ic--outline-videocam.svg');
+}
+
+[data-icon='outline-voice-chat'] {
+  --svg: url('../icons/ic--outline-voice-chat.svg');
 }
 
 [data-icon='outline-wb-sunny'] {
@@ -706,6 +726,10 @@
   --svg: url('../icons/ic--round-play-circle-outline.svg');
 }
 
+[data-icon='round-record-voice-over'] {
+  --svg: url('../icons/ic--round-record-voice-over.svg');
+}
+
 [data-icon='round-refresh'] {
   --svg: url('../icons/ic--round-refresh.svg');
 }
@@ -724,6 +748,10 @@
 
 [data-icon='round-rotate-right'] {
   --svg: url('../icons/ic--round-rotate-right.svg');
+}
+
+[data-icon='round-save'] {
+  --svg: url('../icons/ic--round-save.svg');
 }
 
 [data-icon='round-schedule'] {
@@ -748,6 +776,10 @@
 
 [data-icon='round-shield'] {
   --svg: url('../icons/ic--round-shield.svg');
+}
+
+[data-icon='round-storage'] {
+  --svg: url('../icons/ic--round-storage.svg');
 }
 
 [data-icon='round-subdirectory-arrow-left'] {
@@ -1084,4 +1116,8 @@
 
 [data-icon='cloud-alt-upload-loop'] {
   --svg: url('../icons/line-md--cloud-alt-upload-loop.svg');
+}
+
+[data-icon='nest-secure-alarm-outline'] {
+  --svg: url('../icons/material-symbols--nest-secure-alarm-outline.svg');
 }
