@@ -10,6 +10,10 @@
   --svg: url('../icons/material-symbols--broken-image-outline-rounded.svg');
 }
 
+[data-icon='cancel-outline-rounded'] {
+  --svg: url('../icons/material-symbols--cancel-outline-rounded.svg');
+}
+
 [data-icon='cards-star-outline'] {
   --svg: url('../icons/material-symbols--cards-star-outline.svg');
 }
@@ -24,6 +28,10 @@
 
 [data-icon='drag-pan'] {
   --svg: url('../icons/material-symbols--drag-pan.svg');
+}
+
+[data-icon='fibber-manual-record'] {
+  --svg: url('../icons/material-symbols--fiber-manual-record.svg');
 }
 
 [data-icon='cloud-remove'] {
@@ -634,6 +642,10 @@
   --svg: url('../icons/ic--round-menu.svg');
 }
 
+[data-icon='round-mic'] {
+  --svg: url('../icons/ic--round-mic.svg');
+}
+
 [data-icon='round-mic-none'] {
   --svg: url('../icons/ic--round-mic-none.svg');
 }
@@ -996,6 +1008,14 @@
 
 [data-icon='splitscreen-top'] {
   --svg: url('../icons/material-symbols--splitscreen-top.svg')
+}
+
+[data-icon='stop-circle-outline-rounded'] {
+  --svg: url('../icons/material-symbols--stop-circle-outline-rounded.svg');
+}
+
+[data-icon='stop-rounded'] {
+  --svg: url('../icons/material-symbols--stop-rounded.svg')
 }
 
 [data-icon='stylus'] {
