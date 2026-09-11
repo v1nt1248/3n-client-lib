@@ -106,6 +106,10 @@
   --svg: url('../icons/ic--outline-account-circle.svg');
 }
 
+[data-icon='outline-account-off-circle'] {
+  --svg: url('../icons/material-symbols--account-circle-off-outline-rounded.svg');
+}
+
 [data-icon='outline-add-moderator'] {
   --svg: url('../icons/ic--outline-add-moderator.svg');
 }
