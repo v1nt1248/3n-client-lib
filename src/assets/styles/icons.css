@@ -2,6 +2,10 @@
   --svg: url('../icons/material-symbols--ad-group-outline.svg');
 }
 
+[data-icon='analytics-outline'] {
+  --svg: url('../icons/material-symbols--analytics-outline-rounded.svg');
+}
+
 [data-icon='audio-capture-rounded'] {
   --svg: url('../icons/material-symbols--audio-capture-rounded.svg');
 }
@@ -28,6 +32,10 @@
 
 [data-icon='drag-pan'] {
   --svg: url('../icons/material-symbols--drag-pan.svg');
+}
+
+[data-icon='family-star'] {
+  --svg: url('../icons/material-symbols--family-star.svg');
 }
 
 [data-icon='fibber-manual-record'] {
@@ -224,6 +232,10 @@
 
 [data-icon='outline-heart-plus'] {
   --svg: url('../icons/material-symbols--heart-plus-outline-rounded.svg');
+}
+
+[data-icon='home-repair-service'] {
+  --svg: url('../icons/material-symbols--home-repair-service-rounded.svg');
 }
 
 [data-icon='lock-open-rounded'] {
@@ -946,6 +958,10 @@
   --svg: url('../icons/material-symbols--schedule-rounded.svg');
 }
 
+[data-icon='settings-account-box'] {
+  --svg: url('../icons/material-symbols--settings-account-box-outline-rounded.svg');
+}
+
 [data-icon='shrink'] {
   --svg: url('../icons/ci--shrink.svg');
 }
@@ -1144,4 +1160,16 @@
 
 [data-icon='nest-secure-alarm-outline'] {
   --svg: url('../icons/material-symbols--nest-secure-alarm-outline.svg');
+}
+
+[data-icon='account-cog-outline'] {
+  --svg: url('../icons/mdi--account-cog-outline.svg');
+}
+
+[data-icon='account-supervisor-circle-outline'] {
+  --svg: url('../icons/mdi--account-supervisor-circle-outline.svg');
+}
+
+[data-icon='pill-multiple'] {
+  --svg: url('../icons/mdi--pill-multiple.svg');
 }
