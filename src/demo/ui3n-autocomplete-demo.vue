@@ -82,6 +82,18 @@
   ];
 
   const value = ref([]);
+  // Typed after what the component emits: without `return-object` it hands back
+  // the item-value of each pick, and the union is what `update:modelValue`
+  // declares.
+  const valueWithDisabled = ref<ContactListItem[] | (string | null | undefined)[]>([]);
+
+  // Stands for whatever state a real app decides by - a blocked contact, one
+  // already invited, one the current user may not write to.
+  const blockedMails = ['angela@3nweb.com', 'tom.taylor@3nweb.com'];
+
+  function isBlocked(item: ContactListItem): boolean {
+    return blockedMails.includes(item.mail);
+  }
 
   function filterContactList(value: ContactListItem, query: string): boolean {
     const { name = '', mail } = value;
@@ -121,6 +133,41 @@
       </demo-layout-cell>
 
       <div>{{ JSON.stringify(value, null, 2) }}</div>
+
+      <demo-layout-cell label="With disabled items">
+        <ui3n-autocomplete
+          v-model="valueWithDisabled"
+          name="email-with-disabled"
+          placeholder="Angela and Tom cannot be picked"
+          :items="contactList"
+          :custom-filter="filterContactList"
+          :item-disabled="isBlocked"
+          clear-on-select
+          chips
+          multiple
+          item-title="displayName"
+          item-value="mail"
+        >
+          <template #item="{ item, query }">
+            <div class="item">
+              <div v-ui3n-html="markSearch(getDisplayItem(item), query || '')" />
+
+              <!--
+                Shown rather than left out, and this is the whole point of the
+                prop: an item that is simply missing explains nothing.
+              -->
+              <span
+                v-if="isBlocked(item)"
+                class="item-mark"
+              >
+                blocked
+              </span>
+            </div>
+          </template>
+        </ui3n-autocomplete>
+      </demo-layout-cell>
+
+      <div>{{ JSON.stringify(valueWithDisabled, null, 2) }}</div>
     </div>
   </demo-layout>
 </template>
@@ -131,5 +178,17 @@
     display: grid;
     grid-template-columns: 500px auto;
     column-gap: 16px;
+  }
+
+  .item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+  }
+
+  .item-mark {
+    font-size: 12px;
+    opacity: 0.7;
   }
 </style>

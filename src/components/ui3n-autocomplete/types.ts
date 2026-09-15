@@ -49,6 +49,18 @@ export interface Ui3nAutocompleteProps<T extends Ui3nAutocompleteOptionBase> {
    */
   disabled?: boolean;
   /**
+   * Whether an individual item cannot be picked.
+   *
+   * A disabled item is still listed, greyed out and inert to both the pointer
+   * and the keyboard. Use it when leaving the item out would be worse than
+   * showing it: an absence explains nothing, while a disabled row - with a
+   * reason rendered through the `item` slot - does.
+   *
+   * A predicate rather than a flag on the item itself, so that a caller can
+   * answer from state of its own without copying or mutating its data.
+   */
+  itemDisabled?: (item: T) => boolean;
+  /**
    * Filter keys
    */
   filterKeys?: string[];

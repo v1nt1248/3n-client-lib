@@ -81,6 +81,33 @@
       });
   });
 
+  /**
+   * Whether this item is listed but cannot be picked.
+   *
+   * Asked in one place, because the pointer and the keyboard have to agree: an
+   * item that cannot be clicked must not be reachable with arrows and Enter
+   * either.
+   */
+  function isItemDisabled(item: T | undefined): boolean {
+    return !!item && !!props.itemDisabled?.(item);
+  }
+
+  /**
+   * Index of the nearest item that can be picked, looking from `from` in the
+   * direction of `step`.
+   *
+   * @returns null when there is none that way, so that the caller can leave the
+   *          highlight where it is rather than moving it onto a dead row.
+   */
+  function nearestEnabledIndex(from: number, step: 1 | -1): number | null {
+    for (let i = from; (i >= 0) && (i < size(filteredItems.value)); i += step) {
+      if (!isItemDisabled(filteredItems.value[i])) {
+        return i;
+      }
+    }
+    return null;
+  }
+
   function onInput() {
     isLastChipHighlighted.value = false;
     emits('update:search', query.value);
@@ -146,7 +173,7 @@
   }
 
   function onItemClick(item: T) {
-    if (props.disabled) return;
+    if (props.disabled || isItemDisabled(item)) return;
 
     if (!props.multiple) {
       const newValue = props.returnObject ? [item] : [item[props.itemValue]];
@@ -183,25 +210,33 @@
 
   function handlePressingDownKey() {
     if (activeItemsIndex.value === null) {
-      activeItemsIndex.value = 0;
+      activeItemsIndex.value = nearestEnabledIndex(0, 1);
       menuBodyEl.value && menuBodyEl.value.focus({ preventScroll: true });
       return;
     }
 
     if (activeItemsIndex.value >= 0 && activeItemsIndex.value < size(filteredItems.value) - 1) {
-      activeItemsIndex.value += 1;
+      // Past the disabled ones rather than onto them: the highlight stays put
+      // when everything below cannot be picked.
+      const next = nearestEnabledIndex(activeItemsIndex.value + 1, 1);
+      if (next !== null) {
+        activeItemsIndex.value = next;
+      }
     }
   }
 
   function handlePressingUpKey() {
     if (activeItemsIndex.value === null) {
-      activeItemsIndex.value = size(filteredItems.value) - 1;
+      activeItemsIndex.value = nearestEnabledIndex(size(filteredItems.value) - 1, -1);
       menuBodyEl.value && menuBodyEl.value.focus({ preventScroll: true });
       return;
     }
 
     if (activeItemsIndex.value > 0 && activeItemsIndex.value < size(filteredItems.value)) {
-      activeItemsIndex.value -= 1;
+      const previous = nearestEnabledIndex(activeItemsIndex.value - 1, -1);
+      if (previous !== null) {
+        activeItemsIndex.value = previous;
+      }
     }
   }
 
@@ -228,6 +263,12 @@
   function handlePressingEnterKey() {
     if (activeItemsIndex.value !== null) {
       const item = filteredItems.value[activeItemsIndex.value!];
+      // Nothing happens on a disabled item, and nothing is cleared either: the
+      // query and the highlight are the user's place in the list, and taking
+      // them away would read as though the item had been taken.
+      if (isItemDisabled(item)) {
+        return;
+      }
       onItemClick(item);
       activeItemsIndex.value = null;
       props.clearOnSelect && (query.value = '');
@@ -241,7 +282,7 @@
 
     if (!isMenuOpen.value) {
       isMenuOpen.value = true;
-      activeItemsIndex.value = 0;
+      activeItemsIndex.value = nearestEnabledIndex(0, 1);
       menuBodyEl.value && menuBodyEl.value.focus({ preventScroll: true });
     }
   }
@@ -467,8 +508,9 @@
                 :class="[
                   $style.item,
                   activeItemsIndex === index && $style.itemSelected,
-                  disabled && $style.itemDisabled,
+                  (disabled || isItemDisabled(item)) && $style.itemDisabled,
                 ]"
+                :aria-disabled="disabled || isItemDisabled(item)"
                 @mousedown="onItemMouseDown"
                 @click.stop.prevent="onItemClick(item)"
               >

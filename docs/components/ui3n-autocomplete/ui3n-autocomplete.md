@@ -22,6 +22,8 @@ import Example10 from './Example10.vue';
 import Example10Raw from './Example10.vue?raw';
 import Example11 from './Example11.vue';
 import Example11Raw from './Example11.vue?raw';
+import Example12 from './Example12.vue';
+import Example12Raw from './Example12.vue?raw';
 
 const componentMeta = data.find(c => c.name === 'ui3n-autocomplete');
 </script>
@@ -128,6 +130,17 @@ Autocomplete component with search, multi-select, chips, and custom filtering ca
   only-template-content
 >
   <Example08></Example08>
+</DemoBlock>
+
+### Disabled items
+
+<DemoBlock
+  title="Disabled items"
+  description="Keep an item in the list but make it unpickable. Use it when leaving the item out would explain less than showing it greyed out: pass a reason through the item slot. Disabled items are skipped by the arrow keys and by Enter as well as by the pointer"
+  :code="Example12Raw"
+  hide-style-block
+>
+  <Example12></Example12>
 </DemoBlock>
 
 ### Hide selected and no data text
