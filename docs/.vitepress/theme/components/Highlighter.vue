@@ -19,7 +19,7 @@
   let observer: MutationObserver | null = null;
 
   const THEME_MAP: Record<string, string> = {
-    'default-theme': 'github-light',
+    'light-theme': 'github-light',
     'dark-theme': 'one-dark-pro',
     'dark2-theme': 'github-dark',
   };
@@ -81,8 +81,8 @@
     }
 
     const htmlClassList = document.documentElement.classList;
-    const activeThemeKey = htmlClassList.contains('default-theme')
-      ? 'default-theme'
+    const activeThemeKey = htmlClassList.contains('light-theme') || htmlClassList.contains('default-theme')
+      ? 'light-theme'
       : htmlClassList.contains('dark-theme')
         ? 'dark-theme'
         : 'dark2-theme';

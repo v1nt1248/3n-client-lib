@@ -32,13 +32,13 @@ export default defineConfig({
         
         switch (saved) {
           case 'dark': {
-            html.classList.remove('default-theme');
+            html.classList.remove('light-theme');
             html.classList.remove('dark-theme');
             html.classList.add('dark2-theme');
             break;
           }
           case 'midnight': {
-            html.classList.remove('default-theme');
+            html.classList.remove('light-theme');
             html.classList.remove('dark2-theme');
             html.classList.add('dark-theme');
             break;
@@ -46,7 +46,7 @@ export default defineConfig({
           default: {
             html.classList.remove('dark-theme');
             html.classList.remove('dark2-theme');
-            html.classList.add('default-theme');
+            html.classList.add('light-theme');
             break;
           }
         }

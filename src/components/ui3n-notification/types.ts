@@ -25,6 +25,11 @@ export interface Ui3nNotificationProps {
    */
   withIcon?: boolean;
   /**
+   * Notification border radius in pixels or css length
+   * @default 8
+   */
+  borderRadius?: number | string;
+  /**
    * Called when notification opens
    */
   onOpen?: () => void;

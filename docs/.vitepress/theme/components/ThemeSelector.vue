@@ -2,7 +2,7 @@
   import { ThemeMode } from '../composables/useTheme';
 
   const themes = [
-    { id: 'light', label: 'Default' },
+    { id: 'light', label: 'Light' },
     { id: 'dark', label: 'Dark' },
     { id: 'midnight', label: 'Midnight' },
   ];

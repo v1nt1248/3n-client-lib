@@ -1,7 +1,8 @@
 <script setup lang="ts">
   import { defineAsyncComponent, inject, ref, watch } from 'vue';
   import type { DialogsPlugin } from '@/plugins/dialogs/types';
-  import { DIALOGS_KEY } from '@/constants/plugins-keys';
+  import type { ThemeId, ThemePlugin } from '@/plugins/theme/types';
+  import { DIALOGS_KEY, THEME_KEY } from '@/constants/plugins-keys';
   import Ui3nInputDemo from './ui3n-input-demo.vue';
   import Ui3nEditableDemo from './ui3n-editable-demo.vue';
   import Ui3nDropFilesDemo from './ui3n-drop-files-demo.vue';
@@ -38,21 +39,22 @@
   import Ui3nRadio from '../components/ui3n-radio-group/ui3n-radio.vue';
   import Ui3nRadioGroup from '../components/ui3n-radio-group/ui3n-radio-group.vue';
   import Ui3nResize, { type Ui3nResizeCbArg } from '../directives/ui3n-resize';
-  import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '@/components/ui3n-table/types';
+  import type { Ui3nTableBodyBaseItem, Ui3nTableProps } from '../components/ui3n-table/types';
+  import type { Ui3nCheckboxValue } from '../components/ui3n-checkbox/types';
+  import type { Ui3nRadioValue } from '../components/ui3n-radio-group/types';
 
   const vUi3nResize = Ui3nResize;
   const dialogs = inject<DialogsPlugin>(DIALOGS_KEY)!;
+  const { theme: currentTheme, setTheme } = inject<ThemePlugin>(THEME_KEY)!;
 
-  const colorThemes = {
-    default: 'Default theme',
+  const colorThemes: Record<ThemeId, string> = {
+    light: 'Light theme',
     dark: 'Dark theme',
-    dark2: 'Dark 2 theme',
+    midnight: 'Midnight theme',
   };
 
-  const currentTheme = ref<'default' | 'dark' | 'dark2'>('default');
-
-  const checkValue = ref([true, false, false]);
-  const switchValue = ref([true, false]);
+  const checkValue = ref<[Ui3nCheckboxValue, Ui3nCheckboxValue, Ui3nCheckboxValue]>([true, false, false]);
+  const switchValue = ref<[boolean, boolean]>([true, false]);
   const stepValue = ref(1);
   const textValue = ref('');
   const list = ref<
@@ -72,9 +74,9 @@
     }[]
   >(prepareVList());
   const tabsValue = ref(0);
-  const radioValue1 = ref(false);
-  const radioValue2 = ref(0);
-  const radioGroupValue = ref(0);
+  const radioValue1 = ref<Ui3nRadioValue>(false);
+  const radioValue2 = ref<Ui3nRadioValue>(0);
+  const radioGroupValue = ref<Ui3nRadioValue>(0);
 
   const timerId = ref();
   const progressValue = ref(0);
@@ -163,20 +165,8 @@
     info: `Info message with short Description for on or two lines and default view.`,
   };
 
-  function changeColorTheme(colorThemeId: 'default' | 'dark' | 'dark2') {
-    console.log('changeColorTheme => ', colorThemeId);
-    const htmlEl = document.querySelector('html');
-    if (!htmlEl) {
-      return;
-    }
-
-    if (colorThemeId === currentTheme.value) {
-      return;
-    }
-
-    htmlEl.classList.remove(`${currentTheme.value}-theme`);
-    htmlEl.classList.add(`${colorThemeId}-theme`);
-    currentTheme.value = colorThemeId;
+  function changeColorTheme(colorThemeId: ThemeId) {
+    setTheme(colorThemeId);
   }
 
   function getRandomInt(max: number): number {
@@ -441,30 +431,30 @@
       <div class="demo-row__title">--- CHECKBOX ---</div>
       <ui3n-checkbox
         v-model="checkValue[0]"
-        size="20"
+        :size="20"
       />
       <ui3n-checkbox
         v-model="checkValue[0]"
-        size="20"
+        :size="20"
       >
         Checked
       </ui3n-checkbox>
       <ui3n-checkbox
         v-model="checkValue[0]"
-        size="20"
+        :size="20"
         disabled
       >
         Checked (disabled)
       </ui3n-checkbox>
       <ui3n-checkbox
         v-model="checkValue[1]"
-        size="20"
+        :size="20"
       >
         Unchecked
       </ui3n-checkbox>
       <ui3n-checkbox
         v-model="checkValue[2]"
-        size="20"
+        :size="20"
         indeterminate
       >
         Indeterminate
@@ -476,20 +466,20 @@
       <div class="demo-row__title">--- SWITCH ---</div>
       <ui3n-switch
         v-model="switchValue[0]"
-        size="24"
+        :size="24"
       />
       <ui3n-switch
         v-model="switchValue[0]"
-        size="24"
+        :size="24"
         disabled
       />
       <ui3n-switch
         v-model="switchValue[1]"
-        size="24"
+        :size="24"
       />
       <ui3n-switch
         v-model="switchValue[1]"
-        size="24"
+        :size="24"
       >
         With label
       </ui3n-switch>
@@ -958,14 +948,14 @@
       <div class="demo-row__title">--- RADIO ---</div>
       <ui3n-radio
         v-model="radioValue1"
-        size="40"
+        :size="40"
       >
         Current value: {{ radioValue1 }}
       </ui3n-radio>
 
       <ui3n-radio
         v-model="radioValue1"
-        size="40"
+        :size="40"
         color="#ff8800"
       >
         Current value: {{ radioValue1 }}
@@ -973,7 +963,7 @@
 
       <ui3n-radio
         v-model="radioValue1"
-        size="40"
+        :size="40"
       >
         <template #checkedIcon>
           <ui3n-icon
@@ -998,7 +988,7 @@
 
       <ui3n-radio
         v-model="radioValue1"
-        size="40"
+        :size="40"
         :disabled="true"
       >
         <template #checkedIcon>
@@ -1024,7 +1014,7 @@
 
       <ui3n-radio
         v-model="radioValue2"
-        size="40"
+        :size="40"
         :unchecked-value="0"
         :checked-value="1"
       >
@@ -1033,7 +1023,7 @@
 
       <ui3n-radio
         v-model="radioValue2"
-        size="40"
+        :size="40"
         :unchecked-value="0"
         :checked-value="1"
         :disabled="true"

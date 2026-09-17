@@ -22,6 +22,7 @@ export * from './ui/invert-color';
 export * from './ui/html2text';
 export * from './ui/prepare-date-as-string';
 export * from './ui/capitalize';
+export * from './ui/to-css-length';
 
 export * from './files/format-file-size';
 export * from './files/get-file-extension';

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
   import { computed, onBeforeMount, ref, useCssModule, useSlots, watch } from 'vue';
   import Ui3nRipple from '../../directives/ui3n-ripple';
+  import { toCssLength } from '../../utils/ui/to-css-length';
   import type {
     Ui3nCheckboxEmits,
     Ui3nCheckboxExpose,
@@ -52,7 +53,7 @@
   });
 
   const inlineStyles = computed(() => ({
-    '--ui3n-checkbox-size': typeof props.size === 'number' ? `${props.size}px` : props.size,
+    '--ui3n-checkbox-size': toCssLength(props.size),
     '--ui3n-checkbox-color': props.color,
   }));
 
@@ -205,8 +206,6 @@
 </template>
 
 <style lang="scss" module>
-  @use '../../assets/styles/mixins' as mixins;
-
   .ui3nCheckbox {
     --ui3n-checkbox-size: 16px;
     --ui3n-checkbox-gap: 4px;
@@ -248,17 +247,15 @@
     background-color: var(--ui3n-checkbox-color);
 
     &:hover {
-      border-color: oklch(from var(--ui3n-checkbox-color) calc(l - 0.1) c h);
-      background-color: oklch(from var(--ui3n-checkbox-color) calc(l - 0.1) c h);
-      @include mixins.ripple(oklch(from var(--ui3n-checkbox-color) calc(l - 0.1) c h));
+      border-color: color-mix(in oklch, var(--ui3n-checkbox-color), black 12%);
+      background-color: color-mix(in oklch, var(--ui3n-checkbox-color), black 12%);
     }
   }
 
   .unfilled {
     &:hover {
-      border-color: oklch(from var(--ui3n-checkbox-color) calc(l - 0.1) c h);
-      background-color: oklch(from transparent calc(l - 0.1) c h);
-      @include mixins.ripple(oklch(from transparent calc(l - 0.1) c h));
+      border-color: color-mix(in oklch, var(--ui3n-checkbox-color) 84%, black);
+      background-color: color-mix(in oklch, var(--ui3n-checkbox-color) 16%, transparent);
     }
   }
 

@@ -670,6 +670,10 @@
   --svg: url('../icons/ic--round-mic-off.svg');
 }
 
+[data-icon='round-minus'] {
+  --svg: url('../icons/ic--round-minus.svg');
+}
+
 [data-icon='round-more-horiz'] {
   --svg: url('../icons/ic--round-more-horiz.svg');
 }
@@ -736,6 +740,14 @@
 
 [data-icon='round-plus'] {
   --svg: url('../icons/ic--round-plus.svg');
+}
+
+[data-icon='round-plus-minus'] {
+  --svg: url('../icons/ic--round-plus-minus.svg');
+}
+
+[data-icon='round-plus-minus-alt'] {
+  --svg: url('../icons/ic--round-plus-minus-alt.svg');
 }
 
 [data-icon='round-polyline'] {
@@ -1112,6 +1124,10 @@
 
 [data-icon='link-variant-remove'] {
   --svg: url('../icons/mdi--link-variant-remove.svg');
+}
+
+[data-icon='minus-circle-outline'] {
+  --svg: url('../icons/mdi--minus-circle-outline.svg');
 }
 
 [data-icon='numbers'] {

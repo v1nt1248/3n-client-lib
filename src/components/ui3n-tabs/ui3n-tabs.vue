@@ -98,8 +98,6 @@
 </template>
 
 <style lang="scss" module>
-  @use '../../assets/styles/mixins' as mixins;
-
   .ui3nTabs {
     --ui3n-tabs-height: 48px;
 
@@ -116,7 +114,6 @@
     position: relative;
     user-select: none;
     color: var(--ui3n-tabs-inactive-color);
-    @include mixins.ripple(var(--color-bg-control-secondary-default));
 
     &:hover {
       background-color: var(--color-bg-control-secondary-default);

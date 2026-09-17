@@ -15,9 +15,14 @@ import {
   vueBus,
   storeVueBus,
   type VueBusPlugin,
+  theme,
+  storeTheme,
+  type ThemePlugin,
+  type ThemePluginOptions,
+  type ThemeId,
 } from './plugins';
 import type { CbFunction, VueEventBus } from './plugins/vue-bus/types';
-import { NOTIFICATIONS_KEY, DIALOGS_KEY, VUEBUS_KEY } from './constants';
+import { NOTIFICATIONS_KEY, DIALOGS_KEY, VUEBUS_KEY, THEME_KEY } from './constants';
 
 declare module 'vue' {
   interface ComponentCustomProperties {
@@ -30,6 +35,7 @@ declare module 'vue' {
     dialogStack: Ref<DialogOptions<any>[]>;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: VueEventBus<any>;
+    $theme: ThemePlugin;
   }
 }
 
@@ -37,6 +43,7 @@ declare module 'pinia' {
   export interface PiniaCustomProperties {
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: VueEventBus<any>;
+    $theme: ThemePlugin;
     $dialogs: {
       open: <V>(
         component: Component,
@@ -65,4 +72,10 @@ export {
   CbFunction,
   VueBusPlugin,
   VueEventBus,
+  theme,
+  storeTheme,
+  ThemePlugin,
+  ThemePluginOptions,
+  ThemeId,
+  THEME_KEY,
 };

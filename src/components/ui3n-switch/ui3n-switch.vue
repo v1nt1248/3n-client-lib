@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   import { computed, ref, watch, useSlots } from 'vue';
+  import { toCssLength } from '../../utils/ui/to-css-length';
   import type { Ui3nSwitchEmits, Ui3nSwitchProps, Ui3nSwitchSlots, Ui3nSwitchExpose } from './types';
 
   const props = withDefaults(defineProps<Ui3nSwitchProps>(), {
@@ -17,7 +18,7 @@
 
   const switchStyle = computed(() => ({
     '--ui3n-switch-color': props.color,
-    '--ui3n-switch-size': `${props.size}px`,
+    '--ui3n-switch-size': toCssLength(props.size),
   }));
 
   function change(ev: Event) {

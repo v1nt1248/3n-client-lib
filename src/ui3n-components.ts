@@ -1,3 +1,4 @@
+import './assets/styles/runtime.css';
 import type Ui3nButton from './components/ui3n-button/ui3n-button.vue';
 import type Ui3nChip from './components/ui3n-chip/ui3n-chip.vue';
 import type Ui3nCheckbox from './components/ui3n-checkbox/ui3n-checkbox.vue';

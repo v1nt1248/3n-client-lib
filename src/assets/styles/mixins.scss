@@ -31,29 +31,6 @@
   box-shadow: 0 0 2px 0 var(--shadow-key-1), 0 2px 5px 0 var(--shadow-key-2);
 }
 
-@mixin ripple($color) {
-  @if & {
-    background-position: center;
-    transition: background 0.35s ease-in-out;
-
-    &:not([disabled]) {
-      cursor: pointer;
-
-      &:hover {
-        background: $color radial-gradient(circle, transparent 1%, $color 1%) center/15000%;
-      }
-
-      &:active {
-        opacity: 1;
-        background-color: var(--grey-20);
-        background-size: 100%;
-        transition: background 0s;
-      }
-    }
-  }
-}
-
-
 /* stylelint-disable nesting-selector-no-missing-scoping-root */
 @mixin scrollbar($size: 100px) {
   @supports (-moz-appearance: none) {

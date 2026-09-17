@@ -34,13 +34,18 @@ export interface Ui3nTitleDirectiveProps {
 export type Ui3nTitleDirectiveBinding = DirectiveBinding<Ui3nTitleDirectiveProps>;
 
 const baseOffset = 8;
-let showTitle = false;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-let cleanup: Nullable<Function> = null;
-const id = getRandomId(3);
 
-const elsBinding = new WeakMap();
-const elsHandlers = new WeakMap();
+interface TitleState {
+  tooltipId: string;
+  isOpen: boolean;
+  cleanup: Nullable<() => void>;
+  handler: (ev: MouseEvent) => void;
+  trigger: 'click' | 'hover';
+}
+
+const states = new WeakMap<HTMLElement, TitleState>();
+const bindings = new WeakMap<HTMLElement, Ui3nTitleDirectiveProps>();
+let activeEl: HTMLElement | null = null;
 
 function getOffsetOptions(
   placement: Ui3nTitleDirectivePlacement,
@@ -78,10 +83,34 @@ function getOffsetOptions(
 
 function removeTooltipElement(tooltipId: string) {
   const tooltipEl = document.getElementById(tooltipId);
-  tooltipEl && tooltipEl.remove();
+  tooltipEl?.remove();
 }
 
-function makeTooltip(el: HTMLElement, props: Ui3nTitleDirectiveProps, isOpen: boolean) {
+function closeTitle(el: HTMLElement) {
+  const state = states.get(el);
+  if (!state) {
+    return;
+  }
+
+  state.cleanup?.();
+  state.cleanup = null;
+  state.isOpen = false;
+  removeTooltipElement(state.tooltipId);
+  if (activeEl === el) {
+    activeEl = null;
+  }
+}
+
+function openTitle(el: HTMLElement, props: Ui3nTitleDirectiveProps) {
+  const state = states.get(el);
+  if (!state) {
+    return;
+  }
+
+  if (activeEl && activeEl !== el) {
+    closeTitle(activeEl);
+  }
+
   const {
     text,
     maxWidth = 200,
@@ -94,17 +123,10 @@ function makeTooltip(el: HTMLElement, props: Ui3nTitleDirectiveProps, isOpen: bo
     style = {},
   } = props || {};
 
-  showTitle = isOpen;
-
-  if (!showTitle) {
-    removeTooltipElement(id);
-    return;
-  }
-
-  const possibleTooltipElement = document.getElementById(id);
+  const possibleTooltipElement = document.getElementById(state.tooltipId);
   const tooltipElement = possibleTooltipElement || document.createElement('div');
   if (!possibleTooltipElement) {
-    tooltipElement.id = id;
+    tooltipElement.id = state.tooltipId;
     tooltipElement.classList.add('ui3n-title');
   }
 
@@ -117,9 +139,10 @@ function makeTooltip(el: HTMLElement, props: Ui3nTitleDirectiveProps, isOpen: bo
     Object.assign(tooltipElement.style, style);
   }
 
-  el.insertAdjacentElement('beforeend', tooltipElement);
+  document.body.appendChild(tooltipElement);
 
-  cleanup = autoUpdate(el, tooltipElement, () => {
+  state.cleanup?.();
+  state.cleanup = autoUpdate(el, tooltipElement, () => {
     computePosition(el, tooltipElement, {
       placement,
       strategy: positionStrategy,
@@ -131,65 +154,103 @@ function makeTooltip(el: HTMLElement, props: Ui3nTitleDirectiveProps, isOpen: bo
       });
     });
   });
+
+  state.isOpen = true;
+  activeEl = el;
+}
+
+function unbindTrigger(el: HTMLElement, state: TitleState) {
+  if (state.trigger === 'click') {
+    el.removeEventListener('click', state.handler);
+  } else {
+    el.removeEventListener('mouseenter', state.handler);
+    el.removeEventListener('mouseleave', state.handler);
+  }
+}
+
+function bindTrigger(el: HTMLElement, state: TitleState) {
+  if (state.trigger === 'click') {
+    el.addEventListener('click', state.handler);
+  } else {
+    el.addEventListener('mouseenter', state.handler);
+    el.addEventListener('mouseleave', state.handler);
+  }
+}
+
+function createHandler(el: HTMLElement) {
+  return (ev: MouseEvent) => {
+    const props = bindings.get(el);
+    const state = states.get(el);
+    if (!props || !state) {
+      return;
+    }
+
+    if (props.disabled) {
+      closeTitle(el);
+      return;
+    }
+
+    switch (ev.type) {
+      case 'click':
+        if (state.isOpen) {
+          closeTitle(el);
+        } else {
+          openTitle(el, props);
+        }
+        break;
+      case 'mouseenter':
+        openTitle(el, props);
+        break;
+      case 'mouseleave':
+        closeTitle(el);
+        break;
+      default:
+        break;
+    }
+  };
 }
 
 export default {
   mounted(el: HTMLElement, binding: Ui3nTitleDirectiveBinding) {
-    elsBinding.set(el, binding.value);
-
-    const handler = (ev: MouseEvent) => {
-      const props = elsBinding.get(el) as Ui3nTitleDirectiveProps;
-
-      if (props.disabled) {
-        removeTooltipElement(id);
-        showTitle = false;
-        return;
-      }
-
-      switch (ev.type) {
-        case 'click':
-          makeTooltip(el, props, !showTitle);
-          break;
-        case 'mouseenter':
-          makeTooltip(el, props, true);
-          break;
-        case 'mouseleave':
-          makeTooltip(el, props, false);
-          break;
-        default:
-          break;
-      }
+    const trigger = binding.value?.trigger === 'click' ? 'click' : 'hover';
+    const handler = createHandler(el);
+    const state: TitleState = {
+      tooltipId: `ui3n-title-${getRandomId(3)}`,
+      isOpen: false,
+      cleanup: null,
+      handler,
+      trigger,
     };
 
-    elsHandlers.set(el, handler);
-
-    if (binding.value.trigger === 'click') {
-      el.addEventListener('click', handler);
-    } else {
-      el.addEventListener('mouseenter', handler);
-      el.addEventListener('mouseleave', handler);
-    }
+    bindings.set(el, binding.value);
+    states.set(el, state);
+    bindTrigger(el, state);
   },
+
   updated(el: HTMLElement, binding: Ui3nTitleDirectiveBinding) {
-    const isBindingPresent = elsBinding.has(el);
-    if (isBindingPresent) {
-      elsBinding.delete(el);
+    bindings.set(el, binding.value);
+    const state = states.get(el);
+    if (!state) {
+      return;
     }
-    elsBinding.set(el, binding.value);
+
+    const nextTrigger = binding.value?.trigger === 'click' ? 'click' : 'hover';
+    if (nextTrigger !== state.trigger) {
+      unbindTrigger(el, state);
+      state.trigger = nextTrigger;
+      bindTrigger(el, state);
+    }
   },
-  beforeUnmount(el: HTMLElement, binding: Ui3nTitleDirectiveBinding) {
-    cleanup && cleanup();
-    cleanup = null;
 
-    removeTooltipElement(id);
-    showTitle = false;
-
-    const handler = elsHandlers.get(el);
-    if (binding.value.trigger === 'click') {
-      el.removeEventListener('click', handler);
-    } else {
-      el.removeEventListener('mouseenter', handler);
-      el.removeEventListener('mouseleave', handler);
+  beforeUnmount(el: HTMLElement) {
+    const state = states.get(el);
+    if (!state) {
+      return;
     }
+
+    closeTitle(el);
+    unbindTrigger(el, state);
+    states.delete(el);
+    bindings.delete(el);
   },
 };

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-  import { computed, onMounted, onBeforeUnmount, ref, useCssModule } from 'vue';
+  import { computed, onMounted, onBeforeUnmount, useCssModule } from 'vue';
   import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
+  import { toCssLength } from '../../utils/ui/to-css-length';
   import type { Ui3nNotificationProps } from './types';
 
   const props = withDefaults(defineProps<Ui3nNotificationProps>(), {
@@ -9,6 +10,7 @@
     position: 'center',
     duration: 0,
     withIcon: true,
+    borderRadius: 8,
     onOpen: () => {},
     onClose: () => {},
   });
@@ -20,25 +22,21 @@
   const currentTypeConfig = computed(() => {
     const stylesByTypes = {
       success: {
-        color: 'var(--success-content-default)',
         icon: 'round-check-circle',
         iconColor: 'var(--success-fill-default)',
         iconRotate: 0,
       },
       warning: {
-        color: 'var(--warning-content-default)',
         icon: 'round-warning',
         iconColor: 'var(--warning-fill-default)',
         iconRotate: 0,
       },
       info: {
-        color: 'var(--info-content-default)',
         icon: 'round-info',
         iconColor: 'var(--info-fill-default)',
         iconRotate: 180,
       },
       error: {
-        color: 'var(--error-content-default)',
         icon: 'round-info',
         iconColor: 'var(--error-fill-default)',
         iconRotate: 180,
@@ -52,6 +50,10 @@
     props.withIcon && val.push($style.withIcon);
     return val;
   });
+
+  const inlineStyles = computed(() => ({
+    '--ui3n-notification-border-radius': toCssLength(props.borderRadius, '8px'),
+  }));
 
   function closeNotification() {
     if (props.onClose) {
@@ -82,6 +84,7 @@
   <div
     :id="id"
     :class="mainCssClasses"
+    :style="inlineStyles"
   >
     <div
       v-if="withIcon"
@@ -105,7 +108,6 @@
       size="small"
       color="transparent"
       icon="round-close"
-      :icon-color="currentTypeConfig.color"
       icon-size="16"
       :class="$style.closeBtn"
       @click="closeNotification"
@@ -117,22 +119,24 @@
   .ui3nNotification {
     --ui3n-notification-width: 380px;
     --ui3n-notification-font-size: 12px;
-    --ui3n-notification-border-radius: 4px;
+    --ui3n-notification-border-radius: 8px;
     --ui3n-notification-margin-bottom: 4px;
     --ui3n-notification-icon-size: 32px;
+    --ui3n-notification-text-color: var(--default-content-default);
 
     display: flex;
     position: relative;
     box-sizing: border-box;
     z-index: 5000;
     border-radius: var(--ui3n-notification-border-radius);
-    outline: 1px solid var(--color-border-control-tritery-default);
+    outline: 1px solid var(--color-border-block-primary-default);
     padding: var(--spacing-m);
     max-width: var(--ui3n-notification-width);
     margin-bottom: var(--ui3n-notification-margin-bottom);
     justify-content: center;
     align-items: center;
     gap: 8px;
+    color: var(--ui3n-notification-text-color);
   }
 
   .withIcon {
@@ -159,6 +163,7 @@
     font-weight: 500;
     line-height: 1.33;
     padding-right: 20px;
+    color: var(--ui3n-notification-text-color);
   }
 
   .closeBtn {
@@ -166,53 +171,70 @@
     z-index: 1;
     top: 6px;
     right: 6px;
+    color: var(--ui3n-notification-text-color);
   }
 
   .infoType {
+    --ui3n-notification-text-color: var(--info-content-default);
+
     background-color: var(--info-fill-default);
 
     .ui3nNotificationIcon {
       background-color: var(--info-content-default);
     }
 
-    .ui3nNotificationContent {
-      color: var(--info-content-default);
+    :global(.dark-theme) &,
+    :global(.midnight-theme) &,
+    :global(.dark2-theme) & {
+      --ui3n-notification-text-color: oklch(from var(--info-content-default) calc(l + 0.15) c h);
     }
   }
 
   .successType {
+    --ui3n-notification-text-color: var(--success-content-default);
+
     background-color: var(--success-fill-default);
 
     .ui3nNotificationIcon {
       background-color: var(--success-content-default);
     }
 
-    .ui3nNotificationContent {
-      color: var(--success-content-default);
+    :global(.dark-theme) &,
+    :global(.midnight-theme) &,
+    :global(.dark2-theme) & {
+      --ui3n-notification-text-color: oklch(from var(--success-content-default) calc(l + 0.15) c h);
     }
   }
 
   .warningType {
+    --ui3n-notification-text-color: var(--warning-content-default);
+
     background-color: var(--warning-fill-default);
 
     .ui3nNotificationIcon {
       background-color: var(--warning-content-default);
     }
 
-    .ui3nNotificationContent {
-      color: var(--warning-content-default);
+    :global(.dark-theme) &,
+    :global(.midnight-theme) &,
+    :global(.dark2-theme) & {
+      --ui3n-notification-text-color: color-mix(in oklch, var(--warning-content-default) 45%, white);
     }
   }
 
   .errorType {
+    --ui3n-notification-text-color: var(--error-content-default);
+
     background-color: var(--error-fill-default);
 
     .ui3nNotificationIcon {
       background-color: var(--error-content-default);
     }
 
-    .ui3nNotificationContent {
-      color: var(--error-content-default);
+    :global(.dark-theme) &,
+    :global(.midnight-theme) &,
+    :global(.dark2-theme) & {
+      --ui3n-notification-text-color: color-mix(in oklch, var(--error-content-default) 45%, white);
     }
   }
 

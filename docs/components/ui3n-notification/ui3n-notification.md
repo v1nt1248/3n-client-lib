@@ -6,6 +6,8 @@ import Example02 from './Example02.vue';
 import Example02Raw from './Example02.vue?raw';
 import Example03 from './Example03.vue';
 import Example03Raw from './Example03.vue?raw';
+import Example04 from './Example04.vue';
+import Example04Raw from './Example04.vue?raw';
 
 const notificationMeta = data.find(c => c.name === 'ui3n-notification');
 </script>
@@ -44,6 +46,18 @@ Notification component for displaying messages with different types and position
   hide-style-block
 >
   <Example02></Example02>
+</DemoBlock>
+
+### Custom border radius
+
+<DemoBlock
+  title="Custom border radius"
+  description="Customize border radius using the borderRadius prop (pixels or CSS length)"
+  :code="Example04Raw"
+  hide-script-block
+  hide-style-block
+>
+  <Example04></Example04>
 </DemoBlock>
 
 ### Auto-close notification

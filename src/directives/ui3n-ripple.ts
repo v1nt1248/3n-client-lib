@@ -9,10 +9,13 @@ export interface Ui3nRippleDirectiveProps {
 
 export type Ui3nRippleDirectiveBinding = DirectiveBinding<Ui3nRippleDirectiveProps>;
 
-const controllers: Record<string, AbortController> = {};
-let colorValue = '';
+interface RippleState {
+  controller: AbortController;
+}
 
-function createRipple({ el, duration }: { el: HTMLElement; duration?: number }) {
+const states = new WeakMap<HTMLElement, RippleState>();
+
+function createRipple(el: HTMLElement, color?: string, duration?: number) {
   const circle = document.createElement('div');
   const diameter = Math.max(el.clientWidth, el.clientHeight);
   const radius = diameter / 2;
@@ -20,8 +23,12 @@ function createRipple({ el, duration }: { el: HTMLElement; duration?: number }) 
   circle.style.left = `${Math.round(el.clientWidth / 2 - radius)}px`;
   circle.style.top = `${Math.round(el.clientHeight / 2 - radius)}px`;
   circle.classList.add('ui3n-ripple');
-  colorValue && circle.style.setProperty('--ui3n-ripple-bg-color', colorValue);
-  duration && circle.style.setProperty('--ui3n-ripple-duration', `${duration}ms`);
+  if (color) {
+    circle.style.setProperty('--ui3n-ripple-bg-color', color);
+  }
+  if (duration) {
+    circle.style.setProperty('--ui3n-ripple-duration', `${duration}ms`);
+  }
 
   const ripple = el.getElementsByClassName('ui3n-ripple')[0];
   if (ripple) {
@@ -30,60 +37,48 @@ function createRipple({ el, duration }: { el: HTMLElement; duration?: number }) 
   el.appendChild(circle);
 }
 
-function addEventListener({
-  eventName,
-  el,
-  duration,
-}: {
-  eventName: string;
-  el: HTMLElement;
-  color?: string;
-  duration?: number;
-}) {
-  if (!['click', 'keydown'].includes(eventName)) {
+function bindListeners(el: HTMLElement, binding: Ui3nRippleDirectiveBinding) {
+  states.get(el)?.controller.abort();
+
+  const { color, duration, eventsTriggers = [], disabled = false } = binding.value || {};
+  if (disabled) {
+    states.delete(el);
     return;
   }
 
-  controllers[eventName] = new AbortController();
-  // @ts-ignore
-  el.addEventListener(
-    eventName,
-    function () {
-      createRipple({ el, duration });
-    },
-    { signal: controllers[eventName].signal } as AddEventListenerOptions,
-  );
+  const controller = new AbortController();
+  const opts = { signal: controller.signal } as AddEventListenerOptions;
+
+  if (!eventsTriggers.length || eventsTriggers.includes('click')) {
+    el.addEventListener('click', () => createRipple(el, color, duration), opts);
+  }
+
+  if (eventsTriggers.length && eventsTriggers.includes('enter')) {
+    el.addEventListener(
+      'keydown',
+      (ev: KeyboardEvent) => {
+        if (ev.key === 'Enter') {
+          createRipple(el, color, duration);
+        }
+      },
+      opts,
+    );
+  }
+
+  states.set(el, { controller });
 }
 
 export default {
   mounted(el: HTMLElement, binding: Ui3nRippleDirectiveBinding) {
-    const { color, duration, eventsTriggers = [], disabled = false } = binding.value || {};
-    colorValue = color || '';
-
-    if (disabled) {
-      return;
-    }
-
-    if (!eventsTriggers.length || (eventsTriggers.length && eventsTriggers.includes('click'))) {
-      addEventListener({
-        eventName: 'click',
-        el,
-        duration,
-      });
-    }
-
-    if (eventsTriggers.length && eventsTriggers.includes('enter')) {
-      addEventListener({
-        eventName: 'keydown',
-        el,
-        duration,
-      });
-    }
+    bindListeners(el, binding);
   },
 
-  beforeUnmount() {
-    Object.keys(controllers).forEach(key => {
-      controllers[key].abort();
-    });
+  updated(el: HTMLElement, binding: Ui3nRippleDirectiveBinding) {
+    bindListeners(el, binding);
+  },
+
+  beforeUnmount(el: HTMLElement) {
+    states.get(el)?.controller.abort();
+    states.delete(el);
   },
 };

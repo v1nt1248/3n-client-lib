@@ -55,11 +55,13 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - dialogs
   - notifications
   - vue-bus
+  - theme
 
 ### Store plugins [`@v1nt1248/3nclient-lib/plugins`]
   - store-dialogs
   - store-notifications
   - store-vue-bus
+  - store-theme
 
 ### Constants
   - emoticons
@@ -114,4 +116,45 @@ You also need to import the required CSS files into your `main.ts`:
 ```ts
 import '@v1nt1248/3nclient-lib/variables.css';
 import '@v1nt1248/3nclient-lib/style.css';
-```  
+```
+
+`variables.css` contains design tokens only (palette, theme semantics, `--color-*` mapping). Light tokens and the color mapping are applied on `:root`, so `<html>` classes are **not** required for the default (light) look.
+
+`.default-theme` is a deprecated alias of `.light-theme`.
+
+To start with another theme or switch at runtime:
+
+```ts
+import { createApp, inject } from 'vue';
+import { theme, THEME_KEY } from '@v1nt1248/3nclient-lib/plugins';
+
+const app = createApp(App);
+app.use(theme, { theme: 'light' }); // omit or `'light'` → light; `'dark'` | `'dark2'` also valid
+app.mount('#app');
+
+const { setTheme } = inject(THEME_KEY)!;
+setTheme('dark');
+```
+
+With Pinia store:
+
+```ts
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import { theme, storeTheme } from '@v1nt1248/3nclient-lib/plugins';
+
+const app = createApp(App);
+const pinia = createPinia();
+
+app.use(theme, { theme: 'light' });
+pinia.use(storeTheme);
+app.use(pinia);
+app.mount('#app');
+
+// Inside any Pinia store action:
+// this.$theme.setTheme('dark');
+// this.$theme.theme.value; // 'dark'
+```
+
+Without the plugin you can still switch manually: `document.documentElement.classList.add('dark-theme', 'colors')`.
+  

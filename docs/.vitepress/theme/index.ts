@@ -1,5 +1,7 @@
 // https://vitepress.dev/guide/custom-theme
 import '../../../src/assets/styles/variables.css';
+import '../../../src/assets/styles/runtime.css';
+import '../../../src/assets/styles/chrome.css';
 import '../../../src/assets/styles/icons.css';
 import './style.css';
 import DefaultTheme from 'vitepress/theme';
@@ -9,7 +11,7 @@ import Layout from './Layout.vue';
 import ComponentDoc from './components/ComponentDoc.vue';
 import DemoBlock from './components/DemoBlock.vue';
 
-import { dialogs, notifications } from '../../../src/plugins/index';
+import { dialogs, notifications, theme } from '../../../src/plugins/index';
 
 import Ui3nClickOutside from '../../../src/directives/ui3n-click-outside';
 import Ui3nHtml from '../../../src/directives/ui3n-html';
@@ -67,6 +69,16 @@ export default {
     app.use(pinia);
     app.use(dialogs);
     app.use(notifications);
+    app.use(theme, {
+      theme:
+        typeof localStorage === 'undefined'
+          ? 'light'
+          : localStorage.getItem('user-theme') === 'dark'
+            ? 'dark2'
+            : localStorage.getItem('user-theme') === 'midnight'
+              ? 'dark'
+              : 'light',
+    });
 
     app.directive('Ui3nClickOutside', Ui3nClickOutside);
     app.directive('Ui3nHtml', Ui3nHtml);

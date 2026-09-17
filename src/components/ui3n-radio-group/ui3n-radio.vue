@@ -1,7 +1,11 @@
 <script lang="ts" setup>
-  import { computed, getCurrentInstance, inject, onBeforeMount, ref, useSlots, watch } from 'vue';
+  import { computed, inject, onBeforeMount, ref, useSlots, watch } from 'vue';
   import type { ComputedRef } from 'vue';
+  import Ui3nRipple from '../../directives/ui3n-ripple';
+  import { toCssLength } from '../../utils/ui/to-css-length';
   import type { Ui3nRadioEmits, Ui3nRadioProps, Ui3nRadioSlots, Ui3nRadioValue, Ui3nRadioExpose } from './types';
+
+  const vUi3nRipple = Ui3nRipple;
 
   const props = withDefaults(defineProps<Ui3nRadioProps>(), {
     name: undefined,
@@ -38,7 +42,7 @@
   });
 
   const radioStyle = computed(() => ({
-    '--ui3n-radio-size': `${props.size}px`,
+    '--ui3n-radio-size': toCssLength(props.size),
     '--ui3n-radio-color': props.color,
   }));
 
@@ -120,6 +124,7 @@
     />
 
     <div
+      v-ui3n-ripple
       :class="[$style.body, disabled && $style.bodyDisabled]"
       :tabindex="disabled ? -1 : 0"
       @keydown.enter="change"
@@ -168,8 +173,6 @@
 </template>
 
 <style lang="scss" module>
-  @use '../../assets/styles/mixins' as mixins;
-
   .ui3nRadio {
     --ui3n-radio-min-height: 24px;
 
@@ -206,11 +209,11 @@
     justify-content: center;
     align-items: center;
     border-radius: 50%;
+    overflow: hidden;
 
     &:hover {
       cursor: pointer;
-      background-color: oklch(from transparent calc(l - 0.1) c h);
-      @include mixins.ripple(oklch(from transparent calc(l - 0.1) c h));
+      background-color: color-mix(in oklch, var(--ui3n-radio-color) 16%, transparent);
     }
   }
 
