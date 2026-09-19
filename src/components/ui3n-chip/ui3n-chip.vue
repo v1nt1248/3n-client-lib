@@ -1,17 +1,21 @@
 <script lang="ts" setup>
   import { computed, useSlots } from 'vue';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
+  import { toCssLength } from '../../utils/ui/to-css-length';
   import type { Ui3nChipEmits, Ui3nChipProps, Ui3nChipSlots } from './types';
 
+  /*
+   * Sizes and colours have their defaults in CSS, not here, so that an
+   * application can override them from a stylesheet. A prop, when given,
+   * arrives as an inline variable and wins over any of that.
+   */
+  const DEFAULT_HEIGHT = 24;
+  const DEFAULT_TEXT_COLOR = 'var(--color-text-control-primary-default)';
+
   const props = withDefaults(defineProps<Ui3nChipProps>(), {
-    height: 24,
-    maxWidth: 200,
     plain: false,
     round: true,
     closeable: false,
-    color: 'var(--color-bg-control-secondary-default)',
-    textSize: 10,
-    textColor: 'var(--color-text-control-primary-default)',
   });
 
   const emits = defineEmits<Ui3nChipEmits>();
@@ -19,33 +23,41 @@
 
   const slots = useSlots();
 
+  const hasLeftSlot = computed(() => !!slots.left);
+
+  /* the icon of the left slot is sized in JS, so it needs a number to work with */
   const chipHeight = computed(() => {
     const num = Number(props.height);
-    return isNaN(num) ? 24 : num;
+    return Number.isNaN(num) || !props.height ? DEFAULT_HEIGHT : num;
   });
-  const heightCss = computed(() => `${chipHeight.value}px`);
   const iconSize = computed(() => chipHeight.value - 4);
+  const textColor = computed(() => props.textColor ?? DEFAULT_TEXT_COLOR);
 
-  const paddingCss = computed(() => {
-    const padValue = Math.round(chipHeight.value / 3);
-    return hasLeftSlot.value ? `0 ${padValue}px 0 4px` : `0 ${padValue}px`;
+  const inlineStyles = computed(() => {
+    const styles: Record<string, string> = {};
+
+    if (props.height !== undefined) {
+      styles['--ui3n-chip-height'] = toCssLength(props.height);
+    }
+
+    if (props.maxWidth !== undefined) {
+      styles['--ui3n-chip-max-width'] = toCssLength(props.maxWidth);
+    }
+
+    if (props.color) {
+      styles['--ui3n-chip-bg-color'] = props.color;
+    }
+
+    if (props.textSize !== undefined) {
+      styles['--ui3n-chip-font-size'] = toCssLength(props.textSize);
+    }
+
+    if (props.textColor) {
+      styles['--ui3n-chip-font-color'] = props.textColor;
+    }
+
+    return styles;
   });
-
-  const maxWidthCss = computed(() => {
-    const num = Number(props.maxWidth);
-    return isNaN(num) ? String(props.maxWidth) : `${num}px`;
-  });
-
-  const bgColor = computed(() => props.color);
-
-  const textSize = computed(() => {
-    const num = Number(props.textSize);
-    return isNaN(num) ? String(props.textSize) : `${num}px`;
-  });
-
-  const textColor = computed(() => props.textColor);
-
-  const hasLeftSlot = computed(() => !!slots.left);
 </script>
 
 <template>
@@ -58,14 +70,7 @@
       closeable && $style.closeable,
       hasLeftSlot && $style.withIcon,
     ]"
-    :style="{
-      '--ui3n-chip-height': heightCss,
-      '--ui3n-chip-max-width': maxWidthCss,
-      '--ui3n-chip-padding': paddingCss,
-      '--ui3n-chip-bg-color': bgColor,
-      '--ui3n-chip-font-size': textSize,
-      '--ui3n-chip-font-color': textColor,
-    }"
+    :style="inlineStyles"
     @click="emits('click', $event)"
   >
     <div :class="$style.ui3nChipIcon">
@@ -95,16 +100,26 @@
 
 <style lang="scss" module>
   .ui3nChip {
+    --_chip-height: var(--ui3n-chip-height, 24px);
+    --_chip-font-color: var(--ui3n-chip-font-color, var(--color-text-control-primary-default));
+
+    /* the side padding follows the height, as it did when JS computed it */
+    --_chip-padding: var(--ui3n-chip-padding, 0 calc(var(--_chip-height) / 3));
+
     position: relative;
     display: flex;
-    height: var(--ui3n-chip-height);
-    padding: var(--ui3n-chip-padding);
+    height: var(--_chip-height);
+    padding: var(--_chip-padding);
     width: max-content;
-    max-width: var(--ui3n-chip-max-width);
-    background-color: var(--ui3n-chip-bg-color);
+    max-width: var(--ui3n-chip-max-width, 200px);
+    background-color: var(--ui3n-chip-bg-color, var(--color-bg-control-secondary-default));
     justify-content: flex-start;
     align-items: center;
     column-gap: 4px;
+
+    &.withIcon {
+      padding-left: 4px;
+    }
 
     &.closeable:not(.withIcon) {
       .body {
@@ -114,22 +129,22 @@
 
     &.withIcon:not(.closeable) {
       .body {
-        max-width: calc(100% - var(--ui3n-chip-height) - 4px);
+        max-width: calc(100% - var(--_chip-height) - 4px);
       }
     }
 
     &.closable.withIcon {
       .body {
-        max-width: calc(100% - var(--ui3n-chip-height) - 28px);
+        max-width: calc(100% - var(--_chip-height) - 28px);
       }
     }
   }
 
   .ui3nChipBody {
-    font-size: var(--ui3n-chip-font-size);
+    font-size: var(--ui3n-chip-font-size, 10px);
     line-height: 1;
     font-weight: 400;
-    color: var(--ui3n-chip-font-color);
+    color: var(--_chip-font-color);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -146,7 +161,7 @@
   }
 
   .round {
-    border-radius: calc(var(--ui3n-chip-height) / 2);
+    border-radius: calc(var(--_chip-height) / 2);
   }
 
   .closeable {
@@ -155,6 +170,6 @@
   }
 
   .plain {
-    border: 1px solid var(--ui3n-chip-font-color);
+    border: 1px solid var(--_chip-font-color);
   }
 </style>

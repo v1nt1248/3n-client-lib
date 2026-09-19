@@ -8,8 +8,6 @@
   const props = withDefaults(defineProps<Ui3nProgressLinearProps>(), {
     value: 0,
     height: 2,
-    bgColor: 'var(--color-bg-control-primary-default)',
-    color: 'var(--color-bg-control-accent-default)',
     indeterminate: false,
     withText: false,
   });
@@ -28,12 +26,23 @@
   const isValueShown = computed(() => props.withText && !props.indeterminate);
   const displayValue = computed(() => `${innerValue.value}%`);
 
-  const progressStyle = computed(() => ({
-    '--ui3n-progress-linear-height': `${innerHeight.value}px`,
-    '--ui3n-progress-linear-bg': props.bgColor,
-    '--ui3n-progress-linear-color': props.color,
-    '--ui3n-progress-linear-font-size': `${Math.max(innerHeight.value - 2, 10)}px`,
-  }));
+  /* the geometry is computed here; the colours default in CSS */
+  const progressStyle = computed(() => {
+    const styles: Record<string, string> = {
+      '--ui3n-progress-linear-height': `${innerHeight.value}px`,
+      '--ui3n-progress-linear-font-size': `${Math.max(innerHeight.value - 2, 10)}px`,
+    };
+
+    if (props.bgColor) {
+      styles['--ui3n-progress-linear-bg'] = props.bgColor;
+    }
+
+    if (props.color) {
+      styles['--ui3n-progress-linear-color'] = props.color;
+    }
+
+    return styles;
+  });
 </script>
 
 <template>
@@ -66,6 +75,9 @@
 
 <style lang="scss" module>
   .ui3nProgressLinear {
+    --_progress-linear-bg: var(--ui3n-progress-linear-bg, var(--color-bg-control-primary-default));
+    --_progress-linear-color: var(--ui3n-progress-linear-color, var(--color-bg-control-accent-default));
+
     position: relative;
     width: 100%;
     user-select: none;
@@ -76,7 +88,7 @@
     width: 100%;
     height: var(--ui3n-progress-linear-height);
     border-radius: calc(var(--ui3n-progress-linear-height) - 2px);
-    background-color: var(--ui3n-progress-linear-bg);
+    background-color: var(--_progress-linear-bg);
     overflow: hidden;
   }
 
@@ -89,7 +101,7 @@
     top: 0;
     height: 100%;
     border-radius: calc(var(--ui3n-progress-linear-height) - 2px);
-    background-color: var(--ui3n-progress-linear-color);
+    background-color: var(--_progress-linear-color);
     transition: width 0.2s ease-in-out;
   }
 
@@ -97,7 +109,7 @@
     font-size: var(--ui3n-progress-linear-font-size);
     font-weight: 600;
     line-height: var(--ui3n-progress-linear-height);
-    color: var(--ui3n-progress-linear-bg);
+    color: var(--_progress-linear-bg);
     white-space: nowrap;
   }
 

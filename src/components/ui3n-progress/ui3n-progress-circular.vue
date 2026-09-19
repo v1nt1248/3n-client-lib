@@ -5,8 +5,6 @@
   const props = withDefaults(defineProps<Ui3nProgressCircularProps>(), {
     value: 0,
     size: 64,
-    bgColor: 'var(--color-bg-control-primary-default)',
-    color: 'var(--color-bg-control-accent-default)',
     indeterminate: false,
     withText: false,
   });
@@ -38,13 +36,24 @@
 
   const fontSize = computed(() => `${Math.floor(innerSize.value / 3.8)}px`);
 
-  const progressStyle = computed(() => ({
-    '--ui3n-progress-circular-size': `${innerSize.value}px`,
-    '--ui3n-progress-circular-font-size': fontSize.value,
-    '--ui3n-progress-circular-bg': props.bgColor,
-    '--ui3n-progress-circular-color': props.color,
-    '--ui3n-progress-virtual-width': String(virtualStrokeWidth.value),
-  }));
+  /* the geometry is computed here; the colours default in CSS */
+  const progressStyle = computed(() => {
+    const styles: Record<string, string> = {
+      '--ui3n-progress-circular-size': `${innerSize.value}px`,
+      '--ui3n-progress-circular-font-size': fontSize.value,
+      '--ui3n-progress-virtual-width': String(virtualStrokeWidth.value),
+    };
+
+    if (props.bgColor) {
+      styles['--ui3n-progress-circular-bg'] = props.bgColor;
+    }
+
+    if (props.color) {
+      styles['--ui3n-progress-circular-color'] = props.color;
+    }
+
+    return styles;
+  });
 </script>
 
 <template>
@@ -85,6 +94,9 @@
 
 <style lang="scss" module>
   .ui3nProgressCircular {
+    --_progress-circular-bg: var(--ui3n-progress-circular-bg, var(--color-bg-control-primary-default));
+    --_progress-circular-color: var(--ui3n-progress-circular-color, var(--color-bg-control-accent-default));
+
     position: relative;
     display: inline-flex;
     min-width: var(--ui3n-progress-circular-size);
@@ -104,14 +116,14 @@
 
   .background {
     fill: none;
-    stroke: var(--ui3n-progress-circular-bg);
+    stroke: var(--_progress-circular-bg);
     stroke-width: var(--ui3n-progress-virtual-width);
     transition: stroke 0.2s ease;
   }
 
   .chart {
     fill: none;
-    stroke: var(--ui3n-progress-circular-color);
+    stroke: var(--_progress-circular-color);
     stroke-width: var(--ui3n-progress-virtual-width);
     transition:
       stroke-dasharray 0.2s ease-in-out,
@@ -127,7 +139,7 @@
     font-size: var(--ui3n-progress-circular-font-size);
     font-weight: 600;
     line-height: 1;
-    color: var(--ui3n-progress-circular-color);
+    color: var(--_progress-circular-color);
   }
 
   .indeterminate {

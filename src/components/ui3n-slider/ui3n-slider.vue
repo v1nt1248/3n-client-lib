@@ -3,6 +3,7 @@
   import cloneDeep from 'lodash/cloneDeep';
   import Ui3nTooltip from '../ui3n-tooltip/ui3n-tooltip.vue';
   import { round } from '../../utils';
+  import { toCssLength } from '../../utils/ui/to-css-length';
   import type { Nullable } from '../../types';
   import type { UI3nSliderProps, UI3nSliderEmits, UI3nSliderExpose } from './types';
 
@@ -13,11 +14,6 @@
     labelVisible: 'normal',
     labelColor: 'var(--color-bg-block-tritery-default)',
     labelTextColor: 'var(--color-text-block-darkery-default)',
-    activeColor: 'var(--color-bg-control-accent-default)',
-    trackColor: 'var(--color-bg-control-secondary-default)',
-    trackHeight: 8,
-    thumbSize: 16,
-    thumbColor: 'var(--color-bg-control-accent-default)',
   });
   const emits = defineEmits<UI3nSliderEmits>();
 
@@ -35,7 +31,6 @@
   const innerValue = ref<number | [number, number]>(0);
   const selectedPointer = ref<Nullable<1 | 2>>(null);
 
-  const thumbSizeCss = computed(() => `${props.thumbSize}px`);
   const diff = computed(() => Number(props.max) - Number(props.min));
   const innerStep = computed(() => (props.step ? Number(props.step) : diff.value / 100));
 
@@ -100,20 +95,34 @@
     return props.transformValueMethod ? props.transformValueMethod(val) : `${val}`;
   });
 
+  /* sizes and colours default in CSS; a prop, when given, wins as an inline variable */
   const sliderStyle = computed(() => {
-    const height = Math.max(Number(props.trackHeight), Number(props.thumbSize));
-    return {
-      '--ui3n-slider-height': `${height}px`,
-      '--ui3n-slider-label-color': props.labelColor,
-      '--ui3n-slider-label-text-color': props.labelTextColor,
-      '--ui3n-slider-active-color': props.activeColor,
-      '--ui3n-slider-track-color': props.trackColor,
-      '--ui3n-slider-track-height': `${props.trackHeight}px`,
-      '--ui3n-slider-thumb-size': `${props.thumbSize}px`,
-      '--ui3n-slider-thumb-color': props.thumbColor,
+    const styles: Record<string, string> = {
       '--ui3n-slider-pointer1-position': pointer1PositionCss.value,
       '--ui3n-slider-pointer2-position': pointer2PositionCss.value,
     };
+
+    if (props.activeColor) {
+      styles['--ui3n-slider-active-color'] = props.activeColor;
+    }
+
+    if (props.trackColor) {
+      styles['--ui3n-slider-track-color'] = props.trackColor;
+    }
+
+    if (props.thumbColor) {
+      styles['--ui3n-slider-thumb-color'] = props.thumbColor;
+    }
+
+    if (props.trackHeight !== undefined) {
+      styles['--ui3n-slider-track-height'] = toCssLength(props.trackHeight);
+    }
+
+    if (props.thumbSize !== undefined) {
+      styles['--ui3n-slider-thumb-size'] = toCssLength(props.thumbSize);
+    }
+
+    return styles;
   });
 
   function onMouseenter(pointer: 1 | 2) {
@@ -346,9 +355,18 @@
 
 <style lang="scss" module>
   .ui3nSlider {
+    --_slider-track-height: var(--ui3n-slider-track-height, 8px);
+    --_slider-thumb-size: var(--ui3n-slider-thumb-size, 16px);
+    --_slider-thumb-color: var(--ui3n-slider-thumb-color, var(--color-bg-control-accent-default));
+    --_slider-track-color: var(--ui3n-slider-track-color, var(--color-bg-control-secondary-default));
+    --_slider-active-color: var(--ui3n-slider-active-color, var(--color-bg-control-accent-default));
+
+    /* the slider is as tall as the taller of the track and the thumb */
+    --_slider-height: var(--ui3n-slider-height, max(var(--_slider-track-height), var(--_slider-thumb-size)));
+
     position: relative;
     width: 100%;
-    height: var(--ui3n-slider-height);
+    height: var(--_slider-height);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -362,25 +380,25 @@
   .track {
     position: relative;
     width: 100%;
-    height: var(--ui3n-slider-track-height);
-    background-color: var(--ui3n-slider-track-color);
-    border-radius: var(--ui3n-slider-track-height);
+    height: var(--_slider-track-height);
+    background-color: var(--_slider-track-color);
+    border-radius: var(--_slider-track-height);
     cursor: pointer;
   }
 
   .active {
     position: absolute;
-    height: var(--ui3n-slider-track-height);
-    background-color: var(--ui3n-slider-active-color);
-    border-radius: var(--ui3n-slider-track-height);
+    height: var(--_slider-track-height);
+    background-color: var(--_slider-active-color);
+    border-radius: var(--_slider-track-height);
   }
 
   .pointerWrapper {
     position: absolute;
-    //top: calc(var(--ui3n-slider-track-height) / 2 * -1);
-    top: calc(var(--ui3n-slider-track-height) * -1);
-    width: var(--ui3n-slider-thumb-size);
-    height: var(--ui3n-slider-thumb-size);
+    //top: calc(var(--_slider-track-height) / 2 * -1);
+    top: calc(var(--_slider-track-height) * -1);
+    width: var(--_slider-thumb-size);
+    height: var(--_slider-thumb-size);
     border-radius: 50%;
     background-color: transparent;
     cursor: pointer;
@@ -394,26 +412,26 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: var(--ui3n-slider-thumb-color);
+    background-color: var(--_slider-thumb-color);
     touch-action: none;
     z-index: 5;
 
     &:hover {
-      background-color: oklch(from var(--ui3n-slider-thumb-color) calc(l + 0.1) c h);
+      background-color: oklch(from var(--_slider-thumb-color) calc(l + 0.1) c h);
     }
 
     &.selected::before {
       position: absolute;
       content: '';
-      width: calc(var(--ui3n-slider-thumb-size) * 2);
-      height: calc(var(--ui3n-slider-thumb-size) * 2);
+      width: calc(var(--_slider-thumb-size) * 2);
+      height: calc(var(--_slider-thumb-size) * 2);
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
       border-radius: 50%;
       opacity: 0.2;
       transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-      background-color: var(--ui3n-slider-thumb-color);
+      background-color: var(--_slider-thumb-color);
     }
   }
 

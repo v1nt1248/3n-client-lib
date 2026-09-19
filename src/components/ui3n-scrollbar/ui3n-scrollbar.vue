@@ -10,31 +10,12 @@
     Ui3nScrollbarAxes,
     Ui3nScrollbarScrollPayload,
   } from './types';
+  import { toCssLength } from '../../utils/ui/to-css-length';
 
   const props = withDefaults(defineProps<Ui3nScrollbarProps>(), {
     axes: 'both',
-    vertical: () => ({
-      thumbMinHeight: 32,
-      thumbHeight: 'auto',
-      thumbRadius: 4,
-      thumbColor: 'var(--color-bg-control-accent-default)',
-      thumbHoverColor: 'var(--color-bg-control-accent-hover)',
-      thumbActiveColor: 'var(--color-bg-control-accent-focused)',
-      trackWidth: 6,
-      trackRadius: 4,
-      trackColor: 'transparent',
-    }),
-    horizontal: () => ({
-      thumbMinWidth: 32,
-      thumbWidth: 'auto',
-      thumbRadius: 4,
-      thumbColor: 'var(--color-bg-control-accent-default)',
-      thumbHoverColor: 'var(--color-bg-control-accent-hover)',
-      thumbActiveColor: 'var(--color-bg-control-accent-focused)',
-      trackHeight: 6,
-      trackRadius: 4,
-      trackColor: 'transparent',
-    }),
+    vertical: () => ({ thumbMinHeight: 32, thumbHeight: 'auto' }),
+    horizontal: () => ({ thumbMinWidth: 32, thumbWidth: 'auto' }),
     autoUpdate: true,
   });
   const emits = defineEmits<Ui3nScrollbarEmits>();
@@ -198,38 +179,67 @@
     return (scrollLeft.value / maxScrollLeft) * maxThumbLeft;
   });
 
-  const trackRadiusVCss = computed(() => {
-    const num = Number(vOpts.value.trackRadius);
-    return isNaN(num) ? String(vOpts.value.trackRadius ?? 4) : `${num}px`;
-  });
-  const trackColorVCss = computed(() => vOpts.value.trackColor ?? 'transparent');
-  const thumbRadiusVCss = computed(() => {
-    const num = Number(vOpts.value.thumbRadius);
-    return isNaN(num) ? String(vOpts.value.thumbRadius ?? 4) : `${num}px`;
-  });
-  const thumbColorVCss = computed(() => vOpts.value.thumbColor ?? 'var(--color-bg-control-accent-default)');
-  const thumbHoverColorVCss = computed(() => vOpts.value.thumbHoverColor ?? 'var(--color-bg-control-accent-hover)');
-  const thumbActiveColorVCss = computed(() => vOpts.value.thumbActiveColor ?? 'var(--color-bg-control-accent-focused)');
-  const trackWidthVCss = computed(() => {
-    const num = Number(vOpts.value.trackWidth);
-    return isNaN(num) ? String(vOpts.value.trackWidth ?? 6) : `${num}px`;
-  });
+  /* sizes and colours default in CSS; an option, when given, wins as an inline variable */
+  const scrollbarStyle = computed(() => {
+    const styles: Record<string, string> = {};
 
-  const trackRadiusHCss = computed(() => {
-    const num = Number(hOpts.value.trackRadius);
-    return isNaN(num) ? String(hOpts.value.trackRadius ?? 4) : `${num}px`;
-  });
-  const trackColorHCss = computed(() => hOpts.value.trackColor ?? 'transparent');
-  const thumbRadiusHCss = computed(() => {
-    const num = Number(hOpts.value.thumbRadius);
-    return isNaN(num) ? String(hOpts.value.thumbRadius ?? 4) : `${num}px`;
-  });
-  const thumbColorHCss = computed(() => hOpts.value.thumbColor ?? 'var(--color-bg-control-accent-default)');
-  const thumbHoverColorHCss = computed(() => hOpts.value.thumbHoverColor ?? 'var(--color-bg-control-accent-hover)');
-  const thumbActiveColorHCss = computed(() => hOpts.value.thumbActiveColor ?? 'var(--color-bg-control-accent-focused)');
-  const trackHeightHCss = computed(() => {
-    const num = Number(hOpts.value.trackHeight);
-    return isNaN(num) ? String(hOpts.value.trackHeight ?? 6) : `${num}px`;
+    if (vOpts.value.trackRadius !== undefined) {
+      styles['--ui3n-scrollbar-vertical-track-radius'] = toCssLength(vOpts.value.trackRadius);
+    }
+
+    if (vOpts.value.trackColor) {
+      styles['--ui3n-scrollbar-vertical-track-color'] = vOpts.value.trackColor;
+    }
+
+    if (vOpts.value.thumbRadius !== undefined) {
+      styles['--ui3n-scrollbar-vertical-thumb-radius'] = toCssLength(vOpts.value.thumbRadius);
+    }
+
+    if (vOpts.value.thumbColor) {
+      styles['--ui3n-scrollbar-vertical-thumb-color'] = vOpts.value.thumbColor;
+    }
+
+    if (vOpts.value.thumbHoverColor) {
+      styles['--ui3n-scrollbar-vertical-thumb-hover-color'] = vOpts.value.thumbHoverColor;
+    }
+
+    if (vOpts.value.thumbActiveColor) {
+      styles['--ui3n-scrollbar-vertical-thumb-active-color'] = vOpts.value.thumbActiveColor;
+    }
+
+    if (vOpts.value.trackWidth !== undefined) {
+      styles['--ui3n-scrollbar-vertical-track-width'] = toCssLength(vOpts.value.trackWidth);
+    }
+
+    if (hOpts.value.trackRadius !== undefined) {
+      styles['--ui3n-scrollbar-horizontal-track-radius'] = toCssLength(hOpts.value.trackRadius);
+    }
+
+    if (hOpts.value.trackColor) {
+      styles['--ui3n-scrollbar-horizontal-track-color'] = hOpts.value.trackColor;
+    }
+
+    if (hOpts.value.thumbRadius !== undefined) {
+      styles['--ui3n-scrollbar-horizontal-thumb-radius'] = toCssLength(hOpts.value.thumbRadius);
+    }
+
+    if (hOpts.value.thumbColor) {
+      styles['--ui3n-scrollbar-horizontal-thumb-color'] = hOpts.value.thumbColor;
+    }
+
+    if (hOpts.value.thumbHoverColor) {
+      styles['--ui3n-scrollbar-horizontal-thumb-hover-color'] = hOpts.value.thumbHoverColor;
+    }
+
+    if (hOpts.value.thumbActiveColor) {
+      styles['--ui3n-scrollbar-horizontal-thumb-active-color'] = hOpts.value.thumbActiveColor;
+    }
+
+    if (hOpts.value.trackHeight !== undefined) {
+      styles['--ui3n-scrollbar-horizontal-track-height'] = toCssLength(hOpts.value.trackHeight);
+    }
+
+    return styles;
   });
 
   function updateMetrics() {
@@ -514,22 +524,7 @@
 <template>
   <div
     :class="$style.ui3nScrollbar"
-    :style="{
-      '--ui3n-scrollbar-vertical-thumb-radius': thumbRadiusVCss,
-      '--ui3n-scrollbar-vertical-thumb-color': thumbColorVCss,
-      '--ui3n-scrollbar-vertical-thumb-hover-color': thumbHoverColorVCss,
-      '--ui3n-scrollbar-vertical-thumb-active-color': thumbActiveColorVCss,
-      '--ui3n-scrollbar-vertical-track-width': trackWidthVCss,
-      '--ui3n-scrollbar-vertical-track-radius': trackRadiusVCss,
-      '--ui3n-scrollbar-vertical-track-color': trackColorVCss,
-      '--ui3n-scrollbar-horizontal-thumb-radius': thumbRadiusHCss,
-      '--ui3n-scrollbar-horizontal-thumb-color': thumbColorHCss,
-      '--ui3n-scrollbar-horizontal-thumb-hover-color': thumbHoverColorHCss,
-      '--ui3n-scrollbar-horizontal-thumb-active-color': thumbActiveColorHCss,
-      '--ui3n-scrollbar-horizontal-track-height': trackHeightHCss,
-      '--ui3n-scrollbar-horizontal-track-radius': trackRadiusHCss,
-      '--ui3n-scrollbar-horizontal-track-color': trackColorHCss,
-    }"
+    :style="scrollbarStyle"
     @mouseenter="isHovered = true"
     @mouseleave="isHovered = false"
   >
@@ -585,6 +580,21 @@
 
 <style lang="scss" module>
   .ui3nScrollbar {
+    --_scrollbar-vertical-thumb-radius: var(--ui3n-scrollbar-vertical-thumb-radius, 4px);
+    --_scrollbar-vertical-thumb-color: var(--ui3n-scrollbar-vertical-thumb-color, var(--color-bg-control-accent-default));
+    --_scrollbar-vertical-thumb-hover-color: var(--ui3n-scrollbar-vertical-thumb-hover-color, var(--color-bg-control-accent-hover));
+    --_scrollbar-vertical-thumb-active-color: var(--ui3n-scrollbar-vertical-thumb-active-color, var(--color-bg-control-accent-focused));
+    --_scrollbar-vertical-track-width: var(--ui3n-scrollbar-vertical-track-width, 6px);
+    --_scrollbar-vertical-track-radius: var(--ui3n-scrollbar-vertical-track-radius, 4px);
+    --_scrollbar-vertical-track-color: var(--ui3n-scrollbar-vertical-track-color, transparent);
+    --_scrollbar-horizontal-thumb-radius: var(--ui3n-scrollbar-horizontal-thumb-radius, 4px);
+    --_scrollbar-horizontal-thumb-color: var(--ui3n-scrollbar-horizontal-thumb-color, var(--color-bg-control-accent-default));
+    --_scrollbar-horizontal-thumb-hover-color: var(--ui3n-scrollbar-horizontal-thumb-hover-color, var(--color-bg-control-accent-hover));
+    --_scrollbar-horizontal-thumb-active-color: var(--ui3n-scrollbar-horizontal-thumb-active-color, var(--color-bg-control-accent-focused));
+    --_scrollbar-horizontal-track-height: var(--ui3n-scrollbar-horizontal-track-height, 6px);
+    --_scrollbar-horizontal-track-radius: var(--ui3n-scrollbar-horizontal-track-radius, 4px);
+    --_scrollbar-horizontal-track-color: var(--ui3n-scrollbar-horizontal-track-color, transparent);
+
     position: relative;
     width: 100%;
     height: 100%;
@@ -618,9 +628,9 @@
     top: 2px;
     right: 2px;
     bottom: 2px;
-    width: var(--ui3n-scrollbar-vertical-track-width);
-    background: var(--ui3n-scrollbar-vertical-track-color);
-    border-radius: var(--ui3n-scrollbar-vertical-track-radius);
+    width: var(--_scrollbar-vertical-track-width);
+    background: var(--_scrollbar-vertical-track-color);
+    border-radius: var(--_scrollbar-vertical-track-radius);
     z-index: 10;
     visibility: hidden;
     opacity: 0;
@@ -635,9 +645,9 @@
     left: 2px;
     right: 2px;
     bottom: 2px;
-    height: var(--ui3n-scrollbar-horizontal-track-height);
-    background: var(--ui3n-scrollbar-horizontal-track-color);
-    border-radius: var(--ui3n-scrollbar-horizontal-track-radius);
+    height: var(--_scrollbar-horizontal-track-height);
+    background: var(--_scrollbar-horizontal-track-color);
+    border-radius: var(--_scrollbar-horizontal-track-radius);
     z-index: 10;
     visibility: hidden;
     opacity: 0;
@@ -658,19 +668,19 @@
     top: 0;
     left: 0;
     width: 100%;
-    border-radius: var(--ui3n-scrollbar-vertical-thumb-radius);
-    background-color: var(--ui3n-scrollbar-vertical-thumb-color);
+    border-radius: var(--_scrollbar-vertical-thumb-radius);
+    background-color: var(--_scrollbar-vertical-thumb-color);
     cursor: pointer;
     transition: background-color 0.15s ease;
     touch-action: none;
 
     &:hover {
-      background-color: var(--ui3n-scrollbar-vertical-thumb-hover-color);
+      background-color: var(--_scrollbar-vertical-thumb-hover-color);
     }
 
     &:active,
     &.active {
-      background-color: var(--ui3n-scrollbar-vertical-thumb-active-color);
+      background-color: var(--_scrollbar-vertical-thumb-active-color);
     }
   }
 
@@ -679,19 +689,19 @@
     top: 0;
     left: 0;
     height: 100%;
-    border-radius: var(--ui3n-scrollbar-horizontal-thumb-radius);
-    background-color: var(--ui3n-scrollbar-horizontal-thumb-color);
+    border-radius: var(--_scrollbar-horizontal-thumb-radius);
+    background-color: var(--_scrollbar-horizontal-thumb-color);
     cursor: pointer;
     transition: background-color 0.15s ease;
     touch-action: none;
 
     &:hover {
-      background-color: var(--ui3n-scrollbar-horizontal-thumb-hover-color);
+      background-color: var(--_scrollbar-horizontal-thumb-hover-color);
     }
 
     &:active,
     &.active {
-      background-color: var(--ui3n-scrollbar-horizontal-thumb-active-color);
+      background-color: var(--_scrollbar-horizontal-thumb-active-color);
     }
   }
 </style>

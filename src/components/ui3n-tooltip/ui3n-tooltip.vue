@@ -1,15 +1,13 @@
 <script lang="ts" setup>
   import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
   import { arrow, autoUpdate, offset, useFloating } from '@floating-ui/vue';
+  import { toCssLength } from '../../utils/ui/to-css-length';
   import type { Nullable } from '../../types';
   import type { Ui3nTooltipProps, Ui3nTooltipEmits, Ui3nTooltipSlots } from './types';
 
   const baseOffset = 5;
 
   const props = withDefaults(defineProps<Ui3nTooltipProps>(), {
-    maxContentWidth: 400,
-    color: 'var(--color-bg-block-tritery-default)',
-    textColor: 'var(--color-text-block-darkery-default)',
     placement: 'top',
     positionStrategy: 'absolute',
     offsetX: 0,
@@ -68,20 +66,27 @@
     whileElementsMounted: props.positionStrategy === 'fixed' ? autoUpdate : undefined,
   });
 
+  /* colours and the maximum width default in CSS, so a stylesheet can change them */
   const tooltipStylesComputed = computed(() => {
-    const maxWidth =
-      typeof props.maxContentWidth === 'number' || !isNaN(Number(props.maxContentWidth))
-        ? `${props.maxContentWidth}px`
-        : String(props.maxContentWidth);
-
-    return {
+    const styles: Record<string, string> = {
       ...floatingStyles.value,
-      '--ui3n-tooltip-bg-color': props.color,
-      '--ui3n-tooltip-text-color': props.textColor,
-      '--ui3n-tooltip-max-width': maxWidth,
       '--ui3n-tooltip-arrow-size': `${baseOffset}px`,
       '--ui3n-tooltip-base-offset': `${-baseOffset}px`,
     };
+
+    if (props.color) {
+      styles['--ui3n-tooltip-bg-color'] = props.color;
+    }
+
+    if (props.textColor) {
+      styles['--ui3n-tooltip-text-color'] = props.textColor;
+    }
+
+    if (props.maxContentWidth !== undefined) {
+      styles['--ui3n-tooltip-max-width'] = toCssLength(props.maxContentWidth);
+    }
+
+    return styles;
   });
 
   function onMouseenter() {
@@ -202,6 +207,10 @@
   }
 
   .floating {
+    --_tooltip-bg-color: var(--ui3n-tooltip-bg-color, var(--color-bg-block-tritery-default));
+    --_tooltip-text-color: var(--ui3n-tooltip-text-color, var(--color-text-block-darkery-default));
+    --_tooltip-max-width: var(--ui3n-tooltip-max-width, 400px);
+
     width: max-content;
     z-index: 5;
   }
@@ -215,7 +224,7 @@
     &-bottom {
       border-style: solid;
       border-width: 0 var(--ui3n-tooltip-arrow-size) var(--ui3n-tooltip-arrow-size) var(--ui3n-tooltip-arrow-size);
-      border-color: transparent transparent var(--ui3n-tooltip-bg-color) transparent;
+      border-color: transparent transparent var(--_tooltip-bg-color) transparent;
     }
 
     &-top {
@@ -232,7 +241,7 @@
     &-right {
       border-style: solid;
       border-width: var(--ui3n-tooltip-arrow-size) 0 var(--ui3n-tooltip-arrow-size) var(--ui3n-tooltip-arrow-size);
-      border-color: transparent transparent transparent var(--ui3n-tooltip-bg-color);
+      border-color: transparent transparent transparent var(--_tooltip-bg-color);
     }
 
     &-left {
@@ -248,13 +257,13 @@
 
   .content {
     position: relative;
-    max-width: var(--ui3n-tooltip-max-width);
+    max-width: var(--_tooltip-max-width);
     padding: var(--ui3n-tooltip-padding, 6px 8px);
     border-radius: var(--ui3n-tooltip-border-radius, 6px);
     font-size: var(--ui3n-tooltip-font-size, 11px);
     line-height: var(--ui3n-tooltip-line-height, 12px);
     font-weight: 400;
-    background-color: var(--ui3n-tooltip-bg-color);
-    color: var(--ui3n-tooltip-text-color);
+    background-color: var(--_tooltip-bg-color);
+    color: var(--_tooltip-text-color);
   }
 </style>
