@@ -1,3 +1,14 @@
+/* Form controls don't inherit the font family from their parent by default. */
+button,
+input,
+textarea,
+select,
+optgroup,
+fieldset,
+legend {
+  font-family: inherit;
+}
+
 @keyframes ripple {
   to {
     transform: scale(4);
@@ -23,6 +34,7 @@
   left: 0;
   padding: var(--spacing-xs) var(--spacing-s);
   border-radius: var(--spacing-xs);
+  font-family: var(--ui3n-font-family);
   font-size: var(--font-11);
   line-height: var(--font-12);
   font-weight: 400;
