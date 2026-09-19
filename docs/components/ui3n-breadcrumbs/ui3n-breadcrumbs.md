@@ -28,6 +28,7 @@ Container component for breadcrumb items.
   :events="breadcrumbsMeta.events"
   :slots="breadcrumbsMeta.slots"
   :exposes="breadcrumbsMeta.exposes"
+  :css-variables="breadcrumbsMeta.cssVariables"
 />
 
 ## Ui3nBreadcrumb

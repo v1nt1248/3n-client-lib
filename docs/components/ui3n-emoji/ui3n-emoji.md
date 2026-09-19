@@ -19,6 +19,7 @@ Component for displaying emoticons from the built-in emoticons set. Supports dif
   :events="emojiMeta.events"
   :slots="emojiMeta.slots"
   :exposes="emojiMeta.exposes"
+  :css-variables="emojiMeta.cssVariables"
 />
 
 ## Usage Examples

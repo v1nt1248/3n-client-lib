@@ -19,6 +19,7 @@ List component for displaying a collection of items with optional title and cust
   :events="listMeta.events"
   :slots="listMeta.slots"
   :exposes="listMeta.exposes"
+  :css-variables="listMeta.cssVariables"
 />
 
 ## Usage Examples

@@ -17,6 +17,7 @@ Virtual scroll component for efficiently rendering large lists by only rendering
   :events="virtualScrollMeta.events"
   :slots="virtualScrollMeta.slots"
   :exposes="virtualScrollMeta.exposes"
+  :css-variables="virtualScrollMeta.cssVariables"
 />
 
 ## Usage Examples

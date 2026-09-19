@@ -65,6 +65,7 @@ config: Ui3nTableConfig<Row> = {
   :events="tableMeta.events"
   :slots="tableMeta.slots"
   :exposes="tableMeta.exposes"
+  :css-variables="tableMeta.cssVariables"
 />
 
 ## Ui3nTableSortIcon

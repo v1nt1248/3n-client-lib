@@ -17,6 +17,7 @@ Component for drag & drop file uploading. Displays a drop zone that appears when
   :events="dropFilesMeta.events"
   :slots="dropFilesMeta.slots"
   :exposes="dropFilesMeta.exposes"
+  :css-variables="dropFilesMeta.cssVariables"
 />
 
 ## Usage Examples

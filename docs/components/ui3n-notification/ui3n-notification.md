@@ -21,6 +21,7 @@ Notification component for displaying messages with different types and position
   :events="notificationMeta.events"
   :slots="notificationMeta.slots"
   :exposes="notificationMeta.exposes"
+  :css-variables="notificationMeta.cssVariables"
 />
 
 ## Usage Examples

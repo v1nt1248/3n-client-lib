@@ -19,6 +19,7 @@ Dual-axis custom scrollbar component. Renders one bi-directional scrollport with
   :events="scrollbarMeta.events"
   :slots="scrollbarMeta.slots"
   :exposes="scrollbarMeta.exposes"
+  :css-variables="scrollbarMeta.cssVariables"
 />
 
 ## Scroll events

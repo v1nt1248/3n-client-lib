@@ -24,6 +24,7 @@ Tabs component for organizing content into tabbed sections.
   :events="tabsMeta.events"
   :slots="tabsMeta.slots"
   :exposes="tabsMeta.exposes"
+  :css-variables="tabsMeta.cssVariables"
 />
 
 ## Usage Examples

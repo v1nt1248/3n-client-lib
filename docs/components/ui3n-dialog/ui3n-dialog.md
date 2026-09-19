@@ -26,6 +26,7 @@ const dialogMeta = data.find(c => c.name === 'ui3n-dialog');
 :events="dialogMeta.events"
 :slots="dialogMeta.slots"
 :exposes="dialogMeta.exposes"
+:css-variables="dialogMeta.cssVariables"
 />
 
 ## Core Concepts

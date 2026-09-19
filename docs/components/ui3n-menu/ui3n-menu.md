@@ -21,6 +21,7 @@ Context menu component with customizable positioning and behavior.
   :events="menuMeta.events"
   :slots="menuMeta.slots"
   :exposes="menuMeta.exposes"
+  :css-variables="menuMeta.cssVariables"
 />
 
 ## Usage Examples

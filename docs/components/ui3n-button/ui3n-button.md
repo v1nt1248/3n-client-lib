@@ -29,6 +29,7 @@ Button component with various styles and capabilities.
   :events="buttonMeta.events"
   :slots="buttonMeta.slots"
   :exposes="buttonMeta.exposes"
+  :css-variables="buttonMeta.cssVariables"
 />
 
 ## Usage Examples

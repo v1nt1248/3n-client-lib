@@ -22,6 +22,7 @@ Step line bar component for displaying progress through a series of steps.
   :events="stepLineBarMeta.events"
   :slots="stepLineBarMeta.slots"
   :exposes="stepLineBarMeta.exposes"
+  :css-variables="stepLineBarMeta.cssVariables"
 />
 
 ## Usage Examples

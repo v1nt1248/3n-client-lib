@@ -27,6 +27,7 @@ Text input component with validation, icons, states, and various customization o
   :events="inputMeta.events"
   :slots="inputMeta.slots"
   :exposes="inputMeta.exposes"
+  :css-variables="inputMeta.cssVariables"
 />
 
 ## Usage Examples

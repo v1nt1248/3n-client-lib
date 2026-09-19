@@ -24,6 +24,7 @@ Slider component for selecting numeric values with customizable appearance.
   :events="sliderMeta.events"
   :slots="sliderMeta.slots"
   :exposes="sliderMeta.exposes"
+  :css-variables="sliderMeta.cssVariables"
 />
 
 ## Usage Examples

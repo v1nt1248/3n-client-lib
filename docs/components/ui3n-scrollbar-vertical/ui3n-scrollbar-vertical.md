@@ -22,6 +22,7 @@ Vertical scrollbar component with customizable appearance and behavior.
   :events="scrollbarVerticalMeta.events"
   :slots="scrollbarVerticalMeta.slots"
   :exposes="scrollbarVerticalMeta.exposes"
+  :css-variables="scrollbarVerticalMeta.cssVariables"
 />
 
 ## Usage Examples

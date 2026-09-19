@@ -28,11 +28,17 @@
     props: string;
   }
 
+  interface ComponentCssVariableInfo {
+    name: string;
+    default: string;
+  }
+
   const propsData = defineProps<{
     props?: ComponentPropInfo[];
     events?: ComponentEventInfo[];
     slots?: ComponentSlotInfo[];
     exposes?: ComponentExposeInfo[];
+    cssVariables?: ComponentCssVariableInfo[];
   }>();
 
   const filteredExposes = computed(() => {
@@ -275,6 +281,45 @@
         </table>
       </div>
     </div>
+
+    <div
+      v-if="cssVariables && cssVariables.length"
+      class="section"
+    >
+      <h3 class="section-title">CSS Variables</h3>
+
+      <p class="section-note">
+        Set any of these where you need it — on <code>:root</code>, on a container, or on the element
+        itself through <code>[data-ui3n]</code> — and the component follows. Leave them alone and it
+        uses the defaults below.
+      </p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Default</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr
+              v-for="variable in cssVariables"
+              :key="variable.name"
+            >
+              <td class="name">
+                <code>{{ variable.name }}</code>
+              </td>
+
+              <td class="type">
+                <code>{{ variable.default }}</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -287,6 +332,13 @@
     position: relative;
     width: 100%;
     margin-bottom: 32px;
+  }
+
+  .section-note {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 16px 0;
+    color: var(--color-text-block-secondary-default);
   }
 
   .section-title {

@@ -23,6 +23,7 @@ Icon component for rendering SVG icons with customizable size, color, and transf
   :events="iconMeta.events"
   :slots="iconMeta.slots"
   :exposes="iconMeta.exposes"
+  :css-variables="iconMeta.cssVariables"
 />
 
 ## Usage Examples

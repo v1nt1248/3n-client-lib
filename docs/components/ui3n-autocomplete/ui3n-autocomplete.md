@@ -37,6 +37,7 @@ Autocomplete component with search, multi-select, chips, and custom filtering ca
   :events="componentMeta.events"
   :slots="componentMeta.slots"
   :exposes="componentMeta.exposes"
+  :css-variables="componentMeta.cssVariables"
 />
 
 ## Usage Examples

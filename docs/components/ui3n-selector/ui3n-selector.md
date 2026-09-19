@@ -19,6 +19,7 @@ Selector component for choosing items from a dropdown list with search and custo
   :events="selectorMeta.events"
   :slots="selectorMeta.slots"
   :exposes="selectorMeta.exposes"
+  :css-variables="selectorMeta.cssVariables"
 />
 
 ## Usage Examples

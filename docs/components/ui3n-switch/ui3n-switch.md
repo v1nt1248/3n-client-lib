@@ -24,6 +24,7 @@ Switch component for toggling boolean values.
   :events="switchMeta.events"
   :slots="switchMeta.slots"
   :exposes="switchMeta.exposes"
+  :css-variables="switchMeta.cssVariables"
 />
 
 ## Usage Examples

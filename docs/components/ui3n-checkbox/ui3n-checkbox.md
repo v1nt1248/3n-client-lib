@@ -27,6 +27,7 @@ Checkbox component with support for custom values, indeterminate state, and vari
   :events="checkboxMeta.events"
   :slots="checkboxMeta.slots"
   :exposes="checkboxMeta.exposes"
+  :css-variables="checkboxMeta.cssVariables"
 />
 
 ## Usage Examples

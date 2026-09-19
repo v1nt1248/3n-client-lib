@@ -25,6 +25,7 @@
   :events="mobileMenuMeta.events"
   :slots="mobileMenuMeta.slots"
   :exposes="mobileMenuMeta.exposes"
+  :css-variables="mobileMenuMeta.cssVariables"
 />
 
 ## Menu Item API

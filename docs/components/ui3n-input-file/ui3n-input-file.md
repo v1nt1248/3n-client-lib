@@ -23,6 +23,7 @@ File input component for selecting files with validation for file type, size, an
   :events="inputFileMeta.events"
   :slots="inputFileMeta.slots"
   :exposes="inputFileMeta.exposes"
+  :css-variables="inputFileMeta.cssVariables"
 />
 
 ## Usage Examples

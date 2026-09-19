@@ -19,6 +19,7 @@ Inline editable text component. Click on the text to enter edit mode, press Ente
   :events="editableMeta.events"
   :slots="editableMeta.slots"
   :exposes="editableMeta.exposes"
+  :css-variables="editableMeta.cssVariables"
 />
 
 ## Usage Examples

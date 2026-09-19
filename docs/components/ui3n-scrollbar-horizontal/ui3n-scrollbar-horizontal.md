@@ -17,6 +17,7 @@ Horizontal scrollbar component with customizable appearance and behavior.
   :events="scrollbarHorizontalMeta.events"
   :slots="scrollbarHorizontalMeta.slots"
   :exposes="scrollbarHorizontalMeta.exposes"
+  :css-variables="scrollbarHorizontalMeta.cssVariables"
 />
 
 ## Usage Examples

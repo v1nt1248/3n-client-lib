@@ -26,6 +26,7 @@ Linear progress bar component.
   :events="progressLinearMeta.events"
   :slots="progressLinearMeta.slots"
   :exposes="progressLinearMeta.exposes"
+  :css-variables="progressLinearMeta.cssVariables"
 />
 
 ## Ui3nProgressCircular

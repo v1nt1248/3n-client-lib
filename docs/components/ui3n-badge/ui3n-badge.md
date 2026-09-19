@@ -25,6 +25,7 @@ Badge component for displaying status indicators, notifications, and counts.
   :events="badgeMeta.events"
   :slots="badgeMeta.slots"
   :exposes="badgeMeta.exposes"
+  :css-variables="badgeMeta.cssVariables"
 />
 
 ## Usage Examples

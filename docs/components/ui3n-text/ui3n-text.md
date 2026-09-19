@@ -24,6 +24,7 @@ Textarea component for multi-line text input with validation support.
   :events="textMeta.events"
   :slots="textMeta.slots"
   :exposes="textMeta.exposes"
+  :css-variables="textMeta.cssVariables"
 />
 
 ## Usage Examples

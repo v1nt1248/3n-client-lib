@@ -65,6 +65,10 @@ export default defineConfig({
   themeConfig: {
     sidebar: [
       {
+        text: 'Guide',
+        items: [{ text: 'Styling', link: '/guide/styling' }],
+      },
+      {
         text: 'Components',
         items: [
           { text: 'Ui3nAutocomplete', link: '/components/ui3n-autocomplete/ui3n-autocomplete' },

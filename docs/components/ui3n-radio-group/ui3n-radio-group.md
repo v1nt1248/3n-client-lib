@@ -26,6 +26,7 @@ Single radio button component.
   :events="radioMeta.events"
   :slots="radioMeta.slots"
   :exposes="radioMeta.exposes"
+  :css-variables="radioMeta.cssVariables"
 />
 
 ## Ui3nRadioGroup

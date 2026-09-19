@@ -120,6 +120,8 @@ import '@v1nt1248/3nclient-lib/style.css';
 
 `variables.css` contains design tokens only (palette, theme semantics, `--color-*` mapping). Light tokens and the color mapping are applied on `:root`, so `<html>` classes are **not** required for the default (light) look.
 
+Every component also has CSS variables of its own, which you can set on `:root`, on a container or on the element through its `data-ui3n` attribute. See [Styling](docs/guide/styling.md) for how they work, and a component's documentation page for the ones it has.
+
 `.default-theme` is a deprecated alias of `.light-theme`.
 
 To start with another theme or switch at runtime:

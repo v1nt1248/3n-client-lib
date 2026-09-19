@@ -25,6 +25,7 @@ Chip component for displaying tags, labels, and compact information elements.
   :events="chipMeta.events"
   :slots="chipMeta.slots"
   :exposes="chipMeta.exposes"
+  :css-variables="chipMeta.cssVariables"
 />
 
 ## Usage Examples

@@ -24,6 +24,7 @@ Tooltip component for displaying additional information on hover or click.
   :events="tooltipMeta.events"
   :slots="tooltipMeta.slots"
   :exposes="tooltipMeta.exposes"
+  :css-variables="tooltipMeta.cssVariables"
 />
 
 ## Usage Examples
