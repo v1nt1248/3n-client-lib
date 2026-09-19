@@ -385,6 +385,10 @@
     --_selector-item-font-size: var(--ui3n-selector-item-font-size, 13px);
     --_selector-item-border-radius: var(--ui3n-selector-item-border-radius, 4px);
     --_selector-body-padding: var(--ui3n-selector-body-padding, 4px);
+    --_selector-body-border-color: var(
+      --ui3n-selector-body-border-color,
+      var(--color-border-block-primary-default)
+    );
 
     position: relative;
     width: 100%;
@@ -466,8 +470,8 @@
     background-color: var(--color-bg-block-primary-default);
     padding: var(--_selector-body-padding);
     box-shadow: 0 4px 12px var(--shadow-close);
-    border: 1px solid var(--color-border-control-tritery-default);
-    border-radius: 8px;
+    border: 1px solid var(--_selector-body-border-color);
+    border-radius: var(--ui3n-selector-body-border-radius, 8px);
 
     .noData {
       display: flex;
