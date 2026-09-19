@@ -437,10 +437,10 @@
   }
 
   .pointer1 {
-    left: var(--ui3n-slider-pointer1-position);
+    left: var(--ui3n-slider-pointer1-position, 0);
   }
 
   .pointer2 {
-    left: var(--ui3n-slider-pointer2-position);
+    left: var(--ui3n-slider-pointer2-position, 0);
   }
 </style>

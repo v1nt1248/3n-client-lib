@@ -100,10 +100,10 @@
 
     position: relative;
     display: inline-flex;
-    min-width: var(--ui3n-progress-circular-size);
-    width: var(--ui3n-progress-circular-size);
-    min-height: var(--ui3n-progress-circular-size);
-    height: var(--ui3n-progress-circular-size);
+    min-width: var(--ui3n-progress-circular-size, 64px);
+    width: var(--ui3n-progress-circular-size, 64px);
+    min-height: var(--ui3n-progress-circular-size, 64px);
+    height: var(--ui3n-progress-circular-size, 64px);
     justify-content: center;
     align-items: center;
     user-select: none;
@@ -118,14 +118,14 @@
   .background {
     fill: none;
     stroke: var(--_progress-circular-bg);
-    stroke-width: var(--ui3n-progress-virtual-width);
+    stroke-width: var(--ui3n-progress-virtual-width, 8);
     transition: stroke 0.2s ease;
   }
 
   .chart {
     fill: none;
     stroke: var(--_progress-circular-color);
-    stroke-width: var(--ui3n-progress-virtual-width);
+    stroke-width: var(--ui3n-progress-virtual-width, 8);
     transition:
       stroke-dasharray 0.2s ease-in-out,
       stroke 0.2s ease;
@@ -137,7 +137,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: var(--ui3n-progress-circular-font-size);
+    font-size: var(--ui3n-progress-circular-font-size, 16px);
     font-weight: 600;
     line-height: 1;
     color: var(--_progress-circular-color);

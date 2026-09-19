@@ -225,34 +225,34 @@
     &-top,
     &-bottom {
       border-style: solid;
-      border-width: 0 var(--ui3n-tooltip-arrow-size) var(--ui3n-tooltip-arrow-size) var(--ui3n-tooltip-arrow-size);
+      border-width: 0 var(--ui3n-tooltip-arrow-size, 5px) var(--ui3n-tooltip-arrow-size, 5px) var(--ui3n-tooltip-arrow-size, 5px);
       border-color: transparent transparent var(--_tooltip-bg-color) transparent;
     }
 
     &-top {
-      bottom: var(--ui3n-tooltip-base-offset);
+      bottom: var(--ui3n-tooltip-base-offset, -5px);
       transform: rotate(180deg);
     }
 
     &-bottom {
-      top: var(--ui3n-tooltip-base-offset);
+      top: var(--ui3n-tooltip-base-offset, -5px);
       transform: rotate(0deg);
     }
 
     &-left,
     &-right {
       border-style: solid;
-      border-width: var(--ui3n-tooltip-arrow-size) 0 var(--ui3n-tooltip-arrow-size) var(--ui3n-tooltip-arrow-size);
+      border-width: var(--ui3n-tooltip-arrow-size, 5px) 0 var(--ui3n-tooltip-arrow-size, 5px) var(--ui3n-tooltip-arrow-size, 5px);
       border-color: transparent transparent transparent var(--_tooltip-bg-color);
     }
 
     &-left {
-      right: var(--ui3n-tooltip-base-offset);
+      right: var(--ui3n-tooltip-base-offset, -5px);
       transform: rotate(0deg);
     }
 
     &-right {
-      left: var(--ui3n-tooltip-base-offset);
+      left: var(--ui3n-tooltip-base-offset, -5px);
       transform: rotate(180deg);
     }
   }

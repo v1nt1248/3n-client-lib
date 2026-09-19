@@ -87,8 +87,8 @@
   .body {
     position: relative;
     width: 100%;
-    height: var(--ui3n-progress-linear-height);
-    border-radius: calc(var(--ui3n-progress-linear-height) - 2px);
+    height: var(--ui3n-progress-linear-height, 2px);
+    border-radius: calc(var(--ui3n-progress-linear-height, 2px) - 2px);
     background-color: var(--_progress-linear-bg);
     overflow: hidden;
   }
@@ -101,15 +101,15 @@
     left: 0;
     top: 0;
     height: 100%;
-    border-radius: calc(var(--ui3n-progress-linear-height) - 2px);
+    border-radius: calc(var(--ui3n-progress-linear-height, 2px) - 2px);
     background-color: var(--_progress-linear-color);
     transition: width 0.2s ease-in-out;
   }
 
   .text {
-    font-size: var(--ui3n-progress-linear-font-size);
+    font-size: var(--ui3n-progress-linear-font-size, 10px);
     font-weight: 600;
-    line-height: var(--ui3n-progress-linear-height);
+    line-height: var(--ui3n-progress-linear-height, 2px);
     color: var(--_progress-linear-bg);
     white-space: nowrap;
   }

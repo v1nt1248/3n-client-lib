@@ -318,7 +318,7 @@
 
   .ui3nMenuContent {
     position: absolute;
-    border-radius: var(--ui3n-menu-content-border-radius);
+    border-radius: var(--ui3n-menu-content-border-radius, 4px);
     background-color: var(--_menu-content-bg);
     z-index: var(--ui3n-menu-z-index, 1000);
     overflow: hidden;
