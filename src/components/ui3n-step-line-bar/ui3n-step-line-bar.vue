@@ -31,6 +31,9 @@
 
 <style lang="scss" module>
   .ui3nStepLineBar {
+    /* the step height doubles as its border radius */
+    --_step-line-bar-step-height: var(--ui3n-step-line-bar-step-height, 4px);
+
     position: relative;
     width: 100%;
   }
@@ -39,11 +42,11 @@
     position: relative;
     width: 100%;
     text-align: center;
-    font-size: var(--font-14);
+    font-size: var(--ui3n-step-line-bar-label-font-size, 14px);
     font-weight: 500;
-    line-height: var(--font-20);
+    line-height: var(--ui3n-step-line-bar-label-line-height, 20px);
     color: var(--color-text-block-accent-default);
-    margin-bottom: var(--spacing-m);
+    margin-bottom: var(--ui3n-step-line-bar-label-offset, 16px);
   }
 
   .body {
@@ -51,14 +54,14 @@
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    gap: var(--spacing-s);
+    gap: var(--ui3n-step-line-bar-gap, 8px);
   }
 
   .step {
     position: relative;
     flex: 1;
-    height: var(--spacing-xs);
-    border-radius: var(--spacing-xs);
+    height: var(--_step-line-bar-step-height);
+    border-radius: var(--_step-line-bar-step-height);
     background-color: var(--color-bg-control-secondary-default);
   }
 

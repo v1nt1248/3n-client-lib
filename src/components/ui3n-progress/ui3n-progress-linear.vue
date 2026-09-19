@@ -105,8 +105,8 @@
     position: relative;
     width: 100%;
     text-align: center;
-    font-size: var(--font-14);
-    line-height: var(--font-16);
+    font-size: var(--ui3n-progress-linear-label-font-size, 14px);
+    line-height: var(--ui3n-progress-linear-label-line-height, 16px);
     color: var(--color-bg-control-accent-default);
     margin-bottom: 4px;
   }

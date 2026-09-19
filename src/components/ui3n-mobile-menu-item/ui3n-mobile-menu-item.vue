@@ -33,18 +33,18 @@
   .menuItem {
     display: flex;
     width: 100%;
-    height: var(--spacing-xxl);
-    border-radius: var(--spacing-s);
+    height: var(--ui3n-mobile-menu-item-height, 48px);
+    border-radius: var(--ui3n-mobile-menu-item-border-radius, 8px);
     justify-content: flex-start;
     align-items: center;
-    column-gap: var(--spacing-s);
-    padding: 0 var(--spacing-s);
+    column-gap: var(--ui3n-mobile-menu-item-gap, 8px);
+    padding: 0 var(--ui3n-mobile-menu-item-padding-inline, 8px);
     cursor: pointer;
 
     .menuItemName {
-      font-size: var(--font-14);
+      font-size: var(--ui3n-mobile-menu-item-font-size, 14px);
       font-weight: 600;
-      line-height: var(--font-20);
+      line-height: var(--ui3n-mobile-menu-item-line-height, 20px);
       color: var(--color-text-control-primary-default);
     }
 

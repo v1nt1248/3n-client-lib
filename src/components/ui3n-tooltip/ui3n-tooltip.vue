@@ -249,10 +249,10 @@
   .content {
     position: relative;
     max-width: var(--ui3n-tooltip-max-width);
-    padding: 6px var(--spacing-s);
-    border-radius: 6px;
-    font-size: var(--font-11);
-    line-height: var(--font-12);
+    padding: var(--ui3n-tooltip-padding, 6px 8px);
+    border-radius: var(--ui3n-tooltip-border-radius, 6px);
+    font-size: var(--ui3n-tooltip-font-size, 11px);
+    line-height: var(--ui3n-tooltip-line-height, 12px);
     font-weight: 400;
     background-color: var(--ui3n-tooltip-bg-color);
     color: var(--ui3n-tooltip-text-color);

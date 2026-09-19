@@ -291,9 +291,9 @@
     --ui3n-input-label-font-size: 12px;
     --ui3n-input-font-size: 13px;
     --ui3n-input-message-font-size: 10px;
-    --ui3n-input-border-radius: var(--spacing-xs);
+    --ui3n-input-border-radius: 4px;
     --ui3n-input-padding-x: 8px;
-    --ui3n-input-message-top: calc(var(--ui3n-input-height) + var(--spacing-m) + 2px);
+    --ui3n-input-message-top: calc(var(--ui3n-input-height) + 16px + 2px);
     --ui3n-input-outer-padding-top: 1px;
     --ui3n-input-outer-padding-bottom: 15px;
     --ui3n-input-outer-padding-x: 1px;

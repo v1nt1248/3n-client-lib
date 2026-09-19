@@ -47,14 +47,14 @@
     position: relative;
     display: inline-block;
     width: fit-content;
-    font-size: var(--font-12);
+    font-size: var(--ui3n-content-editable-font-size, 12px);
     font-weight: 400;
-    line-height: var(--font-16);
+    line-height: var(--ui3n-content-editable-line-height, 16px);
     overflow-wrap: break-word;
     color: var(--ui3n-content-editable-color);
-    padding: var(--spacing-xs) var(--spacing-s);
+    padding: var(--ui3n-content-editable-padding, 4px 8px);
     background-color: transparent;
-    border-radius: var(--spacing-xs);
+    border-radius: var(--ui3n-content-editable-border-radius, 4px);
   }
 
   .placeholder {

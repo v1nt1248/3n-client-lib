@@ -122,6 +122,7 @@
     --ui3n-notification-border-radius: 8px;
     --ui3n-notification-margin-bottom: 4px;
     --ui3n-notification-icon-size: 32px;
+    --ui3n-notification-padding: 16px;
     --ui3n-notification-text-color: var(--default-content-default);
 
     display: flex;
@@ -130,7 +131,7 @@
     z-index: 5000;
     border-radius: var(--ui3n-notification-border-radius);
     outline: 1px solid var(--color-border-block-primary-default);
-    padding: var(--spacing-m);
+    padding: var(--ui3n-notification-padding);
     max-width: var(--ui3n-notification-width);
     margin-bottom: var(--ui3n-notification-margin-bottom);
     justify-content: center;
