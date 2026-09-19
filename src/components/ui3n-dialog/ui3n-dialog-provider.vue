@@ -49,5 +49,6 @@
     justify-content: center;
     align-items: center;
     background-color: oklch(25% 0 0deg / 0.75);
+    font-family: var(--ui3n-font-family);
   }
 </style>

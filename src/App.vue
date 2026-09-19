@@ -41,7 +41,7 @@
     position: fixed;
     inset: 0;
     padding: 8px;
-    font-family: Inter, system-ui, sans-serif;
+    font-family: var(--ui3n-font-family);
     background-color: var(--shadow-key-1);
     color: var(--color-text-block-primary-default);
     overflow-y: auto;

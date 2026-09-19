@@ -1,6 +1,6 @@
 html {
   overflow: hidden;
-  font-family: Inter, system-ui, sans-serif;
+  font-family: var(--ui3n-font-family);
 }
 
 section,

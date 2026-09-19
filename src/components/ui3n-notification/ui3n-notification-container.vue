@@ -54,6 +54,7 @@
     max-width: 380px;
     width: calc(100% - 32px);
     pointer-events: none;
+    font-family: var(--ui3n-font-family);
   }
 
   .ui3nNotificationsWrapper :global([class*='ui3nNotification']) {

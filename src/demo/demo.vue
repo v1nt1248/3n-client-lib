@@ -1060,7 +1060,7 @@
     position: relative;
     width: 100%;
     padding: 16px 16px 400px;
-    font-family: Inter, system-ui, sans-serif;
+    font-family: var(--ui3n-font-family);
 
     .theme {
       position: fixed;

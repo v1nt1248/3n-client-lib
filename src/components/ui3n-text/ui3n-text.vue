@@ -242,7 +242,7 @@
     border-radius: var(--ui3n-text-border-radius);
     background-color: var(--color-bg-control-secondary-default);
     padding: 0 var(--ui3n-text-padding-inline);
-    font-family: Inter, system-ui, sans-serif;
+    font-family: var(--ui3n-font-family);
     font-size: var(--ui3n-text-font-size);
     line-height: 1.23;
     font-weight: 400;

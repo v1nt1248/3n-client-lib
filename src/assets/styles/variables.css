@@ -106,6 +106,7 @@
   --files-pdf-secondary: oklch(87.6% 0.062 23.3deg);
   --files-image-primary: oklch(50.2% 0.233 274.8deg);
   --files-image-secondary: oklch(85.2% 0.076 285.5deg);
+  --ui3n-font-family: Inter, system-ui, sans-serif;
   --font-6: 6px;
   --font-8: 8px;
   --font-9: 9px;
