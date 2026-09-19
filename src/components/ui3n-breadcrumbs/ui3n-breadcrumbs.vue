@@ -18,7 +18,10 @@
 </script>
 
 <template>
-  <div :class="$style.ui3nBreadcrumbs">
+  <div
+    data-ui3n="breadcrumbs"
+    :class="$style.ui3nBreadcrumbs"
+  >
     <slot />
   </div>
 </template>

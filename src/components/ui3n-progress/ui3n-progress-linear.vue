@@ -47,6 +47,7 @@
 
 <template>
   <div
+    data-ui3n="progress-linear"
     :style="progressStyle"
     :class="[$style.ui3nProgressLinear, indeterminate && $style.indeterminate]"
   >

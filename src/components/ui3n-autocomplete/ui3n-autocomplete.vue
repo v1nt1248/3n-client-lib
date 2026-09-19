@@ -380,7 +380,10 @@
 </script>
 
 <template>
-  <div :class="$style.ui3nAutocomplete">
+  <div
+    data-ui3n="autocomplete"
+    :class="$style.ui3nAutocomplete"
+  >
     <!-- 'hidden inputs' block for setting of 'name' attr when used in a form -->
     <fieldset
       v-if="name && !isEmpty(modelValue)"

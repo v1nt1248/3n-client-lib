@@ -63,6 +63,7 @@
 <template>
   <div
     :id="id"
+    data-ui3n="chip"
     :class="[
       $style.ui3nChip,
       round && $style.round,

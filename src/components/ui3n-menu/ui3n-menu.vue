@@ -269,6 +269,7 @@
   <div
     ref="menu-element"
     :id="id"
+    data-ui3n="menu"
     :class="$style.ui3nMenu"
     :style="rootStyles"
     @click="emits('click', $event)"

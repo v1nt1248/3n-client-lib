@@ -105,6 +105,7 @@
     ref="buttonEl"
     v-ui3n-ripple
     :id="id"
+    data-ui3n="button"
     :class="mainCssClasses"
     type="button"
     :disabled="disabled"

@@ -57,7 +57,10 @@
 </script>
 
 <template>
-  <div :class="[$style.ui3nRadioGroup, direction === 'horizontal' && $style.horizontal]">
+  <div
+    data-ui3n="radio-group"
+    :class="[$style.ui3nRadioGroup, direction === 'horizontal' && $style.horizontal]"
+  >
     <slot />
   </div>
 </template>

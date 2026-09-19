@@ -111,6 +111,7 @@
 <template>
   <!-- eslint-disable max-len -->
   <div
+    data-ui3n="radio"
     :style="radioStyle"
     :class="[$style.ui3nRadio, disabled && $style.disabled, !slots.default && $style.noLabel]"
   >

@@ -113,6 +113,7 @@
   <div
     ref="wrapperElement"
     v-ui3n-resize="() => calcElementsSizes()"
+    data-ui3n="drop-files"
     :class="[
       $style.ui3nDropFiles,
       permanentDisplay && $style.ui3nDropFilesWithBorder,

@@ -102,6 +102,7 @@
   <div
     ref="tabs"
     :id="id"
+    data-ui3n="tabs"
     :style="tabsStyle"
     :class="[$style.ui3nTabs, itemDirection === 'vertical' && $style.vertical]"
     @click="onClick"

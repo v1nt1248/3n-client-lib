@@ -35,6 +35,7 @@
   <div
     ref="element"
     :id="id"
+    data-ui3n="badge-simple"
     :class="[$style.ui3nBadgeSimple, dot && $style.ui3nBadgeDot]"
   >
     <span

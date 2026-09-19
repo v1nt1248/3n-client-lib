@@ -141,6 +141,7 @@
 <template>
   <div
     :id="id"
+    data-ui3n="text"
     :class="[
       $style.ui3nText,
       disabled && $style.disabled,

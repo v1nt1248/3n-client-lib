@@ -16,6 +16,7 @@
   <div
     ref="listElement"
     :id="id"
+    data-ui3n="list"
     :class="$style.ui3nList"
   >
     <div :class="[$style.ui3nListTitle, sticky && $style.ui3nListTitleSticky]">

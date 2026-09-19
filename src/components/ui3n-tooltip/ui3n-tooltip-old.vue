@@ -94,7 +94,10 @@ watch(isPositioned, val => {
 </script>
 
 <template>
-  <div :class="$style.ui3nTooltip">
+  <div
+    data-ui3n="tooltip-old"
+    :class="$style.ui3nTooltip"
+  >
     <div
       ref="referenceEl"
       :class="$style.reference"

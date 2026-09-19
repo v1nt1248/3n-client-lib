@@ -83,6 +83,7 @@
 <template>
   <div
     :id="id"
+    data-ui3n="notification"
     :class="mainCssClasses"
     :style="inlineStyles"
   >

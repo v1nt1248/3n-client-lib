@@ -41,6 +41,7 @@
 <template>
   <div
     ref="emojiElement"
+    data-ui3n="emoji"
     :class="[$style.ui3nEmoji, readonly && $style.readonly]"
     :style="inlineStyles"
     v-on="readonly ? {} : { click: onClick }"

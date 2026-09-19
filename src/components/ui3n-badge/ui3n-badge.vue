@@ -39,6 +39,7 @@
   <!-- eslint-disable vue/no-multiple-template-root -->
   <div
     v-if="hasDefaultSlot"
+    data-ui3n="badge"
     :class="$style.ui3nBadge"
   >
     <div :class="$style.ui3nBadgeWrapper">

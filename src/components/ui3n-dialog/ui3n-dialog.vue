@@ -130,6 +130,7 @@
   <div
     :id="id"
     ref="dialog-el"
+    data-ui3n="dialog"
     tabindex="1"
     :class="[$style.dialog, draggable && isMousedown && $style.draggable, ...cssClass]"
     :style="cssStyle"

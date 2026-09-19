@@ -133,7 +133,10 @@
 </script>
 
 <template>
-  <div :class="$style.ui3nInputFile">
+  <div
+    data-ui3n="input-file"
+    :class="$style.ui3nInputFile"
+  >
     <label
       :for="id"
       :class="[$style.label, disabled && $style.disabled]"

@@ -136,6 +136,7 @@
   <div
     ref="checkboxEl"
     :id="id"
+    data-ui3n="checkbox"
     :class="mainCssClasses"
     :style="inlineStyles"
   >

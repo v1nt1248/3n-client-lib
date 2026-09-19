@@ -168,6 +168,7 @@
   <div
     :id="id"
     v-ui3n-click-outside="onClickOutside"
+    data-ui3n="editable"
     :class="[
       $style.ui3nEditable,
       disabled && $style.ui3nEditableDisabled,

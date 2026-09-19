@@ -12,6 +12,7 @@
 
 <template>
   <div
+    data-ui3n="mobile-menu-item"
     :class="[$style.menuItem, isActive && $style.menuItemSelected]"
     @click="selectMenuItem"
   >

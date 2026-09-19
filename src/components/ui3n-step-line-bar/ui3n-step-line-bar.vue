@@ -13,6 +13,7 @@
 <template>
   <div
     :id="id"
+    data-ui3n="step-line-bar"
     :class="$style.ui3nStepLineBar"
   >
     <div :class="$style.label">

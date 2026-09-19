@@ -31,6 +31,7 @@
 <template>
   <div
     id="ui3n-notifications-container"
+    data-ui3n="notification-container"
     :class="$style.ui3nNotificationsWrapper"
   >
     <ui3n-notification

@@ -523,6 +523,7 @@
 
 <template>
   <div
+    data-ui3n="scrollbar"
     :class="$style.ui3nScrollbar"
     :style="scrollbarStyle"
     @mouseenter="isHovered = true"

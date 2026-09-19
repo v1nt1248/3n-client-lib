@@ -22,6 +22,7 @@
 <template>
   <span
     ref="el"
+    data-ui3n="content-editable"
     :class="[
       $style.ui3nContentEditable,
       !modelValue && !!placeholder && $style.placeholder,

@@ -132,6 +132,7 @@
   >
     <div
       ref="tableEl"
+      data-ui3n="table"
       :style="tableStyle"
       :class="[$style.ui3nTable, $style.ui3nTableInsideScrollbar, stickyColumnsActive && $style.stickyColumns]"
     >
@@ -316,6 +317,7 @@
   <div
     v-else
     ref="tableEl"
+    data-ui3n="table"
     :style="tableStyle"
     :class="[$style.ui3nTable, stickyColumnsActive && $style.stickyColumns]"
   >

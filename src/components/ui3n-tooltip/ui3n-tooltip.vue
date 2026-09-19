@@ -172,6 +172,7 @@
 <template>
   <div
     ref="referenceContainer"
+    data-ui3n="tooltip"
     :class="$style.container"
   >
     <slot />
@@ -180,6 +181,7 @@
   <div
     v-if="showTooltip"
     ref="floatingEl"
+    data-ui3n="tooltip-content"
     :class="$style.floating"
     :style="tooltipStylesComputed"
   >

@@ -25,6 +25,7 @@
 
 <template>
   <div
+    data-ui3n="mobile-menu"
     :class="$style.ui3nMobileMenu"
     :style="inlineStyles"
   >

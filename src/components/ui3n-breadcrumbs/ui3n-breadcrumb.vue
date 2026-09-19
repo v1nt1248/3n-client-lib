@@ -40,6 +40,7 @@
 
 <template>
   <div
+    data-ui3n="breadcrumb"
     :class="cssClasses"
     v-on="isActive && !(disabled || parentDisabled) ? { click: onClick } : {}"
   >

@@ -244,6 +244,7 @@
 
 <template>
   <div
+    data-ui3n="scrollbar-vertical"
     :class="$style.ui3nScrollbarVertical"
     :style="scrollbarStyle"
     @mouseenter="isHovered = true"

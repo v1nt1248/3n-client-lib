@@ -191,6 +191,7 @@
 <template>
   <div
     :id="id"
+    data-ui3n="input"
     :class="[
       $style.ui3nInput,
       size === 'large' && $style.large,

@@ -28,6 +28,7 @@
       v-for="dialog in dialogs.dialogStack.value"
       :id="`dialog-wrapper-${dialog.id}`"
       :key="dialog.id"
+      data-ui3n="dialog-overlay"
       :class="$style['dialog-provider-overlay']"
       @click.self.prevent="clickOverlay(dialog.id, dialog.props)"
     >

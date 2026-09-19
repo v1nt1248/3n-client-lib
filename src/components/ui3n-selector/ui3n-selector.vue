@@ -241,6 +241,7 @@
 <template>
   <div
     :id="id"
+    data-ui3n="selector"
     :class="$style.ui3nSelector"
   >
     <input

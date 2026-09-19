@@ -48,6 +48,7 @@
 <template>
   <div
     :id="id"
+    data-ui3n="icon"
     :class="$style.ui3nIcon"
     :title="title"
     :style="iconStyle"

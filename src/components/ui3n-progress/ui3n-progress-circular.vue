@@ -58,6 +58,7 @@
 
 <template>
   <div
+    data-ui3n="progress-circular"
     :style="progressStyle"
     :class="[$style.ui3nProgressCircular, indeterminate && $style.indeterminate]"
   >

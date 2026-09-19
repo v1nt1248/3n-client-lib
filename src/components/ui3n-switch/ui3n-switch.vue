@@ -61,6 +61,7 @@
 <template>
   <div
     :id="id"
+    data-ui3n="switch"
     :style="switchStyle"
     :tabindex="disabled ? -1 : 0"
     :class="[
