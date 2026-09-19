@@ -173,15 +173,15 @@
 
 <style lang="scss" module>
   .ui3nDropFiles {
-    --ui3n-dropzone-height: 0;
-    --ui3n-dropzone-title-font: 0;
-    --ui3n-dropzone-border-radius: 4px;
+    --_dropzone-height: var(--ui3n-dropzone-height, 0);
+    --_dropzone-title-font: var(--ui3n-dropzone-title-font, 0);
+    --_dropzone-border-radius: var(--ui3n-dropzone-border-radius, 4px);
 
     position: relative;
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    border-radius: var(--ui3n-dropzone-border-radius);
+    border-radius: var(--_dropzone-border-radius);
   }
 
   .ui3nDropFilesWithBorder {
@@ -206,7 +206,7 @@
   }
 
   .ui3nDropFilesDropzoneTitle {
-    font-size: var(--ui3n-dropzone-title-font);
+    font-size: var(--_dropzone-title-font);
     font-weight: 500;
     color: var(--color-text-table-secondary-default);
     margin: 0;
@@ -215,8 +215,8 @@
 
   .ui3nDropFilesDropzoneIcon {
     position: relative;
-    width: calc(var(--ui3n-dropzone-height) * 0.4);
-    height: calc(var(--ui3n-dropzone-height) * 0.4);
+    width: calc(var(--_dropzone-height) * 0.4);
+    height: calc(var(--_dropzone-height) * 0.4);
     border-radius: 50%;
     background-color: var(--color-bg-button-tritery-default);
     display: flex;

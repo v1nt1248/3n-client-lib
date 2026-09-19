@@ -40,9 +40,9 @@
 
 <style lang="scss" module>
   .ui3nContentEditable {
-    --ui3n-content-editable-color: var(--color-text-control-primary-default);
-    --ui3n-content-editable-placeholder-color: var(--color-text-control-secondary-default);
-    --ui3n-content-editable-border-color-focused: var(--color-border-table-accent-default);
+    --_content-editable-color: var(--ui3n-content-editable-color, var(--color-text-control-primary-default));
+    --_content-editable-placeholder-color: var(--ui3n-content-editable-placeholder-color, var(--color-text-control-secondary-default));
+    --_content-editable-border-color-focused: var(--ui3n-content-editable-border-color-focused, var(--color-border-table-accent-default));
 
     position: relative;
     display: inline-block;
@@ -51,18 +51,18 @@
     font-weight: 400;
     line-height: var(--ui3n-content-editable-line-height, 16px);
     overflow-wrap: break-word;
-    color: var(--ui3n-content-editable-color);
+    color: var(--_content-editable-color);
     padding: var(--ui3n-content-editable-padding, 4px 8px);
     background-color: transparent;
     border-radius: var(--ui3n-content-editable-border-radius, 4px);
   }
 
   .placeholder {
-    color: var(--ui3n-content-editable-placeholder-color);
+    color: var(--_content-editable-placeholder-color);
   }
 
   .isFocused {
-    border: 1px solid var(--ui3n-content-editable-border-color-focused);
+    border: 1px solid var(--_content-editable-border-color-focused);
   }
 
   .isDisabled {

@@ -51,14 +51,14 @@
 
 <style lang="scss" module>
   .ui3nEmoji {
-    --ui3n-emoji-size: 16px;
+    --_emoji-size: var(--ui3n-emoji-size, 16px);
 
     display: flex;
-    min-width: var(--ui3n-emoji-size);
-    width: var(--ui3n-emoji-size);
-    min-height: var(--ui3n-emoji-size);
-    height: var(--ui3n-emoji-size);
-    font-size: var(--ui3n-emoji-size);
+    min-width: var(--_emoji-size);
+    width: var(--_emoji-size);
+    min-height: var(--_emoji-size);
+    height: var(--_emoji-size);
+    font-size: var(--_emoji-size);
     justify-content: center;
     align-items: center;
     cursor: pointer;

@@ -54,14 +54,14 @@
 
 <style lang="scss" module>
   .ui3nList {
-    --ui3n-list-item-height: 28px;
-    --ui3n-list-bg-color: transparent;
-    --ui3n-list-padding-block: 4px;
+    --_list-item-height: var(--ui3n-list-item-height, 28px);
+    --_list-bg-color: var(--ui3n-list-bg-color, transparent);
+    --_list-padding-block: var(--ui3n-list-padding-block, 4px);
 
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: var(--ui3n-list-bg-color);
+    background-color: var(--_list-bg-color);
   }
 
   .ui3nListTitle {
@@ -82,8 +82,8 @@
   .ui3nListItem {
     position: relative;
     width: 100%;
-    min-height: var(--ui3n-list-item-height);
-    padding: var(--ui3n-list-padding-block) 0;
+    min-height: var(--_list-item-height);
+    padding: var(--_list-padding-block) 0;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -93,7 +93,7 @@
     z-index: 1;
     font-size: 16px;
     font-weight: 600;
-    background-color: var(--ui3n-list-bg-color);
+    background-color: var(--_list-bg-color);
   }
 
   .ui3nListItemContent {

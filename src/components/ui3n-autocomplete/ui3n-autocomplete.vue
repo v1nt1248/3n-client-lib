@@ -545,17 +545,17 @@
 
 <style lang="scss" module>
   .ui3nAutocomplete {
-    --ui3n-autocomplete-min-height: 32px;
-    --ui3n-autocomplete-font-size: 12px;
-    --ui3n-autocomplete-item-font-size: 13px;
-    --ui3n-autocomplete-padding-inline: 8px;
-    --ui3n-autocomplete-padding-block: 4px;
-    --ui3n-autocomplete-border-radius: 4px;
+    --_autocomplete-min-height: var(--ui3n-autocomplete-min-height, 32px);
+    --_autocomplete-font-size: var(--ui3n-autocomplete-font-size, 12px);
+    --_autocomplete-item-font-size: var(--ui3n-autocomplete-item-font-size, 13px);
+    --_autocomplete-padding-inline: var(--ui3n-autocomplete-padding-inline, 8px);
+    --_autocomplete-padding-block: var(--ui3n-autocomplete-padding-block, 4px);
+    --_autocomplete-border-radius: var(--ui3n-autocomplete-border-radius, 4px);
 
     position: relative;
     display: flex;
     width: 100%;
-    min-height: var(--ui3n-autocomplete-min-height);
+    min-height: var(--_autocomplete-min-height);
 
     :global(.match-search) {
       font-weight: 600;
@@ -580,20 +580,20 @@
   }
 
   .displayValue {
-    font-size: var(--ui3n-autocomplete-font-size);
-    line-height: var(--ui3n-autocomplete-min-height);
+    font-size: var(--_autocomplete-font-size);
+    line-height: var(--_autocomplete-min-height);
     font-weight: 400;
     color: var(--color-text-control-primary-default);
   }
 
   .input {
-    border-radius: var(--ui3n-autocomplete-border-radius);
-    padding: 0 var(--ui3n-autocomplete-padding-inline);
+    border-radius: var(--_autocomplete-border-radius);
+    padding: 0 var(--_autocomplete-padding-inline);
     flex: 1 1 60px;
     min-width: 60px;
-    height: var(--ui3n-autocomplete-min-height);
-    font-size: var(--ui3n-autocomplete-font-size);
-    line-height: var(--ui3n-autocomplete-min-height);
+    height: var(--_autocomplete-min-height);
+    font-size: var(--_autocomplete-font-size);
+    line-height: var(--_autocomplete-min-height);
     font-weight: 400;
     color: var(--color-text-control-primary-default);
     background-color: transparent;
@@ -610,8 +610,8 @@
     }
 
     &.inputWithError {
-      height: calc(var(--ui3n-autocomplete-min-height) - 2px);
-      padding: 0 calc(var(--ui3n-autocomplete-padding-inline) - 1px);
+      height: calc(var(--_autocomplete-min-height) - 2px);
+      padding: 0 calc(var(--_autocomplete-padding-inline) - 1px);
       border: 1px solid var(--error-content-default);
     }
   }
@@ -624,15 +624,15 @@
 
   .item {
     display: flex;
-    min-height: var(--ui3n-autocomplete-min-height);
+    min-height: var(--_autocomplete-min-height);
     justify-content: flex-start;
     align-items: center;
-    padding: var(--ui3n-autocomplete-padding-block) var(--ui3n-autocomplete-padding-inline);
-    font-size: var(--ui3n-autocomplete-item-font-size);
+    padding: var(--_autocomplete-padding-block) var(--_autocomplete-padding-inline);
+    font-size: var(--_autocomplete-item-font-size);
     line-height: 1.23;
     font-weight: 500;
     color: var(--color-text-control-primary-default);
-    border-radius: var(--ui3n-autocomplete-border-radius);
+    border-radius: var(--_autocomplete-border-radius);
     user-select: none;
     cursor: pointer;
 
@@ -655,15 +655,15 @@
 
   .noData {
     display: flex;
-    min-height: var(--ui3n-autocomplete-min-height);
+    min-height: var(--_autocomplete-min-height);
     justify-content: flex-start;
     align-items: center;
-    padding: var(--ui3n-autocomplete-padding-block) var(--ui3n-autocomplete-padding-inline);
-    font-size: var(--ui3n-autocomplete-item-font-size);
+    padding: var(--_autocomplete-padding-block) var(--_autocomplete-padding-inline);
+    font-size: var(--_autocomplete-item-font-size);
     line-height: 1.23;
     font-weight: 500;
     color: var(--color-text-control-primary-default);
-    border-radius: var(--ui3n-autocomplete-border-radius);
+    border-radius: var(--_autocomplete-border-radius);
   }
 
   .chipsContainer {

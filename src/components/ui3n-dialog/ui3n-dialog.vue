@@ -233,16 +233,16 @@
   @use '../../assets/styles/mixins' as mixins;
 
   .dialog {
-    --ui3n-dialog-border-radius: 12px;
-    --ui3n-dialog-title-height: 48px;
-    --ui3n-dialog-title-padding: 0 32px 0 16px;
-    --ui3n-dialog-title-font-size: 14px;
-    --ui3n-dialog-actions-height: 64px;
-    --ui3n-dialog-actions-padding: 16px;
-    --ui3n-dialog-confirm-button-color: var(--color-text-button-primary-default);
-    --ui3n-dialog-cancel-button-color: var(--color-text-button-secondary-default);
-    --ui3n-dialog-confirm-background-color: var(--color-bg-button-primary-default);
-    --ui3n-dialog-cancel-background-color: var(--color-bg-button-secondary-default);
+    --_dialog-border-radius: var(--ui3n-dialog-border-radius, 12px);
+    --_dialog-title-height: var(--ui3n-dialog-title-height, 48px);
+    --_dialog-title-padding: var(--ui3n-dialog-title-padding, 0 32px 0 16px);
+    --_dialog-title-font-size: var(--ui3n-dialog-title-font-size, 14px);
+    --_dialog-actions-height: var(--ui3n-dialog-actions-height, 64px);
+    --_dialog-actions-padding: var(--ui3n-dialog-actions-padding, 16px);
+    --_dialog-confirm-button-color: var(--ui3n-dialog-confirm-button-color, var(--color-text-button-primary-default));
+    --_dialog-cancel-button-color: var(--ui3n-dialog-cancel-button-color, var(--color-text-button-secondary-default));
+    --_dialog-confirm-background-color: var(--ui3n-dialog-confirm-background-color, var(--color-bg-button-primary-default));
+    --_dialog-cancel-background-color: var(--ui3n-dialog-cancel-background-color, var(--color-bg-button-secondary-default));
 
     position: relative;
     display: flex;
@@ -252,7 +252,7 @@
     max-height: 95%;
     background-color: var(--color-bg-block-primary-default);
     border: 1px solid var(--color-border-block-primary-default);
-    border-radius: var(--ui3n-dialog-border-radius);
+    border-radius: var(--_dialog-border-radius);
     outline: none;
     box-shadow:
       0 5px 15px -3px var(--shadow-key-2),
@@ -273,8 +273,8 @@
   .title {
     position: relative;
     width: 100%;
-    min-height: var(--ui3n-dialog-title-height);
-    height: var(--ui3n-dialog-title-height);
+    min-height: var(--_dialog-title-height);
+    height: var(--_dialog-title-height);
   }
 
   .titleDefault {
@@ -282,14 +282,14 @@
     justify-content: flex-start;
     align-items: center;
     column-gap: 8px;
-    padding: var(--ui3n-dialog-title-padding);
+    padding: var(--_dialog-title-padding);
     border-bottom: 1px solid var(--color-border-block-primary-default);
 
     span {
       display: block;
       position: relative;
       flex-grow: 1;
-      font-size: var(--ui3n-dialog-title-font-size);
+      font-size: var(--_dialog-title-font-size);
       font-weight: 600;
       line-height: 1;
       color: var(--color-text-control-primary-default);
@@ -309,12 +309,12 @@
   .actions {
     position: relative;
     width: 100%;
-    min-height: var(--ui3n-dialog-actions-height);
-    height: var(--ui3n-dialog-actions-height);
+    min-height: var(--_dialog-actions-height);
+    height: var(--_dialog-actions-height);
   }
 
   .actionsDefault {
-    padding: var(--ui3n-dialog-actions-padding);
+    padding: var(--_dialog-actions-padding);
     display: flex;
     justify-content: flex-end;
     align-items: center;

@@ -187,22 +187,22 @@
 
 <style lang="scss" module>
   .ui3nText {
-    --ui3n-text-border-radius: 4px;
-    --ui3n-text-label-font-size: 12px;
-    --ui3n-text-font-size: 13px;
-    --ui3n-text-padding-inline: 8px;
-    --ui3n-text-padding-block: 8px;
+    --_text-border-radius: var(--ui3n-text-border-radius, 4px);
+    --_text-label-font-size: var(--ui3n-text-label-font-size, 12px);
+    --_text-font-size: var(--ui3n-text-font-size, 13px);
+    --_text-padding-inline: var(--ui3n-text-padding-inline, 8px);
+    --_text-padding-block: var(--ui3n-text-padding-block, 8px);
 
     position: relative;
     width: 100%;
-    border-radius: var(--ui3n-text-border-radius);
+    border-radius: var(--_text-border-radius);
     padding: 1px;
   }
 
   .label {
     display: block;
     width: 100%;
-    font-size: var(--ui3n-text-label-font-size);
+    font-size: var(--_text-label-font-size);
     line-height: 1.33;
     font-weight: 600;
     color: var(--color-text-control-primary-default);
@@ -212,9 +212,9 @@
   .body {
     position: relative;
     width: 100%;
-    padding: var(--ui3n-text-padding-block) 0;
+    padding: var(--_text-padding-block) 0;
     background-color: var(--color-bg-control-secondary-default);
-    border-radius: var(--ui3n-text-border-radius);
+    border-radius: var(--_text-border-radius);
     transition: all 0.2s ease-in-out;
 
     &:hover {
@@ -239,11 +239,11 @@
     box-sizing: border-box;
     position: relative;
     width: 100%;
-    border-radius: var(--ui3n-text-border-radius);
+    border-radius: var(--_text-border-radius);
     background-color: var(--color-bg-control-secondary-default);
-    padding: 0 var(--ui3n-text-padding-inline);
+    padding: 0 var(--_text-padding-inline);
     font-family: inherit;
-    font-size: var(--ui3n-text-font-size);
+    font-size: var(--_text-font-size);
     line-height: 1.23;
     font-weight: 400;
     color: var(--color-text-control-primary-default);
@@ -252,7 +252,7 @@
     &::placeholder {
       color: var(--color-text-control-secondary-default);
       font-style: italic;
-      font-size: var(--ui3n-text-font-size);
+      font-size: var(--_text-font-size);
       line-height: 1.23;
       font-weight: 400;
     }

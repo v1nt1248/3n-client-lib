@@ -117,27 +117,27 @@
 
 <style lang="scss" module>
   .ui3nNotification {
-    --ui3n-notification-width: 380px;
-    --ui3n-notification-font-size: 12px;
-    --ui3n-notification-border-radius: 8px;
-    --ui3n-notification-margin-bottom: 4px;
-    --ui3n-notification-icon-size: 32px;
-    --ui3n-notification-padding: 16px;
-    --ui3n-notification-text-color: var(--default-content-default);
+    --_notification-width: var(--ui3n-notification-width, 380px);
+    --_notification-font-size: var(--ui3n-notification-font-size, 12px);
+    --_notification-border-radius: var(--ui3n-notification-border-radius, 8px);
+    --_notification-margin-bottom: var(--ui3n-notification-margin-bottom, 4px);
+    --_notification-icon-size: var(--ui3n-notification-icon-size, 32px);
+    --_notification-padding: var(--ui3n-notification-padding, 16px);
+    --_notification-text-color: var(--ui3n-notification-text-color, var(--default-content-default));
 
     display: flex;
     position: relative;
     box-sizing: border-box;
     z-index: 5000;
-    border-radius: var(--ui3n-notification-border-radius);
+    border-radius: var(--_notification-border-radius);
     outline: 1px solid var(--color-border-block-primary-default);
-    padding: var(--ui3n-notification-padding);
-    max-width: var(--ui3n-notification-width);
-    margin-bottom: var(--ui3n-notification-margin-bottom);
+    padding: var(--_notification-padding);
+    max-width: var(--_notification-width);
+    margin-bottom: var(--_notification-margin-bottom);
     justify-content: center;
     align-items: center;
     gap: 8px;
-    color: var(--ui3n-notification-text-color);
+    color: var(--_notification-text-color);
   }
 
   .withIcon {
@@ -146,10 +146,10 @@
 
   .ui3nNotificationIcon {
     position: relative;
-    min-width: var(--ui3n-notification-icon-size);
-    width: var(--ui3n-notification-icon-size);
-    min-height: var(--ui3n-notification-icon-size);
-    height: var(--ui3n-notification-icon-size);
+    min-width: var(--_notification-icon-size);
+    width: var(--_notification-icon-size);
+    min-height: var(--_notification-icon-size);
+    height: var(--_notification-icon-size);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -160,11 +160,11 @@
   .ui3nNotificationContent {
     position: relative;
     flex-grow: 2;
-    font-size: var(--ui3n-notification-font-size);
+    font-size: var(--_notification-font-size);
     font-weight: 500;
     line-height: 1.33;
     padding-right: 20px;
-    color: var(--ui3n-notification-text-color);
+    color: var(--_notification-text-color);
   }
 
   .closeBtn {
@@ -172,11 +172,11 @@
     z-index: 1;
     top: 6px;
     right: 6px;
-    color: var(--ui3n-notification-text-color);
+    color: var(--_notification-text-color);
   }
 
   .infoType {
-    --ui3n-notification-text-color: var(--info-content-default);
+    --_notification-text-color: var(--ui3n-notification-text-color, var(--info-content-default));
 
     background-color: var(--info-fill-default);
 
@@ -187,12 +187,12 @@
     :global(.dark-theme) &,
     :global(.midnight-theme) &,
     :global(.dark2-theme) & {
-      --ui3n-notification-text-color: oklch(from var(--info-content-default) calc(l + 0.15) c h);
+      --_notification-text-color: var(--ui3n-notification-text-color, oklch(from var(--info-content-default) calc(l + 0.15) c h));
     }
   }
 
   .successType {
-    --ui3n-notification-text-color: var(--success-content-default);
+    --_notification-text-color: var(--ui3n-notification-text-color, var(--success-content-default));
 
     background-color: var(--success-fill-default);
 
@@ -203,12 +203,12 @@
     :global(.dark-theme) &,
     :global(.midnight-theme) &,
     :global(.dark2-theme) & {
-      --ui3n-notification-text-color: oklch(from var(--success-content-default) calc(l + 0.15) c h);
+      --_notification-text-color: var(--ui3n-notification-text-color, oklch(from var(--success-content-default) calc(l + 0.15) c h));
     }
   }
 
   .warningType {
-    --ui3n-notification-text-color: var(--warning-content-default);
+    --_notification-text-color: var(--ui3n-notification-text-color, var(--warning-content-default));
 
     background-color: var(--warning-fill-default);
 
@@ -219,12 +219,12 @@
     :global(.dark-theme) &,
     :global(.midnight-theme) &,
     :global(.dark2-theme) & {
-      --ui3n-notification-text-color: color-mix(in oklch, var(--warning-content-default) 45%, white);
+      --_notification-text-color: var(--ui3n-notification-text-color, color-mix(in oklch, var(--warning-content-default) 45%, white));
     }
   }
 
   .errorType {
-    --ui3n-notification-text-color: var(--error-content-default);
+    --_notification-text-color: var(--ui3n-notification-text-color, var(--error-content-default));
 
     background-color: var(--error-fill-default);
 
@@ -235,7 +235,7 @@
     :global(.dark-theme) &,
     :global(.midnight-theme) &,
     :global(.dark2-theme) & {
-      --ui3n-notification-text-color: color-mix(in oklch, var(--error-content-default) 45%, white);
+      --_notification-text-color: var(--ui3n-notification-text-color, color-mix(in oklch, var(--error-content-default) 45%, white));
     }
   }
 

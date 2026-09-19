@@ -158,19 +158,19 @@
 
 <style lang="scss" module>
   .ui3nInputFile {
-    --ui3n-input-file-font-size: 12px;
-    --ui3n-input-file-padding-inline: 4px;
+    --_input-file-font-size: var(--ui3n-input-file-font-size, 12px);
+    --_input-file-padding-inline: var(--ui3n-input-file-padding-inline, 4px);
 
     position: relative;
     width: max-content;
   }
 
   .label {
-    font-size: var(--ui3n-input-file-font-size);
+    font-size: var(--_input-file-font-size);
     font-weight: 500;
     line-height: 1.33;
     color: var(--color-text-button-secondary-default);
-    padding: 0 var(--ui3n-input-file-padding-inline);
+    padding: 0 var(--_input-file-padding-inline);
     cursor: pointer;
 
     &:hover {

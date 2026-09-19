@@ -287,38 +287,41 @@
 
 <style lang="scss" module>
   .ui3nInput {
-    --ui3n-input-height: 32px;
-    --ui3n-input-label-font-size: 12px;
-    --ui3n-input-font-size: 13px;
-    --ui3n-input-message-font-size: 10px;
-    --ui3n-input-border-radius: 4px;
-    --ui3n-input-padding-x: 8px;
-    --ui3n-input-message-top: calc(var(--ui3n-input-height) + 16px + 2px);
-    --ui3n-input-outer-padding-top: 1px;
-    --ui3n-input-outer-padding-bottom: 15px;
-    --ui3n-input-outer-padding-x: 1px;
+    --_input-height: var(--ui3n-input-height, 32px);
+    --_input-label-font-size: var(--ui3n-input-label-font-size, 12px);
+    --_input-font-size: var(--ui3n-input-font-size, 13px);
+    --_input-message-font-size: var(--ui3n-input-message-font-size, 10px);
+    --_input-border-radius: var(--ui3n-input-border-radius, 4px);
+    --_input-padding-x: var(--ui3n-input-padding-x, 8px);
+    --_input-message-top: var(--ui3n-input-message-top, calc(var(--_input-height) + 16px + 2px));
+    --_input-outer-padding-top: var(--ui3n-input-outer-padding-top, 1px);
+    --_input-outer-padding-bottom: var(--ui3n-input-outer-padding-bottom, 15px);
+    --_input-outer-padding-x: var(--ui3n-input-outer-padding-x, 1px);
 
     &.withLabel {
-      --ui3n-input-message-top: calc(
-        var(--ui3n-input-height) + calc(var(--ui3n-input-label-font-size) * 1.33) + 6px
+      --_input-message-top: var(
+        --ui3n-input-message-top,
+        calc(var(--_input-height) + calc(var(--_input-label-font-size) * 1.33) + 6px)
       );
     }
 
+    /* The large size reads its own variable first, then the one shared by both sizes. */
     &.large {
-      --ui3n-input-height: 48px;
-      --ui3n-input-font-size: 16px;
-      --ui3n-input-border-radius: 8px;
-      --ui3n-input-padding-x: 12px;
+      --_input-height: var(--ui3n-input-height-large, var(--ui3n-input-height, 48px));
+      --_input-font-size: var(--ui3n-input-font-size-large, var(--ui3n-input-font-size, 16px));
+      --_input-border-radius: var(--ui3n-input-border-radius-large, var(--ui3n-input-border-radius, 8px));
+      --_input-padding-x: var(--ui3n-input-padding-x-large, var(--ui3n-input-padding-x, 12px));
     }
 
     position: relative;
     width: 100%;
-    padding: var(--ui3n-input-outer-padding-top) var(--ui3n-input-outer-padding-x)
-      var(--ui3n-input-outer-padding-bottom) var(--ui3n-input-outer-padding-x);
-    border-radius: var(--ui3n-input-border-radius);
+    padding: var(--_input-outer-padding-top) var(--_input-outer-padding-x)
+      var(--_input-outer-padding-bottom) var(--_input-outer-padding-x);
+    border-radius: var(--_input-border-radius);
 
+    /* hideBottomSpace removes the space, so it doesn't read the public variable */
     &.withoutBottomSpace {
-      --ui3n-input-outer-padding-bottom: 0;
+      --_input-outer-padding-bottom: 0;
     }
 
     &:hover {
@@ -342,7 +345,7 @@
   .ui3nInputLabel {
     display: block;
     width: 100%;
-    font-size: var(--ui3n-input-label-font-size);
+    font-size: var(--_input-label-font-size);
     line-height: 1.33;
     font-weight: 500;
     color: var(--color-text-control-primary-default);
@@ -352,8 +355,8 @@
   .inputWrapper {
     display: flex;
     align-items: center;
-    height: var(--ui3n-input-height);
-    border-radius: var(--ui3n-input-border-radius);
+    height: var(--_input-height);
+    border-radius: var(--_input-border-radius);
     background-color: var(--color-bg-control-secondary-default);
     transition: background-color 0.2s ease-in-out;
   }
@@ -367,9 +370,9 @@
     border: none;
     outline: none;
     height: 100%;
-    padding: 0 var(--ui3n-input-padding-x);
+    padding: 0 var(--_input-padding-x);
     background-color: transparent;
-    font-size: var(--ui3n-input-font-size);
+    font-size: var(--_input-font-size);
     line-height: 1.23;
     font-weight: 400;
     color: var(--color-text-control-primary-default);
@@ -378,7 +381,7 @@
     &::placeholder {
       color: var(--color-text-control-secondary-default);
       font-style: italic;
-      font-size: var(--ui3n-input-font-size);
+      font-size: var(--_input-font-size);
       font-weight: 400;
     }
 
@@ -400,7 +403,7 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    padding-left: calc(var(--ui3n-input-padding-x) / 2);
+    padding-left: calc(var(--_input-padding-x) / 2);
   }
 
   .appendIconSlot {
@@ -408,18 +411,18 @@
     align-items: center;
     flex-shrink: 0;
     gap: 4px;
-    padding-right: calc(var(--ui3n-input-padding-x) / 2);
+    padding-right: calc(var(--_input-padding-x) / 2);
   }
 
   .withPrepend {
     .ui3nInputField {
-      padding-left: calc(var(--ui3n-input-padding-x) / 2);
+      padding-left: calc(var(--_input-padding-x) / 2);
     }
   }
 
   .withAppend {
     .ui3nInputField {
-      padding-right: calc(var(--ui3n-input-padding-x) / 2);
+      padding-right: calc(var(--_input-padding-x) / 2);
     }
   }
 
@@ -431,9 +434,9 @@
     position: absolute;
     left: 0;
     width: 100%;
-    top: calc(var(--ui3n-input-message-top) + 2px);
+    top: calc(var(--_input-message-top) + 2px);
     font-style: italic;
-    font-size: var(--ui3n-input-message-font-size);
+    font-size: var(--_input-message-font-size);
     font-weight: 400;
     line-height: 1.2;
   }

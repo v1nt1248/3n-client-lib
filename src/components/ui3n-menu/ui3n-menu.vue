@@ -85,7 +85,7 @@
 
     return {
       ...floatingStyles.value,
-      '--ui3n-menu-zIndex': String(props.zIndex),
+      '--ui3n-menu-z-index': String(props.zIndex),
       ...(contentBorderRadiusStr && { '--ui3n-menu-content-border-radius': contentBorderRadiusStr }),
       ...(props.contentStyles || {}),
     };
@@ -298,7 +298,7 @@
   @use '../../assets/styles/mixins' as mixins;
 
   .ui3nMenu {
-    --ui3n-menu-content-bg: var(--color-bg-control-secondary-default);
+    --_menu-content-bg: var(--ui3n-menu-content-bg, var(--color-bg-control-secondary-default));
 
     position: relative;
     display: inline-block;
@@ -318,8 +318,8 @@
   .ui3nMenuContent {
     position: absolute;
     border-radius: var(--ui3n-menu-content-border-radius);
-    background-color: var(--ui3n-menu-content-bg);
-    z-index: var(--ui3n-menu-zIndex, 1000);
+    background-color: var(--_menu-content-bg);
+    z-index: var(--ui3n-menu-z-index, 1000);
     overflow: hidden;
     @include mixins.dropShadow();
   }

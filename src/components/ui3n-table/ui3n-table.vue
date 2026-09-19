@@ -505,21 +505,21 @@
   }
 
   .ui3nTable {
-    --ui3n-table-columns-width: auto;
-    --ui3n-table-base-head-height: 36px;
-    --ui3n-table-group-actions-height: 48px;
-    --ui3n-table-body-row-height: 28px;
-    --ui3n-table-group-actions-bg-color: var(--color-bg-block-primary-default);
-    --ui3n-table-header-bg-color: var(--color-bg-table-header-default);
-    --ui3n-table-header-color: var(--color-text-table-primary-default);
-    --ui3n-table-header-font-size: 14px;
-    --ui3n-table-padding-inline: 16px;
-    --ui3n-table-row-color: var(--color-text-table-primary-default);
-    --ui3n-table-row-bg-color-selected: var(--color-bg-control-primary-hover);
-    --ui3n-table-row-checkbox-width: 16px;
-    --ui3n-table-cell-font-size: 12px;
-    --ui3n-table-nodata-height: 48px;
-    --ui3n-table-nodata-color: var(--color-text-control-secondary-default);
+    --_table-columns-width: var(--ui3n-table-columns-width, auto);
+    --_table-base-head-height: var(--ui3n-table-base-head-height, 36px);
+    --_table-group-actions-height: var(--ui3n-table-group-actions-height, 48px);
+    --_table-body-row-height: var(--ui3n-table-body-row-height, 28px);
+    --_table-group-actions-bg-color: var(--ui3n-table-group-actions-bg-color, var(--color-bg-block-primary-default));
+    --_table-header-bg-color: var(--ui3n-table-header-bg-color, var(--color-bg-table-header-default));
+    --_table-header-color: var(--ui3n-table-header-color, var(--color-text-table-primary-default));
+    --_table-header-font-size: var(--ui3n-table-header-font-size, 14px);
+    --_table-padding-inline: var(--ui3n-table-padding-inline, 16px);
+    --_table-row-color: var(--ui3n-table-row-color, var(--color-text-table-primary-default));
+    --_table-row-bg-color-selected: var(--ui3n-table-row-bg-color-selected, var(--color-bg-control-primary-hover));
+    --_table-row-checkbox-width: var(--ui3n-table-row-checkbox-width, 16px);
+    --_table-cell-font-size: var(--ui3n-table-cell-font-size, 12px);
+    --_table-nodata-height: var(--ui3n-table-nodata-height, 48px);
+    --_table-nodata-color: var(--ui3n-table-nodata-color, var(--color-text-control-secondary-default));
 
     position: relative;
     width: 100%;
@@ -561,22 +561,22 @@
     position: sticky;
     top: 0;
     width: 100%;
-    min-height: var(--ui3n-table-base-head-height);
-    height: var(--ui3n-table-base-head-height);
+    min-height: var(--_table-base-head-height);
+    height: var(--_table-base-head-height);
     display: grid;
-    grid-template-columns: var(--ui3n-table-columns-width);
-    background-color: var(--ui3n-table-header-bg-color);
-    padding-left: var(--ui3n-table-padding-inline);
+    grid-template-columns: var(--_table-columns-width);
+    background-color: var(--_table-header-bg-color);
+    padding-left: var(--_table-padding-inline);
     z-index: 5;
 
     &.withGroupActions {
-      height: calc(var(--ui3n-table-base-head-height) + var(--ui3n-table-group-actions-height));
-      min-height: calc(var(--ui3n-table-base-head-height) + var(--ui3n-table-group-actions-height));
-      padding-top: var(--ui3n-table-group-actions-height);
+      height: calc(var(--_table-base-head-height) + var(--_table-group-actions-height));
+      min-height: calc(var(--_table-base-head-height) + var(--_table-group-actions-height));
+      padding-top: var(--_table-group-actions-height);
     }
 
     .headerItemWrapper:not(:first-child) {
-      padding: 0 calc(var(--ui3n-table-padding-inline) / 4);
+      padding: 0 calc(var(--_table-padding-inline) / 4);
     }
   }
 
@@ -605,9 +605,9 @@
 
   .headerText {
     display: block;
-    font-size: var(--ui3n-table-header-font-size);
+    font-size: var(--_table-header-font-size);
     font-weight: 500;
-    color: var(--ui3n-table-header-color);
+    color: var(--_table-header-color);
     @include mixins.text-overflow-ellipsis();
   }
 
@@ -623,11 +623,11 @@
     left: 0;
     display: flex;
     width: 100%;
-    height: var(--ui3n-table-group-actions-height);
-    padding: 0 var(--ui3n-table-padding-inline);
+    height: var(--_table-group-actions-height);
+    padding: 0 var(--_table-padding-inline);
     justify-content: space-between;
     align-items: center;
-    background-color: var(--ui3n-table-group-actions-bg-color);
+    background-color: var(--_table-group-actions-bg-color);
     border-left: 1px solid var(--color-border-block-primary-default);
     border-top: 1px solid var(--color-border-block-primary-default);
     border-right: 1px solid var(--color-border-block-primary-default);
@@ -636,7 +636,7 @@
   .groupActionsBody {
     display: flex;
     height: 100%;
-    padding: 0 calc(var(--ui3n-table-padding-inline) / 2);
+    padding: 0 calc(var(--_table-padding-inline) / 2);
     flex-grow: 1;
   }
 
@@ -649,16 +649,16 @@
   .row {
     position: relative;
     width: 100%;
-    min-height: var(--ui3n-table-body-row-height);
+    min-height: var(--_table-body-row-height);
     border-left: 1px solid var(--color-border-table-primary-default);
     border-right: 1px solid var(--color-border-table-primary-default);
     border-bottom: 1px solid var(--color-border-block-primary-default);
     background-color: transparent;
 
     &:not(.customRow) {
-      padding-left: var(--ui3n-table-padding-inline);
+      padding-left: var(--_table-padding-inline);
       display: grid;
-      grid-template-columns: var(--ui3n-table-columns-width);
+      grid-template-columns: var(--_table-columns-width);
     }
 
     &.selectable {
@@ -671,14 +671,14 @@
   }
 
   .selected {
-    background-color: var(--ui3n-table-row-bg-color-selected);
+    background-color: var(--_table-row-bg-color-selected);
   }
 
   .rowCheckbox {
     position: absolute;
     top: 0;
     left: 16px;
-    width: var(--ui3n-table-row-checkbox-width);
+    width: var(--_table-row-checkbox-width);
     height: 100%;
     display: flex;
     justify-content: flex-start;
@@ -694,27 +694,27 @@
     align-items: center;
 
     &.bodyItemFirst {
-      padding-left: calc(var(--ui3n-table-padding-inline) * 1.5);
+      padding-left: calc(var(--_table-padding-inline) * 1.5);
     }
   }
 
   .cell {
-    font-size: var(--ui3n-table-cell-font-size);
+    font-size: var(--_table-cell-font-size);
     font-weight: 400;
-    color: var(--ui3n-table-row-color);
+    color: var(--_table-row-color);
   }
 
   .noData {
     position: relative;
     width: 100%;
-    height: var(--ui3n-table-nodata-height);
+    height: var(--_table-nodata-height);
     padding-top: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: var(--ui3n-table-cell-font-size);
+    font-size: var(--_table-cell-font-size);
     font-weight: 600;
-    color: var(--ui3n-table-nodata-color);
+    color: var(--_table-nodata-color);
   }
 
   .unusedPlace {
@@ -729,7 +729,7 @@
       width: max-content;
       min-width: 100%;
       display: grid;
-      grid-template-columns: var(--ui3n-table-columns-width);
+      grid-template-columns: var(--_table-columns-width);
     }
 
     .header {
@@ -746,15 +746,15 @@
 
     .headerItemSticky {
       position: sticky;
-      background-color: var(--ui3n-table-header-bg-color);
+      background-color: var(--_table-header-bg-color);
     }
 
     .headerItemFirst.headerItemSticky {
-      padding-left: var(--ui3n-table-padding-inline);
+      padding-left: var(--_table-padding-inline);
     }
 
     .headerItemWrapper:not(.headerItemFirst) {
-      padding: 0 calc(var(--ui3n-table-padding-inline) / 4);
+      padding: 0 calc(var(--_table-padding-inline) / 4);
     }
 
     .bodyItemSticky {
@@ -763,7 +763,7 @@
     }
 
     .bodyItemFirst.bodyItemSticky {
-      padding-left: calc(var(--ui3n-table-padding-inline) + var(--ui3n-table-padding-inline) * 1.5);
+      padding-left: calc(var(--_table-padding-inline) + var(--_table-padding-inline) * 1.5);
     }
 
     .row:hover .bodyItemSticky {
@@ -771,12 +771,12 @@
     }
 
     .row.selected .bodyItemSticky {
-      background-color: var(--ui3n-table-row-bg-color-selected);
+      background-color: var(--_table-row-bg-color-selected);
     }
 
     .rowCheckbox {
       position: sticky;
-      left: var(--ui3n-table-padding-inline);
+      left: var(--_table-padding-inline);
       z-index: 3;
     }
 

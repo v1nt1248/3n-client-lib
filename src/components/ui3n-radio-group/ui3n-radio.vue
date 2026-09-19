@@ -174,17 +174,17 @@
 
 <style lang="scss" module>
   .ui3nRadio {
-    --ui3n-radio-min-height: 24px;
+    --_radio-min-height: var(--ui3n-radio-min-height, 24px);
 
     position: relative;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    min-height: var(--ui3n-radio-min-height);
+    min-height: var(--_radio-min-height);
     gap: 8px;
 
     &.disabled {
-      --ui3n-radio-color: var(--color-icon-control-primary-disabled) !important;
+      --_radio-color: var(--ui3n-radio-color-disabled, var(--color-icon-control-primary-disabled)) !important;
 
       pointer-events: none;
       cursor: default;
@@ -213,7 +213,7 @@
 
     &:hover {
       cursor: pointer;
-      background-color: color-mix(in oklch, var(--ui3n-radio-color) 16%, transparent);
+      background-color: color-mix(in oklch, var(--_radio-color) 16%, transparent);
     }
   }
 
@@ -225,7 +225,7 @@
   }
 
   .icon {
-    color: var(--ui3n-radio-color);
+    color: var(--_radio-color);
     min-height: calc(var(--ui3n-radio-size, 16px) - 2px);
     height: calc(var(--ui3n-radio-size, 16px) - 2px);
     min-width: calc(var(--ui3n-radio-size, 16px) - 2px);

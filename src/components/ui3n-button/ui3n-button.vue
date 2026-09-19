@@ -134,34 +134,42 @@
   @use '../../assets/styles/mixins' as mixins;
 
   .ui3nButton {
-    --ui3n-button-height: 32px;
-    --ui3n-button-border-radius: calc(var(--ui3n-button-height) / 2);
-    --ui3n-button-gap: 4px;
-    --ui3n-button-outline-color: transparent;
-    --ui3n-button-padding: 0 16px;
-    --ui3n-button-padding-when-icon: 8px;
-    --ui3n-button-text-size: 12px;
-    --ui3n-button-text-color: var(--color-text-button-primary-default);
-    --ui3n-button-bg-color: var(--color-bg-button-primary-default);
-    --ui3n-button-icon-small: 24px;
-    --ui3n-button-icon-regular: 32px;
-    --ui3n-button-icon-large: 48px;
+    /*
+     * Public variables are never declared here, only read with a fixed default,
+     * so an application can set them at any level: :root, a container, the
+     * element itself or from JS.
+     */
+    --_button-height: var(--ui3n-button-height, 32px);
+    --_button-border-radius: var(--ui3n-button-border-radius, calc(var(--_button-height) / 2));
+    --_button-gap: var(--ui3n-button-gap, 4px);
+    --_button-outline-color: var(--ui3n-button-outline-color, transparent);
+    --_button-padding: var(--ui3n-button-padding, 0 16px);
+    --_button-padding-when-icon: var(--ui3n-button-padding-when-icon, 8px);
+    --_button-font-size: var(--ui3n-button-font-size, 12px);
+    --_button-text-color: var(--ui3n-button-text-color, var(--color-text-button-primary-default));
+    --_button-bg-color: var(--ui3n-button-bg-color, var(--color-bg-button-primary-default));
+    --_button-icon-small: var(--ui3n-button-icon-size-small, 24px);
+    --_button-icon-regular: var(--ui3n-button-icon-size-regular, 32px);
+    --_button-icon-large: var(--ui3n-button-icon-size-large, 48px);
+    --_button-shadow-near: var(--ui3n-button-shadow-near-color, var(--shadow-key-1));
+    --_button-shadow-far: var(--ui3n-button-shadow-far-color, var(--shadow-key-2));
+    --_button-shadow-inset: var(--ui3n-button-shadow-inset-color, var(--shadow-key-3));
 
     position: relative;
     width: max-content;
-    height: var(--ui3n-button-height);
-    padding: var(--ui3n-button-padding);
+    height: var(--_button-height);
+    padding: var(--_button-padding);
     display: flex;
     justify-content: center;
     align-items: center;
-    column-gap: var(--ui3n-button-gap);
+    column-gap: var(--_button-gap);
     border: none;
-    border-radius: var(--ui3n-button-border-radius);
-    outline: 2px solid var(--ui3n-button-outline-color);
-    font-size: var(--ui3n-button-text-size);
+    border-radius: var(--_button-border-radius);
+    outline: 2px solid var(--_button-outline-color);
+    font-size: var(--_button-font-size);
     font-weight: 600;
-    color: var(--ui3n-button-text-color);
-    background-color: var(--ui3n-button-bg-color);
+    color: var(--_button-text-color);
+    background-color: var(--_button-bg-color);
     user-select: none;
     overflow: hidden;
     transition:
@@ -169,15 +177,15 @@
       transform 0.1s;
 
     &.withIcon-left {
-      padding-left: var(--ui3n-button-padding-when-icon);
+      padding-left: var(--_button-padding-when-icon);
     }
 
     &.withIcon-right {
-      padding-right: var(--ui3n-button-padding-when-icon);
+      padding-right: var(--_button-padding-when-icon);
     }
 
     &.square {
-      --ui3n-button-border-radius: calc(var(--ui3n-button-height) / 6);
+      --_button-border-radius: var(--ui3n-button-border-radius, calc(var(--_button-height) / 6));
     }
 
     &:not([disabled]) {
@@ -185,25 +193,35 @@
     }
   }
 
+  /* Each size reads its own variable first, then the one shared by every size. */
   .regular {
-    --ui3n-button-height: 32px;
-    --ui3n-button-padding: 0 16px;
-    --ui3n-button-padding-when-icon: 8px;
-    --ui3n-button-text-size: 12px;
+    --_button-height: var(--ui3n-button-height-regular, var(--ui3n-button-height, 32px));
+    --_button-padding: var(--ui3n-button-padding-regular, var(--ui3n-button-padding, 0 16px));
+    --_button-padding-when-icon: var(
+      --ui3n-button-padding-when-icon-regular,
+      var(--ui3n-button-padding-when-icon, 8px)
+    );
+    --_button-font-size: var(--ui3n-button-font-size-regular, var(--ui3n-button-font-size, 12px));
   }
 
   .small {
-    --ui3n-button-height: 24px;
-    --ui3n-button-padding: 0 8px;
-    --ui3n-button-padding-when-icon: 4px;
-    --ui3n-button-text-size: 12px;
+    --_button-height: var(--ui3n-button-height-small, var(--ui3n-button-height, 24px));
+    --_button-padding: var(--ui3n-button-padding-small, var(--ui3n-button-padding, 0 8px));
+    --_button-padding-when-icon: var(
+      --ui3n-button-padding-when-icon-small,
+      var(--ui3n-button-padding-when-icon, 4px)
+    );
+    --_button-font-size: var(--ui3n-button-font-size-small, var(--ui3n-button-font-size, 12px));
   }
 
   .large {
-    --ui3n-button-height: 48px;
-    --ui3n-button-padding: 0 16px;
-    --ui3n-button-padding-when-icon: 8px;
-    --ui3n-button-text-size: 15px;
+    --_button-height: var(--ui3n-button-height-large, var(--ui3n-button-height, 48px));
+    --_button-padding: var(--ui3n-button-padding-large, var(--ui3n-button-padding, 0 16px));
+    --_button-padding-when-icon: var(
+      --ui3n-button-padding-when-icon-large,
+      var(--ui3n-button-padding-when-icon, 8px)
+    );
+    --_button-font-size: var(--ui3n-button-font-size-large, var(--ui3n-button-font-size, 15px));
   }
 
   .block {
@@ -211,93 +229,102 @@
   }
 
   .primary {
-    --ui3n-button-bg-color: var(--color-bg-button-primary-default);
-    --ui3n-button-text-color: var(--color-text-button-primary-default);
+    --_button-bg-color: var(--ui3n-button-bg-color, var(--color-bg-button-primary-default));
+    --_button-text-color: var(--ui3n-button-text-color, var(--color-text-button-primary-default));
 
     &:hover {
-      --ui3n-button-bg-color: var(--color-bg-button-primary-hover);
-      --ui3n-button-text-color: var(--color-text-button-primary-hover);
+      --_button-bg-color: var(--ui3n-button-bg-color-hover, var(--color-bg-button-primary-hover));
+      --_button-text-color: var(--ui3n-button-text-color-hover, var(--color-text-button-primary-hover));
     }
 
     &:focus {
-      --ui3n-button-text-color: var(--color-text-button-primary-default);
-      --ui3n-button-outline-color: oklch(from var(--color-bg-button-primary-default) calc(l - 0.185) c 260deg);
+      --_button-text-color: var(--ui3n-button-text-color-focused, var(--color-text-button-primary-default));
+      --_button-outline-color: var(
+        --ui3n-button-outline-color-focused,
+        oklch(from var(--color-bg-button-primary-default) calc(l - 0.185) c 260deg)
+      );
     }
 
     &:active {
-      --ui3n-button-bg-color: var(--color-bg-button-primary-pressed);
-      --ui3n-button-text-color: var(--color-text-button-primary-pressed);
-      --ui3n-button-outline-color: transparent;
+      --_button-bg-color: var(--ui3n-button-bg-color-pressed, var(--color-bg-button-primary-pressed));
+      --_button-text-color: var(--ui3n-button-text-color-pressed, var(--color-text-button-primary-pressed));
+      --_button-outline-color: transparent;
     }
 
     &[disabled] {
-      --ui3n-button-bg-color: var(--color-bg-button-primary-disabled);
-      --ui3n-button-text-color: var(--color-text-button-primary-disabled);
+      --_button-bg-color: var(--ui3n-button-bg-color-disabled, var(--color-bg-button-primary-disabled));
+      --_button-text-color: var(--ui3n-button-text-color-disabled, var(--color-text-button-primary-disabled));
 
       opacity: 0.7;
       pointer-events: none;
     }
 
     &.elevation {
-      --ui3n-button-text-color: var(--color-text-button-primary-default);
+      --_button-text-color: var(--ui3n-button-text-color, var(--color-text-button-primary-default));
 
       background-image: linear-gradient(
         var(--color-bg-button-primary-default),
         var(--color-bg-button-primary-hover)
       );
       box-shadow:
-        0 1px 1px 0 oklch(from var(--blue-100) l c h / 0.25),
-        0 2px 8px 0 oklch(from var(--blue-100) l c h / 0.4),
-        inset 0 1px 1px 0 oklch(from var(--blue-0) l c h / 0.25);
+        0 1px 1px 0 var(--_button-shadow-near),
+        0 2px 8px 0 var(--_button-shadow-far),
+        inset 0 1px 1px 0 var(--_button-shadow-inset);
 
       .text {
-        text-shadow: 0 1px 0 oklch(from var(--blue-100) l c h / 0.25);
+        text-shadow: 0 1px 0 var(--_button-shadow-near);
       }
 
       &:hover {
-        --ui3n-button-text-color: var(--color-text-button-primary-hover);
+        --_button-text-color: var(--ui3n-button-text-color-hover, var(--color-text-button-primary-hover));
 
         background-image: linear-gradient(
           var(--color-bg-button-primary-default),
           var(--color-bg-button-primary-pressed)
         );
         box-shadow:
-          0 1px 1px 0 oklch(from var(--blue-100) l c h / 0.25),
-          0 2px 8px 0 oklch(from var(--blue-100) l c h / 0.25),
-          inset 0 1px 1px 0 oklch(from var(--blue-30) l c h / 0.25);
+          0 1px 1px 0 var(--_button-shadow-near),
+          0 2px 8px 0 var(--_button-shadow-far),
+          inset 0 1px 1px 0 var(--_button-shadow-inset);
       }
 
       &:focus {
-        --ui3n-button-text-color: var(--color-text-button-primary-default);
-        --ui3n-button-outline-color: oklch(from var(--color-bg-button-primary-default) calc(l - 0.185) c 260deg);
+        --_button-text-color: var(--ui3n-button-text-color-focused, var(--color-text-button-primary-default));
+        --_button-outline-color: var(
+          --ui3n-button-outline-color-focused,
+          oklch(from var(--color-bg-button-primary-default) calc(l - 0.185) c 260deg)
+        );
 
         background-image: linear-gradient(
           var(--color-bg-button-primary-default),
           var(--color-bg-button-primary-hover)
         );
         box-shadow:
-          0 1px 1px 0 oklch(from var(--blue-100) l c h / 0.25),
-          0 2px 8px 0 oklch(from var(--blue-100) l c h / 0.25),
-          inset 0 1px 1px 0 oklch(from var(--blue-30) l c h / 0.25);
+          0 1px 1px 0 var(--_button-shadow-near),
+          0 2px 8px 0 var(--_button-shadow-far),
+          inset 0 1px 1px 0 var(--_button-shadow-inset);
       }
 
       &:active {
-        --ui3n-button-text-color: var(--color-text-button-primary-pressed);
-        --ui3n-button-outline-color: transparent;
+        --_button-text-color: var(--ui3n-button-text-color-pressed, var(--color-text-button-primary-pressed));
+        --_button-outline-color: transparent;
 
         background-image: linear-gradient(
           var(--color-bg-button-primary-hover),
           var(--color-bg-button-primary-pressed)
         );
         box-shadow:
-          0 1px 1px 0 oklch(from var(--blue-100) l c h / 0.25),
-          0 2px 8px 0 oklch(from var(--blue-100) l c h / 0.25),
-          inset 0 1px 1px 0 oklch(from var(--blue-30) l c h / 0.25);
+          0 1px 1px 0 var(--_button-shadow-near),
+          0 2px 8px 0 var(--_button-shadow-far),
+          inset 0 1px 1px 0 var(--_button-shadow-inset);
       }
 
       &[disabled] {
-        --ui3n-button-bg-color: var(--color-bg-button-primary-disabled);
-        --ui3n-button-text-color: var(--color-text-button-primary-disabled);
+        --_button-bg-color: var(--ui3n-button-bg-color-disabled, var(--color-bg-button-primary-disabled));
+        --_button-text-color: var(
+          --ui3n-button-text-color-disabled,
+          var(--color-text-button-primary-disabled)
+        );
 
         opacity: 0.7;
         background-image: none;
@@ -312,89 +339,107 @@
   }
 
   .secondary {
-    --ui3n-button-bg-color: var(--color-bg-button-secondary-default);
-    --ui3n-button-text-color: var(--color-text-button-secondary-default);
+    --_button-bg-color: var(--ui3n-button-bg-color, var(--color-bg-button-secondary-default));
+    --_button-text-color: var(--ui3n-button-text-color, var(--color-text-button-secondary-default));
 
     &:hover {
-      --ui3n-button-bg-color: var(--color-bg-button-secondary-hover);
-      --ui3n-button-text-color: var(--color-text-button-secondary-hover);
+      --_button-bg-color: var(--ui3n-button-bg-color-hover, var(--color-bg-button-secondary-hover));
+      --_button-text-color: var(--ui3n-button-text-color-hover, var(--color-text-button-secondary-hover));
     }
 
     &:focus {
-      --ui3n-button-text-color: var(--color-text-button-secondary-default);
-      --ui3n-button-outline-color: oklch(from var(--color-bg-button-secondary-default) calc(l - 0.185) c 260deg);
+      --_button-text-color: var(--ui3n-button-text-color-focused, var(--color-text-button-secondary-default));
+      --_button-outline-color: var(
+        --ui3n-button-outline-color-focused,
+        oklch(from var(--color-bg-button-secondary-default) calc(l - 0.185) c 260deg)
+      );
     }
 
     &:active {
-      --ui3n-button-bg-color: var(--color-bg-button-secondary-pressed);
-      --ui3n-button-text-color: var(--color-text-button-secondary-pressed);
-      --ui3n-button-outline-color: transparent;
+      --_button-bg-color: var(--ui3n-button-bg-color-pressed, var(--color-bg-button-secondary-pressed));
+      --_button-text-color: var(--ui3n-button-text-color-pressed, var(--color-text-button-secondary-pressed));
+      --_button-outline-color: transparent;
     }
 
     &[disabled] {
-      --ui3n-button-bg-color: var(--color-bg-button-secondary-disabled);
-      --ui3n-button-text-color: var(--color-text-button-secondary-disabled);
+      --_button-bg-color: var(--ui3n-button-bg-color-disabled, var(--color-bg-button-secondary-disabled));
+      --_button-text-color: var(
+        --ui3n-button-text-color-disabled,
+        var(--color-text-button-secondary-disabled)
+      );
 
       opacity: 0.7;
       pointer-events: none;
     }
 
     &.elevation {
-      --ui3n-button-text-color: var(--color-text-button-secondary-default);
+      --_button-text-color: var(--ui3n-button-text-color, var(--color-text-button-secondary-default));
 
       background-image: linear-gradient(
         var(--color-bg-button-secondary-default),
         var(--color-bg-button-secondary-hover)
       );
       box-shadow:
-        0 1px 1px 0 oklch(from var(--blue-100) l c h / 0.25),
-        0 2px 8px 0 oklch(from var(--blue-100) l c h / 0.25),
-        inset 0 1px 1px 0 oklch(from var(--blue-30) l c h / 0.25);
+        0 1px 1px 0 var(--_button-shadow-near),
+        0 2px 8px 0 var(--_button-shadow-far),
+        inset 0 1px 1px 0 var(--_button-shadow-inset);
 
       &:hover {
-        --ui3n-button-text-color: var(--color-text-button-secondary-hover);
+        --_button-text-color: var(--ui3n-button-text-color-hover, var(--color-text-button-secondary-hover));
 
         background-image: linear-gradient(
           var(--color-bg-button-secondary-hover),
           var(--color-bg-button-secondary-pressed)
         );
         box-shadow:
-          0 1px 1px 0 oklch(from var(--blue-100) l c h / 0.25),
-          0 2px 8px 0 oklch(from var(--blue-100) l c h / 0.25),
-          inset 0 1px 1px 0 oklch(from var(--blue-30) l c h / 0.25);
+          0 1px 1px 0 var(--_button-shadow-near),
+          0 2px 8px 0 var(--_button-shadow-far),
+          inset 0 1px 1px 0 var(--_button-shadow-inset);
       }
 
       &:focus {
-        --ui3n-button-text-color: var(--color-text-button-secondary-default);
-        --ui3n-button-outline-color: var(--color-border-button-secondary-focused);
+        --_button-text-color: var(
+          --ui3n-button-text-color-focused,
+          var(--color-text-button-secondary-default)
+        );
+        --_button-outline-color: var(
+          --ui3n-button-outline-color-focused,
+          var(--color-border-button-secondary-focused)
+        );
 
         background-image: linear-gradient(
           var(--color-bg-button-secondary-default),
           var(--color-bg-button-secondary-hover)
         );
         box-shadow:
-          0 1px 1px 0 oklch(from var(--blue-100) l c h / 0.25),
-          0 2px 8px 0 oklch(from var(--blue-100) l c h / 0.25),
-          inset 0 1px 1px 0 oklch(from var(--blue-30) l c h / 0.25);
+          0 1px 1px 0 var(--_button-shadow-near),
+          0 2px 8px 0 var(--_button-shadow-far),
+          inset 0 1px 1px 0 var(--_button-shadow-inset);
       }
 
       &:active {
-        --ui3n-button-text-color: var(--color-text-button-secondary-pressed);
-        --ui3n-button-outline-color: transparent;
+        --_button-text-color: var(
+          --ui3n-button-text-color-pressed,
+          var(--color-text-button-secondary-pressed)
+        );
+        --_button-outline-color: transparent;
 
         background-image: linear-gradient(
           var(--color-bg-button-secondary-hover),
           var(--color-bg-button-secondary-pressed)
         );
         box-shadow:
-          0 1px 1px 0 oklch(from var(--blue-100) l c h / 0.25),
-          0 2px 8px 0 oklch(from var(--blue-100) l c h / 0.25),
-          inset 0 1px 1px 0 oklch(from var(--blue-30) l c h / 0.25);
+          0 1px 1px 0 var(--_button-shadow-near),
+          0 2px 8px 0 var(--_button-shadow-far),
+          inset 0 1px 1px 0 var(--_button-shadow-inset);
       }
 
       &[disabled] {
-        --ui3n-button-bg-color: var(--color-bg-button-secondary-disabled);
-        --ui3n-button-text-color: var(--color-text-button-secondary-disabled);
+        --_button-bg-color: var(--ui3n-button-bg-color-disabled, var(--color-bg-button-secondary-disabled));
+        --_button-text-color: var(
+          --ui3n-button-text-color-disabled,
+          var(--color-text-button-secondary-disabled)
+        );
 
         opacity: 0.7;
         background-image: none;
@@ -405,90 +450,105 @@
   }
 
   .tertiary {
-    --ui3n-button-bg-color: var(--color-bg-button-tritery-default);
-    --ui3n-button-text-color: var(--color-text-button-tritery-default);
+    --_button-bg-color: var(--ui3n-button-bg-color, var(--color-bg-button-tritery-default));
+    --_button-text-color: var(--ui3n-button-text-color, var(--color-text-button-tritery-default));
 
     &:hover {
-      --ui3n-button-bg-color: var(--color-bg-button-tritery-hover);
-      --ui3n-button-text-color: var(--color-text-button-tritery-hover);
+      --_button-bg-color: var(--ui3n-button-bg-color-hover, var(--color-bg-button-tritery-hover));
+      --_button-text-color: var(--ui3n-button-text-color-hover, var(--color-text-button-tritery-hover));
     }
 
     &:focus {
-      --ui3n-button-bg-color: var(--color-bg-button-tritery-default);
-      --ui3n-button-text-color: var(--color-text-button-tritery-focused);
-      --ui3n-button-outline-color: oklch(from var(--color-bg-button-tritery-default) calc(l - 0.185) c 260deg);
+      --_button-bg-color: var(--ui3n-button-bg-color, var(--color-bg-button-tritery-default));
+      --_button-text-color: var(--ui3n-button-text-color-focused, var(--color-text-button-tritery-focused));
+      --_button-outline-color: var(
+        --ui3n-button-outline-color-focused,
+        oklch(from var(--color-bg-button-tritery-default) calc(l - 0.185) c 260deg)
+      );
     }
 
     &:active {
-      --ui3n-button-bg-color: var(--color-bg-button-tritery-pressed);
-      --ui3n-button-text-color: var(--color-text-button-tritery-pressed);
-      --ui3n-button-outline-color: transparent;
+      --_button-bg-color: var(--ui3n-button-bg-color-pressed, var(--color-bg-button-tritery-pressed));
+      --_button-text-color: var(--ui3n-button-text-color-pressed, var(--color-text-button-tritery-pressed));
+      --_button-outline-color: transparent;
     }
 
     &[disabled] {
-      --ui3n-button-bg-color: var(--color-bg-button-tritery-disabled);
-      --ui3n-button-text-color: var(--color-text-button-tritery-disabled);
+      --_button-bg-color: var(--ui3n-button-bg-color-disabled, var(--color-bg-button-tritery-disabled));
+      --_button-text-color: var(--ui3n-button-text-color-disabled, var(--color-text-button-tritery-disabled));
 
       opacity: 0.7;
       pointer-events: none;
     }
 
     &.elevation {
-      --ui3n-button-text-color: var(--color-text-button-tritery-default);
+      --_button-text-color: var(--ui3n-button-text-color, var(--color-text-button-tritery-default));
 
       background-image: linear-gradient(
         var(--color-bg-button-tritery-default),
         var(--color-bg-button-tritery-hover)
       );
       box-shadow:
-        0 1px 1px 0 oklch(from var(--blue-100) l c h / 0.25),
-        0 2px 8px 0 oklch(from var(--blue-100) l c h / 0.25),
-        inset 0 1px 1px 0 var(--black-12);
+        0 1px 1px 0 var(--_button-shadow-near),
+        0 2px 8px 0 var(--_button-shadow-far),
+        inset 0 1px 1px 0 var(--_button-shadow-inset);
 
       &:hover {
-        --ui3n-button-text-color: var(--color-text-button-tritery-hover);
+        --_button-text-color: var(--ui3n-button-text-color-hover, var(--color-text-button-tritery-hover));
 
         background-image: linear-gradient(
           var(--color-bg-button-tritery-hover),
           var(--color-bg-button-tritery-pressed)
         );
         box-shadow:
-          0 1px 1px 0 oklch(from var(--blue-100) l c h / 0.25),
-          0 2px 8px 0 oklch(from var(--blue-100) l c h / 0.25),
-          inset 0 1px 1px 0 var(--black-12);
+          0 1px 1px 0 var(--_button-shadow-near),
+          0 2px 8px 0 var(--_button-shadow-far),
+          inset 0 1px 1px 0 var(--_button-shadow-inset);
       }
 
       &:focus {
-        --ui3n-button-text-color: var(--color-text-button-tritery-focused);
-        --ui3n-button-outline-color: oklch(from var(--color-bg-button-tritery-default) calc(l - 0.185) c 260deg);
+        --_button-text-color: var(
+          --ui3n-button-text-color-focused,
+          var(--color-text-button-tritery-focused)
+        );
+        --_button-outline-color: var(
+          --ui3n-button-outline-color-focused,
+          oklch(from var(--color-bg-button-tritery-default) calc(l - 0.185) c 260deg)
+        );
 
         background-image: linear-gradient(
           var(--color-bg-button-tritery-default),
           var(--color-bg-button-tritery-hover)
         );
         box-shadow:
-          0 1px 1px 0 oklch(from var(--blue-100) l c h / 0.25),
-          0 2px 8px 0 oklch(from var(--blue-100) l c h / 0.25),
-          inset 0 1px 1px 0 var(--black-12);
+          0 1px 1px 0 var(--_button-shadow-near),
+          0 2px 8px 0 var(--_button-shadow-far),
+          inset 0 1px 1px 0 var(--_button-shadow-inset);
       }
 
       &:active {
-        --ui3n-button-text-color: var(--color-text-button-tritery-pressed);
-        --ui3n-button-outline-color: transparent;
+        --_button-text-color: var(
+          --ui3n-button-text-color-pressed,
+          var(--color-text-button-tritery-pressed)
+        );
+        --_button-outline-color: transparent;
 
         background-image: linear-gradient(
           var(--color-bg-button-tritery-hover),
           var(--color-bg-button-tritery-pressed)
         );
         box-shadow:
-          0 1px 1px 0 oklch(from var(--blue-100) l c h / 0.25),
-          0 2px 8px 0 oklch(from var(--blue-100) l c h / 0.25),
-          inset 0 1px 1px 0 var(--black-12);
+          0 1px 1px 0 var(--_button-shadow-near),
+          0 2px 8px 0 var(--_button-shadow-far),
+          inset 0 1px 1px 0 var(--_button-shadow-inset);
       }
 
       &[disabled] {
-        --ui3n-button-bg-color: var(--color-bg-button-tritery-disabled);
-        --ui3n-button-text-color: var(--color-text-button-tritery-disabled);
+        --_button-bg-color: var(--ui3n-button-bg-color-disabled, var(--color-bg-button-tritery-disabled));
+        --_button-text-color: var(
+          --ui3n-button-text-color-disabled,
+          var(--color-text-button-tritery-disabled)
+        );
 
         opacity: 0.7;
         background-image: none;
@@ -499,33 +559,43 @@
   }
 
   .outline {
-    --ui3n-button-bg-color: transparent;
-    --ui3n-button-text-color: var(--color-text-button-secondary-default);
-    --ui3n-button-outline-color: var(--ui3n-button-text-color);
+    --_button-bg-color: var(--ui3n-button-bg-color, transparent);
+    --_button-text-color: var(--ui3n-button-text-color, var(--color-text-button-secondary-default));
+    --_button-outline-color: var(--ui3n-button-outline-color, var(--_button-text-color));
 
     &:hover {
-      --ui3n-button-bg-color: oklch(from var(--color-text-button-secondary-default) l c h / 0.08);
-      --ui3n-button-text-color: var(--color-text-button-secondary-hover);
-      --ui3n-button-outline-color: var(--ui3n-button-text-color);
+      --_button-bg-color: var(
+        --ui3n-button-bg-color-hover,
+        oklch(from var(--color-text-button-secondary-default) l c h / 0.08)
+      );
+      --_button-text-color: var(--ui3n-button-text-color-hover, var(--color-text-button-secondary-hover));
+      --_button-outline-color: var(--ui3n-button-outline-color-hover, var(--_button-text-color));
     }
 
     &:focus {
-      --ui3n-button-bg-color: transparent;
-      --ui3n-button-text-color: oklch(
-        from var(--color-text-button-secondary-default) calc(l * 0.9) c calc(h * 1.1)
+      --_button-bg-color: transparent;
+      --_button-text-color: var(
+        --ui3n-button-text-color-focused,
+        oklch(from var(--color-text-button-secondary-default) calc(l * 0.9) c calc(h * 1.1))
       );
-      --ui3n-button-outline-color: var(--ui3n-button-text-color);
+      --_button-outline-color: var(--ui3n-button-outline-color-focused, var(--_button-text-color));
     }
 
     &:active {
-      --ui3n-button-bg-color: oklch(from var(--color-text-button-secondary-default) l c h / 0.12);
-      --ui3n-button-text-color: var(--color-text-button-secondary-pressed);
-      --ui3n-button-outline-color: var(--ui3n-button-text-color);
+      --_button-bg-color: var(
+        --ui3n-button-bg-color-pressed,
+        oklch(from var(--color-text-button-secondary-default) l c h / 0.12)
+      );
+      --_button-text-color: var(--ui3n-button-text-color-pressed, var(--color-text-button-secondary-pressed));
+      --_button-outline-color: var(--ui3n-button-outline-color-pressed, var(--_button-text-color));
     }
 
     &[disabled] {
-      --ui3n-button-bg-color: transparent;
-      --ui3n-button-text-color: var(--color-text-button-secondary-disabled);
+      --_button-bg-color: transparent;
+      --_button-text-color: var(
+        --ui3n-button-text-color-disabled,
+        var(--color-text-button-secondary-disabled)
+      );
 
       pointer-events: none;
     }
@@ -539,42 +609,57 @@
     }
 
     &.regular {
-      min-width: var(--ui3n-button-icon-regular);
-      width: var(--ui3n-button-icon-regular);
+      min-width: var(--_button-icon-regular);
+      width: var(--_button-icon-regular);
     }
 
     &.small {
-      min-width: var(--ui3n-button-icon-small);
-      width: var(--ui3n-button-icon-small);
+      min-width: var(--_button-icon-small);
+      width: var(--_button-icon-small);
     }
 
     &.large {
-      min-width: var(--ui3n-button-icon-large);
-      width: var(--ui3n-button-icon-large);
+      min-width: var(--_button-icon-large);
+      width: var(--_button-icon-large);
     }
   }
 
   .icon,
   .custom {
     &:hover {
-      background-color: oklch(from var(--ui3n-button-bg-color) calc(l - 0.185) c h);
+      background-color: var(
+        --ui3n-button-bg-color-hover,
+        oklch(from var(--_button-bg-color) calc(l - 0.185) c h)
+      );
     }
 
     &:focus {
-      --ui3n-button-outline-color: oklch(from var(--ui3n-button-bg-color) calc(l - 0.185) c h);
+      --_button-outline-color: var(
+        --ui3n-button-outline-color-focused,
+        oklch(from var(--_button-bg-color) calc(l - 0.185) c h)
+      );
 
-      background-color: var(--ui3n-button-bg-color);
+      background-color: var(--_button-bg-color);
     }
 
     &:active {
-      --ui3n-button-outline-color: transparent;
+      --_button-outline-color: transparent;
 
-      background-color: oklch(from var(--ui3n-button-bg-color) calc(l - 0.205) c h);
+      background-color: var(
+        --ui3n-button-bg-color-pressed,
+        oklch(from var(--_button-bg-color) calc(l - 0.205) c h)
+      );
     }
 
     &[disabled] {
-      background-color: oklch(from var(--ui3n-button-bg-color) calc(l + 0.15) c h);
-      color: oklch(from var(--ui3n-button-text-color) calc(l + 0.15) c 260deg);
+      background-color: var(
+        --ui3n-button-bg-color-disabled,
+        oklch(from var(--_button-bg-color) calc(l + 0.15) c h)
+      );
+      color: var(
+        --ui3n-button-text-color-disabled,
+        oklch(from var(--_button-text-color) calc(l + 0.15) c 260deg)
+      );
       opacity: 0.7;
       pointer-events: none;
     }

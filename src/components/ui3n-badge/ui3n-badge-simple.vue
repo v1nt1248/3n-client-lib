@@ -48,11 +48,11 @@
 
 <style lang="scss" module>
   .ui3nBadgeSimple {
-    --ui3n-badge-size: 20px;
-    --ui3n-badge-dot-size: 8px;
-    --ui3n-badge-padding-inline: 6px;
-    --ui3n-badge-nodot-border-radius: 10px;
-    --ui3n-badge-font-size: 12px;
+    --_badge-size: var(--ui3n-badge-size, 20px);
+    --_badge-dot-size: var(--ui3n-badge-dot-size, 8px);
+    --_badge-padding-inline: var(--ui3n-badge-padding-inline, 6px);
+    --_badge-nodot-border-radius: var(--ui3n-badge-nodot-border-radius, 10px);
+    --_badge-font-size: var(--ui3n-badge-font-size, 12px);
 
     position: relative;
     box-sizing: border-box;
@@ -60,29 +60,29 @@
     outline: 1px var(--color-bg-block-primary-default) solid;
 
     &:not(.ui3nBadgeDot) {
-      min-height: var(--ui3n-badge-size);
-      height: var(--ui3n-badge-size);
+      min-height: var(--_badge-size);
+      height: var(--_badge-size);
       width: max-content;
-      padding: 0 var(--ui3n-badge-padding-inline);
-      border-radius: var(--ui3n-badge-nodot-border-radius);
+      padding: 0 var(--_badge-padding-inline);
+      border-radius: var(--_badge-nodot-border-radius);
     }
   }
 
   .ui3nBadgeDot {
-    min-width: var(--ui3n-badge-dot-size);
-    width: var(--ui3n-badge-dot-size);
-    max-width: var(--ui3n-badge-dot-size);
-    min-height: var(--ui3n-badge-dot-size);
-    height: var(--ui3n-badge-dot-size);
-    max-height: var(--ui3n-badge-dot-size);
+    min-width: var(--_badge-dot-size);
+    width: var(--_badge-dot-size);
+    max-width: var(--_badge-dot-size);
+    min-height: var(--_badge-dot-size);
+    height: var(--_badge-dot-size);
+    max-height: var(--_badge-dot-size);
     border-radius: 50%;
   }
 
   .ui3nBadgeText {
     display: block;
     color: v-bind(textColor);
-    font-size: var(--ui3n-badge-font-size);
-    line-height: var(--ui3n-badge-size);
+    font-size: var(--_badge-font-size);
+    line-height: var(--_badge-size);
     text-align: center;
   }
 </style>

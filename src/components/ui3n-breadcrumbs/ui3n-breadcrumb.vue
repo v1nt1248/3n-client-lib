@@ -65,11 +65,11 @@
 
 <style lang="scss" module>
   .ui3nBreadcrumb {
-    --ui3n-breadcrumb-font-size: 16px;
-    --ui3n-breadcrumb-padding-inline: 4px;
-    --ui3n-breadcrumb-separator-distance: 8px;
-    --ui3n-breadcrumb-color-default: var(--color-text-block-primary-default);
-    --ui3n-breadcrumb-color-selected: var(--color-text-block-accent-default);
+    --_breadcrumb-font-size: var(--ui3n-breadcrumb-font-size, 16px);
+    --_breadcrumb-padding-inline: var(--ui3n-breadcrumb-padding-inline, 4px);
+    --_breadcrumb-separator-distance: var(--ui3n-breadcrumb-separator-distance, 8px);
+    --_breadcrumb-color-default: var(--ui3n-breadcrumb-color-default, var(--color-text-block-primary-default));
+    --_breadcrumb-color-selected: var(--ui3n-breadcrumb-color-selected, var(--color-text-block-accent-default));
 
     display: flex;
     align-items: center;
@@ -82,16 +82,16 @@
   }
 
   .content {
-    font-size: var(--ui3n-breadcrumb-font-size);
+    font-size: var(--_breadcrumb-font-size);
     line-height: 1.25;
-    color: var(--ui3n-breadcrumb-color-default);
+    color: var(--_breadcrumb-color-default);
   }
 
   .ui3nBreadcrumbSeparator {
     display: flex;
     align-items: center;
-    margin: 0 var(--ui3n-breadcrumb-separator-distance);
-    padding-left: var(--ui3n-breadcrumb-padding-inline);
+    margin: 0 var(--_breadcrumb-separator-distance);
+    padding-left: var(--_breadcrumb-padding-inline);
     color: var(--color-text-block-tertiary-default);
   }
 
@@ -99,7 +99,7 @@
     .content {
       &:hover {
         cursor: pointer;
-        color: var(--ui3n-breadcrumb-color-selected);
+        color: var(--_breadcrumb-color-selected);
       }
     }
   }

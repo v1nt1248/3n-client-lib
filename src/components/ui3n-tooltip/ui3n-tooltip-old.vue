@@ -128,8 +128,8 @@ watch(isPositioned, val => {
 
 <style lang="scss" module>
 .ui3nTooltip {
-  --ui3n-tooltip-bg-color: v-bind(color);
-  --ui3n-tooltip-text-color: v-bind(textColor);
+  --_tooltip-bg-color: var(--ui3n-tooltip-bg-color, v-bind(color));
+  --_tooltip-text-color: var(--ui3n-tooltip-text-color, v-bind(textColor));
 
   position: relative;
   width: max-content;
@@ -153,7 +153,7 @@ watch(isPositioned, val => {
   &-bottom {
     border-style: solid;
     border-width: 0 v-bind(arrowSizeCssValue) v-bind(arrowSizeCssValue) v-bind(arrowSizeCssValue);
-    border-color: transparent transparent var(--ui3n-tooltip-bg-color) transparent;
+    border-color: transparent transparent var(--_tooltip-bg-color) transparent;
   }
 
   &-top {
@@ -170,7 +170,7 @@ watch(isPositioned, val => {
   &-right {
     border-style: solid;
     border-width: v-bind(arrowSizeCssValue) 0 v-bind(arrowSizeCssValue) v-bind(arrowSizeCssValue);
-    border-color: transparent transparent transparent var(--ui3n-tooltip-bg-color);
+    border-color: transparent transparent transparent var(--_tooltip-bg-color);
   }
 
   &-left {
@@ -192,7 +192,7 @@ watch(isPositioned, val => {
   font-size: var(--ui3n-tooltip-font-size, 11px);
   line-height: var(--ui3n-tooltip-line-height, 12px);
   font-weight: 400;
-  background-color: var(--ui3n-tooltip-bg-color);
-  color: var(--ui3n-tooltip-text-color);
+  background-color: var(--_tooltip-bg-color);
+  color: var(--_tooltip-text-color);
 }
 </style>

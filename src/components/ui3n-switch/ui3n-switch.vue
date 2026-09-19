@@ -95,12 +95,12 @@
 
 <style lang="scss" module>
   .ui3nSwitch {
-    --ui3n-switch-size: 16px;
-    --ui3n-switch-color: var(--color-icon-control-accent-default);
-    --ui3n-switch-off-color: var(--color-bg-table-cell-pressed);
-    --ui3n-switch-font-size: 12px;
-    --ui3n-switch-font-color: var(--color-text-control-primary-default);
-    --ui3n-switch-font-weight: 500;
+    --_switch-size: var(--ui3n-switch-size, 16px);
+    --_switch-color: var(--ui3n-switch-color, var(--color-icon-control-accent-default));
+    --_switch-off-color: var(--ui3n-switch-off-color, var(--color-bg-table-cell-pressed));
+    --_switch-font-size: var(--ui3n-switch-font-size, 12px);
+    --_switch-font-color: var(--ui3n-switch-font-color, var(--color-text-control-primary-default));
+    --_switch-font-weight: var(--ui3n-switch-font-weight, 500);
 
     position: relative;
     display: inline-flex;
@@ -118,20 +118,20 @@
 
   .body {
     position: relative;
-    background-color: var(--ui3n-switch-off-color);
-    height: var(--ui3n-switch-size);
-    width: calc(var(--ui3n-switch-size) * 2);
-    border-radius: var(--ui3n-switch-size);
+    background-color: var(--_switch-off-color);
+    height: var(--_switch-size);
+    width: calc(var(--_switch-size) * 2);
+    border-radius: var(--_switch-size);
     transition: background-color 0.2s ease;
   }
 
   .checked {
     .body {
-      background-color: var(--ui3n-switch-color);
+      background-color: var(--_switch-color);
     }
 
     .dot {
-      border-color: var(--ui3n-switch-color);
+      border-color: var(--_switch-color);
     }
   }
 
@@ -140,30 +140,30 @@
   }
 
   .dot {
-    --ui3n-switch-dot-size: calc(var(--ui3n-switch-size) / 4 * 3);
-    --ui3n-switch-dot-margin: calc(var(--ui3n-switch-size) / 8);
+    --_switch-dot-size: var(--ui3n-switch-dot-size, calc(var(--_switch-size) / 4 * 3));
+    --_switch-dot-margin: var(--ui3n-switch-dot-margin, calc(var(--_switch-size) / 8));
 
     position: absolute;
-    width: var(--ui3n-switch-dot-size);
-    height: var(--ui3n-switch-dot-size);
+    width: var(--_switch-dot-size);
+    height: var(--_switch-dot-size);
     border-radius: 50%;
     background-color: var(--color-bg-control-primary-default);
-    top: var(--ui3n-switch-dot-margin);
+    top: var(--_switch-dot-margin);
     transition: left 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .left {
-    left: var(--ui3n-switch-dot-margin);
+    left: var(--_switch-dot-margin);
   }
 
   .right {
-    left: calc(100% - var(--ui3n-switch-dot-size) - var(--ui3n-switch-dot-margin));
+    left: calc(100% - var(--_switch-dot-size) - var(--_switch-dot-margin));
   }
 
   .label {
-    font-size: var(--ui3n-switch-font-size);
-    font-weight: var(--ui3n-switch-font-weight);
-    color: var(--ui3n-switch-font-color);
+    font-size: var(--_switch-font-size);
+    font-weight: var(--_switch-font-weight);
+    color: var(--_switch-font-color);
     user-select: none;
   }
 

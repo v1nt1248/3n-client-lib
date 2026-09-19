@@ -374,16 +374,16 @@
   @use '@/assets/styles/mixins' as mixins;
 
   .ui3nSelector {
-    --ui3n-selector-activator-height: 32px;
-    --ui3n-selector-border-radius: calc(var(--ui3n-selector-activator-height) / 2.5);
-    --ui3n-selector-font-size: 12px;
-    --ui3n-selector-trigger-padding: 0 24px 0 8px;
-    --ui3n-selector-trigger-font-size: 13px;
-    --ui3n-selector-item-min-height: 32px;
-    --ui3n-selector-item-padding: 4px;
-    --ui3n-selector-item-font-size: 13px;
-    --ui3n-selector-item-border-radius: 4px;
-    --ui3n-selector-body-padding: 4px;
+    --_selector-activator-height: var(--ui3n-selector-activator-height, 32px);
+    --_selector-border-radius: var(--ui3n-selector-border-radius, calc(var(--_selector-activator-height) / 2.5));
+    --_selector-font-size: var(--ui3n-selector-font-size, 12px);
+    --_selector-trigger-padding: var(--ui3n-selector-trigger-padding, 0 24px 0 8px);
+    --_selector-trigger-font-size: var(--ui3n-selector-trigger-font-size, 13px);
+    --_selector-item-min-height: var(--ui3n-selector-item-min-height, 32px);
+    --_selector-item-padding: var(--ui3n-selector-item-padding, 4px);
+    --_selector-item-font-size: var(--ui3n-selector-item-font-size, 13px);
+    --_selector-item-border-radius: var(--ui3n-selector-item-border-radius, 4px);
+    --_selector-body-padding: var(--ui3n-selector-body-padding, 4px);
 
     position: relative;
     width: 100%;
@@ -392,7 +392,7 @@
   .label {
     display: block;
     width: 100%;
-    font-size: var(--ui3n-selector-font-size);
+    font-size: var(--_selector-font-size);
     font-weight: 500;
     line-height: 1.33;
     color: var(--color-text-control-primary-default);
@@ -400,25 +400,25 @@
   }
 
   .menu {
-    border-radius: var(--ui3n-selector-border-radius);
+    border-radius: var(--_selector-border-radius);
 
     & > div {
       max-width: 100% !important;
-      border-radius: var(--ui3n-selector-border-radius);
+      border-radius: var(--_selector-border-radius);
     }
   }
 
   .trigger {
     display: flex;
     width: 100%;
-    height: var(--ui3n-selector-activator-height);
-    padding: var(--ui3n-selector-trigger-padding);
+    height: var(--_selector-activator-height);
+    padding: var(--_selector-trigger-padding);
     justify-content: flex-start;
     align-items: center;
     background-color: var(--color-bg-control-secondary-default);
-    border-radius: var(--ui3n-selector-border-radius);
+    border-radius: var(--_selector-border-radius);
     color: var(--color-text-control-primary-default);
-    font-size: var(--ui3n-selector-trigger-font-size);
+    font-size: var(--_selector-trigger-font-size);
     font-weight: 400;
     line-height: 1.23;
     transition: all 0.2s ease-in-out;
@@ -463,35 +463,35 @@
     position: relative;
     width: 100%;
     background-color: var(--color-bg-block-primary-default);
-    padding: var(--ui3n-selector-body-padding);
+    padding: var(--_selector-body-padding);
     box-shadow: 0 4px 12px var(--shadow-close);
     border: 1px solid var(--color-border-control-tritery-default);
     border-radius: 8px;
 
     .noData {
       display: flex;
-      min-height: var(--ui3n-selector-item-min-height);
+      min-height: var(--_selector-item-min-height);
       justify-content: flex-start;
       align-items: center;
-      padding: var(--ui3n-selector-item-padding) calc(var(--ui3n-selector-item-padding) * 2);
-      font-size: var(--ui3n-selector-item-font-size);
+      padding: var(--_selector-item-padding) calc(var(--_selector-item-padding) * 2);
+      font-size: var(--_selector-item-font-size);
       line-height: 1.33;
       font-weight: 500;
       color: var(--color-text-control-primary-default);
-      border-radius: var(--ui3n-selector-item-border-radius);
+      border-radius: var(--_selector-item-border-radius);
     }
 
     .item {
       display: flex;
-      min-height: var(--ui3n-selector-item-min-height);
+      min-height: var(--_selector-item-min-height);
       justify-content: flex-start;
       align-items: center;
-      padding: var(--ui3n-selector-item-padding) calc(var(--ui3n-selector-item-padding) * 2);
-      font-size: var(--ui3n-selector-item-font-size);
+      padding: var(--_selector-item-padding) calc(var(--_selector-item-padding) * 2);
+      font-size: var(--_selector-item-font-size);
       line-height: 1.33;
       font-weight: 500;
       color: var(--color-text-control-primary-default);
-      border-radius: var(--ui3n-selector-item-border-radius);
+      border-radius: var(--_selector-item-border-radius);
       user-select: none;
       cursor: pointer;
 

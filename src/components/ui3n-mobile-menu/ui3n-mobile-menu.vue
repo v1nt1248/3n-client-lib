@@ -81,7 +81,7 @@
   @use '../../assets/styles/mixins' as mixins;
 
   .ui3nMobileMenu {
-    --ui3n-menu-width-custom: 240px;
+    --_menu-width-custom: var(--ui3n-menu-width-custom, 240px);
 
     display: inline-block;
     width: max-content;
@@ -110,7 +110,7 @@
     position: relative;
     top: 0;
     left: 0;
-    width: var(--ui3n-menu-width-custom);
+    width: var(--_menu-width-custom);
     max-width: 80vw;
     display: flex;
     flex-direction: column;
@@ -180,7 +180,7 @@
 
   .slide-fade-enter-from,
   .slide-fade-leave-to {
-    transform: translateX(calc(var(--ui3n-menu-width-custom) * -1));
+    transform: translateX(calc(var(--_menu-width-custom) * -1));
     opacity: 0;
 
     div[class*='menuPanel'] {

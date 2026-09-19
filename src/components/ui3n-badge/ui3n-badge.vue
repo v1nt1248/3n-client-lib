@@ -69,7 +69,7 @@
 
 <style lang="scss" module>
   .ui3nBadge {
-    --ui3n-badge-size: 20px;
+    --_badge-size: var(--ui3n-badge-size, 20px);
 
     position: relative;
   }
@@ -77,7 +77,7 @@
   .ui3nBadgeWrapper {
     position: relative;
     width: max-content;
-    min-width: var(--ui3n-badge-size);
+    min-width: var(--_badge-size);
   }
 
   .ui3nBadgeContent {

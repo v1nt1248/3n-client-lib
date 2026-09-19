@@ -207,18 +207,18 @@
 
 <style lang="scss" module>
   .ui3nCheckbox {
-    --ui3n-checkbox-size: 16px;
-    --ui3n-checkbox-gap: 4px;
-    --ui3n-checkbox-color: var(--color-icon-control-accent-default);
-    --ui3n-checkbox-text-size: 12px;
-    --ui3n-checkbox-text-color: var(--color-text-control-primary-default);
-    --ui3n-checkbox-text-weight: 500;
+    --_checkbox-size: var(--ui3n-checkbox-size, 16px);
+    --_checkbox-gap: var(--ui3n-checkbox-gap, 4px);
+    --_checkbox-color: var(--ui3n-checkbox-color, var(--color-icon-control-accent-default));
+    --_checkbox-text-size: var(--ui3n-checkbox-text-size, 12px);
+    --_checkbox-text-color: var(--ui3n-checkbox-text-color, var(--color-text-control-primary-default));
+    --_checkbox-text-weight: var(--ui3n-checkbox-text-weight, 500);
 
     position: relative;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: var(--ui3n-checkbox-gap);
+    gap: var(--_checkbox-gap);
   }
 
   .noLabel {
@@ -228,14 +228,14 @@
   .ui3nCheckboxBody {
     position: relative;
     display: flex;
-    width: var(--ui3n-checkbox-size);
-    min-width: var(--ui3n-checkbox-size);
-    height: var(--ui3n-checkbox-size);
-    min-height: var(--ui3n-checkbox-size);
+    width: var(--_checkbox-size);
+    min-width: var(--_checkbox-size);
+    height: var(--_checkbox-size);
+    min-height: var(--_checkbox-size);
     justify-content: center;
     align-items: center;
-    border-radius: calc(var(--ui3n-checkbox-size) / 6);
-    border: calc(var(--ui3n-checkbox-size) / 10) solid var(--ui3n-checkbox-color);
+    border-radius: calc(var(--_checkbox-size) / 6);
+    border: calc(var(--_checkbox-size) / 10) solid var(--_checkbox-color);
     cursor: pointer;
     overflow: hidden;
     transition:
@@ -244,18 +244,18 @@
   }
 
   .filled {
-    background-color: var(--ui3n-checkbox-color);
+    background-color: var(--_checkbox-color);
 
     &:hover {
-      border-color: color-mix(in oklch, var(--ui3n-checkbox-color), black 12%);
-      background-color: color-mix(in oklch, var(--ui3n-checkbox-color), black 12%);
+      border-color: color-mix(in oklch, var(--_checkbox-color), black 12%);
+      background-color: color-mix(in oklch, var(--_checkbox-color), black 12%);
     }
   }
 
   .unfilled {
     &:hover {
-      border-color: color-mix(in oklch, var(--ui3n-checkbox-color) 84%, black);
-      background-color: color-mix(in oklch, var(--ui3n-checkbox-color) 16%, transparent);
+      border-color: color-mix(in oklch, var(--_checkbox-color) 84%, black);
+      background-color: color-mix(in oklch, var(--_checkbox-color) 16%, transparent);
     }
   }
 
@@ -264,9 +264,9 @@
   }
 
   .ui3nCheckboxLabel {
-    font-size: var(--ui3n-checkbox-text-size);
-    font-weight: var(--ui3n-checkbox-text-weight);
-    color: var(--ui3n-checkbox-text-color);
+    font-size: var(--_checkbox-text-size);
+    font-weight: var(--_checkbox-text-weight);
+    color: var(--_checkbox-text-color);
     user-select: none;
     cursor: pointer;
   }

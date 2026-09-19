@@ -8,6 +8,8 @@ module.exports = {
   ignoreFiles: ['/app/assets/**/*.css'],
 
   rules: {
+    // kebab-case, with a leading underscore allowed for a component's private variables
+    'custom-property-pattern': '^_?[a-z][a-z0-9]*(-[a-z0-9]+)*$',
     'length-zero-no-unit': null,
     'at-rule-empty-line-before': ['always', {
       ignore: ['after-comment'],
@@ -81,4 +83,20 @@ module.exports = {
     'shorthand-property-no-redundant-values': null,
     'declaration-property-value-no-unknown': null,
   },
+
+  overrides: [
+    {
+      files: ['src/components/**/*.vue'],
+      rules: {
+        'declaration-property-value-disallowed-list': [
+          {
+            '/.*/': ['/var\\(--spacing-/', '/var\\(--font-\\d/'],
+          },
+          {
+            message: 'Layout tokens belong to the page. Give the component its own variable with a fixed default.',
+          },
+        ],
+      },
+    },
+  ],
 };

@@ -257,25 +257,25 @@
   @use '../../assets/styles/mixins' as mixins;
 
   .ui3nEditable {
-    --ui3n-editable-min-width: 60px;
-    --ui3n-editable-max-width: 100%;
-    --ui3n-editable-height: 24px;
-    --ui3n-editable-font-size: 12px;
-    --ui3n-editable-border-radius: 4px;
+    --_editable-min-width: var(--ui3n-editable-min-width, 60px);
+    --_editable-max-width: var(--ui3n-editable-max-width, 100%);
+    --_editable-height: var(--ui3n-editable-height, 24px);
+    --_editable-font-size: var(--ui3n-editable-font-size, 12px);
+    --_editable-border-radius: var(--ui3n-editable-border-radius, 4px);
     //--ui3n-editable-padding-base: 4px;
     //--ui3n-editable-padding: 0 4px;
     //--ui3n-editable-padding: 4px 44px 4px 4px;
-    --ui3n-editable-button-size: 16px;
+    --_editable-button-size: var(--ui3n-editable-button-size, 16px);
 
     position: relative;
     box-sizing: border-box;
     width: max-content;
-    max-width: var(--ui3n-editable-max-width);
-    height: var(--ui3n-editable-height);
-    border-radius: var(--ui3n-editable-border-radius);
-    font-size: var(--ui3n-editable-font-size);
+    max-width: var(--_editable-max-width);
+    height: var(--_editable-height);
+    border-radius: var(--_editable-border-radius);
+    font-size: var(--_editable-font-size);
     font-weight: 400;
-    line-height: var(--ui3n-editable-height);
+    line-height: var(--_editable-height);
     color: var(--color-text-table-primary-default);
     overflow: hidden;
     border: 1px solid transparent;
@@ -301,11 +301,11 @@
   .content {
     position: relative;
     box-sizing: border-box;
-    height: var(--ui3n-editable-height);
-    min-width: var(--ui3n-editable-min-width);
-    max-width: var(--ui3n-editable-max-width);
+    height: var(--_editable-height);
+    min-width: var(--_editable-min-width);
+    max-width: var(--_editable-max-width);
     padding: 0 24px 0 4px;
-    border-radius: var(--ui3n-editable-border-radius);
+    border-radius: var(--_editable-border-radius);
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -335,14 +335,14 @@
     position: relative;
     height: 100%;
     box-sizing: border-box;
-    min-width: var(--ui3n-editable-min-width);
+    min-width: var(--_editable-min-width);
     max-width: 100%;
     padding: 0 44px 0 4px;
     font-family: inherit;
-    font-size: var(--ui3n-editable-font-size);
+    font-size: var(--_editable-font-size);
     font-weight: 400;
-    line-height: var(--ui3n-editable-height);
-    border-radius: var(--ui3n-editable-border-radius);
+    line-height: var(--_editable-height);
+    border-radius: var(--_editable-border-radius);
     background-color: transparent;
     border: none;
 
@@ -360,18 +360,18 @@
     visibility: hidden;
     padding: 0;
     font-family: inherit;
-    font-size: var(--ui3n-editable-font-size);
+    font-size: var(--_editable-font-size);
     font-weight: 400;
-    line-height: var(--ui3n-editable-height);
+    line-height: var(--_editable-height);
     white-space: pre;
   }
 
   .btn {
     position: absolute;
-    width: var(--ui3n-editable-button-size);
-    min-width: var(--ui3n-editable-button-size);
-    height: var(--ui3n-editable-button-size);
-    min-height: var(--ui3n-editable-button-size);
+    width: var(--_editable-button-size);
+    min-width: var(--_editable-button-size);
+    height: var(--_editable-button-size);
+    min-height: var(--_editable-button-size);
     border-radius: 50%;
     background-color: transparent;
     cursor: pointer;

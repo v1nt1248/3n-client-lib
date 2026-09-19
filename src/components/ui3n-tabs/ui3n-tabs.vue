@@ -99,10 +99,10 @@
 
 <style lang="scss" module>
   .ui3nTabs {
-    --ui3n-tabs-height: 48px;
+    --_tabs-height: var(--ui3n-tabs-height, 48px);
 
     position: relative;
-    height: var(--ui3n-tabs-height);
+    height: var(--_tabs-height);
     display: flex;
     justify-content: center;
     align-items: stretch;
