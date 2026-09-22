@@ -1,15 +1,16 @@
 <script lang="ts" setup>
-  import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+  import { computed, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue';
   import { arrow, autoUpdate, offset, useFloating } from '@floating-ui/vue';
   import { toCssLength } from '../../utils/ui/to-css-length';
+  import { hasSlotContent } from '../../utils/ui/has-slot-content';
   import type { Nullable } from '../../types';
   import type { Ui3nTooltipProps, Ui3nTooltipEmits, Ui3nTooltipSlots } from './types';
 
-  const baseOffset = 5;
+  const arrowSize = 8;
+  const arrowOffset = Math.round((arrowSize / 2) * Math.SQRT2);
 
   const props = withDefaults(defineProps<Ui3nTooltipProps>(), {
     placement: 'top',
-    positionStrategy: 'absolute',
     offsetX: 0,
     offsetY: 0,
     trigger: 'hover',
@@ -17,6 +18,7 @@
   });
   const emits = defineEmits<Ui3nTooltipEmits>();
   defineSlots<Ui3nTooltipSlots>();
+  const slots = useSlots();
 
   const showTooltip = ref(false);
   const referenceContainer = ref<Nullable<HTMLElement>>(null);
@@ -24,6 +26,38 @@
   const floatingArrowEl = ref<Nullable<HTMLElement>>(null);
 
   const isClient = ref(false);
+  let boundEl: HTMLElement | null = null;
+
+  const showWrapper = computed(() => !props.triggerElement || hasSlotContent(slots.default));
+
+  const positionStrategy = computed(() => {
+    if (props.positionStrategy) {
+      return props.positionStrategy;
+    }
+
+    return props.triggerElement ? 'fixed' : 'absolute';
+  });
+
+  const shouldTeleport = computed(() => !!props.triggerElement || positionStrategy.value === 'fixed');
+
+  const usedReference = computed(() => props.triggerElement || referenceContainer.value);
+
+  const nativeReferenceEl = computed<HTMLElement | null>(() => {
+    const trigger = usedReference.value;
+    if (!trigger) {
+      return null;
+    }
+
+    if (trigger instanceof HTMLElement) {
+      return trigger;
+    }
+
+    if ('contextElement' in trigger && trigger.contextElement instanceof HTMLElement) {
+      return trigger.contextElement;
+    }
+
+    return null;
+  });
 
   const mainPlacement = computed(() => {
     const [part1] = props.placement.split('-');
@@ -34,19 +68,19 @@
     const options = { mainAxis: 0, crossAxis: 0 };
     switch (mainPlacement.value) {
       case 'top':
-        options.mainAxis = -1 * Number(props.offsetY) + baseOffset;
+        options.mainAxis = -1 * Number(props.offsetY) + arrowOffset;
         options.crossAxis = Number(props.offsetX);
         break;
       case 'bottom':
-        options.mainAxis = Number(props.offsetY) + baseOffset;
+        options.mainAxis = Number(props.offsetY) + arrowOffset;
         options.crossAxis = Number(props.offsetX);
         break;
       case 'left':
-        options.mainAxis = -1 * Number(props.offsetX) + baseOffset;
+        options.mainAxis = -1 * Number(props.offsetX) + arrowOffset;
         options.crossAxis = Number(props.offsetY);
         break;
       case 'right':
-        options.mainAxis = Number(props.offsetX) + baseOffset;
+        options.mainAxis = Number(props.offsetX) + arrowOffset;
         options.crossAxis = Number(props.offsetY);
         break;
     }
@@ -58,20 +92,25 @@
     arrow({ element: floatingArrowEl, padding: 8 }),
   ]);
 
-  const { floatingStyles, isPositioned, middlewareData } = useFloating(referenceContainer, floatingEl, {
+  const { floatingStyles, isPositioned, middlewareData, update } = useFloating(usedReference, floatingEl, {
     open: showTooltip,
-    placement: props.placement,
-    strategy: props.positionStrategy,
+    placement: () => props.placement,
+    strategy: positionStrategy,
     middleware: middlewareComputed,
-    whileElementsMounted: props.positionStrategy === 'fixed' ? autoUpdate : undefined,
+    whileElementsMounted: (reference, floating, onUpdate) => {
+      if (positionStrategy.value === 'fixed' || props.triggerElement) {
+        return autoUpdate(reference, floating, onUpdate);
+      }
+
+      onUpdate();
+      return () => undefined;
+    },
   });
 
-  /* colours and the maximum width default in CSS, so a stylesheet can change them */
   const tooltipStylesComputed = computed(() => {
     const styles: Record<string, string> = {
       ...floatingStyles.value,
-      '--ui3n-tooltip-arrow-size': `${baseOffset}px`,
-      '--ui3n-tooltip-base-offset': `${-baseOffset}px`,
+      '--ui3n-tooltip-arrow-size': `${arrowSize}px`,
     };
 
     if (props.color) {
@@ -122,26 +161,29 @@
   }
 
   function removeEventListeners() {
-    if (!referenceContainer.value) {
+    if (!boundEl) {
       return;
     }
 
-    referenceContainer.value.removeEventListener('mouseenter', onMouseenter);
-    referenceContainer.value.removeEventListener('mouseleave', onMouseleave);
-    referenceContainer.value.removeEventListener('click', onClick);
+    boundEl.removeEventListener('mouseenter', onMouseenter);
+    boundEl.removeEventListener('mouseleave', onMouseleave);
+    boundEl.removeEventListener('click', onClick);
+    boundEl = null;
   }
 
   function setupEventListeners() {
     removeEventListeners();
-    if (!referenceContainer.value || props.disabled) {
+    if (!nativeReferenceEl.value || props.disabled) {
       return;
     }
 
+    boundEl = nativeReferenceEl.value;
+
     if (props.trigger === 'hover') {
-      referenceContainer.value.addEventListener('mouseenter', onMouseenter);
-      referenceContainer.value.addEventListener('mouseleave', onMouseleave);
+      boundEl.addEventListener('mouseenter', onMouseenter);
+      boundEl.addEventListener('mouseleave', onMouseleave);
     } else if (props.trigger === 'click') {
-      referenceContainer.value.addEventListener('click', onClick);
+      boundEl.addEventListener('click', onClick);
     }
   }
 
@@ -154,9 +196,18 @@
     removeEventListeners();
   });
 
-  watch([() => props.trigger, () => props.disabled], () => {
-    setupEventListeners();
+  watch([() => props.trigger, () => props.disabled, nativeReferenceEl], () => {
+    if (isClient.value) {
+      setupEventListeners();
+    }
   });
+
+  watch(
+    () => props.triggerElement,
+    () => {
+      update();
+    },
+  );
 
   watch(
     () => props.modelValue,
@@ -171,6 +222,7 @@
 
 <template>
   <div
+    v-if="showWrapper"
     ref="referenceContainer"
     data-ui3n="tooltip"
     :class="$style.container"
@@ -178,27 +230,32 @@
     <slot />
   </div>
 
-  <div
-    v-if="showTooltip"
-    ref="floatingEl"
-    data-ui3n="tooltip-content"
-    :class="$style.floating"
-    :style="tooltipStylesComputed"
+  <Teleport
+    to="body"
+    :disabled="!isClient || !shouldTeleport"
   >
-    <slot name="content">
-      <div :class="$style.content">
-        {{ content }}
+    <div
+      v-if="showTooltip"
+      ref="floatingEl"
+      data-ui3n="tooltip-content"
+      :class="[$style.floating, shouldTeleport && $style.floatingTeleported]"
+      :style="tooltipStylesComputed"
+    >
+      <slot name="content">
         <div
           ref="floatingArrowEl"
           :class="[$style.arrow, $style[`arrow-${mainPlacement}`]]"
           :style="{
-            left: middlewareData.arrow?.x != null ? `${middlewareData.arrow?.x}px` : '',
-            top: middlewareData.arrow?.y != null ? `${middlewareData.arrow?.y}px` : '',
+            left: middlewareData.arrow?.x != null ? `${middlewareData.arrow.x}px` : '',
+            top: middlewareData.arrow?.y != null ? `${middlewareData.arrow.y}px` : '',
           }"
         />
-      </div>
-    </slot>
-  </div>
+        <div :class="$style.content">
+          {{ content }}
+        </div>
+      </slot>
+    </div>
+  </Teleport>
 </template>
 
 <style lang="scss" module>
@@ -214,51 +271,44 @@
     --_tooltip-max-width: var(--ui3n-tooltip-max-width, 400px);
 
     width: max-content;
+    overflow: visible;
     z-index: 5;
+  }
+
+  .floatingTeleported {
+    z-index: 2000;
   }
 
   .arrow {
     position: absolute;
-    width: 0;
-    height: 0;
-
-    &-top,
-    &-bottom {
-      border-style: solid;
-      border-width: 0 var(--ui3n-tooltip-arrow-size, 5px) var(--ui3n-tooltip-arrow-size, 5px) var(--ui3n-tooltip-arrow-size, 5px);
-      border-color: transparent transparent var(--_tooltip-bg-color) transparent;
-    }
+    width: var(--ui3n-tooltip-arrow-size, 8px);
+    height: var(--ui3n-tooltip-arrow-size, 8px);
+    background-color: var(--_tooltip-bg-color);
+    border-radius: 2px;
+    transform: rotate(45deg);
+    z-index: 0;
 
     &-top {
-      bottom: var(--ui3n-tooltip-base-offset, -5px);
-      transform: rotate(180deg);
+      bottom: calc(var(--ui3n-tooltip-arrow-size, 8px) / -2);
     }
 
     &-bottom {
-      top: var(--ui3n-tooltip-base-offset, -5px);
-      transform: rotate(0deg);
-    }
-
-    &-left,
-    &-right {
-      border-style: solid;
-      border-width: var(--ui3n-tooltip-arrow-size, 5px) 0 var(--ui3n-tooltip-arrow-size, 5px) var(--ui3n-tooltip-arrow-size, 5px);
-      border-color: transparent transparent transparent var(--_tooltip-bg-color);
+      top: calc(var(--ui3n-tooltip-arrow-size, 8px) / -2);
     }
 
     &-left {
-      right: var(--ui3n-tooltip-base-offset, -5px);
-      transform: rotate(0deg);
+      right: calc(var(--ui3n-tooltip-arrow-size, 8px) / -2);
     }
 
     &-right {
-      left: var(--ui3n-tooltip-base-offset, -5px);
-      transform: rotate(180deg);
+      left: calc(var(--ui3n-tooltip-arrow-size, 8px) / -2);
     }
   }
 
   .content {
     position: relative;
+    z-index: 1;
+    overflow: visible;
     max-width: var(--_tooltip-max-width);
     padding: var(--ui3n-tooltip-padding, 6px 8px);
     border-radius: var(--ui3n-tooltip-border-radius, 6px);

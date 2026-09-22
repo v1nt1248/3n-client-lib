@@ -10,6 +10,15 @@ import { storeDialogs } from './dialogs/store-dialog';
 import { theme } from './theme/theme';
 import { storeTheme } from './theme/store-theme';
 import type { ThemePlugin, ThemePluginOptions, ThemeId } from './theme/types';
+import { tooltips } from './tooltips/tooltips';
+import { storeTooltips } from './tooltips/store-tooltips';
+import type {
+  TooltipsPlugin,
+  TooltipHandle,
+  TooltipTarget,
+  Ui3nTooltipShowOptions,
+  Ui3nTooltipAttachOptions,
+} from './tooltips/types';
 
 export {
   notifications,
@@ -23,8 +32,15 @@ export {
   ThemePlugin,
   ThemePluginOptions,
   ThemeId,
+  tooltips,
+  TooltipsPlugin,
+  TooltipHandle,
+  TooltipTarget,
+  Ui3nTooltipShowOptions,
+  Ui3nTooltipAttachOptions,
   storeNotifications,
   storeVueBus,
   storeDialogs,
   storeTheme,
+  storeTooltips,
 };

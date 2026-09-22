@@ -56,12 +56,14 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - notifications
   - vue-bus
   - theme
+  - tooltips
 
 ### Store plugins [`@v1nt1248/3nclient-lib/plugins`]
   - store-dialogs
   - store-notifications
   - store-vue-bus
   - store-theme
+  - store-tooltips
 
 ### Constants
   - emoticons

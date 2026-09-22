@@ -11,7 +11,7 @@ import Layout from './Layout.vue';
 import ComponentDoc from './components/ComponentDoc.vue';
 import DemoBlock from './components/DemoBlock.vue';
 
-import { dialogs, notifications, theme } from '../../../src/plugins/index';
+import { dialogs, notifications, theme, tooltips } from '../../../src/plugins/index';
 
 import Ui3nClickOutside from '../../../src/directives/ui3n-click-outside';
 import Ui3nHtml from '../../../src/directives/ui3n-html';
@@ -69,6 +69,7 @@ export default {
     app.use(pinia);
     app.use(dialogs);
     app.use(notifications);
+    app.use(tooltips);
     app.use(theme, {
       theme:
         typeof localStorage === 'undefined'

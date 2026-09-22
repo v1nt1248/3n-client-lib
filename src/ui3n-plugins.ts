@@ -20,9 +20,16 @@ import {
   type ThemePlugin,
   type ThemePluginOptions,
   type ThemeId,
+  tooltips,
+  storeTooltips,
+  type TooltipsPlugin,
+  type TooltipHandle,
+  type TooltipTarget,
+  type Ui3nTooltipShowOptions,
+  type Ui3nTooltipAttachOptions,
 } from './plugins';
 import type { CbFunction, VueEventBus } from './plugins/vue-bus/types';
-import { NOTIFICATIONS_KEY, DIALOGS_KEY, VUEBUS_KEY, THEME_KEY } from './constants';
+import { NOTIFICATIONS_KEY, DIALOGS_KEY, VUEBUS_KEY, THEME_KEY, TOOLTIPS_KEY } from './constants';
 
 declare module 'vue' {
   interface ComponentCustomProperties {
@@ -36,6 +43,7 @@ declare module 'vue' {
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: VueEventBus<any>;
     $theme: ThemePlugin;
+    $tooltip: TooltipsPlugin;
   }
 }
 
@@ -44,6 +52,7 @@ declare module 'pinia' {
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: VueEventBus<any>;
     $theme: ThemePlugin;
+    $tooltip: TooltipsPlugin;
     $dialogs: {
       open: <V>(
         component: Component,
@@ -78,4 +87,12 @@ export {
   ThemePluginOptions,
   ThemeId,
   THEME_KEY,
+  tooltips,
+  storeTooltips,
+  TOOLTIPS_KEY,
+  TooltipsPlugin,
+  TooltipHandle,
+  TooltipTarget,
+  Ui3nTooltipShowOptions,
+  Ui3nTooltipAttachOptions,
 };

@@ -1,4 +1,5 @@
 import { VNode } from 'vue';
+import type { Ui3nVirtualElement } from '../ui3n-menu/types';
 
 /**
  * Tooltip placement types
@@ -50,8 +51,13 @@ export interface Ui3nTooltipProps {
    */
   placement?: Ui3nTooltipPlacement;
   /**
+   * External element the tooltip is positioned against.
+   * When set, this node is the floating-ui reference and receives hover/click listeners.
+   */
+  triggerElement?: HTMLElement | Ui3nVirtualElement;
+  /**
    * Position strategy
-   * @default 'absolute'
+   * @default 'absolute' (or 'fixed' when triggerElement is set)
    */
   positionStrategy?: 'absolute' | 'fixed';
   /**
@@ -107,7 +113,7 @@ export interface Ui3nTooltipSlots {
   /**
    * Default slot
    */
-  default: () => VNode;
+  default?: () => VNode;
   /**
    * Content slot
    */

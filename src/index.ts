@@ -47,6 +47,7 @@ import type Ui3nLongPress from './directives/ui3n-long-press';
 import type { VueEventBus } from './plugins/vue-bus/types';
 import type { ExtractComponentProps } from './types/components.types';
 import type { DialogOptions } from './plugins/dialogs/types';
+import type { TooltipsPlugin } from './plugins/tooltips/types';
 
 export * from './constants';
 export * from './utils';
@@ -66,6 +67,7 @@ declare module 'vue' {
     dialogStack: Ref<DialogOptions<any>[]>;
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: VueEventBus<any>;
+    $tooltip: TooltipsPlugin;
   }
 
   interface GlobalComponents {
@@ -129,5 +131,6 @@ declare module 'pinia' {
     };
     $createNotice: (params: Ui3nNotificationProps) => void;
     $emitter: VueEventBus<any>;
+    $tooltip: TooltipsPlugin;
   }
 }

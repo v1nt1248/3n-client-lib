@@ -4,8 +4,10 @@ import type { DialogsPlugin } from '../plugins/dialogs/types';
 import type { NotificationsPlugin } from '../plugins/notifications/types';
 import type { VueBusPlugin } from '../plugins/vue-bus/types';
 import type { ThemePlugin } from '../plugins/theme/types';
+import type { TooltipsPlugin } from '../plugins/tooltips/types';
 
 export const DIALOGS_KEY = Symbol.for('ui3n-dialogs-plugin') as InjectionKey<DialogsPlugin>;
 export const NOTIFICATIONS_KEY = Symbol.for('ui3n-notifications-plugin') as InjectionKey<NotificationsPlugin>;
 export const VUEBUS_KEY = Symbol.for('ui3n-vuebus-plugin') as InjectionKey<VueBusPlugin<any>>;
 export const THEME_KEY = Symbol.for('ui3n-theme-plugin') as InjectionKey<ThemePlugin>;
+export const TOOLTIPS_KEY = Symbol.for('ui3n-tooltips-plugin') as InjectionKey<TooltipsPlugin>;
