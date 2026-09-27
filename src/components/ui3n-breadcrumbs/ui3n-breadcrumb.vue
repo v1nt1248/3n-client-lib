@@ -18,7 +18,9 @@
   const parentContext = inject<any>('ui3n-breadcrumbs-context', null);
 
   const separatorValue = computed(() => {
-    if (props.separator) return props.separator;
+    if (props.separator) {
+      return props.separator;
+    }
     return parentContext ? parentContext.separator() : '/';
   });
 

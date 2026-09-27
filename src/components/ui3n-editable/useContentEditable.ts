@@ -24,8 +24,12 @@ export function useContentEditable(props: Ui3nContentEditableProps, emits: Ui3nC
   }
 
   function setHtmlFromValue(value: string): void {
+    if (!el.value) {
+      return;
+    }
+
     const sanitizedValue = value ? sanitizeHtml(value) : value;
-    el.value!.innerText = convertValueToHtml(sanitizedValue);
+    el.value.innerText = convertValueToHtml(sanitizedValue);
   }
 
   function getContent(ev: Event): Nullable<string> {

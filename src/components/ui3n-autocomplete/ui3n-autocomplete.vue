@@ -48,7 +48,9 @@
   );
 
   const displayValue = computed(() => {
-    if (props.chips) return '';
+    if (props.chips) {
+      return '';
+    }
 
     if (props.returnObject) {
       return (props.modelValue as T[]).map(v => v[props.itemTitle] || '?').join(', ');
@@ -62,7 +64,9 @@
       return props.items
         .filter(item => props.customFilter!(item, query.value))
         .filter(item => {
-          if (!props.hideSelected) return true;
+          if (!props.hideSelected) {
+            return true;
+          }
 
           return props.returnObject
             ? !(ids.value as string[]).includes(item.id as string)
@@ -73,7 +77,9 @@
     return props.items
       .filter(item => (item[props.itemTitle] as string).toLowerCase().includes(query.value.toLowerCase()))
       .filter(item => {
-        if (!props.hideSelected) return true;
+        if (!props.hideSelected) {
+          return true;
+        }
 
         return props.returnObject
           ? !(ids.value as string[]).includes(item.id as string)
@@ -130,14 +136,20 @@
   }
 
   function tryAddNewValue(): boolean {
-    if (!props.addNewValue || props.disabled) return false;
+    if (!props.addNewValue || props.disabled) {
+      return false;
+    }
 
     const text = query.value.trim();
-    if (!text) return false;
+    if (!text) {
+      return false;
+    }
 
     isNewValueValid.value = !props.newValueValidator ? true : props.newValueValidator(text);
     emits('valid:new-value', isNewValueValid.value);
-    if (!isNewValueValid.value) return false;
+    if (!isNewValueValid.value) {
+      return false;
+    }
 
     const item = {
       id: getRandomId(6),
@@ -173,7 +185,9 @@
   }
 
   function onItemClick(item: T) {
-    if (props.disabled || isItemDisabled(item)) return;
+    if (props.disabled || isItemDisabled(item)) {
+      return;
+    }
 
     if (!props.multiple) {
       const newValue = props.returnObject ? [item] : [item[props.itemValue]];
@@ -198,7 +212,9 @@
   }
 
   function onChipClose(item: T | T[keyof T]) {
-    if (props.disabled) return;
+    if (props.disabled) {
+      return;
+    }
 
     const index = props.returnObject
       ? (props.modelValue as T[]).findIndex(v => v.id === (item as T).id)

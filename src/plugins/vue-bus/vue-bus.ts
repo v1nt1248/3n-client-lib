@@ -20,7 +20,7 @@ const $emitter: VueEventBus<any> = {
   },
   off: emitter.off.bind(emitter),
   emit: emitter.emit.bind(emitter),
-  clear: emitter.all.clear.bind(emitter),
+  clear: emitter.all.clear.bind(emitter.all),
 };
 
 export const vueBus: Plugin = {

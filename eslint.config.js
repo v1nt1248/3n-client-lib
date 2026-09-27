@@ -102,6 +102,7 @@ export default [
     rules: {
       'no-undef': 'off',
       'no-unsafe-optional-chaining': ['error'],
+      curly: 'error',
 
       '@typescript-eslint/triple-slash-reference': 'off',
       '@typescript-eslint/no-inferrable-types': [
