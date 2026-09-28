@@ -22,11 +22,6 @@
         "./src/*"
       ]
     },
-    "plugins": [
-      {
-        "name": "@vuedx/typescript-plugin-vue"
-      }
-    ],
     /* Linting */
     "types": [
       "vite/client",

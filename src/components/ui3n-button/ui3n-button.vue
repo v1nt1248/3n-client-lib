@@ -322,10 +322,7 @@
 
       &[disabled] {
         --_button-bg-color: var(--ui3n-button-bg-color-disabled, var(--color-bg-button-primary-disabled));
-        --_button-text-color: var(
-          --ui3n-button-text-color-disabled,
-          var(--color-text-button-primary-disabled)
-        );
+        --_button-text-color: var(--ui3n-button-text-color-disabled, var(--color-text-button-primary-disabled));
 
         opacity: 0.7;
         background-image: none;
@@ -364,10 +361,7 @@
 
     &[disabled] {
       --_button-bg-color: var(--ui3n-button-bg-color-disabled, var(--color-bg-button-secondary-disabled));
-      --_button-text-color: var(
-        --ui3n-button-text-color-disabled,
-        var(--color-text-button-secondary-disabled)
-      );
+      --_button-text-color: var(--ui3n-button-text-color-disabled, var(--color-text-button-secondary-disabled));
 
       opacity: 0.7;
       pointer-events: none;
@@ -399,10 +393,7 @@
       }
 
       &:focus {
-        --_button-text-color: var(
-          --ui3n-button-text-color-focused,
-          var(--color-text-button-secondary-default)
-        );
+        --_button-text-color: var(--ui3n-button-text-color-focused, var(--color-text-button-secondary-default));
         --_button-outline-color: var(
           --ui3n-button-outline-color-focused,
           var(--color-border-button-secondary-focused)
@@ -419,10 +410,7 @@
       }
 
       &:active {
-        --_button-text-color: var(
-          --ui3n-button-text-color-pressed,
-          var(--color-text-button-secondary-pressed)
-        );
+        --_button-text-color: var(--ui3n-button-text-color-pressed, var(--color-text-button-secondary-pressed));
         --_button-outline-color: transparent;
 
         background-image: linear-gradient(
@@ -437,10 +425,7 @@
 
       &[disabled] {
         --_button-bg-color: var(--ui3n-button-bg-color-disabled, var(--color-bg-button-secondary-disabled));
-        --_button-text-color: var(
-          --ui3n-button-text-color-disabled,
-          var(--color-text-button-secondary-disabled)
-        );
+        --_button-text-color: var(--ui3n-button-text-color-disabled, var(--color-text-button-secondary-disabled));
 
         opacity: 0.7;
         background-image: none;
@@ -508,10 +493,7 @@
       }
 
       &:focus {
-        --_button-text-color: var(
-          --ui3n-button-text-color-focused,
-          var(--color-text-button-tritery-focused)
-        );
+        --_button-text-color: var(--ui3n-button-text-color-focused, var(--color-text-button-tritery-focused));
         --_button-outline-color: var(
           --ui3n-button-outline-color-focused,
           oklch(from var(--color-bg-button-tritery-default) calc(l - 0.185) c 260deg)
@@ -528,10 +510,7 @@
       }
 
       &:active {
-        --_button-text-color: var(
-          --ui3n-button-text-color-pressed,
-          var(--color-text-button-tritery-pressed)
-        );
+        --_button-text-color: var(--ui3n-button-text-color-pressed, var(--color-text-button-tritery-pressed));
         --_button-outline-color: transparent;
 
         background-image: linear-gradient(
@@ -546,10 +525,7 @@
 
       &[disabled] {
         --_button-bg-color: var(--ui3n-button-bg-color-disabled, var(--color-bg-button-tritery-disabled));
-        --_button-text-color: var(
-          --ui3n-button-text-color-disabled,
-          var(--color-text-button-tritery-disabled)
-        );
+        --_button-text-color: var(--ui3n-button-text-color-disabled, var(--color-text-button-tritery-disabled));
 
         opacity: 0.7;
         background-image: none;
@@ -593,10 +569,7 @@
 
     &[disabled] {
       --_button-bg-color: transparent;
-      --_button-text-color: var(
-        --ui3n-button-text-color-disabled,
-        var(--color-text-button-secondary-disabled)
-      );
+      --_button-text-color: var(--ui3n-button-text-color-disabled, var(--color-text-button-secondary-disabled));
 
       pointer-events: none;
     }
@@ -628,10 +601,7 @@
   .icon,
   .custom {
     &:hover {
-      background-color: var(
-        --ui3n-button-bg-color-hover,
-        oklch(from var(--_button-bg-color) calc(l - 0.185) c h)
-      );
+      background-color: var(--ui3n-button-bg-color-hover, oklch(from var(--_button-bg-color) calc(l - 0.185) c h));
     }
 
     &:focus {
@@ -657,10 +627,7 @@
         --ui3n-button-bg-color-disabled,
         oklch(from var(--_button-bg-color) calc(l + 0.15) c h)
       );
-      color: var(
-        --ui3n-button-text-color-disabled,
-        oklch(from var(--_button-text-color) calc(l + 0.15) c 260deg)
-      );
+      color: var(--ui3n-button-text-color-disabled, oklch(from var(--_button-text-color) calc(l + 0.15) c 260deg));
       opacity: 0.7;
       pointer-events: none;
     }
