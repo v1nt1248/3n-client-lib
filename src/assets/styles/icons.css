@@ -86,6 +86,10 @@
   --svg: url('../icons/material-symbols--deployed-code-update-outline-rounded.svg');
 }
 
+[data-icon='document-share-outline'] {
+  --svg: url('../icons/material-symbols--document-share-outline.svg');
+}
+
 [data-icon='file-zip'] {
   --svg: url('../icons/tabler--file-zip.svg');
 }

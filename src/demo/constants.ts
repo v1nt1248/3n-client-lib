@@ -11,6 +11,7 @@ export const iconList: string[] = [
   'cloud-off-rounded',
   'binary-tree',
   'deployed-code-update',
+  'document-share-outline',
   'drag-pan',
   'family-star',
   'fibber-manual-record',
