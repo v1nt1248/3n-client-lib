@@ -1,6 +1,6 @@
 <!-- @strictTemplates false -->
 <script lang="ts" setup>
-  import { onMounted, ref, watch } from 'vue';
+  import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
   import { patchTextareaMaxRowsSupport } from '../../utils';
   import type { Ui3nTextEmits, Ui3nTextProps, Ui3nTextExpose } from './types';
 
@@ -102,6 +102,12 @@
     emits('update:valid', true);
   }
 
+  function onRowsChange(event: Event) {
+    const element = event.target as HTMLTextAreaElement;
+    const { rows } = (event as CustomEvent<{ rows: number }>).detail;
+    emits('resize', { height: element.offsetHeight, rows, element });
+  }
+
   defineExpose<Ui3nTextExpose>({
     clear,
   });
@@ -109,12 +115,17 @@
   onMounted(() => {
     if (textareaElement.value) {
       patchTextareaMaxRowsSupport(textareaElement.value!);
+      textareaElement.value.addEventListener('rows-change', onRowsChange);
       emits('init', textareaElement.value!);
     }
 
     if (props.validateAtStartup) {
       validate(text.value);
     }
+  });
+
+  onBeforeUnmount(() => {
+    textareaElement.value?.removeEventListener('rows-change', onRowsChange);
   });
 
   watch(

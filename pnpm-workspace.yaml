@@ -2,3 +2,8 @@ allowBuilds:
   '@parcel/watcher': true
   esbuild: true
   vue-demi: true
+minimumReleaseAgeExclude:
+  - '@types/lodash@4.17.26'
+  - '@types/node@24.19.2'
+  - '@vitejs/plugin-vue@6.0.10'
+  - prettier@3.9.10

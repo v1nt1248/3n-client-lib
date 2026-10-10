@@ -49,6 +49,10 @@ export interface Ui3nTextEmits {
    */
   (event: 'init', value: HTMLTextAreaElement): void;
   /**
+   * Called when the textarea height changes due to text input or deletion
+   */
+  (event: 'resize', value: { height: number; rows: number; element: HTMLTextAreaElement }): void;
+  /**
    * Called when text value changes
    */
   (event: 'input', value: string): void;
