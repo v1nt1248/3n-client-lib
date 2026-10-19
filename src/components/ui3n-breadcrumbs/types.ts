@@ -1,4 +1,4 @@
-import { VNode } from 'vue';
+import { Slot, VNode } from 'vue';
 
 /**
  * Breadcrumb component properties
@@ -71,4 +71,22 @@ export interface Ui3nBreadcrumbsSlots {
    * Default slot
    */
   default: () => VNode;
+}
+
+/**
+ * Context shared by Ui3nBreadcrumbs with its child Ui3nBreadcrumb components
+ */
+export interface Ui3nBreadcrumbsContext {
+  /**
+   * Resolves the separator of the whole chain
+   */
+  separator: () => string | undefined;
+  /**
+   * Resolves whether the whole chain is disabled
+   */
+  disabled: () => boolean;
+  /**
+   * Global separator slot passed to each breadcrumb
+   */
+  customSeparatorSlot?: Slot;
 }

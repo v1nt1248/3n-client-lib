@@ -137,12 +137,12 @@
     v-on="
       draggable
         ? {
-            dragstart: onDragstart,
-            mousedown: onMousedown,
-            mouseup: onMouseup,
-            mousemove: onMousemove,
-            keydown: onKeydown,
-          }
+          dragstart: onDragstart,
+          mousedown: onMousedown,
+          mouseup: onMouseup,
+          mousemove: onMousemove,
+          keydown: onKeydown,
+        }
         : { keydown: onKeydown }
     "
   >
@@ -244,6 +244,9 @@
     --_dialog-cancel-button-color: var(--ui3n-dialog-cancel-button-color, var(--color-text-button-secondary-default));
     --_dialog-confirm-background-color: var(--ui3n-dialog-confirm-background-color, var(--color-bg-button-primary-default));
     --_dialog-cancel-background-color: var(--ui3n-dialog-cancel-background-color, var(--color-bg-button-secondary-default));
+    --_dialog-bg-color: var(--ui3n-dialog-bg-color, var(--color-bg-block-primary-default));
+    --_dialog-border-color: var(--ui3n-dialog-border-color, var(--color-border-block-primary-default));
+    --_dialog-title-color: var(--ui3n-dialog-title-color, var(--color-text-control-primary-default));
 
     position: relative;
     display: flex;
@@ -251,8 +254,8 @@
     height: auto;
     min-height: 48px;
     max-height: 95%;
-    background-color: var(--color-bg-block-primary-default);
-    border: 1px solid var(--color-border-block-primary-default);
+    background-color: var(--_dialog-bg-color);
+    border: 1px solid var(--_dialog-border-color);
     border-radius: var(--_dialog-border-radius);
     outline: none;
     box-shadow:
@@ -284,7 +287,7 @@
     align-items: center;
     column-gap: 8px;
     padding: var(--_dialog-title-padding);
-    border-bottom: 1px solid var(--color-border-block-primary-default);
+    border-bottom: 1px solid var(--_dialog-border-color);
 
     span {
       display: block;
@@ -293,7 +296,7 @@
       font-size: var(--_dialog-title-font-size);
       font-weight: 600;
       line-height: 1;
-      color: var(--color-text-control-primary-default);
+      color: var(--_dialog-title-color);
       @include mixins.text-overflow-ellipsis();
     }
 

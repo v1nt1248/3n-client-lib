@@ -267,6 +267,20 @@
     //--ui3n-editable-padding: 0 4px;
     //--ui3n-editable-padding: 4px 44px 4px 4px;
     --_editable-button-size: var(--ui3n-editable-button-size, 16px);
+    --_editable-text-color: var(--ui3n-editable-text-color, var(--color-text-table-primary-default));
+    --_editable-placeholder-color: var(--ui3n-editable-placeholder-color, var(--color-text-table-secondary-default));
+    --_editable-empty-color: var(--ui3n-editable-empty-color, var(--color-text-table-secondary-default));
+    --_editable-edit-bg-color: var(--ui3n-editable-edit-bg-color, var(--color-bg-control-primary-default, #fff));
+    --_editable-edit-border-color: var(--ui3n-editable-edit-border-color, var(--color-border-table-accent-default));
+    --_editable-edit-border-warning-color: var(
+      --ui3n-editable-edit-border-warning-color,
+      var(--error-content-default)
+    );
+    --_editable-hover-bg-color: var(--ui3n-editable-hover-bg-color, var(--color-bg-control-primary-hover));
+    --_editable-button-hover-bg-color: var(
+      --ui3n-editable-button-hover-bg-color,
+      var(--color-bg-button-secondary-hover)
+    );
 
     position: relative;
     box-sizing: border-box;
@@ -277,19 +291,19 @@
     font-size: var(--_editable-font-size);
     font-weight: 400;
     line-height: var(--_editable-height);
-    color: var(--color-text-table-primary-default);
+    color: var(--_editable-text-color);
     overflow: hidden;
     border: 1px solid transparent;
 
     &.ui3nEditableInEdit {
-      background-color: var(--color-bg-control-primary-default, #fff);
+      background-color: var(--_editable-edit-bg-color);
 
       &:not(.ui3nEditableInEditWarning) {
-        border: 1px solid var(--color-border-table-accent-default);
+        border: 1px solid var(--_editable-edit-border-color);
       }
 
       &.ui3nEditableInEditWarning {
-        border: 1px solid var(--error-content-default);
+        border: 1px solid var(--_editable-edit-border-warning-color);
       }
     }
   }
@@ -320,11 +334,11 @@
     }
 
     &.contentEmpty {
-      color: var(--color-text-table-secondary-default);
+      color: var(--_editable-empty-color);
     }
 
     &:hover {
-      background-color: var(--color-bg-control-primary-hover);
+      background-color: var(--_editable-hover-bg-color);
 
       .btn.editBtn {
         opacity: 1;
@@ -346,9 +360,10 @@
     border-radius: var(--_editable-border-radius);
     background-color: transparent;
     border: none;
+    color: var(--_editable-text-color);
 
     &::placeholder {
-      color: var(--color-text-table-secondary-default);
+      color: var(--_editable-placeholder-color);
     }
 
     &:focus-visible {
@@ -385,7 +400,7 @@
 
     &:hover {
       cursor: pointer;
-      background-color: var(--color-bg-button-secondary-hover);
+      background-color: var(--_editable-button-hover-bg-color);
     }
 
     &.editBtn {

@@ -522,6 +522,10 @@
     --_table-cell-font-size: var(--ui3n-table-cell-font-size, 12px);
     --_table-nodata-height: var(--ui3n-table-nodata-height, 48px);
     --_table-nodata-color: var(--ui3n-table-nodata-color, var(--color-text-control-secondary-default));
+    --_table-border-color: var(--ui3n-table-border-color, var(--color-border-block-primary-default));
+    --_table-cell-border-color: var(--ui3n-table-cell-border-color, var(--color-border-table-primary-default));
+    --_table-body-bg-color: var(--ui3n-table-body-bg-color, var(--color-bg-table-cell-default));
+    --_table-row-hover-bg-color: var(--ui3n-table-row-hover-bg-color, var(--color-bg-control-primary-hover));
 
     position: relative;
     width: 100%;
@@ -630,9 +634,9 @@
     justify-content: space-between;
     align-items: center;
     background-color: var(--_table-group-actions-bg-color);
-    border-left: 1px solid var(--color-border-block-primary-default);
-    border-top: 1px solid var(--color-border-block-primary-default);
-    border-right: 1px solid var(--color-border-block-primary-default);
+    border-left: 1px solid var(--_table-border-color);
+    border-top: 1px solid var(--_table-border-color);
+    border-right: 1px solid var(--_table-border-color);
   }
 
   .groupActionsBody {
@@ -645,16 +649,16 @@
   .body {
     position: relative;
     width: 100%;
-    background-color: var(--color-bg-table-cell-default);
+    background-color: var(--_table-body-bg-color);
   }
 
   .row {
     position: relative;
     width: 100%;
     min-height: var(--_table-body-row-height);
-    border-left: 1px solid var(--color-border-table-primary-default);
-    border-right: 1px solid var(--color-border-table-primary-default);
-    border-bottom: 1px solid var(--color-border-block-primary-default);
+    border-left: 1px solid var(--_table-cell-border-color);
+    border-right: 1px solid var(--_table-cell-border-color);
+    border-bottom: 1px solid var(--_table-border-color);
     background-color: transparent;
 
     &:not(.customRow) {
@@ -668,7 +672,7 @@
     }
 
     &:hover {
-      background-color: var(--color-bg-control-primary-hover);
+      background-color: var(--_table-row-hover-bg-color);
     }
   }
 
@@ -761,7 +765,7 @@
 
     .bodyItemSticky {
       position: sticky;
-      background-color: var(--color-bg-table-cell-default);
+      background-color: var(--_table-body-bg-color);
     }
 
     .bodyItemFirst.bodyItemSticky {
@@ -769,7 +773,7 @@
     }
 
     .row:hover .bodyItemSticky {
-      background-color: var(--color-bg-control-primary-hover);
+      background-color: var(--_table-row-hover-bg-color);
     }
 
     .row.selected .bodyItemSticky {

@@ -78,6 +78,7 @@
   .ui3nProgressLinear {
     --_progress-linear-bg: var(--ui3n-progress-linear-bg, var(--color-bg-control-primary-default));
     --_progress-linear-color: var(--ui3n-progress-linear-color, var(--color-bg-control-accent-default));
+    --_progress-linear-label-color: var(--ui3n-progress-linear-label-color, var(--color-bg-control-accent-default));
 
     position: relative;
     width: 100%;
@@ -120,7 +121,7 @@
     text-align: center;
     font-size: var(--ui3n-progress-linear-label-font-size, 14px);
     line-height: var(--ui3n-progress-linear-label-line-height, 16px);
-    color: var(--color-bg-control-accent-default);
+    color: var(--_progress-linear-label-color);
     margin-bottom: 4px;
   }
 

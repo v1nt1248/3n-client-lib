@@ -563,7 +563,9 @@
 
 <style lang="scss" module>
   .ui3nVirtualScroll {
-    background-color: var(--color-bg-block-primary-default);
+    --_virtual-scroll-bg-color: var(--ui3n-virtual-scroll-bg-color, var(--color-bg-block-primary-default));
+
+    background-color: var(--_virtual-scroll-bg-color);
   }
 
   .viewport {

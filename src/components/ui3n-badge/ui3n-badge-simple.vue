@@ -5,8 +5,6 @@
   const props = withDefaults(defineProps<Ui3nBadgeSimpleProps>(), {
     dot: false,
     value: '',
-    color: 'var(--color-bg-button-primary-default)',
-    textColor: 'var(--color-text-button-primary-default)',
   });
 
   const emits = defineEmits<Ui3nBadgeSimpleEmits>();
@@ -26,7 +24,41 @@
     () => getElementSize(),
   );
 
+  watch(
+    [() => props.color, () => props.textColor],
+    (newValue: [string | undefined, string | undefined], prevValue: [string | undefined, string | undefined]) => {
+      if (!element.value) {
+        return;
+      }
+
+      const [color, textColor] = newValue;
+      const [prevColor, prevTextColor] = prevValue;
+
+      color !== prevColor &&
+        element.value.style.setProperty(
+          '--ui3n-badge-bg-color',
+          color ?? 'var(--color-bg-button-primary-default)',
+        );
+
+      textColor !== prevTextColor &&
+        element.value.style.setProperty(
+          '--ui3n-badge-text-color',
+          textColor ?? 'var(--color-text-button-primary-default)',
+        );
+    },
+  );
+
   onMounted(() => {
+    if (element.value) {
+      if (props.color) {
+        element.value.style.setProperty('--ui3n-badge-bg-color', props.color);
+      }
+
+      if (props.textColor) {
+        element.value.style.setProperty('--ui3n-badge-text-color', props.textColor);
+      }
+    }
+
     getElementSize();
   });
 </script>
@@ -54,11 +86,14 @@
     --_badge-padding-inline: var(--ui3n-badge-padding-inline, 6px);
     --_badge-nodot-border-radius: var(--ui3n-badge-nodot-border-radius, 10px);
     --_badge-font-size: var(--ui3n-badge-font-size, 12px);
+    --_badge-outline-color: var(--ui3n-badge-outline-color, var(--color-bg-block-primary-default));
+    --_badge-bg-color: var(--ui3n-badge-bg-color, var(--color-bg-button-primary-default));
+    --_badge-text-color: var(--ui3n-badge-text-color, var(--color-text-button-primary-default));
 
     position: relative;
     box-sizing: border-box;
-    background-color: v-bind(color);
-    outline: 1px var(--color-bg-block-primary-default) solid;
+    background-color: var(--_badge-bg-color);
+    outline: 1px var(--_badge-outline-color) solid;
 
     &:not(.ui3nBadgeDot) {
       min-height: var(--_badge-size);
@@ -81,7 +116,7 @@
 
   .ui3nBadgeText {
     display: block;
-    color: v-bind(textColor);
+    color: var(--_badge-text-color);
     font-size: var(--_badge-font-size);
     line-height: var(--_badge-size);
     text-align: center;

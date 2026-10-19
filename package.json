@@ -2,13 +2,16 @@
   "name": "@v1nt1248/3nclient-lib",
   "license": "AGPL-3.0-or-later",
   "author": "v1nt1248",
-  "version": "0.4.5",
+  "version": "0.4.7",
   "description": "Library for 3NWeb clients",
   "type": "module",
   "files": [
     "dist",
     "src/components/"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/ui3n-components.js",
   "module": "./dist/ui3n-components.js",
   "exports": {

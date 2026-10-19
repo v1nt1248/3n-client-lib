@@ -34,6 +34,15 @@
   .ui3nStepLineBar {
     /* the step height doubles as its border radius */
     --_step-line-bar-step-height: var(--ui3n-step-line-bar-step-height, 4px);
+    --_step-line-bar-label-color: var(--ui3n-step-line-bar-label-color, var(--color-text-block-accent-default));
+    --_step-line-bar-step-color: var(
+      --ui3n-step-line-bar-step-color,
+      var(--color-bg-control-secondary-default)
+    );
+    --_step-line-bar-active-color: var(
+      --ui3n-step-line-bar-active-color,
+      var(--color-bg-control-accent-default)
+    );
 
     position: relative;
     width: 100%;
@@ -46,7 +55,7 @@
     font-size: var(--ui3n-step-line-bar-label-font-size, 14px);
     font-weight: 500;
     line-height: var(--ui3n-step-line-bar-label-line-height, 20px);
-    color: var(--color-text-block-accent-default);
+    color: var(--_step-line-bar-label-color);
     margin-bottom: var(--ui3n-step-line-bar-label-offset, 16px);
   }
 
@@ -63,10 +72,10 @@
     flex: 1;
     height: var(--_step-line-bar-step-height);
     border-radius: var(--_step-line-bar-step-height);
-    background-color: var(--color-bg-control-secondary-default);
+    background-color: var(--_step-line-bar-step-color);
   }
 
   .active {
-    background-color: var(--color-bg-control-accent-default);
+    background-color: var(--_step-line-bar-active-color);
   }
 </style>

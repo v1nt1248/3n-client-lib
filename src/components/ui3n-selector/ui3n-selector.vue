@@ -389,6 +389,35 @@
       --ui3n-selector-body-border-color,
       var(--color-border-block-primary-default)
     );
+    --_selector-label-color: var(--ui3n-selector-label-color, var(--color-text-control-primary-default));
+    --_selector-trigger-bg-color: var(--ui3n-selector-trigger-bg-color, var(--color-bg-control-secondary-default));
+    --_selector-trigger-color: var(--ui3n-selector-trigger-color, var(--color-text-control-primary-default));
+    --_selector-trigger-placeholder-color: var(
+      --ui3n-selector-trigger-placeholder-color,
+      var(--color-text-control-secondary-default)
+    );
+    --_selector-trigger-disabled-bg-color: var(
+      --ui3n-selector-trigger-disabled-bg-color,
+      var(--color-bg-control-secondary-disabled)
+    );
+    --_selector-trigger-disabled-color: var(
+      --ui3n-selector-trigger-disabled-color,
+      var(--color-text-control-secondary-disabled)
+    );
+    --_selector-trigger-focused-bg-color: var(
+      --ui3n-selector-trigger-focused-bg-color,
+      var(--color-bg-control-secondary-focused)
+    );
+    --_selector-trigger-focused-outline-color: var(
+      --ui3n-selector-trigger-focused-outline-color,
+      var(--color-border-control-accent-focused)
+    );
+    --_selector-body-bg-color: var(--ui3n-selector-body-bg-color, var(--color-bg-block-primary-default));
+    --_selector-item-bg-color: var(--ui3n-selector-item-bg-color, var(--color-bg-control-primary-hover));
+    --_selector-item-selected-color: var(
+      --ui3n-selector-item-selected-color,
+      var(--color-text-control-accent-default)
+    );
 
     position: relative;
     width: 100%;
@@ -400,7 +429,7 @@
     font-size: var(--_selector-font-size);
     font-weight: 500;
     line-height: 1.33;
-    color: var(--color-text-control-primary-default);
+    color: var(--_selector-label-color);
     margin-bottom: 4px;
   }
 
@@ -420,9 +449,9 @@
     padding: var(--_selector-trigger-padding);
     justify-content: flex-start;
     align-items: center;
-    background-color: var(--color-bg-control-secondary-default);
+    background-color: var(--_selector-trigger-bg-color);
     border-radius: var(--_selector-border-radius);
-    color: var(--color-text-control-primary-default);
+    color: var(--_selector-trigger-color);
     font-size: var(--_selector-trigger-font-size);
     font-weight: 400;
     line-height: 1.23;
@@ -431,13 +460,13 @@
     @include mixins.text-overflow-ellipsis();
 
     &.placeholder {
-      color: var(--color-text-control-secondary-default);
+      color: var(--_selector-trigger-placeholder-color);
       font-style: italic;
     }
 
     &.triggerDisabled {
-      background-color: var(--color-bg-control-secondary-disabled);
-      color: var(--color-text-control-secondary-disabled);
+      background-color: var(--_selector-trigger-disabled-bg-color);
+      color: var(--_selector-trigger-disabled-color);
       cursor: default;
       pointer-events: none;
     }
@@ -459,15 +488,15 @@
     }
 
     &.triggerFocused {
-      background-color: var(--color-bg-control-secondary-focused);
-      outline: 1px solid var(--color-border-control-accent-focused);
+      background-color: var(--_selector-trigger-focused-bg-color);
+      outline: 1px solid var(--_selector-trigger-focused-outline-color);
     }
   }
 
   .body {
     position: relative;
     width: 100%;
-    background-color: var(--color-bg-block-primary-default);
+    background-color: var(--_selector-body-bg-color);
     padding: var(--_selector-body-padding);
     box-shadow: 0 4px 12px var(--shadow-close);
     border: 1px solid var(--_selector-body-border-color);
@@ -482,7 +511,7 @@
       font-size: var(--_selector-item-font-size);
       line-height: 1.33;
       font-weight: 500;
-      color: var(--color-text-control-primary-default);
+      color: var(--_selector-trigger-color);
       border-radius: var(--_selector-item-border-radius);
     }
 
@@ -495,15 +524,15 @@
       font-size: var(--_selector-item-font-size);
       line-height: 1.33;
       font-weight: 500;
-      color: var(--color-text-control-primary-default);
+      color: var(--_selector-trigger-color);
       border-radius: var(--_selector-item-border-radius);
       user-select: none;
       cursor: pointer;
 
       &.itemSelected,
       &:hover {
-        background-color: var(--color-bg-control-primary-hover);
-        color: var(--color-text-control-accent-default);
+        background-color: var(--_selector-item-bg-color);
+        color: var(--_selector-item-selected-color);
       }
 
       &.itemDisabled {

@@ -176,6 +176,7 @@
 <style lang="scss" module>
   .ui3nRadio {
     --_radio-min-height: var(--ui3n-radio-min-height, 24px);
+    --_radio-label-color: var(--ui3n-radio-label-color, var(--color-text-control-primary-default));
 
     position: relative;
     display: flex;
@@ -221,7 +222,7 @@
   .label {
     font-size: 12px;
     font-weight: 500;
-    color: var(--color-text-control-primary-default);
+    color: var(--_radio-label-color);
     user-select: none;
   }
 

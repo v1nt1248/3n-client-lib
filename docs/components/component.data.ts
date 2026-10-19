@@ -21,7 +21,7 @@ function cssVariablesOf(file: string): Array<{ name: string; default: string }> 
     .replace(/^\s*\/\/.*$/gm, '');
 
   const found = new Map<string, string>();
-  for (const match of style.matchAll(/var\((--ui3n-[a-z0-9-]+)\s*,/g)) {
+  for (const match of style.matchAll(/var\(\s*(--ui3n-[a-z0-9-]+)\s*,/g)) {
     const name = match[1];
     if (found.has(name)) {
       continue;

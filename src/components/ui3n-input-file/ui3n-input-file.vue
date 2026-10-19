@@ -163,6 +163,11 @@
   .ui3nInputFile {
     --_input-file-font-size: var(--ui3n-input-file-font-size, 12px);
     --_input-file-padding-inline: var(--ui3n-input-file-padding-inline, 4px);
+    --_input-file-label-color: var(--ui3n-input-file-label-color, var(--color-text-button-secondary-default));
+    --_input-file-label-hover-color: var(
+      --ui3n-input-file-label-hover-color,
+      var(--color-text-button-secondary-hover)
+    );
 
     position: relative;
     width: max-content;
@@ -172,12 +177,12 @@
     font-size: var(--_input-file-font-size);
     font-weight: 500;
     line-height: 1.33;
-    color: var(--color-text-button-secondary-default);
+    color: var(--_input-file-label-color);
     padding: 0 var(--_input-file-padding-inline);
     cursor: pointer;
 
     &:hover {
-      color: var(--color-text-button-secondary-hover);
+      color: var(--_input-file-label-hover-color);
     }
 
     &.disabled {

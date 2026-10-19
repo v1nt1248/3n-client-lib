@@ -125,13 +125,22 @@
     --_notification-icon-size: var(--ui3n-notification-icon-size, 32px);
     --_notification-padding: var(--ui3n-notification-padding, 16px);
     --_notification-text-color: var(--ui3n-notification-text-color, var(--default-content-default));
+    --_notification-border-color: var(--ui3n-notification-border-color, var(--color-border-block-primary-default));
+    --_notification-info-fill-color: var(--ui3n-notification-info-fill-color, var(--info-fill-default));
+    --_notification-info-icon-color: var(--ui3n-notification-info-icon-color, var(--info-content-default));
+    --_notification-success-fill-color: var(--ui3n-notification-success-fill-color, var(--success-fill-default));
+    --_notification-success-icon-color: var(--ui3n-notification-success-icon-color, var(--success-content-default));
+    --_notification-warning-fill-color: var(--ui3n-notification-warning-fill-color, var(--warning-fill-default));
+    --_notification-warning-icon-color: var(--ui3n-notification-warning-icon-color, var(--warning-content-default));
+    --_notification-error-fill-color: var(--ui3n-notification-error-fill-color, var(--error-fill-default));
+    --_notification-error-icon-color: var(--ui3n-notification-error-icon-color, var(--error-content-default));
 
     display: flex;
     position: relative;
     box-sizing: border-box;
     z-index: 5000;
     border-radius: var(--_notification-border-radius);
-    outline: 1px solid var(--color-border-block-primary-default);
+    outline: 1px solid var(--_notification-border-color);
     padding: var(--_notification-padding);
     max-width: var(--_notification-width);
     margin-bottom: var(--_notification-margin-bottom);
@@ -179,10 +188,10 @@
   .infoType {
     --_notification-text-color: var(--ui3n-notification-text-color, var(--info-content-default));
 
-    background-color: var(--info-fill-default);
+    background-color: var(--_notification-info-fill-color);
 
     .ui3nNotificationIcon {
-      background-color: var(--info-content-default);
+      background-color: var(--_notification-info-icon-color);
     }
 
     :global(.dark-theme) &,
@@ -195,10 +204,10 @@
   .successType {
     --_notification-text-color: var(--ui3n-notification-text-color, var(--success-content-default));
 
-    background-color: var(--success-fill-default);
+    background-color: var(--_notification-success-fill-color);
 
     .ui3nNotificationIcon {
-      background-color: var(--success-content-default);
+      background-color: var(--_notification-success-icon-color);
     }
 
     :global(.dark-theme) &,
@@ -211,10 +220,10 @@
   .warningType {
     --_notification-text-color: var(--ui3n-notification-text-color, var(--warning-content-default));
 
-    background-color: var(--warning-fill-default);
+    background-color: var(--_notification-warning-fill-color);
 
     .ui3nNotificationIcon {
-      background-color: var(--warning-content-default);
+      background-color: var(--_notification-warning-icon-color);
     }
 
     :global(.dark-theme) &,
@@ -227,10 +236,10 @@
   .errorType {
     --_notification-text-color: var(--ui3n-notification-text-color, var(--error-content-default));
 
-    background-color: var(--error-fill-default);
+    background-color: var(--_notification-error-fill-color);
 
     .ui3nNotificationIcon {
-      background-color: var(--error-content-default);
+      background-color: var(--_notification-error-icon-color);
     }
 
     :global(.dark-theme) &,

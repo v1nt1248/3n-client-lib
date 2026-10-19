@@ -100,8 +100,8 @@
 
 <template>
   <div
-    ref="tabs"
     :id="id"
+    ref="tabs"
     data-ui3n="tabs"
     :style="tabsStyle"
     :class="[$style.ui3nTabs, itemDirection === 'vertical' && $style.vertical]"
@@ -118,6 +118,7 @@
     --_tabs-inactive-color: var(--ui3n-tabs-inactive-color, var(--color-text-control-primary-default));
     --_tabs-indicator-color: var(--ui3n-tabs-indicator-color, var(--color-border-control-accent-default));
     --_tabs-indicator-size: var(--ui3n-tabs-indicator-size, 2px);
+    --_tabs-hover-bg-color: var(--ui3n-tabs-hover-bg-color, var(--color-bg-control-secondary-default));
 
     position: relative;
     height: var(--_tabs-height);
@@ -134,7 +135,7 @@
     color: var(--_tabs-inactive-color);
 
     &:hover {
-      background-color: var(--color-bg-control-secondary-default);
+      background-color: var(--_tabs-hover-bg-color);
     }
 
     &::after {

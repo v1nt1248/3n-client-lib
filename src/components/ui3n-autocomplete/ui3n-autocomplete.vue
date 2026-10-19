@@ -570,6 +570,29 @@
     --_autocomplete-padding-inline: var(--ui3n-autocomplete-padding-inline, 8px);
     --_autocomplete-padding-block: var(--ui3n-autocomplete-padding-block, 4px);
     --_autocomplete-border-radius: var(--ui3n-autocomplete-border-radius, 4px);
+    --_autocomplete-text-color: var(--ui3n-autocomplete-text-color, var(--color-text-control-primary-default));
+    --_autocomplete-placeholder-color: var(
+      --ui3n-autocomplete-placeholder-color,
+      var(--color-text-control-secondary-default)
+    );
+    --_autocomplete-highlight-color: var(
+      --ui3n-autocomplete-highlight-color,
+      var(--color-text-control-accent-default)
+    );
+    --_autocomplete-bg-color: var(--ui3n-autocomplete-bg-color, var(--color-bg-block-primary-default));
+    --_autocomplete-input-bg-color: var(
+      --ui3n-autocomplete-input-bg-color,
+      var(--color-bg-control-secondary-default)
+    );
+    --_autocomplete-item-bg-color: var(
+      --ui3n-autocomplete-item-bg-color,
+      var(--color-bg-control-primary-hover)
+    );
+    --_autocomplete-item-selected-color: var(
+      --ui3n-autocomplete-item-selected-color,
+      var(--color-text-control-accent-default)
+    );
+    --_autocomplete-error-color: var(--ui3n-autocomplete-error-color, var(--error-content-default));
 
     position: relative;
     display: flex;
@@ -578,7 +601,7 @@
 
     :global(.match-search) {
       font-weight: 600;
-      color: var(--color-text-control-accent-default) !important;
+      color: var(--_autocomplete-highlight-color) !important;
     }
   }
 
@@ -602,7 +625,7 @@
     font-size: var(--_autocomplete-font-size);
     line-height: var(--_autocomplete-min-height);
     font-weight: 400;
-    color: var(--color-text-control-primary-default);
+    color: var(--_autocomplete-text-color);
   }
 
   .input {
@@ -614,30 +637,30 @@
     font-size: var(--_autocomplete-font-size);
     line-height: var(--_autocomplete-min-height);
     font-weight: 400;
-    color: var(--color-text-control-primary-default);
+    color: var(--_autocomplete-text-color);
     background-color: transparent;
     border: none;
     outline: none;
 
     &::placeholder {
-      color: var(--color-text-control-secondary-default);
+      color: var(--_autocomplete-placeholder-color);
     }
 
     &:hover,
     &:focus {
-      background-color: var(--color-bg-control-secondary-default);
+      background-color: var(--_autocomplete-input-bg-color);
     }
 
     &.inputWithError {
       height: calc(var(--_autocomplete-min-height) - 2px);
       padding: 0 calc(var(--_autocomplete-padding-inline) - 1px);
-      border: 1px solid var(--error-content-default);
+      border: 1px solid var(--_autocomplete-error-color);
     }
   }
 
   .body {
     position: relative;
-    background-color: var(--color-bg-block-primary-default);
+    background-color: var(--_autocomplete-bg-color);
     padding: 4px;
   }
 
@@ -650,15 +673,15 @@
     font-size: var(--_autocomplete-item-font-size);
     line-height: 1.23;
     font-weight: 500;
-    color: var(--color-text-control-primary-default);
+    color: var(--_autocomplete-text-color);
     border-radius: var(--_autocomplete-border-radius);
     user-select: none;
     cursor: pointer;
 
     &.itemSelected,
     &:hover {
-      background-color: var(--color-bg-control-primary-hover);
-      color: var(--color-text-control-accent-default);
+      background-color: var(--_autocomplete-item-bg-color);
+      color: var(--_autocomplete-item-selected-color);
     }
 
     &.itemDisabled {
@@ -681,7 +704,7 @@
     font-size: var(--_autocomplete-item-font-size);
     line-height: 1.23;
     font-weight: 500;
-    color: var(--color-text-control-primary-default);
+    color: var(--_autocomplete-text-color);
     border-radius: var(--_autocomplete-border-radius);
   }
 

@@ -102,6 +102,11 @@
     --_switch-font-size: var(--ui3n-switch-font-size, 12px);
     --_switch-font-color: var(--ui3n-switch-font-color, var(--color-text-control-primary-default));
     --_switch-font-weight: var(--ui3n-switch-font-weight, 500);
+    --_switch-focus-outline-color: var(
+      --ui3n-switch-focus-outline-color,
+      var(--color-border-control-accent-focused)
+    );
+    --_switch-dot-color: var(--ui3n-switch-dot-color, var(--color-bg-control-primary-default));
 
     position: relative;
     display: inline-flex;
@@ -111,7 +116,7 @@
     cursor: pointer;
 
     &:focus-visible {
-      outline: 2px solid var(--color-border-control-accent-focused);
+      outline: 2px solid var(--_switch-focus-outline-color);
       outline-offset: 4px;
       border-radius: 4px;
     }
@@ -148,7 +153,7 @@
     width: var(--_switch-dot-size);
     height: var(--_switch-dot-size);
     border-radius: 50%;
-    background-color: var(--color-bg-control-primary-default);
+    background-color: var(--_switch-dot-color);
     top: var(--_switch-dot-margin);
     transition: left 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }

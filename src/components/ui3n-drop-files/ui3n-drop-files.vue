@@ -177,6 +177,11 @@
     --_dropzone-height: var(--ui3n-dropzone-height, 0);
     --_dropzone-title-font: var(--ui3n-dropzone-title-font, 0);
     --_dropzone-border-radius: var(--ui3n-dropzone-border-radius, 4px);
+    --_dropzone-border-color: var(--ui3n-dropzone-border-color, var(--color-border-block-primary-default));
+    --_dropzone-accent-border-color: var(--ui3n-dropzone-accent-border-color, var(--accent-fill-pressed));
+    --_dropzone-bg-color: var(--ui3n-dropzone-bg-color, var(--color-bg-block-primary-default));
+    --_dropzone-title-color: var(--ui3n-dropzone-title-color, var(--color-text-table-secondary-default));
+    --_dropzone-icon-bg-color: var(--ui3n-dropzone-icon-bg-color, var(--color-bg-button-tritery-default));
 
     position: relative;
     box-sizing: border-box;
@@ -186,17 +191,17 @@
   }
 
   .ui3nDropFilesWithBorder {
-    border: 2px dashed var(--color-border-block-primary-default);
+    border: 2px dashed var(--_dropzone-border-color);
   }
 
   .ui3nDropFilesWithAccentBorder {
-    border: 2px dashed var(--accent-fill-pressed);
+    border: 2px dashed var(--_dropzone-accent-border-color);
   }
 
   .ui3nDropFilesDropzone {
     box-sizing: border-box;
     position: absolute;
-    background-color: var(--color-bg-block-primary-default);
+    background-color: var(--_dropzone-bg-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -209,7 +214,7 @@
   .ui3nDropFilesDropzoneTitle {
     font-size: var(--_dropzone-title-font);
     font-weight: 500;
-    color: var(--color-text-table-secondary-default);
+    color: var(--_dropzone-title-color);
     margin: 0;
     pointer-events: none;
   }
@@ -219,7 +224,7 @@
     width: calc(var(--_dropzone-height) * 0.4);
     height: calc(var(--_dropzone-height) * 0.4);
     border-radius: 50%;
-    background-color: var(--color-bg-button-tritery-default);
+    background-color: var(--_dropzone-icon-bg-color);
     display: flex;
     justify-content: center;
     align-items: center;

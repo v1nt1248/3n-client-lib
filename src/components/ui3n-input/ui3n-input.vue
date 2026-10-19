@@ -298,6 +298,24 @@
     --_input-outer-padding-top: var(--ui3n-input-outer-padding-top, 1px);
     --_input-outer-padding-bottom: var(--ui3n-input-outer-padding-bottom, 15px);
     --_input-outer-padding-x: var(--ui3n-input-outer-padding-x, 1px);
+    --_input-text-color: var(--ui3n-input-text-color, var(--color-text-control-primary-default));
+    --_input-placeholder-color: var(--ui3n-input-placeholder-color, var(--color-text-control-secondary-default));
+    --_input-placeholder-hover-color: var(
+      --ui3n-input-placeholder-hover-color,
+      var(--color-text-control-secondary-hover)
+    );
+    --_input-bg-color: var(--ui3n-input-bg-color, var(--color-bg-control-secondary-default));
+    --_input-bg-hover-color: var(--ui3n-input-bg-hover-color, var(--color-bg-control-secondary-hover));
+    --_input-bg-focused-color: var(--ui3n-input-bg-focused-color, var(--color-bg-control-secondary-focused));
+    --_input-bg-disabled-color: var(--ui3n-input-bg-disabled-color, var(--color-bg-control-secondary-disabled));
+    --_input-outline-focused-color: var(
+      --ui3n-input-outline-focused-color,
+      var(--color-border-control-accent-focused)
+    );
+    --_input-disabled-color: var(--ui3n-input-disabled-color, var(--color-text-control-secondary-disabled));
+    --_input-label-color: var(--ui3n-input-label-color, var(--color-text-control-primary-default));
+    --_input-error-color: var(--ui3n-input-error-color, var(--error-content-default));
+    --_input-success-color: var(--ui3n-input-success-color, var(--success-content-default));
 
     &.withLabel {
       --_input-message-top: var(
@@ -327,18 +345,18 @@
 
     &:hover {
       .inputWrapper:not(:focus-within) {
-        background-color: var(--color-bg-control-secondary-hover);
+        background-color: var(--_input-bg-hover-color);
 
         .ui3nInputField::placeholder {
-          color: var(--color-text-control-secondary-hover);
+          color: var(--_input-placeholder-hover-color);
         }
       }
     }
 
     &:focus-within {
       .inputWrapper {
-        background-color: var(--color-bg-control-secondary-focused);
-        outline: 1px solid var(--color-border-control-accent-focused);
+        background-color: var(--_input-bg-focused-color);
+        outline: 1px solid var(--_input-outline-focused-color);
       }
     }
   }
@@ -349,7 +367,7 @@
     font-size: var(--_input-label-font-size);
     line-height: 1.33;
     font-weight: 500;
-    color: var(--color-text-control-primary-default);
+    color: var(--_input-label-color);
     margin-bottom: 4px;
   }
 
@@ -358,7 +376,7 @@
     align-items: center;
     height: var(--_input-height);
     border-radius: var(--_input-border-radius);
-    background-color: var(--color-bg-control-secondary-default);
+    background-color: var(--_input-bg-color);
     transition: background-color 0.2s ease-in-out;
   }
 
@@ -376,11 +394,11 @@
     font-size: var(--_input-font-size);
     line-height: 1.23;
     font-weight: 400;
-    color: var(--color-text-control-primary-default);
+    color: var(--_input-text-color);
     transition: color 0.2s ease-in-out;
 
     &::placeholder {
-      color: var(--color-text-control-secondary-default);
+      color: var(--_input-placeholder-color);
       font-style: italic;
       font-size: var(--_input-font-size);
       font-weight: 400;
@@ -391,7 +409,7 @@
     }
 
     &[disabled] {
-      color: var(--color-text-control-secondary-disabled);
+      color: var(--_input-disabled-color);
       cursor: not-allowed;
     }
 
@@ -443,34 +461,34 @@
   }
 
   .ui3nInputErrorMessage {
-    color: var(--error-content-default);
+    color: var(--_input-error-color);
   }
 
   .ui3nInputSuccessMessage {
-    color: var(--success-content-default);
+    color: var(--_input-success-color);
   }
 
   .error {
     .ui3nInputLabel {
-      color: var(--error-content-default);
+      color: var(--_input-error-color);
     }
 
     .inputWrapper {
-      outline: 1px solid var(--error-content-default);
+      outline: 1px solid var(--_input-error-color);
     }
 
     &:focus-within {
       .inputWrapper {
-        background-color: var(--color-bg-control-secondary-focused);
-        outline: 1px solid var(--error-content-default);
-        box-shadow: 0 0 0 1px var(--error-content-default);
+        background-color: var(--_input-bg-focused-color);
+        outline: 1px solid var(--_input-error-color);
+        box-shadow: 0 0 0 1px var(--_input-error-color);
       }
     }
   }
 
   .success {
     .ui3nInputLabel {
-      color: var(--success-content-default);
+      color: var(--_input-success-color);
     }
   }
 
@@ -479,7 +497,7 @@
     user-select: none;
 
     .inputWrapper {
-      background-color: var(--color-bg-control-secondary-disabled);
+      background-color: var(--_input-bg-disabled-color);
       cursor: not-allowed;
     }
   }

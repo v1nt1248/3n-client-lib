@@ -1,6 +1,11 @@
 <script lang="ts" setup>
   import { computed, inject, useCssModule, useSlots } from 'vue';
-  import type { Ui3nBreadcrumbEmits, Ui3nBreadcrumbProps, Ui3nBreadcrumbSlots } from './types';
+  import type {
+    Ui3nBreadcrumbEmits,
+    Ui3nBreadcrumbProps,
+    Ui3nBreadcrumbSlots,
+    Ui3nBreadcrumbsContext,
+  } from './types';
 
   const props = withDefaults(defineProps<Ui3nBreadcrumbProps>(), {
     separator: undefined,
@@ -15,7 +20,7 @@
 
   const $css = useCssModule();
 
-  const parentContext = inject<any>('ui3n-breadcrumbs-context', null);
+  const parentContext = inject<Ui3nBreadcrumbsContext | null>('ui3n-breadcrumbs-context', null);
 
   const separatorValue = computed(() => {
     if (props.separator) {
@@ -73,6 +78,7 @@
     --_breadcrumb-separator-distance: var(--ui3n-breadcrumb-separator-distance, 8px);
     --_breadcrumb-color-default: var(--ui3n-breadcrumb-color-default, var(--color-text-block-primary-default));
     --_breadcrumb-color-selected: var(--ui3n-breadcrumb-color-selected, var(--color-text-block-accent-default));
+    --_breadcrumb-separator-color: var(--ui3n-breadcrumb-separator-color, var(--color-text-block-tertiary-default));
 
     display: flex;
     align-items: center;
@@ -95,7 +101,7 @@
     align-items: center;
     margin: 0 var(--_breadcrumb-separator-distance);
     padding-left: var(--_breadcrumb-padding-inline);
-    color: var(--color-text-block-tertiary-default);
+    color: var(--_breadcrumb-separator-color);
   }
 
   .ui3nBreadcrumbActive {

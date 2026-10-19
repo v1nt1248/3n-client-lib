@@ -204,6 +204,24 @@
     --_text-font-size: var(--ui3n-text-font-size, 13px);
     --_text-padding-inline: var(--ui3n-text-padding-inline, 8px);
     --_text-padding-block: var(--ui3n-text-padding-block, 8px);
+    --_text-label-color: var(--ui3n-text-label-color, var(--color-text-control-primary-default));
+    --_text-bg-color: var(--ui3n-text-bg-color, var(--color-bg-control-secondary-default));
+    --_text-bg-hover-color: var(--ui3n-text-bg-hover-color, var(--color-bg-control-secondary-hover));
+    --_text-bg-focused-color: var(--ui3n-text-bg-focused-color, var(--color-bg-control-secondary-focused));
+    --_text-bg-disabled-color: var(--ui3n-text-bg-disabled-color, var(--color-bg-control-secondary-disabled));
+    --_text-outline-focused-color: var(
+      --ui3n-text-outline-focused-color,
+      var(--color-border-control-accent-focused)
+    );
+    --_text-color: var(--ui3n-text-color, var(--color-text-control-primary-default));
+    --_text-placeholder-color: var(--ui3n-text-placeholder-color, var(--color-text-control-secondary-default));
+    --_text-placeholder-hover-color: var(
+      --ui3n-text-placeholder-hover-color,
+      var(--color-text-control-secondary-hover)
+    );
+    --_text-disabled-color: var(--ui3n-text-disabled-color, var(--color-text-control-secondary-disabled));
+    --_text-error-color: var(--ui3n-text-error-color, var(--error-fill-default));
+    --_text-error-message-color: var(--ui3n-text-error-message-color, var(--error-content-default));
 
     position: relative;
     width: 100%;
@@ -217,7 +235,7 @@
     font-size: var(--_text-label-font-size);
     line-height: 1.33;
     font-weight: 600;
-    color: var(--color-text-control-primary-default);
+    color: var(--_text-label-color);
     margin-bottom: 4px;
   }
 
@@ -225,19 +243,19 @@
     position: relative;
     width: 100%;
     padding: var(--_text-padding-block) 0;
-    background-color: var(--color-bg-control-secondary-default);
+    background-color: var(--_text-bg-color);
     border-radius: var(--_text-border-radius);
     transition: all 0.2s ease-in-out;
 
     &:hover {
       &:not(:focus-within) {
-        background-color: var(--color-bg-control-secondary-hover);
+        background-color: var(--_text-bg-hover-color);
 
         .content {
-          background-color: var(--color-bg-control-secondary-hover);
+          background-color: var(--_text-bg-hover-color);
 
           &::placeholder {
-            color: var(--color-text-control-secondary-hover);
+            color: var(--_text-placeholder-hover-color);
           }
         }
       }
@@ -252,17 +270,17 @@
     position: relative;
     width: 100%;
     border-radius: var(--_text-border-radius);
-    background-color: var(--color-bg-control-secondary-default);
+    background-color: var(--_text-bg-color);
     padding: 0 var(--_text-padding-inline);
     font-family: inherit;
     font-size: var(--_text-font-size);
     line-height: 1.23;
     font-weight: 400;
-    color: var(--color-text-control-primary-default);
+    color: var(--_text-color);
     transition: all 0.2s ease-in-out;
 
     &::placeholder {
-      color: var(--color-text-control-secondary-default);
+      color: var(--_text-placeholder-color);
       font-style: italic;
       font-size: var(--_text-font-size);
       line-height: 1.23;
@@ -279,29 +297,29 @@
     user-select: none;
 
     .body {
-      background-color: var(--color-bg-control-secondary-disabled);
+      background-color: var(--_text-bg-disabled-color);
     }
 
     .content {
-      background-color: var(--color-bg-control-secondary-disabled);
-      color: var(--color-text-control-secondary-disabled);
+      background-color: var(--_text-bg-disabled-color);
+      color: var(--_text-disabled-color);
     }
   }
 
   .focused {
     .body {
-      background-color: var(--color-bg-control-secondary-focused);
-      outline: 1px solid var(--color-border-control-accent-focused);
+      background-color: var(--_text-bg-focused-color);
+      outline: 1px solid var(--_text-outline-focused-color);
     }
 
     .content {
-      background-color: var(--color-bg-control-secondary-focused);
+      background-color: var(--_text-bg-focused-color);
     }
   }
 
   .hasError {
     .body {
-      border-color: var(--error-fill-default);
+      border-color: var(--_text-error-color);
     }
   }
 
@@ -309,7 +327,7 @@
     margin-top: 4px;
     font-size: 11px;
     line-height: 13px;
-    color: var(--error-content-default);
+    color: var(--_text-error-message-color);
     font-weight: 400;
   }
 </style>

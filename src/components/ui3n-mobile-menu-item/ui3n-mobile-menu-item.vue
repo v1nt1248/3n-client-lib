@@ -32,6 +32,19 @@
   @use '../../assets/styles/mixins' as mixins;
 
   .menuItem {
+    --_mobile-menu-item-name-color: var(
+      --ui3n-mobile-menu-item-name-color,
+      var(--color-text-control-primary-default)
+    );
+    --_mobile-menu-item-hover-bg-color: var(
+      --ui3n-mobile-menu-item-hover-bg-color,
+      var(--color-bg-control-primary-hover)
+    );
+    --_mobile-menu-item-icon-hover-color: var(
+      --ui3n-mobile-menu-item-icon-hover-color,
+      var(--color-icon-control-accent-default)
+    );
+
     display: flex;
     width: 100%;
     height: var(--ui3n-mobile-menu-item-height, 48px);
@@ -46,15 +59,15 @@
       font-size: var(--ui3n-mobile-menu-item-font-size, 14px);
       font-weight: 600;
       line-height: var(--ui3n-mobile-menu-item-line-height, 20px);
-      color: var(--color-text-control-primary-default);
+      color: var(--_mobile-menu-item-name-color);
     }
 
     &:hover,
     &.menuItemSelected {
-      background-color: var(--color-bg-control-primary-hover);
+      background-color: var(--_mobile-menu-item-hover-bg-color);
 
       & > div {
-        color: var(--color-icon-control-accent-default);
+        color: var(--_mobile-menu-item-icon-hover-color);
         animation: bounceOnce 0.4s ease-in-out forwards;
       }
     }

@@ -83,6 +83,8 @@
 
   .ui3nMobileMenu {
     --_menu-width-custom: var(--ui3n-menu-width-custom, 240px);
+    --_menu-color: var(--ui3n-menu-color, var(--color-text-block-primary-default));
+    --_menu-bg-color: var(--ui3n-menu-bg-color, var(--color-bg-block-primary-default));
 
     display: inline-block;
     width: max-content;
@@ -118,8 +120,8 @@
     justify-content: flex-start;
     align-items: stretch;
     height: 100%;
-    color: var(--color-text-block-primary-default);
-    background-color: var(--color-bg-block-primary-default);
+    color: var(--_menu-color);
+    background-color: var(--_menu-bg-color);
     overflow-x: hidden;
     overflow-y: auto;
     box-shadow: 4px 0 16px var(--shadow-close);

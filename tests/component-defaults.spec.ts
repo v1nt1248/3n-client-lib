@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
+import Ui3nBadgeSimple from '../src/components/ui3n-badge/ui3n-badge-simple.vue';
 import Ui3nChip from '../src/components/ui3n-chip/ui3n-chip.vue';
 import Ui3nIcon from '../src/components/ui3n-icon/ui3n-icon.vue';
 import Ui3nTabs from '../src/components/ui3n-tabs/ui3n-tabs.vue';
@@ -18,6 +19,18 @@ function inlineVariables(html: string): string[] {
 }
 
 describe('styling defaults stay in CSS', () => {
+  it('Ui3nBadgeSimple writes nothing when no colour is given', () => {
+    const wrapper = mount(Ui3nBadgeSimple);
+
+    expect(inlineVariables(wrapper.html())).toEqual([]);
+  });
+
+  it('Ui3nBadgeSimple writes only the colours it was given', () => {
+    const wrapper = mount(Ui3nBadgeSimple, { props: { color: '#f00', textColor: '#0f0' } });
+
+    expect(inlineVariables(wrapper.html())).toEqual(['--ui3n-badge-bg-color', '--ui3n-badge-text-color']);
+  });
+
   it('Ui3nChip writes nothing when no prop is given', () => {
     const wrapper = mount(Ui3nChip, { slots: { default: 'chip' } });
 
