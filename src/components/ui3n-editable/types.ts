@@ -120,6 +120,11 @@ export interface Ui3nEditableProps {
    * Flag to prevent empty values
    */
   disallowEmptyValue?: boolean;
+  /**
+   * Check of a changed value on completion: returns true to accept it, or the error text to reject it.
+   * A rejected value is reverted to the initial one and the `invalid` event is emitted instead of `update:modelValue`
+   */
+  validator?: (value: string) => true | string;
 }
 
 /**
@@ -150,8 +155,19 @@ export interface Ui3nEditableEmits {
    * Focusout event
    */
   (event: 'focusout'): void;
+  /**
+   * Rejection of the entered value by the validator: the error text and the rejected value
+   */
+  (event: 'invalid', error: string, value: string): void;
 }
 
 export interface Ui3nEditableExpose {
+  /**
+   * Clears the value
+   */
   clear: () => void;
+  /**
+   * Shows the current modelValue again and leaves the edit mode; for a rejection known later, e.g. a failed save
+   */
+  reset: () => void;
 }

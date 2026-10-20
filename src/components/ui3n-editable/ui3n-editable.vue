@@ -94,8 +94,15 @@
     }
 
     if (value.value !== initialValue.value) {
-      initialValue.value = value.value;
-      emits('update:modelValue', value.value);
+      const validationResult = props.validator ? props.validator(value.value) : true;
+      if (validationResult !== true) {
+        const rejectedValue = value.value;
+        value.value = initialValue.value;
+        emits('invalid', validationResult, rejectedValue);
+      } else {
+        initialValue.value = value.value;
+        emits('update:modelValue', value.value);
+      }
     }
 
     emits('done');
@@ -133,8 +140,15 @@
     emits('update:modelValue', '');
   }
 
+  function reset() {
+    value.value = props.modelValue;
+    initialValue.value = props.modelValue;
+    inEdit.value = false;
+  }
+
   defineExpose<Ui3nEditableExpose>({
     clear,
+    reset,
   });
 
   watch(

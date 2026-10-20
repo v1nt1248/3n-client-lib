@@ -1,57 +1,93 @@
-import { blobToB64 } from './blob-to-b64';
 import type { Nullable } from '../../types';
 
-export async function createVideoThumbnail(
+const DEFAULT_TIMEOUT = 10000;
+// seeking right after the metadata is loaded does not fire 'seeked' on Safari
+const SEEK_DELAY = 200;
+
+/**
+ * create a thumbnail of a video frame
+ * @param file {File} - video file
+ * @param targetSize {number} - target size of the smaller side of the thumbnail; smaller videos are not enlarged
+ * @param seekTo {number} - time of the frame (in seconds); the middle of the video is taken if it is shorter
+ * @param timeout {number} - time (in milliseconds) after which the attempt is given up
+ * @return {string | null} (data URL of a JPEG image) or null if the frame cannot be taken
+ */
+export function createVideoThumbnail(
   file: File,
-  // @ts-ignore
   targetSize: number,
   seekTo: number,
+  timeout = DEFAULT_TIMEOUT,
 ): Promise<Nullable<string>> {
   return new Promise(resolve => {
+    const url = URL.createObjectURL(file);
     const videoPlayer = document.createElement('video');
-    videoPlayer.setAttribute('src', URL.createObjectURL(file));
-    videoPlayer.load();
+    let seekTimer: ReturnType<typeof setTimeout> | undefined;
+    let isFinished = false;
 
-    videoPlayer.addEventListener('error', err => {
-      console.error(`The error loading video file ${file.name}. `, err);
-      resolve(null);
-    });
-    // load metadata of the video to get video duration and dimensions
-    videoPlayer.addEventListener('loadedmetadata', () => {
-      let newSeekTo = seekTo;
-      // seek to user defined timestamp (in seconds) if possible
-      if (videoPlayer.duration < newSeekTo) {
-        // console.error(`The video [${file.name}] is too short.`);
-        // resolve(null);
-        // return;
-        newSeekTo = videoPlayer.duration / 2;
+    const finish = (result: Nullable<string>) => {
+      if (isFinished) {
+        return;
       }
-      // delay seeking or else 'seeked' event won't fire on Safari
-      setTimeout(() => {
-        videoPlayer.currentTime = newSeekTo;
-      }, 200);
-      // extract video thumbnail once seeking is complete
-      videoPlayer.addEventListener('seeked', () => {
-        // define a canvas to have the same dimension as the video
+
+      isFinished = true;
+      clearTimeout(timeoutTimer);
+      clearTimeout(seekTimer);
+      videoPlayer.removeEventListener('error', onError);
+      videoPlayer.removeEventListener('loadedmetadata', onLoadedMetadata);
+      videoPlayer.removeEventListener('seeked', onSeeked);
+      // the element is released before the URL is revoked: otherwise it keeps reading the revoked URL
+      videoPlayer.pause();
+      videoPlayer.removeAttribute('src');
+      videoPlayer.load();
+      URL.revokeObjectURL(url);
+      resolve(result);
+    };
+
+    function onError(err: Event) {
+      console.error(`The error loading video file ${file.name}. `, err);
+      finish(null);
+    }
+
+    function onLoadedMetadata() {
+      const time = videoPlayer.duration < seekTo ? videoPlayer.duration / 2 : seekTo;
+      seekTimer = setTimeout(() => {
+        videoPlayer.currentTime = time;
+      }, SEEK_DELAY);
+    }
+
+    function onSeeked() {
+      try {
+        const { videoWidth, videoHeight } = videoPlayer;
+        if (!videoWidth || !videoHeight) {
+          // e.g. a file without a video track
+          finish(null);
+          return;
+        }
+
+        const scale = Math.min(1, targetSize / Math.min(videoWidth, videoHeight));
         const canvas = document.createElement('canvas');
-        canvas.width = videoPlayer.videoWidth;
-        canvas.height = videoPlayer.videoHeight;
-        // draw the video frame to canvas
+        canvas.width = Math.round(videoWidth * scale);
+        canvas.height = Math.round(videoHeight * scale);
         const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
         ctx.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
-        URL.revokeObjectURL(videoPlayer.src);
+        finish(canvas.toDataURL('image/jpeg', 0.75));
+      } catch (err) {
+        console.error(`The error creating a thumbnail of video file ${file.name}. `, err);
+        finish(null);
+      }
+    }
 
-        ctx.canvas.toBlob(
-          async blob => {
-            const dataUrl = await blobToB64(blob!);
-            resolve(`data:image/jpeg;base64,${dataUrl}`);
-            // resolve(dataUrl);
-            // `data:image/jpeg;base64,${res}`;
-          },
-          'image/jpeg',
-          0.75 /* quality */,
-        );
-      });
-    });
+    // media events and timers come asynchronously, so finish() never runs before this is set
+    const timeoutTimer = setTimeout(() => {
+      console.error(`The thumbnail of video file ${file.name} has not been created in ${timeout} ms.`);
+      finish(null);
+    }, timeout);
+
+    videoPlayer.muted = true;
+    videoPlayer.preload = 'metadata';
+    videoPlayer.addEventListener('error', onError, { once: true });
+    videoPlayer.addEventListener('loadedmetadata', onLoadedMetadata, { once: true });
+    videoPlayer.addEventListener('seeked', onSeeked, { once: true });
+    videoPlayer.src = url;
   });
 }

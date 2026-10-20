@@ -6,6 +6,8 @@ import Example02 from './Example02.vue';
 import Example02Raw from './Example02.vue?raw';
 import Example03 from './Example03.vue';
 import Example03Raw from './Example03.vue?raw';
+import Example04 from './Example04.vue';
+import Example04Raw from './Example04.vue?raw';
 
 const editableMeta = data.find(c => c.name === 'ui3n-editable');
 </script>
@@ -52,4 +54,14 @@ Inline editable text component. Click on the text to enter edit mode, press Ente
   :code="Example03Raw"
 >
   <Example03></Example03>
+</DemoBlock>
+
+### Validation and reverting a rejected value
+
+<DemoBlock
+  title="Validation and reverting a rejected value"
+  description="The validator prop checks a changed value on completion. A rejected value is reverted and the invalid event is emitted instead of update:modelValue. When a value is rejected later (e.g. saving fails), call the exposed reset() to show the current modelValue again."
+  :code="Example04Raw"
+>
+  <Example04></Example04>
 </DemoBlock>
