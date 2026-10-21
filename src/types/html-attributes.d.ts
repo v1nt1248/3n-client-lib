@@ -6,6 +6,7 @@
 declare module 'vue' {
   interface HTMLAttributes {
     'data-ui3n'?: string;
+    'data-ui3n-sticky-count'?: string;
   }
 
   interface ButtonHTMLAttributes {

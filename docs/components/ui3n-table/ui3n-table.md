@@ -12,6 +12,8 @@ import Example05 from './Example05.vue';
 import Example05Raw from './Example05.vue?raw';
 import Example06 from './Example06.vue';
 import Example06Raw from './Example06.vue?raw';
+import Example07 from './Example07.vue';
+import Example07Raw from './Example07.vue?raw';
 
 const tableMeta = data.find(c => c.name === 'ui3n-table') || {
   props: [], events: [], slots: [], exposes: []
@@ -36,10 +38,11 @@ stickyColumns: 2 // pin first two visible columns; 0 / omit = off
 Requirements:
 
 - Value is clamped to `[0, visibleColumns.length - 1]` (at least one column remains scrollable).
+- At most **10** leading columns can be pinned.
 - Every **visible** column must define an **absolute** width in `config.columnStyle[key].width` (`px`, `rem`, `em`, …). Values like `%`, `fr`, `auto`, or missing width disable the mode and emit a `console.warn`.
 - In sticky mode the table content width is the **sum of column widths** (not stretched with `fr`/`%`).
-- Custom `#row` slot: render **one direct child node per column**. Apply sticky yourself for the first `stickyColumnsCount` children using `stickyColumnLefts[i]` as `left`.
-- Slot scope includes `stickyColumnsCount` and `stickyColumnLefts` (after validation/clamp).
+- Custom `#row` slot: render **one direct child node per column**. The component pins the first `stickyColumnsCount` children automatically (background, hover and selected states included), so no manual `stickyColumnLefts` wiring is needed.
+- Slot scope still includes `stickyColumnsCount` and `stickyColumnLefts` (after validation/clamp) for custom layouts.
 
 ## Custom scrollbar
 
@@ -151,4 +154,16 @@ Wide table with sticky header, one sticky column, and custom `Ui3nScrollbar` tra
   hide-style-block
 >
   <ClientOnly><Example05></Example05></ClientOnly>
+</DemoBlock>
+
+### Custom row with sticky columns
+Custom `#row` slot rendering one node per column; the first two columns are pinned automatically.
+
+<DemoBlock
+  title="Custom row with sticky columns"
+  description="Sticky columns applied automatically inside a custom #row slot"
+  :code="Example07Raw"
+  hide-style-block
+>
+  <ClientOnly><Example07></Example07></ClientOnly>
 </DemoBlock>

@@ -1,6 +1,7 @@
 import { computed, type Ref, ref, watch, UnwrapRef, onBeforeUnmount } from 'vue';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import size from 'lodash/size';
 import cloneDeep from 'lodash/cloneDeep';
 import type {
@@ -29,7 +30,7 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(
 ) {
   const tableEl = ref<HTMLDivElement | null>(null);
   const currentConfig = ref<Pick<Ui3nTableConfig<T>, 'sortOrder' | 'fieldAsRowKey'>>({
-    sortOrder: setInitialSortOrder(),
+    sortOrder: resolveSortOrder(),
     fieldAsRowKey: setFieldAsRowKey(),
   });
   const selectedRows: Ref<Set<T> | Array<T[keyof T]>> = currentConfig.value?.fieldAsRowKey
@@ -168,14 +169,12 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(
     return undefined;
   }
 
-  function setInitialSortOrder(): Ui3nTableSort<T> {
-    const { config = {}, head } = props;
-    const { sortOrder } = config;
+  function resolveSortOrder(sortOrder: Ui3nTableSort<T> | undefined = props.config?.sortOrder): Ui3nTableSort<T> {
     if (!isEmpty(sortOrder)) {
       return cloneDeep(sortOrder);
     }
 
-    for (const h of head) {
+    for (const h of props.head) {
       const { key, sortable } = h;
       if (sortable) {
         return {
@@ -334,6 +333,20 @@ export function useTable<T extends Ui3nTableBodyBaseItem>(
     resizeObserver = new ResizeObserver(updateWidth);
     resizeObserver.observe(el);
   }
+
+  watch(
+    () => props.config?.sortOrder,
+    newSortOrder => {
+      const next = resolveSortOrder(newSortOrder);
+
+      if (isEqual(currentConfig.value.sortOrder, next)) {
+        return;
+      }
+
+      currentConfig.value.sortOrder = next as UnwrapRef<Ui3nTableSort<T>>;
+    },
+    { deep: true },
+  );
 
   watch(
     () => props.config?.tableName,

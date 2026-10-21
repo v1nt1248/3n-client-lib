@@ -33,7 +33,10 @@ export type Ui3nTableConfig<T extends Ui3nTableBodyBaseItem, K extends keyof T =
    */
   tableName?: string;
   /**
-   * Sort order
+   * Sort order.
+   * Reactive: changing this property on the fly updates the table (e.g. reset it
+   * or restore a saved order). The component also emits `change:sort` on user
+   * interaction, so the parent can keep this property in sync.
    */
   sortOrder?: Ui3nTableSort<T>;
   /**
@@ -47,7 +50,9 @@ export type Ui3nTableConfig<T extends Ui3nTableBodyBaseItem, K extends keyof T =
    */
   columnStyle?: { [P in Omit<K, 'id'> as string | number]: Record<string, string> };
   /**
-   * Field to use as row key
+   * Field used to identify a row and to key the selection.
+   * Read once on mount: to change it at runtime, remount the table with a new `key`.
+   * Defaults to `id` when the first row has it.
    */
   fieldAsRowKey?: keyof T;
   /**
@@ -63,6 +68,8 @@ export type Ui3nTableConfig<T extends Ui3nTableBodyBaseItem, K extends keyof T =
    * Number of leading visible columns to pin on horizontal scroll.
    * `0` / omitted — off. Clamped to at most `visibleColumns.length - 1`.
    * Requires absolute widths (e.g. px/rem) on all visible columns when > 0.
+   * Also applies to the custom `#row` slot: pinning is automatic as long as the
+   * slot renders one direct child per visible column.
    * @default 0
    */
   stickyColumns?: number;
@@ -245,12 +252,14 @@ export type Ui3nTableBodyRowSlotScope<T extends Ui3nTableBodyBaseItem, K extends
   columnStyle?: { [P in Omit<K, 'id'> as string | number]: Record<string, string> };
   /**
    * Effective sticky column count after validation/clamp (`0` = off).
-   * Custom `#row`: first `stickyColumnsCount` direct children should be sticky cells
-   * with `left: stickyColumnLefts[i]`.
+   * Custom `#row`: the component pins the first `stickyColumnsCount` direct children
+   * automatically, so the slot must render one direct child per visible column.
    */
   stickyColumnsCount?: number;
   /**
    * CSS `left` values for sticky columns `[0 .. stickyColumnsCount - 1]`.
+   * Exposed for custom layouts; the component applies them itself to the first
+   * `stickyColumnsCount` direct children of the `#row` slot.
    */
   stickyColumnLefts?: string[];
   /**

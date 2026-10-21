@@ -79,6 +79,12 @@
       style['--ui3n-table-scrollport-width'] = `${scrollportWidth.value}px`;
     }
 
+    if (stickyColumnsActive.value) {
+      stickyColumnLefts.value.forEach((left, index) => {
+        style[`--ui3n-table-sticky-left-${index}`] = left;
+      });
+    }
+
     return style;
   });
 
@@ -133,6 +139,7 @@
     <div
       ref="tableEl"
       data-ui3n="table"
+      :data-ui3n-sticky-count="stickyColumnsActive ? String(stickyColumnsCount) : undefined"
       :style="tableStyle"
       :class="[$style.ui3nTable, $style.ui3nTableInsideScrollbar, stickyColumnsActive && $style.stickyColumns]"
     >
@@ -318,6 +325,7 @@
     v-else
     ref="tableEl"
     data-ui3n="table"
+    :data-ui3n-sticky-count="stickyColumnsActive ? String(stickyColumnsCount) : undefined"
     :style="tableStyle"
     :class="[$style.ui3nTable, stickyColumnsActive && $style.stickyColumns]"
   >
@@ -404,7 +412,9 @@
     <div :class="$style.body">
       <template v-if="config?.showNoDataMessage && !size(body.content)">
         <slot name="no-data">
-          <div :class="$style.noData">No data</div>
+          <div :class="$style.noData">
+            No data
+          </div>
         </slot>
       </template>
 
@@ -789,6 +799,33 @@
     .groupActions {
       width: var(--ui3n-table-scrollport-width, 100%);
       left: 0;
+    }
+  }
+
+  /* Custom #row: pin the first N direct children automatically (one child per visible column). */
+  $ui3n-table-sticky-max: 10;
+
+  @for $n from 1 through $ui3n-table-sticky-max {
+    :global([data-ui3n-sticky-count='#{$n}']) .row.customRow {
+      > :nth-child(-n + #{$n}) {
+        position: sticky;
+        background-color: var(--_table-body-bg-color);
+      }
+      @for $i from 1 through $n {
+        > :nth-child(#{$i}) {
+          /* stylelint-disable-next-line custom-property-pattern -- per-column offset */
+          left: var(--ui3n-table-sticky-left-#{$i - 1}, 0px);
+          z-index: #{1 + $i};
+        }
+      }
+
+      &:hover > :nth-child(-n + #{$n}) {
+        background-color: var(--_table-row-hover-bg-color);
+      }
+
+      &.selected > :nth-child(-n + #{$n}) {
+        background-color: var(--_table-row-bg-color-selected);
+      }
     }
   }
 </style>

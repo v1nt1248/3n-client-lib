@@ -1,4 +1,4 @@
-import { defineComponent, h, nextTick, ref } from 'vue';
+import { defineComponent, h, nextTick, reactive, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useTable } from '../src/components/ui3n-table/composables/useTable';
@@ -290,5 +290,62 @@ describe('useTable · layout helpers', () => {
 
     expect(api.getRowStyle(rows[0])).toEqual({ color: 'red' });
     expect(api.getRowStyle(rows[1])).toEqual({});
+  });
+});
+
+describe('useTable · reactive sortOrder', () => {
+  function setupReactiveTable() {
+    const props = reactive({
+      config: {
+        sortOrder: { field: 'name', direction: 'asc' },
+      },
+      head: [
+        { key: 'name', text: 'Name' },
+        { key: 'age', text: 'Age', sortable: true },
+      ],
+      body: { content: rows },
+    });
+
+    let api: ReturnType<typeof useTable<Row>> | undefined;
+
+    mount(
+      defineComponent({
+        setup() {
+          api = useTable<Row>(props as never, vi.fn() as never, ref(null));
+          return () => h('div');
+        },
+      }),
+    );
+
+    return { api: api!, props };
+  }
+
+  it('applies a sortOrder replaced from outside', async () => {
+    const { api, props } = setupReactiveTable();
+
+    expect(api.currentConfig.value.sortOrder).toEqual({ field: 'name', direction: 'asc' });
+
+    props.config.sortOrder = { field: 'age', direction: 'desc' };
+    await nextTick();
+
+    expect(api.currentConfig.value.sortOrder).toEqual({ field: 'age', direction: 'desc' });
+  });
+
+  it('applies an in-place direction change', async () => {
+    const { api, props } = setupReactiveTable();
+
+    props.config.sortOrder.direction = 'desc';
+    await nextTick();
+
+    expect(api.currentConfig.value.sortOrder).toEqual({ field: 'name', direction: 'desc' });
+  });
+
+  it('falls back to the first sortable column when cleared', async () => {
+    const { api, props } = setupReactiveTable();
+
+    props.config.sortOrder = undefined as never;
+    await nextTick();
+
+    expect(api.currentConfig.value.sortOrder).toEqual({ field: 'age', direction: 'desc' });
   });
 });
