@@ -157,6 +157,7 @@
       0% {
         transform: rotate(0deg);
       }
+
       100% {
         transform: rotate(360deg);
       }
@@ -167,6 +168,7 @@
         0% {
           transform: rotate(0deg);
         }
+
         100% {
           transform: rotate(360deg);
         }
@@ -177,10 +179,12 @@
           stroke-dasharray: 1 289;
           stroke-dashoffset: 0;
         }
+
         50% {
           stroke-dasharray: 216 289;
           stroke-dashoffset: -35;
         }
+
         100% {
           stroke-dasharray: 1 289;
           stroke-dashoffset: -289;

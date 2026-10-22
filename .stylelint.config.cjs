@@ -1,24 +1,20 @@
 module.exports = {
   plugins: ['stylelint-scss'],
-  extends: [
-    'stylelint-config-standard',
-    'stylelint-config-recommended-scss',
-    'stylelint-config-recommended-vue',
-  ],
+  extends: ['stylelint-config-standard', 'stylelint-config-recommended-scss', 'stylelint-config-recommended-vue'],
   ignoreFiles: ['/app/assets/**/*.css'],
 
   rules: {
     // kebab-case, with a leading underscore allowed for a component's private variables
     'custom-property-pattern': '^_?[a-z][a-z0-9]*(-[a-z0-9]+)*$',
     'length-zero-no-unit': null,
-    'at-rule-empty-line-before': ['always', {
-      ignore: ['after-comment'],
-      ignoreAtRules: ['mixin'],
-      except: [
-        'inside-block',
-        'after-same-name',
-      ],
-    }],
+    'at-rule-empty-line-before': [
+      'always',
+      {
+        ignore: ['after-comment'],
+        ignoreAtRules: ['mixin'],
+        except: ['first-nested'],
+      },
+    ],
     'no-empty-source': null,
     'no-descending-specificity': null,
     'color-function-notation': null,
@@ -28,16 +24,14 @@ module.exports = {
     'media-feature-name-no-unknown': [
       true,
       {
-        'ignoreMediaFeatureNames': [
-          '/^prefers-/',
-        ],
+        ignoreMediaFeatureNames: ['/^prefers-/'],
       },
     ],
     'value-keyword-case': null,
     'at-rule-no-unknown': [
       true,
       {
-        'ignoreAtRules': [
+        ignoreAtRules: [
           'include',
           'function',
           'return',
@@ -58,26 +52,16 @@ module.exports = {
     'at-rule-descriptor-no-unknown': [
       true,
       {
-        'ignoreDescriptors': {
-          'font-feature-values': [
-            'character-variant',
-            'styleset',
-            'swash',
-            'ornaments',
-            'annotation',
-          ],
+        ignoreDescriptors: {
+          'font-feature-values': ['character-variant', 'styleset', 'swash', 'ornaments', 'annotation'],
         },
       },
     ],
     'property-no-unknown': [
       true,
       {
-        'ignoreSelectors': ['/.*Inter.*/'],
-        'ignoreAtRules': [
-          'font-feature-values',
-          'character-variant',
-          'styleset',
-        ],
+        ignoreSelectors: ['/.*Inter.*/'],
+        ignoreAtRules: ['font-feature-values', 'character-variant', 'styleset'],
       },
     ],
     'shorthand-property-no-redundant-values': null,

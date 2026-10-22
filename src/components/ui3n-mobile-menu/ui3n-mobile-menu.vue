@@ -122,8 +122,7 @@
     height: 100%;
     color: var(--_menu-color);
     background-color: var(--_menu-bg-color);
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden auto;
     box-shadow: 4px 0 16px var(--shadow-close);
     flex-shrink: 0;
   }
@@ -137,8 +136,7 @@
     position: relative;
     width: 100%;
     flex-grow: 1;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden auto;
   }
 
   .appMenuFooter {

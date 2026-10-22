@@ -2,6 +2,7 @@
 export async function blobToB64(blob: Blob): Promise<string> {
   const buf = await blob.arrayBuffer();
   const bytes = new Uint8Array(buf);
+  // eslint-disable-next-line no-useless-assignment
   const bin = bytes.reduce((acc, byte) => (acc += String.fromCharCode(byte)), '');
   return btoa(bin);
 }

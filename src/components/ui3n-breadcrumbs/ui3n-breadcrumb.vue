@@ -62,8 +62,8 @@
       />
 
       <component
-        v-else-if="parentContext?.customSeparatorSlot"
         :is="parentContext.customSeparatorSlot"
+        v-else-if="parentContext?.customSeparatorSlot"
       />
 
       <span v-else>{{ separatorValue }}</span>

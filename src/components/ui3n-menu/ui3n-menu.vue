@@ -267,8 +267,8 @@
 
 <template>
   <div
-    ref="menu-element"
     :id="id"
+    ref="menu-element"
     data-ui3n="menu"
     :class="$style.ui3nMenu"
     :style="rootStyles"
@@ -322,6 +322,7 @@
     background-color: var(--_menu-content-bg);
     z-index: var(--ui3n-menu-z-index, 1000);
     overflow: hidden;
+
     @include mixins.dropShadow();
   }
 </style>

@@ -53,6 +53,8 @@
     select: processSelection,
   };
 
+  const showNoData = computed(() => !!props.config?.showNoDataMessage && !size(props.body.content));
+
   const scrollbarAxes = computed(() => props.config?.scrollbar?.axes ?? 'both');
 
   const scrollbarVertical = computed(() => {
@@ -226,8 +228,8 @@
       </div>
 
       <!-- table: body -->
-      <div :class="$style.body">
-        <template v-if="config?.showNoDataMessage && !size(body.content)">
+      <div :class="[$style.body, showNoData && $style.bodyNoData]">
+        <template v-if="showNoData">
           <slot name="no-data">
             <div :class="$style.noData">
               No data
@@ -411,8 +413,8 @@
     </div>
 
     <!-- table: body -->
-    <div :class="$style.body">
-      <template v-if="config?.showNoDataMessage && !size(body.content)">
+    <div :class="[$style.body, showNoData && $style.bodyNoData]">
+      <template v-if="showNoData">
         <slot name="no-data">
           <div :class="$style.noData">
             No data
@@ -626,6 +628,7 @@
     font-size: var(--_table-header-font-size);
     font-weight: 500;
     color: var(--_table-header-color);
+
     @include mixins.text-overflow-ellipsis();
   }
 
@@ -809,6 +812,19 @@
       width: var(--ui3n-table-scrollport-width, 100%);
       left: 0;
     }
+
+    .unusedPlace {
+      position: sticky;
+      left: 0;
+      width: var(--ui3n-table-scrollport-width, 100%);
+    }
+
+    .body.bodyNoData {
+      position: sticky;
+      left: 0;
+      width: var(--ui3n-table-scrollport-width, 100%);
+      min-width: var(--ui3n-table-scrollport-width, 100%);
+    }
   }
 
   /* Custom #row: pin the first N direct children automatically (one child per visible column). */
@@ -820,6 +836,7 @@
         position: sticky;
         background-color: var(--_table-body-bg-color);
       }
+
       @for $i from 1 through $n {
         > :nth-child(#{$i}) {
           /* stylelint-disable-next-line custom-property-pattern -- per-column offset */

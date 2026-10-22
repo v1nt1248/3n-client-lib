@@ -344,6 +344,7 @@
     span {
       display: block;
       max-width: 100%;
+
       @include mixins.text-overflow-ellipsis();
     }
 

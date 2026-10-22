@@ -269,8 +269,8 @@
 
 <template>
   <div
-    ref="sliderEl"
     :id="id"
+    ref="sliderEl"
     data-ui3n="slider"
     :style="sliderStyle"
     :class="[$style.ui3nSlider, disabled && $style.disabled]"

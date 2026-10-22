@@ -457,6 +457,7 @@
     line-height: 1.23;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
+
     @include mixins.text-overflow-ellipsis();
 
     &.placeholder {

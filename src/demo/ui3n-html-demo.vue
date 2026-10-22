@@ -50,7 +50,7 @@
 
     &-link {
       text-decoration: none;
-      color: #ff8800;
+      color: #f80;
       cursor: help;
     }
   }

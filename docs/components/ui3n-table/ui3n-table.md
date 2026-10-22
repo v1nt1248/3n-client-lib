@@ -16,6 +16,12 @@ import Example07 from './Example07.vue';
 import Example07Raw from './Example07.vue?raw';
 import Example08 from './Example08.vue';
 import Example08Raw from './Example08.vue?raw';
+import Example09 from './Example09.vue';
+import Example09Raw from './Example09.vue?raw';
+import Example10 from './Example10.vue';
+import Example10Raw from './Example10.vue?raw';
+import Example11 from './Example11.vue';
+import Example11Raw from './Example11.vue?raw';
 
 const tableMeta = data.find(c => c.name === 'ui3n-table') || {
   props: [], events: [], slots: [], exposes: []
@@ -44,6 +50,7 @@ Requirements:
 - Every **visible** column must define an **absolute** width in `config.columnStyle[key].width` (`px`, `rem`, `em`, …). Values like `%`, `fr`, `auto`, or missing width disable the mode and emit a `console.warn`.
 - In sticky mode the table content width is the **sum of column widths** (not stretched with `fr`/`%`).
 - Custom `#row` slot: render **one direct child node per column**. The component pins the first `stickyColumnsCount` children automatically (background, hover and selected states included), so no manual `stickyColumnLefts` wiring is needed.
+- Custom cell content: use `row-cell-${field}` slots instead. They render inside the default row, so grid layout, the selection checkbox and sticky columns keep working with no extra code (works both with and without `stickyColumns`).
 - Slot scope still includes `stickyColumnsCount` and `stickyColumnLefts` (after validation/clamp) for custom layouts.
 
 ## Custom scrollbar
@@ -180,4 +187,40 @@ Sticky first column combined with multi-row selection. Select a row to reveal th
   hide-style-block
 >
   <ClientOnly><Example08></Example08></ClientOnly>
+</DemoBlock>
+
+### Custom row cells with sticky columns
+Per-cell customization via `row-cell-${field}` slots; the default row skeleton keeps sticky columns, alignment and selection working automatically.
+
+<DemoBlock
+  title="Custom row cells with sticky columns"
+  description="Custom cell content via row-cell-* slots; sticky first column works automatically"
+  :code="Example09Raw"
+  hide-style-block
+>
+  <ClientOnly><Example09></Example09></ClientOnly>
+</DemoBlock>
+
+### Sticky `no-data` block
+Empty table with sticky columns. The `#no-data` block is pinned to the visible area: scroll horizontally and it stays put while the header columns move beneath it.
+
+<DemoBlock
+  title="Sticky no-data block"
+  description="Custom #no-data content stays pinned during horizontal scroll"
+  :code="Example10Raw"
+  hide-style-block
+>
+  <ClientOnly><Example10></Example10></ClientOnly>
+</DemoBlock>
+
+### Sticky `unused-place` block
+Table with a few rows and free space below them. The `#unused-place` block is pinned to the visible area during horizontal scroll, just like `#no-data`.
+
+<DemoBlock
+  title="Sticky unused-place block"
+  description="Custom #unused-place content stays pinned during horizontal scroll"
+  :code="Example11Raw"
+  hide-style-block
+>
+  <ClientOnly><Example11></Example11></ClientOnly>
 </DemoBlock>

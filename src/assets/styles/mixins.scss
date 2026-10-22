@@ -16,11 +16,15 @@
     box-shadow: 0 3px 3px -2px var(--shadow-key-1),
     0 3px 4px 0 var(--shadow-key-2),
     0 1px 8px 0 var(--shadow-key-3),
-  } @else if $number == 2 {
+  }
+
+ @else if $number == 2 {
     box-shadow: 0 2px 1px -2px var(--shadow-key-1),
     0 2px 2px 0 var(--shadow-key-2),
     0 1px 5px 0 var(--shadow-key-3),
-  } @else {
+  }
+
+ @else {
     box-shadow: 0 2px 1px -1px var(--shadow-key-1),
     0 1px 1px 0 var(--shadow-key-2),
     0 1px 3px 0 var(--shadow-key-3),
@@ -57,6 +61,7 @@
   :global(::-webkit-scrollbar) {
     width: 6px;
   }
+
   @include scrollbar($size);
 
   :global(::-webkit-scrollbar-thumb) {
@@ -68,6 +73,7 @@
   :global(::-webkit-scrollbar) {
     height: 6px;
   }
+
   @include scrollbar($size);
 
   :global(::-webkit-scrollbar-thumb) {

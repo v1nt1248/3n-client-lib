@@ -65,8 +65,8 @@
 
 <template>
   <div
-    ref="element"
     :id="id"
+    ref="element"
     data-ui3n="badge-simple"
     :class="[$style.ui3nBadgeSimple, dot && $style.ui3nBadgeDot]"
   >

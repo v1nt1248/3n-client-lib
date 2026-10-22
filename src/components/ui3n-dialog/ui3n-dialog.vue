@@ -297,6 +297,7 @@
       font-weight: 600;
       line-height: 1;
       color: var(--_dialog-title-color);
+
       @include mixins.text-overflow-ellipsis();
     }
 

@@ -1,4 +1,4 @@
-import { Slot, VNode } from 'vue';
+import { VNode } from 'vue';
 
 /**
  * Breadcrumb component properties
@@ -88,5 +88,5 @@ export interface Ui3nBreadcrumbsContext {
   /**
    * Global separator slot passed to each breadcrumb
    */
-  customSeparatorSlot?: Slot;
+  customSeparatorSlot?: () => VNode;
 }

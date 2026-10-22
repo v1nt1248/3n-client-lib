@@ -140,6 +140,7 @@
     0% {
       transform: translateX(-105%);
     }
+
     100% {
       transform: translateX(405%);
     }

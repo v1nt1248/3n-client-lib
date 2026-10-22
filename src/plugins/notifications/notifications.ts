@@ -17,6 +17,7 @@ export const notifications: Plugin = {
 
     containerApp._context.provides = app._context.provides;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const containerInstance = containerApp.mount(containerDiv) as any;
 
     const $createNotice = (params: Ui3nNotificationProps) => {

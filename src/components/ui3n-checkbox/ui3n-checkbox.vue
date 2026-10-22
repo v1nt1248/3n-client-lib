@@ -134,17 +134,17 @@
 
 <template>
   <div
-    ref="checkboxEl"
     :id="id"
+    ref="checkboxEl"
     data-ui3n="checkbox"
     :class="mainCssClasses"
     :style="inlineStyles"
   >
     <input
+      :id="id ? `${id}-native` : undefined"
       type="checkbox"
       style="display: none"
       :name="name"
-      :id="id ? `${id}-native` : undefined"
       :disabled="disabled"
       :checked="checkBoxValue !== 'unchecked'"
       :value="nativeInputValue"

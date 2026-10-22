@@ -43,6 +43,7 @@
 
     span {
       display: block;
+
       @include mixins.text-overflow-ellipsis();
     }
   }
@@ -53,6 +54,7 @@
 
   .content {
     display: block;
+
     @include mixins.text-overflow-ellipsis();
   }
 </style>

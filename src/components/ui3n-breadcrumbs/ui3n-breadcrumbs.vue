@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { provide, useSlots } from 'vue';
+  import { provide } from 'vue';
   import type { Ui3nBreadcrumbsContext, Ui3nBreadcrumbsProps, Ui3nBreadcrumbsSlots } from './types';
 
   const props = withDefaults(defineProps<Ui3nBreadcrumbsProps>(), {
@@ -7,8 +7,7 @@
     disabled: false,
   });
 
-  const slots = useSlots();
-  defineSlots<Ui3nBreadcrumbsSlots>();
+  const slots = defineSlots<Ui3nBreadcrumbsSlots>();
 
   const context: Ui3nBreadcrumbsContext = {
     separator: () => props.separator,

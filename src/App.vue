@@ -44,7 +44,6 @@
     font-family: var(--ui3n-font-family);
     background-color: var(--shadow-key-1);
     color: var(--color-text-block-primary-default);
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden auto;
   }
 </style>

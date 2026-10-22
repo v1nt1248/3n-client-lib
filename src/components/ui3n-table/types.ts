@@ -56,8 +56,10 @@ export type Ui3nTableConfig<T extends Ui3nTableBodyBaseItem, K extends keyof T =
    */
   fieldAsRowKey?: keyof T;
   /**
-   * Whether to show no data message
-   * @default true
+   * Whether to show the no-data block when `body.content` is empty.
+   * The block (or the `#no-data` slot content) is rendered only when this is
+   * set to `true`.
+   * @default false
    */
   showNoDataMessage?: boolean;
   /**
@@ -197,7 +199,8 @@ export interface Ui3nTableEmits<T extends Ui3nTableBodyBaseItem> {
  */
 export type Ui3nTableOtherSlots = {
   /**
-   * No data slot
+   * No data slot. Rendered only when `config.showNoDataMessage` is `true`
+   * and `body.content` is empty.
    */
   'no-data': () => VNode;
   /**

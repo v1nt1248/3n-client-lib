@@ -68,18 +68,20 @@
 
       & > div {
         color: var(--_mobile-menu-item-icon-hover-color);
-        animation: bounceOnce 0.4s ease-in-out forwards;
+        animation: bounce-once 0.4s ease-in-out forwards;
       }
     }
   }
 
-  @keyframes bounceOnce {
+  @keyframes bounce-once {
     0% {
       transform: scale(1);
     }
+
     50% {
       transform: scale(1.25); /* Пик увеличения */
     }
+
     100% {
       transform: scale(1); /* Финал анимации */
     }

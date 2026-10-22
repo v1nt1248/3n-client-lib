@@ -14,8 +14,8 @@
 
 <template>
   <div
-    ref="listElement"
     :id="id"
+    ref="listElement"
     data-ui3n="list"
     :class="$style.ui3nList"
   >

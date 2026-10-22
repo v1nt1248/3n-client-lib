@@ -200,7 +200,8 @@
     if (thumbRef.value) {
       try {
         thumbRef.value.releasePointerCapture(e.pointerId);
-      } catch (err) {}
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) { /* empty */ }
       thumbRef.value.removeEventListener('pointermove', onThumbPointerMove);
       thumbRef.value.removeEventListener('pointerup', onThumbPointerUp);
       thumbRef.value.removeEventListener('pointercancel', onThumbPointerUp);
@@ -291,8 +292,7 @@
   .scrollbarContainer {
     position: relative;
     width: 100%;
-    overflow-x: auto;
-    overflow-y: visible;
+    overflow: auto visible;
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
