@@ -229,7 +229,9 @@
       <div :class="$style.body">
         <template v-if="config?.showNoDataMessage && !size(body.content)">
           <slot name="no-data">
-            <div :class="$style.noData">No data</div>
+            <div :class="$style.noData">
+              No data
+            </div>
           </slot>
         </template>
 
@@ -266,16 +268,6 @@
               :class="[$style.row, isRowSelected(row) && $style.selected, config.selectable && $style.selectable]"
               :style="getRowStyle(row)"
             >
-              <div
-                v-if="config.selectable"
-                :class="$style.rowCheckbox"
-              >
-                <ui3n-checkbox
-                  :model-value="isRowSelected(row)"
-                  @change="processSelection(row)"
-                />
-              </div>
-
               <template
                 v-for="(col, colIndex) in visibleColumns"
                 :key="col.key"
@@ -292,6 +284,16 @@
                       : undefined
                   "
                 >
+                  <div
+                    v-if="config.selectable && colIndex === 0"
+                    :class="$style.rowCheckbox"
+                  >
+                    <ui3n-checkbox
+                      :model-value="isRowSelected(row)"
+                      @change="processSelection(row)"
+                    />
+                  </div>
+
                   <slot
                     :name="`row-cell-${col.key as string & keyof T}`"
                     :row="row"
@@ -451,16 +453,6 @@
             :class="[$style.row, isRowSelected(row) && $style.selected, config.selectable && $style.selectable]"
             :style="getRowStyle(row)"
           >
-            <div
-              v-if="config.selectable"
-              :class="$style.rowCheckbox"
-            >
-              <ui3n-checkbox
-                :model-value="isRowSelected(row)"
-                @change="processSelection(row)"
-              />
-            </div>
-
             <template
               v-for="(col, colIndex) in visibleColumns"
               :key="col.key"
@@ -477,6 +469,16 @@
                     : undefined
                 "
               >
+                <div
+                  v-if="config.selectable && colIndex === 0"
+                  :class="$style.rowCheckbox"
+                >
+                  <ui3n-checkbox
+                    :model-value="isRowSelected(row)"
+                    @change="processSelection(row)"
+                  />
+                </div>
+
                 <slot
                   :name="`row-cell-${col.key as string & keyof T}`"
                   :row="row"
@@ -693,7 +695,7 @@
   .rowCheckbox {
     position: absolute;
     top: 0;
-    left: 16px;
+    left: 0;
     width: var(--_table-row-checkbox-width);
     height: 100%;
     display: flex;
@@ -750,6 +752,11 @@
 
     .header {
       padding-left: 0;
+
+      &.withGroupActions {
+        padding-top: 0;
+        grid-template-rows: var(--_table-group-actions-height) var(--_table-base-head-height);
+      }
     }
 
     .row:not(.customRow) {
@@ -791,12 +798,14 @@
     }
 
     .rowCheckbox {
-      position: sticky;
       left: var(--_table-padding-inline);
       z-index: 3;
     }
 
     .groupActions {
+      position: sticky;
+      grid-row: 1;
+      grid-column: 1 / -1;
       width: var(--ui3n-table-scrollport-width, 100%);
       left: 0;
     }

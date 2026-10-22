@@ -14,6 +14,8 @@ import Example06 from './Example06.vue';
 import Example06Raw from './Example06.vue?raw';
 import Example07 from './Example07.vue';
 import Example07Raw from './Example07.vue?raw';
+import Example08 from './Example08.vue';
+import Example08Raw from './Example08.vue?raw';
 
 const tableMeta = data.find(c => c.name === 'ui3n-table') || {
   props: [], events: [], slots: [], exposes: []
@@ -166,4 +168,16 @@ Custom `#row` slot rendering one node per column; the first two columns are pinn
   hide-style-block
 >
   <ClientOnly><Example07></Example07></ClientOnly>
+</DemoBlock>
+
+### Sticky column with group actions
+Sticky first column combined with multi-row selection. Select a row to reveal the `group-actions` bar, then scroll horizontally — the bar stays pinned to the visible area while columns scroll beneath it.
+
+<DemoBlock
+  title="Sticky column with group actions"
+  description="Pinned first column and a pinned group-actions bar during horizontal scroll"
+  :code="Example08Raw"
+  hide-style-block
+>
+  <ClientOnly><Example08></Example08></ClientOnly>
 </DemoBlock>
