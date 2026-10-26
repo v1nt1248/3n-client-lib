@@ -312,6 +312,7 @@
     max-width: var(--_tooltip-max-width);
     padding: var(--ui3n-tooltip-padding, 6px 8px);
     border-radius: var(--ui3n-tooltip-border-radius, 6px);
+    font-family: var(--ui3n-tooltip-font-family, var(--ui3n-font-family));
     font-size: var(--ui3n-tooltip-font-size, 11px);
     line-height: var(--ui3n-tooltip-line-height, 12px);
     font-weight: 400;
