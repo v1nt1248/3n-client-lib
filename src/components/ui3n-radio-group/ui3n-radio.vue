@@ -177,6 +177,7 @@
   .ui3nRadio {
     --_radio-min-height: var(--ui3n-radio-min-height, 24px);
     --_radio-label-color: var(--ui3n-radio-label-color, var(--color-text-control-primary-default));
+    --_radio-color: var(--ui3n-radio-color, var(--color-icon-control-accent-default));
 
     position: relative;
     display: flex;

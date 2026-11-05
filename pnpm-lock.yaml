@@ -172,6 +172,9 @@ importers:
       '@floating-ui/vue':
         specifier: 1.1.11
         version: 1.1.11(vue@3.5.44(typescript@6.0.3))
+      '@types/sanitize-html':
+        specifier: ^2.16.2
+        version: 2.16.2
       dayjs:
         specifier: 1.11.23
         version: 1.11.23
@@ -200,9 +203,6 @@ importers:
       '@types/node':
         specifier: 24.19.2
         version: 24.19.2
-      '@types/sanitize-html':
-        specifier: 2.16.2
-        version: 2.16.2
       '@typescript-eslint/eslint-plugin':
         specifier: 8.72.0
         version: 8.72.0(@typescript-eslint/parser@8.72.0(eslint@10.13.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3))(eslint@10.13.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
