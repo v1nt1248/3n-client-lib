@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { VNode } from 'vue';
 import type { PrepareComponentEmits, Nullable } from '../../types';
+import type { Ui3nScrollbarVerticalProps } from '../ui3n-scrollbar-vertical/types';
 
 /**
  * Base selector option interface
@@ -22,6 +23,11 @@ export type Ui3nSelectorItemDisplayingFunction<T extends Ui3nSelectorOptionBase>
  * Selector value type
  */
 export type Ui3nSelectorValue<T extends Ui3nSelectorOptionBase> = T | T[keyof T] | null;
+
+/**
+ * Scrollbar configuration for the dropdown list
+ */
+export type Ui3nSelectorScrollConfig = Omit<Ui3nScrollbarVerticalProps, 'autoUpdate'>;
 
 /**
  * Selector component properties
@@ -83,6 +89,14 @@ export interface Ui3nSelectorProps<T extends Ui3nSelectorOptionBase> {
    * @default false
    */
   disabled?: boolean;
+  /**
+   * Maximum number of visible rows in the dropdown list
+   */
+  maxRows?: number;
+  /**
+   * Scrollbar configuration for the dropdown list
+   */
+  scrollConfig?: Ui3nSelectorScrollConfig;
 }
 
 /**
@@ -93,6 +107,10 @@ export interface Ui3nSelectorEventsMap<T extends Ui3nSelectorOptionBase> {
    * Emitted when model value updates
    */
   'update:modelValue': Ui3nSelectorValue<T>;
+  /**
+   * Emitted when the component is initialized
+   */
+  'init': HTMLDivElement;
   /**
    * Emitted when list is opened
    */
@@ -149,4 +167,7 @@ export interface Ui3nSelectorSlots<T extends Ui3nSelectorOptionBase> {
 
 export interface Ui3nSelectorExpose {
   clear: () => void;
+  open: () => void;
+  close: () => void;
+  toggle: () => void;
 }

@@ -35,6 +35,12 @@ import type Ui3nMobileMenuItem from './components/ui3n-mobile-menu-item/ui3n-mob
 import type Ui3nScrollbarVertical from './components/ui3n-scrollbar-vertical/ui3n-scrollbar-vertical.vue';
 import type Ui3nScrollbarHorizontal from './components/ui3n-scrollbar-horizontal/ui3n-scrollbar-horizontal.vue';
 import type Ui3nScrollbar from './components/ui3n-scrollbar/ui3n-scrollbar.vue';
+import type Ui3nTimePicker from './components/ui3n-date-time/ui3n-time-picker.vue';
+import type Ui3nCalendar from './components/ui3n-date-time/ui3n-calendar.vue';
+import type Ui3nDatePicker from './components/ui3n-date-time/ui3n-date-picker.vue';
+import type Ui3nInputTime from './components/ui3n-input-time/ui3n-input-time.vue';
+import type Ui3nInputDate from './components/ui3n-input-date/ui3n-input-date.vue';
+
 import type Ui3nHtml from './directives/ui3n-html';
 import type Ui3nClickOutside from './directives/ui3n-click-outside';
 import type Ui3nResize from './directives/ui3n-resize';
@@ -63,6 +69,8 @@ declare module 'vue' {
     Ui3nEmoji: typeof Ui3nEmoji;
     Ui3nIcon: typeof Ui3nIcon;
     Ui3nInput: typeof Ui3nInput;
+    Ui3nInputTime: typeof Ui3nInputTime;
+    Ui3nInputDate: typeof Ui3nInputDate;
     Ui3nList: typeof Ui3nList;
     Ui3nMenu: typeof Ui3nMenu;
     Ui3nNotification: typeof Ui3nNotification;
@@ -85,6 +93,9 @@ declare module 'vue' {
     Ui3nScrollbarVertical: typeof Ui3nScrollbarVertical;
     Ui3nScrollbarHorizontal: typeof Ui3nScrollbarHorizontal;
     Ui3nScrollbar: typeof Ui3nScrollbar;
+    Ui3nTimePicker: typeof Ui3nTimePicker;
+    Ui3nCalendar: typeof Ui3nCalendar;
+    Ui3nDatePicker: typeof Ui3nDatePicker;
   }
 
   interface GlobalDirectives {

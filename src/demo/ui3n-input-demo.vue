@@ -11,6 +11,8 @@
   const val4 = ref('');
   const val5 = ref('');
   const val6 = ref('');
+  const valMasked = ref('');
+  const valUnmasked = ref('');
 
   function onInputComponentEvent(eventName: string, value?: unknown) {
     console.log('Ui3nInput component event: ', eventName, value);
@@ -88,7 +90,6 @@
         <ui3n-input
           v-model="val3"
           label="Some label"
-          icon="round-search"
           placeholder="Enter any text"
           @input="onInputComponentEvent('input', $event)"
           @focus="onInputComponentEvent('focus', $event)"
@@ -108,7 +109,6 @@
         <ui3n-input
           v-model="val3"
           label="Some label"
-          icon="round-search"
           placeholder="Enter any text"
           clearable
           @input="onInputComponentEvent('input', $event)"
@@ -124,7 +124,6 @@
       <demo-layout-cell :label="`With append icon, clearable & hideBottomSpace value: <i>${val3}</i>`">
         <ui3n-input
           v-model="val3"
-          icon="round-search"
           placeholder="Enter any text"
           clearable
           hide-bottom-space
@@ -145,7 +144,6 @@
         <ui3n-input
           v-model="val4"
           label="Some label"
-          icon="round-search"
           placeholder="Enter any text less than 5 characters"
           clearable
           :rules="[(v: unknown) => ((v as string).length <= 5 ? true : 'Not more than 5 characters')]"
@@ -194,6 +192,26 @@
         />
       </demo-layout-cell>
 
+      <demo-layout-cell :label="`With mask, value: <i>${valMasked}</i>`">
+        <ui3n-input
+          v-model="valMasked"
+          label="Phone"
+          mask="+{7} (000) 000-00-00"
+          placeholder="+7 (___) ___-__-__"
+          clearable
+        />
+      </demo-layout-cell>
+      <demo-layout-cell :label="`With mask & unmasked model, value: <i>${valUnmasked}</i>`">
+        <ui3n-input
+          v-model="valUnmasked"
+          label="Time (unmasked model)"
+          mask="00:00"
+          mask-value-mode="unmasked"
+          placeholder="HH:mm"
+          clearable
+        />
+      </demo-layout-cell>
+
       <demo-layout-cell :label="`Default use, large, value: <i>${val1}</i>`">
         <ui3n-input
           v-model="val1"
@@ -234,7 +252,6 @@
           v-model="val3"
           size="large"
           label="Some label"
-          icon="round-search"
           placeholder="Enter any text"
           clearable
           @input="onInputComponentEvent('input', $event)"

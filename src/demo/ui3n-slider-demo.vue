@@ -3,10 +3,11 @@
   import DemoLayout from './demo-layout.vue';
   import DemoLayoutCell from './demo-layout-cell.vue';
   import Ui3nSlider from '../components/ui3n-slider/ui3n-slider.vue';
+  import type { UI3nSliderProps } from '../components/ui3n-slider/types';
 
-  const val1 = ref(0);
-  const val2 = ref(25);
-  const val3 = ref<[number, number]>([10, 40]);
+  const val1 = ref<UI3nSliderProps['modelValue']>(0);
+  const val2 = ref<UI3nSliderProps['modelValue']>(25);
+  const val3 = ref<UI3nSliderProps['modelValue']>([10, 40]);
 
   function onInputComponentEvent(eventName: string, value?: unknown) {
     console.log('Ui3nSlider component event: ', eventName, value);

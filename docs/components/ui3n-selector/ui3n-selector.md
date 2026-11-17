@@ -6,6 +6,8 @@ import Example02 from './Example02.vue';
 import Example02Raw from './Example02.vue?raw';
 import Example03 from './Example03.vue';
 import Example03Raw from './Example03.vue?raw';
+import Example04 from './Example04.vue';
+import Example04Raw from './Example04.vue?raw';
 
 const selectorMeta = data.find(c => c.name === 'ui3n-selector');
 </script>
@@ -59,4 +61,16 @@ Demonstrates utilizing template slots to override both the dropdown menu rows an
   hide-style-block
 >
   <ClientOnly><Example03></Example03></ClientOnly>
+</DemoBlock>
+
+### Max Visible Rows & Custom Scrollbar
+Limits the dropdown to a fixed number of visible rows (the actual row height, including custom rows, is measured at runtime) and configures the built-in vertical scrollbar via `scrollConfig`.
+
+<DemoBlock
+  title="Max Visible Rows"
+  description="Selector showing at most four rows at once with a customized vertical scrollbar"
+  :code="Example04Raw"
+  hide-style-block
+>
+  <ClientOnly><Example04></Example04></ClientOnly>
 </DemoBlock>

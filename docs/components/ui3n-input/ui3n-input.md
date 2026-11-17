@@ -14,6 +14,8 @@ import Example06 from './Example06.vue';
 import Example06Raw from './Example06.vue?raw';
 import Example07 from './Example07.vue';
 import Example07Raw from './Example07.vue?raw';
+import Example08 from './Example08.vue';
+import Example08Raw from './Example08.vue?raw';
 
 const inputMeta = data.find(c => c.name === 'ui3n-input');
 </script>
@@ -100,4 +102,14 @@ Text input component with validation, icons, states, and various customization o
   :code="Example07Raw"
 >
   <Example07></Example07>
+</DemoBlock>
+
+### Input mask
+
+<DemoBlock
+  title="Input mask"
+  description="IMask-powered input masks: masked model (phone) and unmasked model (time)"
+  :code="Example08Raw"
+>
+  <Example08></Example08>
 </DemoBlock>

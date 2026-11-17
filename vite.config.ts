@@ -14,6 +14,7 @@ export default defineConfig({
       cleanVueFileName: true,
       tsconfigPath: './tsconfig.json',
       entryRoot: 'src',
+      exclude: ['dist', 'src/App.vue', 'src/main.ts', 'docs/**/*', 'src/demo/**'],
     }),
     viteStaticCopy({
       targets: [

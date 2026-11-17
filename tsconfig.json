@@ -3,11 +3,7 @@
     "target": "ES2023",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": [
-      "ES2023",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
     "allowJs": true,
     /* Bundler mode */
@@ -18,16 +14,10 @@
     "noEmit": false,
     "jsx": "preserve",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     /* Linting */
-    "types": [
-      "vite/client",
-      "@types/node",
-      "@types/lodash"
-    ],
+    "types": ["vite/client", "@types/node", "vue", "@types/lodash"],
     "strict": true,
     "noUnusedLocals": false,
     "noUnusedParameters": true,
@@ -40,20 +30,12 @@
     "target": 3.5
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "@types/**/*"
+    "src/**/*",
+    "@types/**/*",
+    "vite.config.ts",
+    "node_modules/.pnpm/vue@*/node_modules/@vue/runtime-core/dist/runtime-core.d.ts",
+    "docs/.vitepress/config.ts",
+    "docs/components/component.data.ts"
   ],
-  "exclude": [
-    "src/App.vue",
-    "src/main.ts",
-    "docs/**/*"
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+  "exclude": ["dist", "src/App.vue", "src/main.ts", "docs/**/*"]
 }

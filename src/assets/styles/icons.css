@@ -150,6 +150,10 @@
   --svg: url('../icons/ic--outline-bookmark-add.svg');
 }
 
+[data-icon='outline-calendar-month'] {
+  --svg: url('../icons/ic--outline-calendar-month.svg');
+}
+
 [data-icon='outline-change-circle'] {
   --svg: url('../icons/ic--outline-change-circle.svg');
 }
@@ -1068,6 +1072,10 @@
 
 [data-icon='book-open-blank-variant'] {
   --svg: url('../icons/mdi--book-open-blank-variant.svg');
+}
+
+[data-icon='calendar-clock'] {
+  --svg: url('../icons/mdi--calendar-clock.svg');
 }
 
 [data-icon='app-store'] {

@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends Ui3nSelectorOptionBase">
-  import { ref, computed, type ComputedRef, useTemplateRef, watch } from 'vue';
+  import { ref, computed, type ComputedRef, useTemplateRef, watch, nextTick, onMounted, onUnmounted } from 'vue';
   import isEmpty from 'lodash/isEmpty';
   import size from 'lodash/size';
   import { getRandomId } from '../../utils';
@@ -15,6 +15,7 @@
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
   import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
   import Ui3nMenu from '../ui3n-menu/ui3n-menu.vue';
+  import Ui3nScrollbarVertical from '../ui3n-scrollbar-vertical/ui3n-scrollbar-vertical.vue';
 
   const props = withDefaults(defineProps<Ui3nSelectorProps<T>>(), {
     name: undefined,
@@ -24,17 +25,23 @@
     clearable: false,
     returnObject: false,
     noDataText: '',
+    maxRows: undefined,
+    scrollConfig: undefined,
   });
   const emits = defineEmits<Ui3nSelectorEmits<T>>();
   defineSlots<Ui3nSelectorSlots<T>>();
 
   const componentId = `select-${getRandomId(4)}`;
 
+  const rootEl = useTemplateRef<HTMLDivElement>('root');
   const activatorEl = useTemplateRef<HTMLDivElement>('activator');
   const bodyEl = useTemplateRef<HTMLDivElement>('body');
   const isMenuOpen = ref(false);
   const isFocused = ref(false);
   const activeItemIndex = ref<Nullable<number>>(null);
+  const bodyHeight = ref<Nullable<string>>(null);
+
+  let itemsResizeObserver: ResizeObserver | null = null;
 
   const filteredItems = computed(() => {
     return props.items.filter(item => {
@@ -47,6 +54,60 @@
         : (props.modelValue as T[keyof T]) !== item[props.itemValue];
     });
   }) as ComputedRef<T[]>;
+
+  const isListScrollable = computed(
+    () => (props.maxRows ?? 0) > 0 && filteredItems.value.length > (props.maxRows as number),
+  );
+
+  function getItemElements(): HTMLElement[] {
+    return Array.from(bodyEl.value?.querySelectorAll<HTMLElement>('[data-selector-item]') ?? []);
+  }
+
+  function updateBodyHeight() {
+    if (!isListScrollable.value) {
+      bodyHeight.value = null;
+      return;
+    }
+
+    const elements = getItemElements().slice(0, props.maxRows as number);
+    const total = elements.reduce((sum, el) => sum + el.offsetHeight, 0);
+
+    if (total <= 0) {
+      return;
+    }
+
+    bodyHeight.value = `${total}px`;
+  }
+
+  function observeItems() {
+    itemsResizeObserver?.disconnect();
+
+    if (!bodyEl.value) {
+      return;
+    }
+
+    itemsResizeObserver = new ResizeObserver(() => updateBodyHeight());
+    getItemElements().forEach(el => itemsResizeObserver?.observe(el));
+  }
+
+  function scrollActiveIntoView() {
+    if (activeItemIndex.value === null) {
+      return;
+    }
+
+    getItemElements()[activeItemIndex.value]?.scrollIntoView({ block: 'nearest' });
+  }
+
+  function refreshListLayout(scrollToActive = false) {
+    void nextTick(() => {
+      updateBodyHeight();
+      observeItems();
+
+      if (scrollToActive) {
+        void nextTick(scrollActiveIntoView);
+      }
+    });
+  }
 
   const displayingSelection = computed(() => {
     if (!props.modelValue) {
@@ -122,11 +183,13 @@
     if (activeItemIndex.value === null) {
       activeItemIndex.value = 0;
       bodyEl.value && bodyEl.value.focus();
+      void nextTick(scrollActiveIntoView);
       return;
     }
 
     if (activeItemIndex.value >= 0 && activeItemIndex.value < size(filteredItems.value) - 1) {
       activeItemIndex.value += 1;
+      void nextTick(scrollActiveIntoView);
     }
   }
 
@@ -134,11 +197,13 @@
     if (activeItemIndex.value === null) {
       activeItemIndex.value = size(filteredItems.value) - 1;
       bodyEl.value && bodyEl.value.focus();
+      void nextTick(scrollActiveIntoView);
       return;
     }
 
     if (activeItemIndex.value > 0 && activeItemIndex.value < size(filteredItems.value)) {
       activeItemIndex.value -= 1;
+      void nextTick(scrollActiveIntoView);
     }
   }
 
@@ -196,8 +261,29 @@
     resetValue();
   }
 
+  function open() {
+    if (props.disabled) {
+      return;
+    }
+    isMenuOpen.value = true;
+  }
+
+  function close() {
+    isMenuOpen.value = false;
+  }
+
+  function toggle() {
+    if (props.disabled) {
+      return;
+    }
+    isMenuOpen.value = !isMenuOpen.value;
+  }
+
   defineExpose<Ui3nSelectorExpose>({
     clear,
+    open,
+    close,
+    toggle,
   });
 
   watch(
@@ -229,18 +315,52 @@
           activeItemIndex.value = selectedItemIndex >= 0 ? selectedItemIndex : 0;
         }
 
+        refreshListLayout(true);
         emits('list:open');
       } else if (val !== oVal && !val) {
         activeItemIndex.value = null;
+        bodyHeight.value = null;
+        itemsResizeObserver?.disconnect();
+        itemsResizeObserver = null;
         emits('list:close');
       }
     },
   );
+
+  watch(
+    () => filteredItems.value,
+    () => {
+      if (isMenuOpen.value) {
+        refreshListLayout();
+      }
+    },
+  );
+
+  watch(
+    () => props.maxRows,
+    () => {
+      if (isMenuOpen.value) {
+        refreshListLayout(true);
+      }
+    },
+  );
+
+  onMounted(() => {
+    if (rootEl.value) {
+      emits('init', rootEl.value);
+    }
+  });
+
+  onUnmounted(() => {
+    itemsResizeObserver?.disconnect();
+    itemsResizeObserver = null;
+  });
 </script>
 
 <template>
   <div
     :id="id"
+    ref="root"
     data-ui3n="selector"
     :class="$style.ui3nSelector"
   >
@@ -331,13 +451,19 @@
           ref="body"
           :class="$style.body"
         >
-          <template v-if="!isEmpty(filteredItems)">
+          <ui3n-scrollbar-vertical
+            v-if="!isEmpty(filteredItems)"
+            v-bind="scrollConfig"
+            :style="{ height: bodyHeight ?? 'auto' }"
+            :class="$style.scroll"
+          >
             <template
               v-for="(item, index) in filteredItems"
               :key="item.id"
             >
               <div
                 :id="`${componentId}-${index}`"
+                v-bind="{ 'data-selector-item': index }"
                 :class="[
                   $style.item,
                   activeItemIndex === index && $style.itemSelected,
@@ -355,7 +481,7 @@
                 </slot>
               </div>
             </template>
-          </template>
+          </ui3n-scrollbar-vertical>
 
           <div
             v-if="isEmpty(filteredItems) && noDataText"
@@ -383,7 +509,7 @@
     --_selector-item-min-height: var(--ui3n-selector-item-min-height, 32px);
     --_selector-item-padding: var(--ui3n-selector-item-padding, 4px);
     --_selector-item-font-size: var(--ui3n-selector-item-font-size, 13px);
-    --_selector-item-border-radius: var(--ui3n-selector-item-border-radius, 4px);
+    --_selector-item-border-radius: var(--ui3n-selector-item-border-radius, 12px);
     --_selector-body-padding: var(--ui3n-selector-body-padding, 4px);
     --_selector-body-border-color: var(
       --ui3n-selector-body-border-color,
@@ -391,6 +517,10 @@
     );
     --_selector-label-color: var(--ui3n-selector-label-color, var(--color-text-control-primary-default));
     --_selector-trigger-bg-color: var(--ui3n-selector-trigger-bg-color, var(--color-bg-control-secondary-default));
+    --_selector-trigger-bg-color-hover: var(
+      --ui3n-selector-trigger-bg-color-hover,
+      var(--color-bg-control-secondary-hover)
+    );
     --_selector-trigger-color: var(--ui3n-selector-trigger-color, var(--color-text-control-primary-default));
     --_selector-trigger-placeholder-color: var(
       --ui3n-selector-trigger-placeholder-color,
@@ -442,6 +572,10 @@
     }
   }
 
+  .scroll {
+    width: 100%;
+  }
+
   .trigger {
     display: flex;
     width: 100%;
@@ -486,6 +620,10 @@
       position: absolute;
       top: 4px;
       right: 24px;
+    }
+
+    &:hover:not(.triggerFocused) {
+      background-color: var(--_selector-trigger-bg-color-hover);
     }
 
     &.triggerFocused {
