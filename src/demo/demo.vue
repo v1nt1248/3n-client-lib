@@ -15,6 +15,7 @@
   import Ui3nSelectorDemo from './ui3n-selector-demo.vue';
   import Ui3nMobileMenuDemo from './ui3n-mobile-menu-demo.vue';
   import Ui3nButtonDemo from './ui3n-button-demo.vue';
+  import Ui3nDateTimeDemo from './ui3n-date-time-demo.vue';
 
   import Ui3nBadge from '../components/ui3n-badge/ui3n-badge.vue';
   import Ui3nButton from '../components/ui3n-button/ui3n-button.vue';
@@ -254,6 +255,8 @@
     </div>
 
     <ui3n-mobile-menu-demo />
+
+    <ui3n-date-time-demo />
 
     <ui3n-button-demo />
 
@@ -731,12 +734,13 @@
       </div>
       <div class="demo-row__cell-long">
         <ui3n-tabs v-model="tabsValue">
-          <div
+          <ui3n-button
+            type="secondary"
             class="tabs__item"
             disabled
           >
             Option 1
-          </div>
+          </ui3n-button>
           <div class="tabs__item">Option 2</div>
           <div class="tabs__item">Option 3</div>
           <div class="tabs__item">Option 4</div>

@@ -1,4 +1,7 @@
 import type { Ref, VNode } from 'vue';
+import type { FactoryArg } from 'imask';
+
+export type Ui3nInputMaskValueMode = 'masked' | 'unmasked';
 
 export interface Ui3nInputProps {
   /**
@@ -91,6 +94,16 @@ export interface Ui3nInputProps {
    * @default false
    */
   disabled?: boolean;
+  /**
+   * IMask options applied to the input. Works only with `type="text"`.
+   */
+  mask?: FactoryArg;
+  /**
+   * Which value is emitted through `update:modelValue`, `input` and `change`
+   * and passed to the validation rules.
+   * @default 'masked'
+   */
+  maskValueMode?: Ui3nInputMaskValueMode;
 }
 
 export interface Ui3nInputEmits {

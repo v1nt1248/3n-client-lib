@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { computed } from 'vue';
+  import { computed, onMounted, useTemplateRef } from 'vue';
   import type { Ui3nIconEmits, Ui3nIconProps } from './types';
 
   /* sizes and colour keep their defaults in CSS, so a stylesheet can change them */
@@ -8,6 +8,8 @@
     rotate: 0,
   });
   const emits = defineEmits<Ui3nIconEmits>();
+
+  const el = useTemplateRef<HTMLDivElement>('element');
 
   const rawWidth = computed(() => props.size || props.width);
   const rawHeight = computed(() => props.size || props.height);
@@ -43,11 +45,18 @@
     const isNumeric = !isNaN(Number(val));
     return isNumeric ? `${val}px` : String(val);
   }
+
+  onMounted(() => {
+    if (el.value) {
+      emits('init', el.value);
+    }
+  });
 </script>
 
 <template>
   <div
     :id="id"
+    ref="element"
     data-ui3n="icon"
     :class="$style.ui3nIcon"
     :title="title"

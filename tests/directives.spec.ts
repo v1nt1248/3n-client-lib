@@ -1,4 +1,4 @@
-import { defineComponent, h, nextTick, withDirectives } from 'vue';
+import { defineComponent, h, nextTick, ref, withDirectives } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import clickOutside from '../src/directives/ui3n-click-outside';
@@ -155,20 +155,41 @@ describe('ui3n-ripple', () => {
 });
 
 describe('ui3n-resize', () => {
-  let callback: ResizeObserverCallback | undefined;
-  const disconnect = vi.fn();
+  interface MockResizeObserver {
+    cb: ResizeObserverCallback;
+    targets: Set<Element>;
+    disconnected: boolean;
+  }
+
+  let observers: MockResizeObserver[] = [];
 
   beforeEach(() => {
+    observers = [];
     vi.useFakeTimers();
     vi.stubGlobal(
       'ResizeObserver',
       class {
+        cb: ResizeObserverCallback;
+        targets = new Set<Element>();
+        disconnected = false;
+
         constructor(cb: ResizeObserverCallback) {
-          callback = cb;
+          this.cb = cb;
+          observers.push(this);
         }
-        observe() {}
-        unobserve() {}
-        disconnect = disconnect;
+
+        observe(el: Element) {
+          this.targets.add(el);
+        }
+
+        unobserve(el: Element) {
+          this.targets.delete(el);
+        }
+
+        disconnect() {
+          this.disconnected = true;
+          this.targets.clear();
+        }
       },
     );
   });
@@ -177,23 +198,204 @@ describe('ui3n-resize', () => {
     vi.unstubAllGlobals();
   });
 
+  function makeEntry(
+    target: Element,
+    width: number,
+    height = 10,
+    borderBoxSize: unknown = [{ blockSize: height }],
+  ): Partial<ResizeObserverEntry> {
+    return {
+      target,
+      contentRect: { left: 0, top: 0, width, height },
+      borderBoxSize,
+    } as unknown as Partial<ResizeObserverEntry>;
+  }
+
+  function emit(observer: MockResizeObserver, entries: Partial<ResizeObserverEntry>[]) {
+    observer.cb(entries as unknown as ResizeObserverEntry[], observer as unknown as ResizeObserver);
+  }
+
+  function findObserver(el: Element): MockResizeObserver | undefined {
+    return observers.find(observer => observer.targets.has(el));
+  }
+
   it('reports rounded geometry from the observer entry', async () => {
     const handler = vi.fn();
     const wrapper = mountWithDirective(resize, handler);
 
-    callback!(
-      [
-        {
-          target: wrapper.element,
-          contentRect: { left: 1, top: 2, width: 3, height: 4 },
-          borderBoxSize: [{ blockSize: 5 }],
-        } as unknown as ResizeObserverEntry,
-      ],
-      {} as ResizeObserver,
-    );
+    emit(findObserver(wrapper.element)!, [
+      {
+        target: wrapper.element,
+        contentRect: { left: 1, top: 2, width: 3, height: 4 },
+        borderBoxSize: [{ blockSize: 5 }],
+      } as unknown as Partial<ResizeObserverEntry>,
+    ]);
 
     await vi.advanceTimersByTimeAsync(250);
     expect(handler).toHaveBeenCalledWith({ left: 1, top: 2, width: 3, contentHeight: 4, blockHeight: 5 });
+  });
+
+  it('observes every element with its own observer', async () => {
+    const firstHandler = vi.fn();
+    const secondHandler = vi.fn();
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () =>
+            h('div', [
+              withDirectives(h('div', { id: 'first' }), [[resize, firstHandler]]),
+              withDirectives(h('div', { id: 'second' }), [[resize, secondHandler]]),
+            ]);
+        },
+      }),
+    );
+
+    const first = wrapper.find('#first').element;
+    const second = wrapper.find('#second').element;
+    const firstObserver = findObserver(first);
+    const secondObserver = findObserver(second);
+
+    expect(observers).toHaveLength(2);
+    expect(firstObserver).toBeDefined();
+    expect(secondObserver).toBeDefined();
+    expect(firstObserver).not.toBe(secondObserver);
+
+    emit(firstObserver!, [makeEntry(first, 3)]);
+    await vi.advanceTimersByTimeAsync(250);
+
+    expect(firstHandler).toHaveBeenCalledTimes(1);
+    expect(secondHandler).not.toHaveBeenCalled();
+  });
+
+  it('keeps the other elements alive when one is unmounted', async () => {
+    const firstHandler = vi.fn();
+    const secondHandler = vi.fn();
+    const showFirst = ref(true);
+
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () =>
+            h('div', [
+              showFirst.value
+                ? withDirectives(h('div', { id: 'first' }), [[resize, firstHandler]])
+                : null,
+              withDirectives(h('div', { id: 'second' }), [[resize, secondHandler]]),
+            ]);
+        },
+      }),
+    );
+
+    const first = wrapper.find('#first').element;
+    const second = wrapper.find('#second').element;
+    const firstObserver = findObserver(first)!;
+    const secondObserver = findObserver(second)!;
+
+    showFirst.value = false;
+    await nextTick();
+
+    expect(firstObserver.disconnected).toBe(true);
+    expect(secondObserver.disconnected).toBe(false);
+    expect(secondObserver.targets.has(second)).toBe(true);
+
+    emit(secondObserver, [makeEntry(second, 4)]);
+    await vi.advanceTimersByTimeAsync(250);
+
+    expect(secondHandler).toHaveBeenCalledTimes(1);
+    expect(secondHandler).toHaveBeenCalledWith({
+      left: 0,
+      top: 0,
+      width: 4,
+      contentHeight: 10,
+      blockHeight: 10,
+    });
+    expect(firstHandler).not.toHaveBeenCalled();
+  });
+
+  it('cancels a pending call on unmount', async () => {
+    const handler = vi.fn();
+    const wrapper = mountWithDirective(resize, handler);
+
+    emit(findObserver(wrapper.element)!, [makeEntry(wrapper.element, 5)]);
+    wrapper.unmount();
+    await vi.advanceTimersByTimeAsync(250);
+
+    expect(handler).not.toHaveBeenCalled();
+  });
+
+  it('uses the callback from the latest binding update', async () => {
+    const firstHandler = vi.fn();
+    const secondHandler = vi.fn();
+    const handler = ref(firstHandler);
+
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () => withDirectives(h('div'), [[resize, handler.value]]);
+        },
+      }),
+    );
+
+    handler.value = secondHandler;
+    await nextTick();
+
+    emit(findObserver(wrapper.element)!, [makeEntry(wrapper.element, 6)]);
+    await vi.advanceTimersByTimeAsync(250);
+
+    expect(secondHandler).toHaveBeenCalledTimes(1);
+    expect(firstHandler).not.toHaveBeenCalled();
+  });
+
+  it('falls back when borderBoxSize is a single object or missing', async () => {
+    const handler = vi.fn();
+    const wrapper = mountWithDirective(resize, handler);
+    const observer = findObserver(wrapper.element)!;
+
+    emit(observer, [
+      {
+        target: wrapper.element,
+        contentRect: { left: 0, top: 0, width: 10, height: 8 },
+        borderBoxSize: { blockSize: 7 },
+      } as unknown as Partial<ResizeObserverEntry>,
+    ]);
+    await vi.advanceTimersByTimeAsync(250);
+
+    expect(handler).toHaveBeenLastCalledWith({
+      left: 0,
+      top: 0,
+      width: 10,
+      contentHeight: 8,
+      blockHeight: 7,
+    });
+
+    emit(observer, [
+      {
+        target: wrapper.element,
+        contentRect: { left: 0, top: 0, width: 10, height: 8 },
+      } as unknown as Partial<ResizeObserverEntry>,
+    ]);
+    await vi.advanceTimersByTimeAsync(250);
+
+    expect(handler).toHaveBeenLastCalledWith({
+      left: 0,
+      top: 0,
+      width: 10,
+      contentHeight: 8,
+      blockHeight: 8,
+    });
+  });
+
+  it('does nothing when ResizeObserver is not available', () => {
+    vi.stubGlobal('ResizeObserver', undefined);
+
+    expect(() => mountWithDirective(resize, vi.fn())).not.toThrow();
+    expect(observers).toHaveLength(0);
+  });
+
+  it('rejects a value that is not a function', () => {
+    const el = document.createElement('div');
+
+    expect(() => resize.mounted(el, { value: 'nope' } as never)).toThrow('[v-ui3n-resize]');
   });
 });
 

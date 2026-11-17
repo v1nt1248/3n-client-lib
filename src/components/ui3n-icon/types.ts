@@ -24,6 +24,10 @@ export interface Ui3nIconProps {
 }
 
 export interface Ui3nIconEmits {
+  /**
+   * Called when the icon is initialized
+   */
+  (event: 'init', value: HTMLDivElement): void;
   /** Called when the icon is clicked */
   (ev: 'click', value: MouseEvent): void;
 }

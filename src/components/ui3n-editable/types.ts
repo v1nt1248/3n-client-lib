@@ -134,7 +134,7 @@ export interface Ui3nEditableEmits {
   /**
    * Model value update event
    */
-  (event: 'update:modelValue', value: Nullable<string>): void;
+  (event: 'update:modelValue', value: string): void;
   /**
    * Edit mode toggle event
    */

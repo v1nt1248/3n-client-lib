@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-  import { computed, nextTick, onMounted, ref, watch } from 'vue';
+  import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
   import Ui3nIcon from '../ui3n-icon/ui3n-icon.vue';
   import Ui3nButton from '../ui3n-button/ui3n-button.vue';
+  import { IMask, type FactoryArg, type InputMask } from '../../utils/ui/input-mask';
   import type { Ui3nInputEmits, Ui3nInputExpose, Ui3nInputProps, Ui3nInputSlots } from './types';
 
   const props = withDefaults(defineProps<Ui3nInputProps>(), {
@@ -24,6 +25,8 @@
     hideBottomSpace: false,
     displayStateWithIcon: false,
     disabled: false,
+    mask: undefined,
+    maskValueMode: 'masked',
   });
   const emits = defineEmits<Ui3nInputEmits>();
   const slots = defineSlots<Ui3nInputSlots>();
@@ -33,6 +36,9 @@
   const isDirty = ref(false);
   const isFocused = ref(false);
   const errorMessage = ref('');
+
+  let maskInstance: InputMask<FactoryArg> | null = null;
+  let isMaskSyncing = false;
 
   const hasPrependIcon = computed(() => !!slots['prepend-icon']);
   const hasAppendIcon = computed(() => !!slots['append-icon']);
@@ -59,6 +65,87 @@
 
   function getTargetValue(event: Event | KeyboardEvent): string {
     return (event.target as HTMLInputElement).value;
+  }
+
+  function getMaskedValue(): string {
+    if (!maskInstance) {
+      return internalValue.value;
+    }
+
+    return props.maskValueMode === 'unmasked' ? maskInstance.unmaskedValue : maskInstance.value;
+  }
+
+  function onMaskAccept(event?: InputEvent) {
+    if (!maskInstance) {
+      return;
+    }
+
+    internalValue.value = maskInstance.value;
+
+    if (isMaskSyncing || !event) {
+      return;
+    }
+
+    isDirty.value = true;
+
+    const value = getMaskedValue();
+    validate(value);
+    emits('update:modelValue', value);
+    emits('input', value);
+  }
+
+  function createMask() {
+    destroyMask();
+
+    if (!props.mask || props.type !== 'text' || !inputElement.value) {
+      return;
+    }
+
+    inputElement.value.value = props.modelValue ?? '';
+    maskInstance = IMask(inputElement.value, props.mask);
+    maskInstance.on('accept', onMaskAccept);
+    internalValue.value = maskInstance.value;
+
+    const value = getMaskedValue();
+
+    if (value !== props.modelValue) {
+      emits('update:modelValue', value);
+    }
+  }
+
+  function destroyMask() {
+    if (!maskInstance) {
+      return;
+    }
+
+    maskInstance.off('accept', onMaskAccept);
+    maskInstance.destroy();
+    maskInstance = null;
+  }
+
+  function syncMaskFromModel(value: string) {
+    if (!maskInstance) {
+      return;
+    }
+
+    if (getMaskedValue() === value) {
+      internalValue.value = maskInstance.value;
+      return;
+    }
+
+    isMaskSyncing = true;
+
+    try {
+      if (props.maskValueMode === 'unmasked') {
+        maskInstance.unmaskedValue = value;
+      } else {
+        maskInstance.value = value;
+      }
+    } finally {
+      isMaskSyncing = false;
+    }
+
+    internalValue.value = maskInstance.value;
   }
 
   function validate(value: string, forceEmit = false) {
@@ -95,12 +182,21 @@
   }
 
   function onChange(event: Event) {
-    const value = getTargetValue(event);
+    const value = maskInstance ? getMaskedValue() : getTargetValue(event);
+
+    if (maskInstance) {
+      internalValue.value = maskInstance.value;
+    }
+
     validate(value);
     emits('change', value);
   }
 
   function onInput(event: Event) {
+    if (maskInstance) {
+      return;
+    }
+
     const value = getTargetValue(event);
     internalValue.value = value;
     isDirty.value = true;
@@ -111,14 +207,16 @@
 
   function onEnterKeydown(event: KeyboardEvent) {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
+    const value = getMaskedValue();
+
     isDirty.value = true;
-    validate(internalValue.value);
-    emits('enter', { value: internalValue.value, altKey, ctrlKey, metaKey, shiftKey });
+    validate(value);
+    emits('enter', { value, altKey, ctrlKey, metaKey, shiftKey });
   }
 
   function onEscapeKeydown(event: KeyboardEvent) {
     isDirty.value = true;
-    validate(internalValue.value);
+    validate(getMaskedValue());
     emits('escape', event);
   }
 
@@ -127,12 +225,25 @@
   }
 
   function clearValue() {
-    internalValue.value = '';
+    if (maskInstance) {
+      isMaskSyncing = true;
+
+      try {
+        maskInstance.value = '';
+      } finally {
+        isMaskSyncing = false;
+      }
+    }
+
+    internalValue.value = maskInstance ? maskInstance.value : '';
     isDirty.value = false;
     errorMessage.value = '';
 
     if (inputElement.value) {
-      inputElement.value.value = '';
+      if (!maskInstance) {
+        inputElement.value.value = '';
+      }
+
       inputElement.value.focus();
     }
 
@@ -152,6 +263,7 @@
 
   onMounted(() => {
     internalValue.value = props.modelValue ?? '';
+    createMask();
 
     if (inputElement.value) {
       emits('init', inputElement.value);
@@ -167,10 +279,28 @@
     }
   });
 
+  onBeforeUnmount(destroyMask);
+
+  watch([() => props.mask, () => props.type], () => {
+    createMask();
+  });
+
   watch(
     () => props.modelValue,
     val => {
       const normalized = val ?? '';
+
+      if (maskInstance) {
+        if (getMaskedValue() === normalized) {
+          internalValue.value = maskInstance.value;
+          return;
+        }
+
+        syncMaskFromModel(normalized);
+        validate(getMaskedValue(), true);
+        return;
+      }
+
       if (normalized !== internalValue.value) {
         internalValue.value = normalized;
         validate(normalized, true);
@@ -227,8 +357,8 @@
         :disabled="disabled"
         :readonly="readonly"
         :name="name"
-        :maxlength="maxlength"
-        :minlength="minlength"
+        :maxlength="mask ? undefined : maxlength"
+        :minlength="mask ? undefined : minlength"
         :value="internalValue"
         :class="$style.ui3nInputField"
         @input="onInput"

@@ -81,7 +81,7 @@
     },
   ];
 
-  const value = ref([]);
+  const value = ref<ContactListItem[] | (string | null | undefined)[]>([]);
   // Typed after what the component emits: without `return-object` it hands back
   // the item-value of each pick, and the union is what `update:modelValue`
   // declares.
