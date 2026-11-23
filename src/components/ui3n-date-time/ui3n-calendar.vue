@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import { computed } from 'vue';
   import { daysMap, DEFAULT_DAYS } from './constants';
-  import { generateCalendarGrid } from './utils';
+  import { generateCalendarGrid, generateMonthDaysGrid } from './utils';
   import type { Ui3nCalendarProps, Ui3nCalendarEmits, Ui3nCalendarDay } from './types';
 
   const props = withDefaults(defineProps<Ui3nCalendarProps>(), {
@@ -9,6 +9,7 @@
     localeConfig: () => ({}),
     firstDayOfWeek: 1,
     disabledDays: () => [],
+    hideWeekdays: false,
   });
   const emits = defineEmits<Ui3nCalendarEmits>();
 
@@ -37,7 +38,9 @@
   });
 
   const calendarDays = computed(() =>
-    generateCalendarGrid(props.year, props.month, props.disabledDays, props.firstDayOfWeek),
+    props.hideWeekdays
+      ? generateMonthDaysGrid(props.year, props.month, props.disabledDays)
+      : generateCalendarGrid(props.year, props.month, props.disabledDays, props.firstDayOfWeek),
   );
 
   function isSelected(item: Ui3nCalendarDay) {
@@ -58,7 +61,10 @@
     data-ui3n="calendar"
     :class="$style.ui3nCalendar"
   >
-    <div :class="[$style.days, $style[`daysSize${size}`]]">
+    <div
+      v-if="!hideWeekdays"
+      :class="[$style.days, $style[`daysSize${size}`]]"
+    >
       <div
         v-for="day in weekDays"
         :key="day.key"
@@ -76,7 +82,7 @@
         :class="[
           $style.day,
           $style[`daySize${size}`],
-          highlightWeekends && [0, 6].includes(day.day) && $style.weekend,
+          !hideWeekdays && highlightWeekends && [0, 6].includes(day.day) && $style.weekend,
           isSelected(day) && $style.daySelected,
           (disabled || day.disabled || !day.isCurrentMonth) && $style.dayDisabled,
         ]"

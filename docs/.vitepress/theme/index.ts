@@ -28,6 +28,7 @@ import Ui3nBreadcrumbs from '../../../src/components/ui3n-breadcrumbs/ui3n-bread
 import Ui3nButton from '../../../src/components/ui3n-button/ui3n-button.vue';
 import Ui3nCheckbox from '../../../src/components/ui3n-checkbox/ui3n-checkbox.vue';
 import Ui3nChip from '../../../src/components/ui3n-chip/ui3n-chip.vue';
+import Ui3nDatePicker from '../../../src/components/ui3n-date-time/ui3n-date-picker.vue';
 import Ui3nDialogProvider from '../../../src/components/ui3n-dialog/ui3n-dialog-provider.vue';
 import Ui3nDialog from '../../../src/components/ui3n-dialog/ui3n-dialog.vue';
 import Ui3nDropFiles from '../../../src/components/ui3n-drop-files/ui3n-drop-files.vue';
@@ -36,6 +37,8 @@ import Ui3nContentEditable from '../../../src/components/ui3n-editable/ui3n-cont
 import Ui3nEmoji from '../../../src/components/ui3n-emoji/ui3n-emoji.vue';
 import Ui3nIcon from '../../../src/components/ui3n-icon/ui3n-icon.vue';
 import Ui3nInput from '../../../src/components/ui3n-input/ui3n-input.vue';
+import Ui3nInputDate from '../../../src/components/ui3n-input-date/ui3n-input-date.vue';
+import Ui3nInputTime from '../../../src/components/ui3n-input-time/ui3n-input-time.vue';
 import Ui3nInputFile from '../../../src/components/ui3n-input-file/ui3n-input-file.vue';
 import Ui3nList from '../../../src/components/ui3n-list/ui3n-list.vue';
 import Ui3nMenu from '../../../src/components/ui3n-menu/ui3n-menu.vue';
@@ -52,6 +55,7 @@ import Ui3nTableSortIcon from '../../../src/components/ui3n-table/ui3n-table-sor
 import Ui3nTable from '../../../src/components/ui3n-table/ui3n-table.vue';
 import Ui3nTabs from '../../../src/components/ui3n-tabs/ui3n-tabs.vue';
 import Ui3nText from '../../../src/components/ui3n-text/ui3n-text.vue';
+import Ui3nTimePicker from '../../../src/components/ui3n-date-time/ui3n-time-picker.vue';
 import Ui3nTooltip from '../../../src/components/ui3n-tooltip/ui3n-tooltip.vue';
 import Ui3nScrollbarVertical from '../../../src/components/ui3n-scrollbar-vertical/ui3n-scrollbar-vertical.vue';
 import Ui3nScrollbarHorizontal from '../../../src/components/ui3n-scrollbar-horizontal/ui3n-scrollbar-horizontal.vue';
@@ -99,6 +103,7 @@ export default {
     app.component('Ui3nButton', Ui3nButton);
     app.component('Ui3nCheckbox', Ui3nCheckbox);
     app.component('Ui3nChip', Ui3nChip);
+    app.component('Ui3nDatePicker', Ui3nDatePicker);
     app.component('Ui3nDialogProvider', Ui3nDialogProvider);
     app.component('Ui3nDialog', Ui3nDialog);
     app.component('Ui3nDropFiles', Ui3nDropFiles);
@@ -107,6 +112,8 @@ export default {
     app.component('Ui3nEmoji', Ui3nEmoji);
     app.component('Ui3nIcon', Ui3nIcon);
     app.component('Ui3nInput', Ui3nInput);
+    app.component('Ui3nInputDate', Ui3nInputDate);
+    app.component('Ui3nInputTime', Ui3nInputTime);
     app.component('Ui3nInputFile', Ui3nInputFile);
     app.component('Ui3nList', Ui3nList);
     app.component('Ui3nMenu', Ui3nMenu);
@@ -123,6 +130,7 @@ export default {
     app.component('Ui3nTable', Ui3nTable);
     app.component('Ui3nTabs', Ui3nTabs);
     app.component('Ui3nText', Ui3nText);
+    app.component('Ui3nTimePicker', Ui3nTimePicker);
     app.component('Ui3nTooltip', Ui3nTooltip);
     app.component('Ui3nScrollbarVertical', Ui3nScrollbarVertical);
     app.component('Ui3nScrollbarHorizontal', Ui3nScrollbarHorizontal);

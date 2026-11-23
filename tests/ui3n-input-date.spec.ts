@@ -363,3 +363,155 @@ describe('Ui3nInputDate', () => {
     expect(afterCloseWheel.defaultPrevented).toBe(false);
   });
 });
+
+describe('Ui3nInputDate format and without-year mode', () => {
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = vi.fn();
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      },
+    );
+  });
+
+  afterEach(() => {
+    while (mountedWrappers.length) {
+      mountedWrappers.pop()?.unmount();
+    }
+
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it('renders the model in the configured format', async () => {
+    const { wrapper } = mountWithModel(new Date(1990, 2, 15), { format: 'MM.DD.YYYY' });
+
+    await nextTick();
+
+    expect(inputElement(wrapper).value).toBe('03.15.1990');
+  });
+
+  it('uses the format pattern as the default placeholder', () => {
+    const wrapper = mountInputDate({ format: 'MM.DD.YYYY' });
+
+    expect(inputElement(wrapper).placeholder).toBe('MM.DD.YYYY');
+  });
+
+  it('keeps a custom placeholder', () => {
+    const wrapper = mountInputDate({ format: 'MM.DD.YYYY', placeholder: 'Birthday' });
+
+    expect(inputElement(wrapper).placeholder).toBe('Birthday');
+  });
+
+  it('updates the model when a date is typed in the configured format', async () => {
+    const { wrapper, value } = mountWithModel(null, { format: 'MM.DD.YYYY' });
+
+    await typeText(wrapper, '03151990');
+    await nextTick();
+
+    expect(value.value?.getTime()).toBe(new Date(1990, 2, 15).getTime());
+    expect(inputElement(wrapper).value).toBe('03.15.1990');
+  });
+
+  it('parses the DD.MM.YYYY format', async () => {
+    const { wrapper, value } = mountWithModel(null, { format: 'DD.MM.YYYY' });
+
+    await typeText(wrapper, '15031990');
+    await nextTick();
+
+    expect(value.value?.getTime()).toBe(new Date(1990, 2, 15).getTime());
+  });
+
+  it('accepts a single-digit date on blur in the configured format', async () => {
+    const { wrapper, value } = mountWithModel(null, { format: 'MM.DD.YYYY', masked: false });
+
+    await typeText(wrapper, '3.5.1990');
+
+    expect(value.value).toBeNull();
+
+    inputElement(wrapper).dispatchEvent(new Event('change', { bubbles: true }));
+    await nextTick();
+    await nextTick();
+
+    expect(value.value?.getTime()).toBe(new Date(1990, 2, 5).getTime());
+  });
+
+  it('renders and types a date without year', async () => {
+    const { wrapper, value } = mountWithModel(null, { format: 'MM.DD.YYYY', withoutYear: true });
+
+    expect(inputElement(wrapper).placeholder).toBe('MM.DD');
+
+    await typeText(wrapper, '0229');
+    await nextTick();
+
+    expect(value.value?.getTime()).toBe(new Date(2000, 1, 29).getTime());
+    expect(inputElement(wrapper).value).toBe('02.29');
+  });
+
+  it('passes the without-year props to the picker and forwards the toggle', async () => {
+    const value = ref<Date | null>(new Date(1990, 2, 15));
+    const withoutYear = ref(false);
+
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () =>
+            h(Ui3nInputDate, {
+              modelValue: value.value,
+              withoutYear: withoutYear.value,
+              allowWithoutYear: true,
+              format: 'MM.DD.YYYY',
+              'onUpdate:modelValue': (next: Date | null) => {
+                value.value = next;
+              },
+              'onUpdate:withoutYear': (next: boolean) => {
+                withoutYear.value = next;
+              },
+            });
+        },
+      }),
+    );
+    mountedWrappers.push(wrapper);
+
+    await openPanel(wrapper);
+
+    const picker = wrapper.findComponent(Ui3nDatePicker);
+    expect(picker.props('allowWithoutYear')).toBe(true);
+    expect(picker.props('withoutYear')).toBe(false);
+
+    picker.vm.$emit('update:withoutYear', true);
+    picker.vm.$emit('update:modelValue', new Date(2000, 2, 15));
+    await nextTick();
+    await nextTick();
+
+    expect(withoutYear.value).toBe(true);
+    expect(inputElement(wrapper as never).value).toBe('03.15');
+    expect(wrapper.findComponent(Ui3nDatePicker).props('withoutYear')).toBe(true);
+  });
+
+  it('ignores the without-year mode with the time picker and warns', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const { wrapper } = mountWithModel(new Date(1990, 2, 15, 10, 30), {
+      format: 'MM.DD.YYYY',
+      withoutYear: true,
+      showTimepicker: true,
+    });
+
+    await nextTick();
+
+    expect(inputElement(wrapper).value).toBe('03.15.1990 10:30');
+    expect(warn).toHaveBeenCalled();
+  });
+
+  it('updates the model when a dotted date and time are typed', async () => {
+    const { wrapper, value } = mountWithModel(null, { format: 'MM.DD.YYYY', showTimepicker: true });
+
+    await typeText(wrapper, '031519901030');
+    await nextTick();
+
+    expect(value.value?.getTime()).toBe(new Date(1990, 2, 15, 10, 30).getTime());
+  });
+});

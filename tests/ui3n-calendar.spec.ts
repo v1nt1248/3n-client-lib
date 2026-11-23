@@ -54,3 +54,25 @@ describe('Ui3nCalendar', () => {
     expect(wrapper.emitted('update:modelValue')).toBeUndefined();
   });
 });
+
+describe('Ui3nCalendar hideWeekdays', () => {
+  it('hides the weekday header and adjacent-month days', () => {
+    const regular = mountCalendar({ year: 2000, month: 2 });
+    const hidden = mountCalendar({ year: 2000, month: 2, hideWeekdays: true });
+
+    expect(regular.text()).toContain('MO');
+    expect(hidden.text()).not.toContain('MO');
+
+    const cells = hidden.findAll('[data-date]');
+    expect(cells).toHaveLength(29);
+    expect(cells[0].attributes('data-date')).toBe('2000-02-01');
+  });
+
+  it('emits a date from the month-only grid', async () => {
+    const wrapper = mountCalendar({ year: 2000, month: 2, hideWeekdays: true });
+
+    await wrapper.find('[data-date="2000-02-29"]').trigger('click');
+
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['2000-02-29']);
+  });
+});

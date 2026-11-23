@@ -3,7 +3,15 @@
   import dayjs, { type Dayjs } from 'dayjs';
   import { capitalize } from '../../utils/ui/capitalize';
   import { monthsMap, DEFAULT_DAYS, DEFAULT_LOCALE, DEFAULT_MONTHS } from './constants';
-  import { getTimeOutputFormat, parseIsoDate, parseTime, setDateParts } from './utils';
+  import {
+    convertDateForYearMode,
+    getTimeOutputFormat,
+    parseIsoDate,
+    parseTime,
+    setDateParts,
+    UI3N_NO_YEAR_REFERENCE,
+  } from './utils';
+  import Ui3nCheckbox from '../ui3n-checkbox/ui3n-checkbox.vue';
   import Ui3nTimePicker from './ui3n-time-picker.vue';
   import Ui3nDatePickerField from './ui3n-date-picker-field.vue';
   import Ui3nCalendar from './ui3n-calendar.vue';
@@ -14,6 +22,8 @@
     localeConfig: () => ({}),
     firstDayOfWeek: 1,
     disabledDays: () => [],
+    withoutYear: false,
+    allowWithoutYear: false,
   });
   const emits = defineEmits<Ui3nDatePickerEmits>();
 
@@ -26,15 +36,25 @@
     hourShort: props.localeConfig?.hourShort ?? DEFAULT_LOCALE.hourShort,
     minuteShort: props.localeConfig?.minuteShort ?? DEFAULT_LOCALE.minuteShort,
     secondShort: props.localeConfig?.secondShort ?? DEFAULT_LOCALE.secondShort,
+    withoutYear: props.localeConfig?.withoutYear ?? DEFAULT_LOCALE.withoutYear,
     days: { ...DEFAULT_DAYS, ...props.localeConfig?.days },
     months: { ...DEFAULT_MONTHS, ...props.localeConfig?.months },
   }));
 
   const baseYear = today.value.getFullYear();
 
-  const currentDate = computed<Dayjs>(() =>
-    isDateSafe(props.modelValue) ? dayjs(props.modelValue) : dayjs(today.value),
-  );
+  /** The "without year" mode is not supported together with the time picker */
+  const isWithoutYear = computed(() => props.withoutYear && !props.showTimepicker);
+
+  const isWithoutYearSwitchShown = computed(() => props.allowWithoutYear && !props.showTimepicker);
+
+  const currentDate = computed<Dayjs>(() => {
+    const base = isDateSafe(props.modelValue) ? props.modelValue : today.value;
+
+    return isWithoutYear.value
+      ? dayjs(setDateParts(base, { year: UI3N_NO_YEAR_REFERENCE }))
+      : dayjs(base);
+  });
 
   const currentYearValue = computed(() => `${currentDate.value.year()}`);
 
@@ -98,6 +118,19 @@
   function emitDate(next: Dayjs) {
     const value = props.showTimepicker ? next : next.startOf('day');
     emits('update:modelValue', value.toDate());
+  }
+
+  function onWithoutYearChange(value: unknown) {
+    const next = value === true;
+    if (next === isWithoutYear.value) {
+      return;
+    }
+
+    emits('update:withoutYear', next);
+
+    if (isDateSafe(props.modelValue)) {
+      emitDate(dayjs(convertDateForYearMode(props.modelValue, next, baseYear)));
+    }
   }
 
   function onYearChange(value: string | null) {
@@ -165,7 +198,24 @@
     data-ui3n="datepicker"
     :class="[$style.ui3nDatePicker, $style[size]]"
   >
-    <div :class="$style.row">
+    <div
+      v-if="isWithoutYearSwitchShown"
+      data-ui3n="datepicker-without-year"
+      :class="[$style.row, $style.withoutYearRow]"
+    >
+      <ui3n-checkbox
+        :model-value="isWithoutYear"
+        :disabled="disabled"
+        @update:model-value="onWithoutYearChange"
+      >
+        {{ locale.withoutYear }}
+      </ui3n-checkbox>
+    </div>
+
+    <div
+      v-if="!isWithoutYear"
+      :class="$style.row"
+    >
       <ui3n-date-picker-field
         :model-value="currentYearValue"
         :size="size"
@@ -200,6 +250,7 @@
         :highlight-weekends="highlightWeekends"
         :disabled-days="disabledDays"
         :disabled="disabled"
+        :hide-weekdays="isWithoutYear"
         @update:model-value="onDateChange"
       />
     </div>
@@ -251,5 +302,12 @@
     position: relative;
     width: 100%;
     margin-bottom: 8px;
+  }
+
+  .withoutYearRow {
+    display: flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 4px;
   }
 </style>

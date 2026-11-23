@@ -26,6 +26,9 @@
   const vDate = ref<Date | null>(null);
   const vInputDate = ref<Date | null>(null);
   const vInputDateTime = ref<Date | null>(null);
+  const vInputDateUs = ref<Date | null>(null);
+  const vBirthday = ref<Date | null>(null);
+  const vBirthdayWithoutYear = ref(false);
 
   watch(
     [vDefault, vSeconds, vTwelveHour, vTwelveHourSeconds, vMinuteSecond, vNoLeadingZeros, vCustomSteps],
@@ -158,6 +161,26 @@
             label="Date + time"
             show-timepicker
             placeholder="YYYY-MM-DD HH:mm"
+          />
+        </div>
+
+        <div class="cell">
+          <ui3n-input-date
+            v-model="vInputDateUs"
+            label="Date (MM.DD.YYYY)"
+            format="MM.DD.YYYY"
+            clearable
+          />
+        </div>
+
+        <div class="cell">
+          <ui3n-input-date
+            v-model="vBirthday"
+            v-model:without-year="vBirthdayWithoutYear"
+            label="Birthday (year is optional)"
+            format="MM.DD.YYYY"
+            allow-without-year
+            clearable
           />
         </div>
       </demo-layout-cell>

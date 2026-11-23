@@ -10,6 +10,8 @@ import Example04 from './Example04.vue';
 import Example04Raw from './Example04.vue?raw';
 import Example05 from './Example05.vue';
 import Example05Raw from './Example05.vue?raw';
+import Example06 from './Example06.vue';
+import Example06Raw from './Example06.vue?raw';
 
 const datePickerMeta = data.find(c => c.name === 'ui3n-date-picker') || {
   props: [],
@@ -26,6 +28,12 @@ Inline date picker panel with year and month selectors, a calendar grid, and an 
 time picker. Use `v-model` with a `Date | null`. When `show-timepicker` is off, the
 emitted value is reset to the start of the day; when it is on, the selected time is
 preserved.
+
+`without-year` hides the year selector and the weekdays (the calendar renders only the days of
+the month) and keeps the `UI3N_NO_YEAR_REFERENCE` year (2000) in the emitted value.
+`allow-without-year` renders a switch that emits `update:withoutYear` and converts the current
+value. The switch label comes from `localeConfig.withoutYear`. The mode is ignored together
+with `show-timepicker`.
 
 <ComponentDoc
   :props="datePickerMeta.props"
@@ -97,4 +105,17 @@ Shows the `regular` and `large` sizes together with a fully disabled picker.
   hide-style-block
 >
   <ClientOnly><Example05></Example05></ClientOnly>
+</DemoBlock>
+
+### Without year
+The switch at the top toggles the year-less mode; the calendar then shows only the days of the
+selected month.
+
+<DemoBlock
+  title="Without year"
+  description="Date picker with the without-year switch"
+  :code="Example06Raw"
+  hide-style-block
+>
+  <ClientOnly><Example06></Example06></ClientOnly>
 </DemoBlock>
