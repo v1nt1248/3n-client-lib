@@ -1,4 +1,5 @@
 import type {
+  Ui3nDateFormat,
   Ui3nDateTimePickerSize,
   Ui3nDateTimeLocaleConfig,
   Ui3nTimePickerConfig,
@@ -56,10 +57,28 @@ export interface Ui3nInputDateProps {
    */
   disabled?: boolean;
   /**
-   * Whether to apply the ISO date mask to the input.
+   * Whether to apply the date mask to the input.
    * @default true
    */
   masked?: boolean;
+  /**
+   * Format used to display and type the date.
+   * @default 'YYYY-MM-DD'
+   */
+  format?: Ui3nDateFormat;
+  /**
+   * "Without year" mode: only month and day are typed and displayed
+   * (e.g. `MM.DD`); the model value gets the `UI3N_NO_YEAR_REFERENCE` year.
+   * Supports `v-model:without-year`. Not supported together with
+   * `showTimepicker` (ignored in that case).
+   * @default false
+   */
+  withoutYear?: boolean;
+  /**
+   * Whether the picker renders the "without year" switch.
+   * @default false
+   */
+  allowWithoutYear?: boolean;
 }
 
 export interface Ui3nInputDateEmits {
@@ -74,6 +93,7 @@ export interface Ui3nInputDateEmits {
   (event: 'change', value: string): void;
   (event: 'update:valid', value: boolean): void;
   (event: 'update:modelValue', value: Date | null): void;
+  (event: 'update:withoutYear', value: boolean): void;
 }
 
 export interface Ui3nInputDateExpose {

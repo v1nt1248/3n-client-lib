@@ -1,5 +1,154 @@
 import dayjs from 'dayjs';
-import type { Ui3nTimePickerConfig, Ui3nCalendarDay, TimeParts } from './types';
+import type { Ui3nTimePickerConfig, Ui3nCalendarDay, TimeParts, Ui3nDateFormat } from './types';
+
+/**
+ * Year used for dates entered in the "without year" mode. It is a leap year,
+ * so February 29 is a valid value.
+ */
+export const UI3N_NO_YEAR_REFERENCE = 2000;
+
+export const DEFAULT_DATE_FORMAT: Ui3nDateFormat = 'YYYY-MM-DD';
+
+export type DatePatternToken = 'YYYY' | 'MM' | 'DD';
+
+export interface DatePatternParts {
+  /** Tokens in display order */
+  order: DatePatternToken[];
+  /** Separator between tokens */
+  separator: string;
+  /** Pattern string, e.g. `MM.DD.YYYY` or `MM.DD` */
+  pattern: string;
+}
+
+const DATE_FORMAT_ORDERS: Record<Ui3nDateFormat, DatePatternToken[]> = {
+  'YYYY-MM-DD': ['YYYY', 'MM', 'DD'],
+  'MM.DD.YYYY': ['MM', 'DD', 'YYYY'],
+  'DD.MM.YYYY': ['DD', 'MM', 'YYYY'],
+};
+
+/**
+ * Resolves the token order and separator of a date format. In the "without year"
+ * mode the year token is dropped. Unknown formats fall back to ISO.
+ *
+ * @param format - date format
+ * @param withoutYear - whether the year token is dropped
+ */
+export function getDatePatternParts(
+  format: Ui3nDateFormat = DEFAULT_DATE_FORMAT,
+  withoutYear = false,
+): DatePatternParts {
+  const safeFormat = format in DATE_FORMAT_ORDERS ? format : DEFAULT_DATE_FORMAT;
+  const separator = safeFormat === 'YYYY-MM-DD' ? '-' : '.';
+  const order = DATE_FORMAT_ORDERS[safeFormat].filter(token => !withoutYear || token !== 'YYYY');
+
+  return { order, separator, pattern: order.join(separator) };
+}
+
+/**
+ * Formats a date in the given format (local time). In the "without year" mode
+ * only month and day are rendered.
+ *
+ * @param date - date to format
+ * @param format - date format
+ * @param withoutYear - whether the year is omitted
+ */
+export function formatDate(
+  date: Date,
+  format: Ui3nDateFormat = DEFAULT_DATE_FORMAT,
+  withoutYear = false,
+): string {
+  const { order, separator } = getDatePatternParts(format, withoutYear);
+  const values: Record<DatePatternToken, string> = {
+    YYYY: String(date.getFullYear()),
+    MM: String(date.getMonth() + 1).padStart(2, '0'),
+    DD: String(date.getDate()).padStart(2, '0'),
+  };
+
+  return order.map(token => values[token]).join(separator);
+}
+
+/**
+ * Builds a regexp source matching a date typed in the given format. Every token
+ * is a capture group in the format order.
+ *
+ * @param format - date format
+ * @param withoutYear - whether the year token is dropped
+ * @param strict - when true, month and day must be zero-padded
+ */
+export function getDateRegexSource(
+  format: Ui3nDateFormat = DEFAULT_DATE_FORMAT,
+  withoutYear = false,
+  strict = false,
+): string {
+  const { order, separator } = getDatePatternParts(format, withoutYear);
+  const twoDigits = strict ? '(\\d{2})' : '(\\d{1,2})';
+  const groups: Record<DatePatternToken, string> = {
+    YYYY: '(\\d{4})',
+    MM: twoDigits,
+    DD: twoDigits,
+  };
+
+  return order.map(token => groups[token]).join(separator === '.' ? '\\.' : separator);
+}
+
+/**
+ * Parses a date typed in the given format as a local date. In the "without year"
+ * mode the year is `UI3N_NO_YEAR_REFERENCE`. Returns null for malformed or
+ * non-existent dates (e.g. February 30).
+ *
+ * @param value - text to parse
+ * @param format - date format
+ * @param options - parsing options
+ * @param options.withoutYear - whether the text has no year
+ * @param options.strict - when true, month and day must be zero-padded
+ */
+export function parseFormattedDate(
+  value: string,
+  format: Ui3nDateFormat = DEFAULT_DATE_FORMAT,
+  options: { withoutYear?: boolean; strict?: boolean } = {},
+): Date | null {
+  const withoutYear = options.withoutYear ?? false;
+  const source = getDateRegexSource(format, withoutYear, options.strict ?? false);
+  const match = new RegExp(`^${source}$`).exec(value.trim());
+
+  if (!match) {
+    return null;
+  }
+
+  const { order } = getDatePatternParts(format, withoutYear);
+  const parts: Record<DatePatternToken, number> = {
+    YYYY: UI3N_NO_YEAR_REFERENCE,
+    MM: 0,
+    DD: 0,
+  };
+  order.forEach((token, index) => {
+    parts[token] = Number(match[index + 1]);
+  });
+
+  return createValidDate(parts.YYYY, parts.MM - 1, parts.DD);
+}
+
+/**
+ * Creates a local date and checks that it did not roll over (e.g. 2026-02-30).
+ *
+ * @param year - full year
+ * @param month - month index, 0 - 11
+ * @param day - day of the month
+ */
+function createValidDate(year: number, month: number, day: number): Date | null {
+  const date = new Date(year, month, day);
+
+  // `new Date` maps years 0-99 to 1900-1999
+  if (year < 100) {
+    date.setFullYear(year);
+  }
+
+  if (date.getFullYear() !== year || date.getMonth() !== month || date.getDate() !== day) {
+    return null;
+  }
+
+  return date;
+}
 
 /**
  * Resolves which time fields are displayed. When every field is disabled, hours
@@ -162,10 +311,7 @@ export function formatTimeParts(parts: TimeParts, config?: Ui3nTimePickerConfig)
  * Formats a date as an ISO calendar date in local time.
  */
 export function toIsoDate(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  return formatDate(date, 'YYYY-MM-DD');
 }
 
 /**
@@ -181,21 +327,7 @@ export function isValidDate(value: unknown): value is Date {
  * them unpadded while typing. Returns null for malformed or non-existent dates.
  */
 export function parseDateInput(value: string): Date | null {
-  const match = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(value.trim());
-  if (!match) {
-    return null;
-  }
-
-  const year = Number(match[1]);
-  const month = Number(match[2]) - 1;
-  const day = Number(match[3]);
-  const date = new Date(year, month, day);
-
-  if (date.getFullYear() !== year || date.getMonth() !== month || date.getDate() !== day) {
-    return null;
-  }
-
-  return date;
+  return parseFormattedDate(value, 'YYYY-MM-DD');
 }
 
 /**
@@ -287,4 +419,60 @@ export function generateCalendarGrid(
   }
 
   return days;
+}
+
+/**
+ * Builds a grid with only the days of the given month (1..daysInMonth), starting
+ * from the first cell. Used when weekdays are hidden (e.g. a date without year).
+ *
+ * @param year - displayed year
+ * @param month - displayed month, 1 - 12
+ * @param disabledDays - ISO dates to disable (`YYYY-MM-DD`)
+ */
+export function generateMonthDaysGrid(
+  year: number,
+  month: number,
+  disabledDays: string[] = [],
+): Ui3nCalendarDay[] {
+  const now = new Date();
+  const safeYear = Number.isFinite(year) ? year : now.getFullYear();
+  const safeMonth = Number.isFinite(month) ? Math.min(12, Math.max(1, month)) : now.getMonth() + 1;
+  const monthIndex = safeMonth - 1;
+  const disabledSet = new Set(disabledDays);
+  const daysInMonth = dayjs(new Date(safeYear, monthIndex, 1)).daysInMonth();
+
+  const days: Ui3nCalendarDay[] = [];
+  for (let dayNumber = 1; dayNumber <= daysInMonth; dayNumber++) {
+    const currentDate = new Date(safeYear, monthIndex, dayNumber);
+    const date = toIsoDate(currentDate);
+
+    days.push({
+      date,
+      dayNumber,
+      day: currentDate.getDay(),
+      isCurrentMonth: true,
+      disabled: disabledSet.has(date),
+    });
+  }
+
+  return days;
+}
+
+/**
+ * Converts a date when the "without year" mode is toggled, keeping month, day
+ * and time:
+ * - `withoutYear = true` moves the date to `UI3N_NO_YEAR_REFERENCE`;
+ * - `withoutYear = false` moves it to `targetYear` (the current year by default);
+ *   February 29 becomes February 28 in a non-leap year.
+ *
+ * @param date - date to convert
+ * @param withoutYear - the new mode
+ * @param targetYear - year used when the year is restored
+ */
+export function convertDateForYearMode(
+  date: Date,
+  withoutYear: boolean,
+  targetYear: number = new Date().getFullYear(),
+): Date {
+  return setDateParts(date, { year: withoutYear ? UI3N_NO_YEAR_REFERENCE : targetYear });
 }

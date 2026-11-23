@@ -29,6 +29,7 @@ export const DEFAULT_LOCALE = {
   hourShort: 'h',
   minuteShort: 'min',
   secondShort: 'sec',
+  withoutYear: 'Without year',
   days: { ...DEFAULT_DAYS },
   months: { ...DEFAULT_MONTHS },
 } as const;

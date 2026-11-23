@@ -7,13 +7,14 @@
   import { createDateMaskOptions } from '../ui3n-date-time/date-mask';
   import { createDateTimeMaskOptions } from '../ui3n-date-time/date-time-mask';
   import {
+    formatDate,
     formatTimeParts,
+    getDatePatternParts,
+    getDateRegexSource,
     isValidDate,
-    parseDateInput,
-    parseIsoDate,
+    parseFormattedDate,
     parseTime,
     resolveTimeVisibility,
-    toIsoDate,
   } from '../ui3n-date-time/utils';
   import { lockScroll, unlockScroll } from '../../utils/ui/scroll-lock';
   import { default as vClickOutside } from '../../directives/ui3n-click-outside';
@@ -21,6 +22,9 @@
 
   const props = withDefaults(defineProps<Ui3nInputDateProps>(), {
     masked: true,
+    format: 'YYYY-MM-DD',
+    withoutYear: false,
+    allowWithoutYear: false,
   });
   const emits = defineEmits<Ui3nInputDateEmits>();
 
@@ -31,21 +35,38 @@
   const isShow = ref(false);
   let scrollParent: HTMLElement | null = null;
 
+  /** The "without year" mode is not supported together with the time picker */
+  const isWithoutYear = computed(() => props.withoutYear && !props.showTimepicker);
+
+  watch(
+    () => props.withoutYear && props.showTimepicker,
+    value => {
+      if (value) {
+        console.warn('[Ui3nInputDate] `withoutYear` is ignored when `showTimepicker` is true');
+      }
+    },
+    { immediate: true },
+  );
+
   const inputMask = computed(() => {
     if (!props.masked) {
       return undefined;
     }
 
     return props.showTimepicker
-      ? createDateTimeMaskOptions(props.timepickerConfig)
-      : createDateMaskOptions();
+      ? createDateTimeMaskOptions(props.timepickerConfig, props.format)
+      : createDateMaskOptions({ format: props.format, withoutYear: isWithoutYear.value });
   });
+
+  const inputPlaceholder = computed(
+    () => props.placeholder ?? getDatePatternParts(props.format, isWithoutYear.value).pattern,
+  );
 
   /**
    * Formats the model value the same way it is displayed and typed in the input.
    */
   function formatModelValue(value: Date): string {
-    const date = toIsoDate(value);
+    const date = formatDate(value, props.format, isWithoutYear.value);
 
     if (!props.showTimepicker) {
       return date;
@@ -124,22 +145,26 @@
   }
 
   /**
-   * Parses the input text. With `showTimepicker` the value is `YYYY-MM-DD HH:mm[:ss]`;
-   * otherwise only the date is expected. On blur (`flexible: true`) single-digit
+   * Parses the input text. With `showTimepicker` the value is `<date> HH:mm[:ss]`;
+   * otherwise only the date is expected. The date part follows `format` (and has
+   * no year in the "without year" mode). On blur (`flexible: true`) single-digit
    * date and time parts are allowed.
    */
   function parseDateTimeInput(value: string, flexible: boolean): Date | null {
+    const dateOptions = { withoutYear: isWithoutYear.value, strict: !flexible };
+
     if (!props.showTimepicker) {
-      return flexible ? parseDateInput(value) : parseIsoDate(value);
+      return parseFormattedDate(value, props.format, dateOptions);
     }
 
-    const match = /^(\d{4}-\d{1,2}-\d{1,2})\s+(.+)$/.exec(value.trim());
+    const dateSource = getDateRegexSource(props.format, false, false).replace(/\((?!\?)/g, '(?:');
+    const match = new RegExp(`^(${dateSource})\\s+(.+)$`).exec(value.trim());
 
     if (!match) {
       return null;
     }
 
-    const parsedDate = flexible ? parseDateInput(match[1]) : parseIsoDate(match[1]);
+    const parsedDate = parseFormattedDate(match[1], props.format, dateOptions);
 
     if (!parsedDate) {
       return null;
@@ -242,7 +267,7 @@
       :name="name"
       :size="size"
       :label="label"
-      :placeholder="placeholder"
+      :placeholder="inputPlaceholder"
       :clearable="clearable"
       :autofocus="autofocus"
       :readonly="readonly"
@@ -293,7 +318,10 @@
               :highlight-weekends="highlightWeekends"
               :disabled-days="disabledDays"
               :disabled="disabled"
+              :without-year="isWithoutYear"
+              :allow-without-year="allowWithoutYear"
               @update:model-value="onDateUpdate"
+              @update:without-year="value => emits('update:withoutYear', value)"
             />
           </div>
         </div>

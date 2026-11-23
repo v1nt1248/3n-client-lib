@@ -1,15 +1,19 @@
 import { createDateMaskOptions } from './date-mask';
 import { createTimeMaskOptions } from './time-mask';
 import type { MaskedPatternOptions } from 'imask';
-import type { Ui3nTimePickerConfig } from './types';
+import type { Ui3nDateFormat, Ui3nTimePickerConfig } from './types';
 
 /**
- * Builds IMask options for the `YYYY-MM-DD HH:mm[:ss]` format used when the
- * date picker also renders a time picker. Returns undefined for configurations
- * the time mask cannot describe (e.g. `leadingZeros: false`).
+ * Builds IMask options for the `<date> HH:mm[:ss]` format (ISO date by default)
+ * used when the date picker also renders a time picker. Returns undefined for
+ * configurations the time mask cannot describe (e.g. `leadingZeros: false`).
+ *
+ * @param config - time picker config
+ * @param format - date format of the date part
  */
 export function createDateTimeMaskOptions(
   config?: Ui3nTimePickerConfig,
+  format?: Ui3nDateFormat,
 ): MaskedPatternOptions | undefined {
   const timeOptions = createTimeMaskOptions(config);
 
@@ -17,7 +21,7 @@ export function createDateTimeMaskOptions(
     return undefined;
   }
 
-  const dateOptions = createDateMaskOptions();
+  const dateOptions = createDateMaskOptions({ format });
   const datePattern = dateOptions.mask;
   const timePattern = timeOptions.mask;
 

@@ -21,6 +21,7 @@ You can run the project as `pnpm dev` or `npm run dev`.
   - Ui3nEmoji
   - Ui3nIcon
   - Ui3nInput
+  - Ui3nInputDate
   - Ui3nInputFile
   - Ui3nInputTime
   - Ui3nList

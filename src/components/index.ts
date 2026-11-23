@@ -169,7 +169,14 @@ import type {
 import Ui3nTimePicker from './ui3n-date-time/ui3n-time-picker.vue';
 import Ui3nCalendar from './ui3n-date-time/ui3n-calendar.vue';
 import Ui3nDatePicker from './ui3n-date-time/ui3n-date-picker.vue';
+import {
+  UI3N_NO_YEAR_REFERENCE,
+  convertDateForYearMode,
+  formatDate,
+  parseFormattedDate,
+} from './ui3n-date-time/utils';
 import type {
+  Ui3nDateFormat,
   Ui3nDateTimePickerSize,
   Ui3nDateTimeLocaleConfig,
   Ui3nTimePickerHourFormat,
@@ -375,4 +382,9 @@ export {
   Ui3nInputDateProps,
   Ui3nInputDateEmits,
   Ui3nInputDateExpose,
+  Ui3nDateFormat,
+  UI3N_NO_YEAR_REFERENCE,
+  convertDateForYearMode,
+  formatDate,
+  parseFormattedDate,
 };

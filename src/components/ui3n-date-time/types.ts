@@ -2,6 +2,13 @@ export type TimeParts = { hours: number; minutes: number; seconds: number };
 
 export type Ui3nDateTimePickerSize = 'regular' | 'large';
 
+/**
+ * Supported date formats for typing and displaying a date.
+ * In the "without year" mode the year token and its separator are dropped
+ * (`MM.DD.YYYY` -> `MM.DD`, `YYYY-MM-DD` -> `MM-DD`).
+ */
+export type Ui3nDateFormat = 'YYYY-MM-DD' | 'MM.DD.YYYY' | 'DD.MM.YYYY';
+
 export interface Ui3nTimePickerFieldProps {
   size?: Ui3nDateTimePickerSize;
   items: { id: string; value: string }[];
@@ -47,6 +54,8 @@ export interface Ui3nDateTimeLocaleConfig {
     november?: string;
     december?: string;
   };
+  /** Label of the "without year" switch in the date picker */
+  withoutYear?: string;
 }
 
 export type Ui3nTimePickerHourFormat = '24' | '12';
@@ -153,6 +162,13 @@ export interface Ui3nCalendarProps {
   /** ISO dates to disable (`YYYY-MM-DD`) */
   disabledDays?: string[];
   disabled?: boolean;
+  /**
+   * Hides the weekday header and the days of adjacent months; the days of the
+   * month are rendered from the first cell. Used when the year is unknown and
+   * weekdays are meaningless.
+   * @default false
+   */
+  hideWeekdays?: boolean;
 }
 
 export interface Ui3nCalendarEmits {
@@ -195,6 +211,19 @@ export interface Ui3nDatePickerProps {
    * @default false
    */
   disabled?: boolean;
+  /**
+   * "Without year" mode: the year selector is hidden, weekdays are not shown and
+   * the emitted date always has the `UI3N_NO_YEAR_REFERENCE` year.
+   * Not supported together with `showTimepicker` (ignored in that case).
+   * @default false
+   */
+  withoutYear?: boolean;
+  /**
+   * Whether to render the "without year" switch that toggles `withoutYear`
+   * (emits `update:withoutYear`).
+   * @default false
+   */
+  allowWithoutYear?: boolean;
 }
 
 export interface Ui3nDatePickerEmits {
@@ -203,4 +232,6 @@ export interface Ui3nDatePickerEmits {
    * `showTimepicker` is true; otherwise the value is reset to the start of the day.
    */
   (ev: 'update:modelValue', value: Date | null): void;
+  /** Emitted when the user toggles the "without year" switch */
+  (ev: 'update:withoutYear', value: boolean): void;
 }
